@@ -1,10 +1,11 @@
 ---
-import Icon from "@components/common/Icon.astro";
+import Icon from "@components/common/Icon";
+import type { IconName } from "@content/icons";
 import type { TimelineEntry } from "@content/types";
 
 interface Props {
 	entry: TimelineEntry;
-	iconName: string;
+	iconName: IconName;
 	indicatorClass: string;
 	iconClass: string;
 	dateClass: string;
@@ -40,7 +41,7 @@ const isCompleted = entry.status === "completed";
       )
     }
     <span class={`${indicatorClass} z-30`}>
-      <Icon name={iconName} size={24} class={`timeline-icon ${iconClass}`} />
+      <Icon name={iconName} size={24} className={`timeline-icon ${iconClass}`} />
     </span>
   </div>
 

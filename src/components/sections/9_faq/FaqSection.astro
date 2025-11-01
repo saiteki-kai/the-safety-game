@@ -1,5 +1,5 @@
 ---
-import Icon from "@components/common/Icon.astro";
+import Icon from "@components/common/Icon";
 import type { FaqContent } from "@content/types";
 import SectionLayout from "@layouts/SectionLayout.astro";
 
@@ -27,7 +27,7 @@ const { faqs } = Astro.props as { faqs: FaqContent };
             {item.question}
             <Icon
               data-accordion-icon
-              class="accordion-icon text-muted-foreground"
+              className="accordion-icon text-muted-foreground"
               name="chevron-down"
               size={24}
               aria-hidden="true"
