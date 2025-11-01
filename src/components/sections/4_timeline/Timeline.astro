@@ -1,0 +1,68 @@
+---
+import type { TimelineContent, TimelineStatus } from "@content/types";
+import SectionLayout from "@layouts/SectionLayout.astro";
+import TimelineItem from "./TimelineItem.astro";
+
+interface Props {
+	dates: TimelineContent;
+}
+
+const { dates } = Astro.props;
+
+// Status configuration
+const STATUS_CONFIG: Record<
+	TimelineStatus,
+	{
+		icon: string;
+		indicator: string;
+		iconColor: string;
+		dateColor: string;
+	}
+> = {
+	completed: {
+		icon: "circle-check",
+		indicator: "bg-emerald-500 text-white ring-2 ring-emerald-200",
+		iconColor: "text-white",
+		dateColor: "text-emerald-600",
+	},
+	upcoming: {
+		icon: "circle",
+		indicator: "bg-white text-neutral-400 ring-1 ring-inset ring-neutral-200",
+		iconColor: "text-neutral-400",
+		dateColor: "text-neutral-500",
+	},
+};
+
+const getEntryConfig = (status: TimelineStatus) => ({
+	...STATUS_CONFIG[status],
+	indicatorClass: `timeline-indicator ${STATUS_CONFIG[status].indicator}`,
+});
+---
+
+<SectionLayout id="dates" title={dates.title} sectionClass="section-gradient">
+  <div class="relative mx-auto max-w-3xl">
+    <ol class="relative pl-6 sm:pl-10" role="list">
+      {
+        dates.timeline.length === 0 ? (
+          <li class="text-sm text-neutral-500">More updates coming soon.</li>
+        ) : (
+          dates.timeline.map((entry, index) => {
+            const config = getEntryConfig(entry.status);
+            const hasNext = index < dates.timeline.length - 1;
+
+            return (
+              <TimelineItem
+                entry={entry}
+                iconName={config.icon}
+                indicatorClass={config.indicatorClass}
+                iconClass={config.iconColor}
+                dateClass={config.dateColor}
+                hasNext={hasNext}
+              />
+            );
+          })
+        )
+      }
+    </ol>
+  </div>
+</SectionLayout>

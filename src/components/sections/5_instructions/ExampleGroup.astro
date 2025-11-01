@@ -1,0 +1,45 @@
+---
+import Card from "@components/common/Card.astro";
+import IconLabel from "@components/common/IconLabel.astro";
+import ExamplePrompt from "./ExamplePrompt.astro";
+
+const { group, style } = Astro.props as {
+	group: { title: string; description?: string; prompts: Array<{ label: string; prompt: string; note?: string }> };
+	style: {
+		borderColor: string;
+		backgroundColor: string;
+		headingTextClass: string;
+		iconName: string;
+		iconClass: string;
+	};
+};
+---
+
+<Card
+  class=""
+  innerClass="p-6"
+  borderClass={`border ${style.iconClass ?? ''}`.trim()}
+  label={group.title}
+  icon={style.iconName}
+  iconClass={style.iconClass}
+  labelClass={`text-sm font-medium ${style.headingTextClass ?? ''}`.trim()}
+  style={`border-color: ${style.borderColor ?? 'transparent'}; background-color: ${style.backgroundColor ?? 'transparent'};`}
+>
+  <div class="hint-grid w-full">
+    {group.description ? <p class="text-sm text-neutral-600">{group.description}</p> : null}
+
+    <div class="w-full space-y-3">
+      {group.prompts.map((p) => (
+        <div class="code-snippet">
+          <ExamplePrompt label={p.label} prompt={p.prompt} />
+        </div>
+      ))}
+    </div>
+
+    {group.prompts.some((p) => p.note) ? (
+      <ul class="space-y-2 text-xs text-neutral-500">
+        {group.prompts.filter((p) => p.note).map((p) => <li>{p.note}</li>)}
+      </ul>
+    ) : null}
+  </div>
+</Card>

@@ -1,0 +1,32 @@
+{
+	"name": "the-safety-game-website",
+	"version": "0.1.0",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"dev": "astro dev",
+		"build": "astro build",
+		"preview": "astro preview",
+		"astro": "astro",
+		"lint": "biome lint --write .",
+		"lint:fix": "biome check --write ."
+	},
+	"devDependencies": {
+		"@astrojs/check": "^0.9.5",
+		"@biomejs/biome": "2.3.2",
+		"@types/node": "^24.9.2",
+		"astro": "^5.15.3",
+		"supabase": "^2.54.11",
+		"typescript": "^5.9.3"
+	},
+	"dependencies": {
+		"@astrojs/react": "^4.4.1",
+		"@supabase/supabase-js": "^2.78.0",
+		"@tailwindcss/vite": "^4.1.16",
+		"@types/react": "^19.2.2",
+		"@types/react-dom": "^19.2.2",
+		"react": "^19.2.0",
+		"react-dom": "^19.2.0",
+		"tailwindcss": "^4.1.16"
+	}
+}

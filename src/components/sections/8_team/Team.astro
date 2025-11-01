@@ -1,0 +1,22 @@
+---
+import MemberCard from "@components/common/MemberCard.astro";
+import type { TeamContent } from "@content/types";
+import SectionLayout from "@layouts/SectionLayout.astro";
+
+const { team } = Astro.props as { team: TeamContent };
+---
+
+<SectionLayout
+  id="team"
+  title={team.title}
+  description={team.description}
+  sectionClass="section-gradient"
+>
+  <div class="team-grid">
+    {
+      team.members.map((member) => (
+        <MemberCard member={member} size="md" showEmail class="h-full" />
+      ))
+    }
+  </div>
+</SectionLayout>

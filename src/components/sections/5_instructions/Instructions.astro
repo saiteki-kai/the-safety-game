@@ -1,0 +1,184 @@
+---
+import Card from "@components/common/Card.astro";
+import IconLabel from "@components/common/IconLabel.astro";
+import ExampleGroup from "@components/sections/5_instructions/ExampleGroup.astro";
+import type { InstructionCardVariant, InstructionExampleVariant, InstructionsContent } from "@content/types";
+import SectionLayout from "@layouts/SectionLayout.astro";
+
+const { instructions } = Astro.props as { instructions: InstructionsContent };
+
+const cardStyleMap: Record<
+	InstructionCardVariant,
+	{
+		borderClass: string;
+		borderColor?: string;
+		backgroundColor: string;
+		headingIcon: "lightbulb" | "circle-check" | "circle-x" | "triangle-alert";
+		headingIconClass: string;
+		itemIcon?: "lightbulb" | "circle-check" | "circle-x" | "triangle-alert";
+		itemIconClass?: string;
+		contentTextClass?: string;
+	}
+> = {
+	objective: {
+		borderClass: "border-blue-200",
+		borderColor: "var(--blue-100)",
+		backgroundColor: "rgba(219, 234, 254, 0.35)",
+		headingIcon: "lightbulb",
+		headingIconClass: "text-blue-600",
+		itemIcon: "lightbulb",
+		itemIconClass: "text-blue-600",
+		contentTextClass: "text-neutral-700",
+	},
+	positive: {
+		borderClass: "border-neutral-300",
+		borderColor: "var(--surface-300)",
+		backgroundColor: "rgba(243, 244, 246, 0.6)",
+		headingIcon: "circle-check",
+		headingIconClass: "text-neutral-600",
+		contentTextClass: "text-neutral-700",
+	},
+	negative: {
+		borderClass: "border-red-200",
+		borderColor: "var(--danger-100)",
+		backgroundColor: "rgba(254, 226, 226, 0.3)",
+		headingIcon: "circle-x",
+		headingIconClass: "text-red-600",
+		itemIcon: "circle-x",
+		itemIconClass: "text-red-600",
+		contentTextClass: "text-neutral-700",
+	},
+	warning: {
+		borderClass: "border-amber-200",
+		borderColor: "var(--warning-100)",
+		backgroundColor: "rgba(254, 243, 199, 0.3)",
+		headingIcon: "triangle-alert",
+		headingIconClass: "text-amber-600",
+		itemIcon: "triangle-alert",
+		itemIconClass: "text-amber-600",
+		contentTextClass: "text-neutral-700",
+	},
+};
+
+const exampleStyleMap: Record<
+	InstructionExampleVariant,
+	{
+		borderColor: string;
+		backgroundColor: string;
+		headingTextClass: string;
+		iconName: "circle-check" | "circle-x" | "triangle-alert";
+		iconClass: string;
+	}
+> = {
+	valid: {
+		borderColor: "var(--success-100)",
+		backgroundColor: "var(--success-50)",
+		headingTextClass: "text-green-700",
+		iconName: "circle-check",
+		iconClass: "text-green-600",
+	},
+	invalid: {
+		borderColor: "var(--danger-100)",
+		backgroundColor: "var(--danger-50)",
+		headingTextClass: "text-red-700",
+		iconName: "circle-x",
+		iconClass: "text-red-600",
+	},
+	mixed: {
+		borderColor: "var(--warning-100)",
+		backgroundColor: "var(--warning-50)",
+		headingTextClass: "text-amber-700",
+		iconName: "triangle-alert",
+		iconClass: "text-amber-600",
+	},
+};
+---
+
+<SectionLayout
+  id="instructions"
+  title={instructions.title}
+  description={instructions.intro}
+  sectionClass="bg-white"
+>
+  <div class="instructions-grid">
+		{
+			instructions.cards.map((card, idx) => {
+				const style = cardStyleMap[card.variant] ?? cardStyleMap.warning;
+				const textClass = style.contentTextClass ?? "text-neutral-700";
+				const thicknessClass = idx < 2 ? "border-2" : "border";
+				const colorClass = style.borderClass ?? "border-neutral-300";
+				const borderClass = `${colorClass} ${thicknessClass}`.trim();
+
+				let inlineStyle = `background-color: ${style.backgroundColor};`;
+				if (idx < 2) {
+					const cssBorderColor = style.borderColor ?? "var(--surface-300)";
+					inlineStyle += ` border: 2px solid ${cssBorderColor};`;
+				}
+
+				return (
+					<Card
+						class=""
+						innerClass="p-6"
+						borderClass={borderClass}
+						label={card.title}
+						icon={style.headingIcon}
+						iconClass={style.headingIconClass}
+						labelClass="text-lg font-semibold"
+						style={inlineStyle}
+					>
+							{card.description ? (
+								<p class={`text-sm leading-relaxed ${textClass}`}>
+									{card.description}
+								</p>
+							) : null}
+
+							{card.items && card.items.length > 0 ? (
+								<ul class="space-y-3">
+									{card.items.map((item) => (
+										<li
+											class={`icon-list-item ${style.itemIcon ? "" : textClass}`}
+										>
+											{style.itemIcon ? (
+												<IconLabel
+													name={style.itemIcon}
+													size={16}
+													iconClass={`${style.itemIconClass} shrink-0`}
+													as="span"
+													class={textClass}
+												>
+													{item}
+												</IconLabel>
+											) : (
+												item
+											)}
+										</li>
+									))}
+								</ul>
+							) : null}
+					</Card>
+				);
+			})
+		}
+  </div>
+
+  <div class="mx-auto space-y-6">
+    <IconLabel
+      name="lightbulb"
+      size={24}
+      iconClass="text-yellow-600"
+      as="h3"
+      class="examples-heading"
+    >
+      Esempi
+    </IconLabel>
+
+    {
+      instructions.exampleGroups.map((group) => (
+        <ExampleGroup
+          group={group}
+          style={exampleStyleMap[group.variant] ?? exampleStyleMap.mixed}
+        />
+      ))
+    }
+  </div>
+</SectionLayout>

@@ -1,0 +1,10 @@
+export { default as Hero } from "./1_hero/Hero.astro";
+export { default as Challenge } from "./2_challenge/Challenge.astro";
+export { default as Participation } from "./3_participation/Participation.astro";
+export { default as Timeline } from "./4_timeline/Timeline.astro";
+export { default as Instructions } from "./5_instructions/Instructions.astro";
+export { default as Leaderboard } from "./6_leaderboard/Leaderboard.astro";
+export { default as Playground } from "./7_playground/Playground.astro";
+export { default as Team } from "./8_team/Team.astro";
+export { default as Faq } from "./9_faq/Faq.astro";
+export { default as Logos } from "./10_logos/Logos.astro";

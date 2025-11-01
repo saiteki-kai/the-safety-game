@@ -1,0 +1,55 @@
+---
+import Icon from "@components/common/Icon.astro";
+import type { TimelineEntry } from "@content/types";
+
+interface Props {
+	entry: TimelineEntry;
+	iconName: string;
+	indicatorClass: string;
+	iconClass: string;
+	dateClass: string;
+	hasNext: boolean;
+}
+
+const { entry, iconName, indicatorClass, iconClass, dateClass, hasNext } = Astro.props;
+
+const isCompleted = entry.status === "completed";
+
+// Connector configuration
+---
+
+<li class="timeline-item">
+  <div class="timeline-meta">
+    <time class={`timeline-date ${dateClass}`}>
+      {entry.date}
+    </time>
+    {
+      entry.time && (
+        <span class={`timeline-time ${dateClass}`}>{entry.time}</span>
+      )
+    }
+  </div>
+
+  <div class="timeline-indicator-wrapper">
+    {
+      hasNext && (
+        <div
+          class={`timeline-connector ${isCompleted ? "w-1 bg-emerald-400 shadow-sm z-20" : "border-l-4 border-dashed border-neutral-300 z-10"}`}
+          aria-hidden="true"
+        />
+      )
+    }
+    <span class={`${indicatorClass} z-30`}>
+      <Icon name={iconName} size={24} class={`timeline-icon ${iconClass}`} />
+    </span>
+  </div>
+
+  <div class="space-y-2">
+    <h3 class="timeline-title">
+      {entry.title}
+    </h3>
+    <p class="timeline-description">
+      {entry.description}
+    </p>
+  </div>
+</li>

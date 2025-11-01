@@ -1,0 +1,85 @@
+---
+import Icon from "@components/common/Icon.astro";
+import { footerQuickLinks } from "@content/site-config";
+
+const socialLinks = [
+	{
+		href: "mailto:safety-game@university.edu",
+		label: "Email",
+		icon: "mail",
+	},
+	{
+		href: "https://github.com/your-org/safety-game",
+		label: "GitHub",
+		icon: "github",
+	},
+	{
+		href: "https://twitter.com/safetygame",
+		label: "Twitter",
+		icon: "twitter",
+	},
+] as const;
+
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="bg-neutral-900 text-white py-12">
+  <div class="section-container">
+    <div class="footer-grid">
+      <div>
+        <h3 class="text-lg mb-4">The Safety Game</h3>
+        <p class="text-sm text-neutral-400">
+          Una competizione di prompt engineering etico organizzata dal
+          laboratorio di ricerca in AI Safety.
+        </p>
+      </div>
+      <div>
+        <h4 class="text-sm mb-4">Link Rapidi</h4>
+        <ul class="space-y-2 text-sm text-neutral-400">
+          {
+            footerQuickLinks.map((link) => (
+              <li>
+                <a href={link.href} class="hover:text-white transition-colors">
+                  {link.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+      <div>
+        <h4 class="text-sm mb-4">Contatti</h4>
+        <div class="flex gap-4">
+          {
+            socialLinks.map((link) => (
+              <a
+                href={link.href}
+                class="social-button"
+                aria-label={link.label}
+                target={link.href.startsWith("http") ? "_blank" : undefined}
+                rel={
+                  link.href.startsWith("http")
+                    ? "noopener noreferrer"
+                    : undefined
+                }
+              >
+                <Icon name={link.icon} size={20} />
+              </a>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>© {currentYear} The Safety Game. Tutti i diritti riservati.</p>
+      <div class="flex gap-6">
+        <a href="#" class="hover:text-white transition-colors">Privacy Policy</a
+        >
+        <a href="#" class="hover:text-white transition-colors"
+          >Termini di Servizio</a
+        >
+      </div>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,56 @@
+---
+import IconLabel from "@components/common/IconLabel.astro";
+import type { PlaygroundContent } from "@content/types";
+import SectionLayout from "@layouts/SectionLayout.astro";
+
+const { playground } = Astro.props as { playground: PlaygroundContent };
+---
+
+<SectionLayout
+  id="playground"
+  title={playground.title}
+  description={playground.description}
+  sectionClass="section-gradient"
+>
+  <div class="max-w-5xl mx-auto">
+    <div class="playground-card">
+      <div class="playground-header">
+        <div class="flex items-center gap-2">
+          <IconLabel
+            name="code"
+            size={20}
+            iconClass=""
+            as="span"
+            class="text-base font-medium"
+          >
+            Safety Game Playground
+          </IconLabel>
+        </div>
+        <a
+          href={playground.huggingFaceSpace}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="playground-link"
+        >
+          Apri in nuova finestra
+          <IconLabel
+            name="external-link"
+            size={16}
+            iconClass=""
+            as="span"
+            position="end"
+          />
+        </a>
+      </div>
+      <div class="relative w-full" style="padding-bottom: 75%;">
+        <iframe
+          src={playground.huggingFaceSpace}
+          class="iframe-embed"
+          title="Safety Game Playground"
+          loading="lazy"
+          sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+        ></iframe>
+      </div>
+    </div>
+  </div>
+</SectionLayout>

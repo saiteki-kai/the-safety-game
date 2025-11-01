@@ -1,0 +1,55 @@
+---
+import Card from "@components/common/Card.astro";
+import type { ChallengeContent } from "@content/types";
+import SectionLayout from "@layouts/SectionLayout.astro";
+
+const { challenge } = Astro.props as { challenge: ChallengeContent };
+---
+
+<SectionLayout
+  id="challenge"
+  title={challenge.title}
+  description={challenge.description}
+  sectionClass="bg-white"
+>
+  <div class="space-y-8">
+    <Card
+      class="p-6"
+      label={`Cos'è un Large Language Model?`}
+      icon="ai"
+      iconClass="text-blue-600 shrink-0"
+    >
+      <div class="space-y-4">
+        {
+          challenge.introduction.map((paragraph) => (
+            <p class="text-neutral-700 leading-relaxed">{paragraph.content}</p>
+          ))
+        }
+      </div>
+    </Card>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <Card
+        class="p-6"
+        label="Riuscerai a battere ChatGPT?"
+        icon="trophy"
+        iconClass="text-amber-600 shrink-0"
+      >
+        <p class="text-neutral-700 leading-relaxed mb-4">
+          {challenge.challenge}
+        </p>
+      </Card>
+
+      <Card
+        class="p-6"
+        label="Chiunque può partecipare!"
+        icon="users"
+        iconClass="text-green-600 shrink-0"
+      >
+        <p class="text-neutral-700 leading-relaxed">
+          {challenge.participation}
+        </p>
+      </Card>
+    </div>
+  </div>
+</SectionLayout>

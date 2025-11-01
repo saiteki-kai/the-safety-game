@@ -1,0 +1,49 @@
+---
+import "@styles/globals.css";
+
+import { Footer, Navigation } from "@components/layout";
+import {
+	Challenge,
+	Faq,
+	Hero,
+	Instructions,
+	Leaderboard,
+	Logos,
+	Participation,
+	Playground,
+	Team,
+	Timeline,
+} from "@components/sections";
+import { content } from "@content/website-content";
+
+const pageTitle = "The Safety Game";
+const { home, leaderboard, team, participation, dates, instructions, playground, faqs, challenge } = content;
+---
+
+<html lang="it">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="The Safety Game - Hackathon organized by MIND, University of Milan Bicocca"
+    />
+    <title>{pageTitle}</title>
+  </head>
+  <body class="min-h-screen bg-white">
+    <Navigation />
+    <main id="main-content">
+      <Hero home={home} />
+      <Challenge challenge={challenge} />
+      <Participation participation={participation} />
+      <Timeline dates={dates} />
+      <Instructions instructions={instructions} />
+      <Leaderboard leaderboard={leaderboard} />
+      <Playground playground={playground} />
+      <Team team={team} />
+      <Faq faqs={faqs} />
+    </main>
+    <Logos />
+    <Footer />
+  </body>
+</html>

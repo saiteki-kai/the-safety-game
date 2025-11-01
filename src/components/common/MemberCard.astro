@@ -1,0 +1,81 @@
+---
+import type { TeamMember } from "@content/types";
+
+const {
+	member,
+	size = "md", // sm | md | lg
+	showEmail = true,
+	class: className = "",
+} = Astro.props as {
+	member: TeamMember;
+	size?: "sm" | "md" | "lg";
+	showEmail?: boolean;
+	class?: string;
+};
+
+function imgPath(img?: string) {
+	return img ? `/demo-github-pages/images/team/${img}` : null;
+}
+
+const sizeMap = {
+	sm: { wrapper: "avatar-sm", px: 56 },
+	md: { wrapper: "avatar-md", px: 72 },
+	lg: { wrapper: "avatar-lg", px: 96 },
+} as const;
+
+const chosen = sizeMap[size as keyof typeof sizeMap] ?? sizeMap.md;
+
+const initial = member?.name ? member.name.charAt(0) : "?";
+const imageSrc = imgPath(member?.image);
+const intrinsic = chosen.px;
+---
+
+<div class={`member-card ${className}`} role="group">
+  <div class="member-card-inner">
+    <div class="shrink-0">
+      <div class={`${chosen.wrapper} avatar-base`}>
+        {
+          imageSrc ? (
+            <>
+              <img
+                class="avatar-img"
+                src={imageSrc}
+                alt={`Foto di ${member.name}`}
+                loading="lazy"
+                decoding="async"
+                onerror={"this.style.display='none'; this.nextElementSibling.classList.remove('hidden'); this.nextElementSibling.classList.add('flex');"}
+                onload={"this.nextElementSibling.classList.add('hidden');"}
+                width={intrinsic}
+                height={intrinsic}
+              />
+              <div class="avatar-fallback" aria-hidden="true">
+                {initial}
+              </div>
+            </>
+          ) : (
+            <div class="avatar-fallback flex" aria-hidden="true">
+              {initial}
+            </div>
+          )
+        }
+      </div>
+    </div>
+
+    <div class="flex-1 min-w-0">
+      <h3 class="member-name">
+        {member.name}
+      </h3>
+      {member.role && <p class="member-role">{member.role}</p>}
+
+      {
+        showEmail && member.email && (
+          <p class="member-email">
+            <a class="member-link" href={`mailto:${member.email}`}>
+              {member.email}
+            </a>
+          </p>
+        )
+      }
+    </div>
+  </div>
+</div>

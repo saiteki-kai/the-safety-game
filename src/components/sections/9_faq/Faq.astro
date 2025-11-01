@@ -1,0 +1,51 @@
+---
+import Icon from "@components/common/Icon.astro";
+import type { FaqContent } from "@content/types";
+import SectionLayout from "@layouts/SectionLayout.astro";
+
+const { faqs } = Astro.props as { faqs: FaqContent };
+---
+
+<SectionLayout
+  id="faq"
+  title={faqs.title}
+  description={faqs.description}
+  sectionClass="bg-white"
+>
+  <div data-accordion class="max-w-3xl mx-auto">
+    {
+      faqs.items.map((item, index) => (
+        <div class="border-b last:border-b-0" data-accordion-item>
+          <button
+            type="button"
+            class="accordion-trigger focus-ring"
+            data-accordion-trigger
+            aria-expanded="false"
+            aria-controls={`faq-panel-${index}`}
+            id={`faq-trigger-${index}`}
+          >
+            {item.question}
+            <Icon
+              data-accordion-icon
+              class="accordion-icon text-muted-foreground"
+              name="chevron-down"
+              size={24}
+              aria-hidden="true"
+            />
+          </button>
+          <div
+            id={`faq-panel-${index}`}
+            role="region"
+            aria-labelledby={`faq-trigger-${index}`}
+            class="accordion-panel hidden"
+            data-accordion-content
+          >
+            {item.answer}
+          </div>
+        </div>
+      ))
+    }
+  </div>
+</SectionLayout>
+
+<script src="@scripts/accordion.ts"></script>

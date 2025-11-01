@@ -1,0 +1,45 @@
+---
+// Generic card wrapper used across the site to centralize "card-surface" markup
+import IconLabel from "./IconLabel.astro";
+
+const {
+	class: className = "",
+	innerClass = "",
+	label = null,
+	icon = null,
+	iconClass = null,
+	labelClass = null,
+	borderClass = null,
+	style = null,
+} = Astro.props as {
+	class?: string;
+	innerClass?: string;
+	label?: string | null;
+	icon?: string | null;
+	iconClass?: string | null;
+	labelClass?: string | null;
+	borderClass?: string | null;
+	style?: string | null;
+};
+---
+
+<div class={`card-surface ${borderClass ?? ''} ${className}`} style={style ?? undefined}>
+  <div class={innerClass}>
+    {
+      label && (
+        <div class="mb-4">
+          <IconLabel
+            name={icon ?? "info"}
+            size={20}
+            iconClass={iconClass ?? "shrink-0"}
+            as="h3"
+            class={labelClass ?? "text-lg font-semibold text-neutral-900"}
+          >
+            {label}
+          </IconLabel>
+        </div>
+      )
+    }
+    <slot />
+  </div>
+</div>
