@@ -1,5 +1,4 @@
----
-const icons = {
+export const icons = {
 	menu: {
 		viewBox: "0 0 24 24",
 		nodes: [
@@ -273,60 +272,6 @@ const icons = {
 	},
 } as const;
 
-type IconName = keyof typeof icons;
+export type IconName = keyof typeof icons;
 
-const {
-	name,
-	size = 24,
-	class: className = "",
-	strokeWidth = 2,
-	...rest
-} = Astro.props as {
-	name: IconName;
-	size?: number;
-	class?: string;
-	strokeWidth?: number;
-	[key: string]: unknown;
-};
-
-const icon = icons[name];
----
-
-{
-	icon ? (
-		<svg
-			class={className}
-			width={size}
-			height={size}
-			style={`width: ${size}px; height: ${size}px; min-width: ${size}px; min-height: ${size}px; vertical-align: middle;`}
-			viewBox={icon.viewBox ?? "0 0 24 24"}
-			preserveAspectRatio="xMidYMid meet"
-			fill="none"
-			stroke="currentColor"
-			stroke-width={strokeWidth}
-			stroke-linecap="round"
-			stroke-linejoin="round"
-			aria-hidden="true"
-			{...rest}
-		>
-			{icon.nodes.map((node) => {
-				if (node.type === "path") {
-					return <path {...node.props} />;
-				}
-				if (node.type === "line") {
-					return <line {...node.props} />;
-				}
-				if (node.type === "circle") {
-					return <circle {...node.props} />;
-				}
-				if (node.type === "rect") {
-					return <rect {...node.props} />;
-				}
-				if (node.type === "polyline") {
-					return <polyline {...node.props} />;
-				}
-				return null;
-			})}
-		</svg>
-	) : null
-}
+export default icons;

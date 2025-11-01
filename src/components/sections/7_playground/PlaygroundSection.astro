@@ -1,5 +1,5 @@
 ---
-import IconLabel from "@components/common/IconLabel.astro";
+import IconLabel from "@components/common/IconLabel";
 import type { PlaygroundContent } from "@content/types";
 import SectionLayout from "@layouts/SectionLayout.astro";
 
@@ -21,7 +21,7 @@ const { playground } = Astro.props as { playground: PlaygroundContent };
             size={20}
             iconClass=""
             as="span"
-            class="text-base font-medium"
+            className="text-base font-medium"
           >
             Safety Game Playground
           </IconLabel>

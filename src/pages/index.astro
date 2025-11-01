@@ -3,16 +3,16 @@ import "@styles/globals.css";
 
 import { Footer, Navigation } from "@components/layout";
 import {
-	Challenge,
-	Faq,
-	Hero,
-	Instructions,
-	Leaderboard,
-	Logos,
-	Participation,
-	Playground,
-	Team,
-	Timeline,
+	ChallengeSection,
+	FaqSection,
+	HeroSection,
+	InstructionsSection,
+	LeaderboardSection,
+	LogosSection,
+	ParticipationSection,
+	PlaygroundSection,
+	TeamSection,
+	TimelineSection,
 } from "@components/sections";
 import { content } from "@content/website-content";
 
@@ -33,17 +33,17 @@ const { home, leaderboard, team, participation, dates, instructions, playground,
   <body class="min-h-screen bg-white">
     <Navigation />
     <main id="main-content">
-      <Hero home={home} />
-      <Challenge challenge={challenge} />
-      <Participation participation={participation} />
-      <Timeline dates={dates} />
-      <Instructions instructions={instructions} />
-      <Leaderboard leaderboard={leaderboard} />
-      <Playground playground={playground} />
-      <Team team={team} />
-      <Faq faqs={faqs} />
+      <HeroSection home={home} />
+      <ChallengeSection challenge={challenge} />
+      <ParticipationSection participation={participation} />
+      <TimelineSection dates={dates} />
+      <InstructionsSection instructions={instructions} />
+      <LeaderboardSection leaderboard={leaderboard} />
+      <PlaygroundSection playground={playground} />
+      <TeamSection team={team} />
+      <FaqSection faqs={faqs} />
     </main>
-    <Logos />
+    <LogosSection />
     <Footer />
   </body>
 </html>

@@ -932,4 +932,124 @@
 	.mobile-nav-link--active {
 		@apply text-primary font-semibold;
 	}
+
+	/* ---------- Leaderboard section (scoped) ---------- */
+
+	/* Scope all leaderboard styles under .leaderboard-root to avoid leaking to other tables */
+	.leaderboard-root {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+	}
+
+	.leaderboard-root .table-scroll {
+		height: 460px;
+		overflow: auto;
+		-webkit-overflow-scrolling: touch;
+		border-radius: var(--radius, 6px);
+		border: none;
+		background: var(--bg-white, #fff);
+	}
+
+	.leaderboard-root .table-base {
+		width: 100%;
+		border-collapse: separate;
+		table-layout: auto;
+		border-spacing: 0;
+		min-width: 640px;
+	}
+
+	.leaderboard-root thead th {
+		position: sticky;
+		top: 0;
+		/* stronger, slightly darker background for better separation */
+		background-color: var(--surface-100, rgb(243 244 246 / var(--tw-bg-opacity, 1)));
+		z-index: 5;
+		padding: 0.85rem 1rem;
+		text-align: left;
+		font-weight: 700;
+		font-size: 1rem;
+		color: var(--nav-link, #0f172a);
+		border-bottom: 1px solid rgba(15, 23, 42, 0.06);
+		font-family: "Inter", "Segoe UI", Arial, sans-serif;
+	}
+
+	.leaderboard-root td,
+	.leaderboard-root .td {
+		padding: 0.85rem 1rem;
+		border-bottom: 1px solid var(--color-border, rgba(16, 24, 40, 0.04));
+		vertical-align: middle;
+		font-size: 1rem;
+		color: #0f172a;
+		/* slightly darker for contrast */
+		background: transparent;
+		font-family: "Inter", "Segoe UI", Arial, sans-serif;
+		font-weight: 400;
+	}
+
+	/* Ensure table body cells clip and truncate long content locally (moved from globals).
+     Keep header cells free from max-width so column headers are never ellipsized. */
+	.leaderboard-root .table-base td {
+		box-sizing: border-box;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		max-width: 0;
+		/* allows ellipsis to work inside table layout */
+	}
+
+	.leaderboard-root .table-base th {
+		box-sizing: border-box;
+		overflow: visible;
+		white-space: nowrap;
+	}
+
+	/* local utility: text-right (reintroduce if global utilities are purged) */
+	.leaderboard-root thead th.text-right {
+		text-align: right;
+	}
+
+	.leaderboard-root .team-name {
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	.leaderboard-root .rank-cell .podium-icon {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.leaderboard-root .highlight-1 td {
+		background: var(--warning-50, #fffbeb);
+		border-bottom: 1px solid #fbbf24;
+	}
+
+	.leaderboard-root .highlight-2 td {
+		background: var(--surface-100, #f8fafc);
+		border-bottom: 1px solid #d1d5db;
+	}
+
+	.leaderboard-root .highlight-3 td {
+		background: #fff7ed;
+		border-bottom: 1px solid #fb923c;
+	}
+
+	/* ChatGPT row — stronger green background and borders to ensure visibility */
+	.leaderboard-root .chatgpt-row td {
+		background-color: var(--success-50, #ecfdf5);
+		border-bottom: 1px solid var(--success-100, #bbf7d0);
+	}
+
+	/* Responsive tweaks */
+	@media (max-width: 640px) {
+		.leaderboard-root .table-base {
+			min-width: 520px;
+		}
+
+		.leaderboard-root .table-scroll {
+			height: 320px;
+		}
+	}
 }

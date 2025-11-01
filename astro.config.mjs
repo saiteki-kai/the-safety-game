@@ -1,15 +1,14 @@
-import { defineConfig } from "astro/config";
-import tailwindcss from "@tailwindcss/vite";
-
 import react from "@astrojs/react";
+import tailwindcss from "@tailwindcss/vite";
+import { defineConfig } from "astro/config";
 
 export default defineConfig({
-  site: "https://saiteki-kai.github.io",
-  base: "/demo-github-pages/",
+	site: "https://saiteki-kai.github.io",
+	base: "/demo-github-pages/",
 
-  vite: {
-      plugins: [tailwindcss()],
+	vite: {
+		plugins: [tailwindcss()],
 	},
 
-  integrations: [react()],
+	integrations: [react()],
 });

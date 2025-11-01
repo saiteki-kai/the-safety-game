@@ -1,6 +1,6 @@
 ---
 import Card from "@components/common/Card.astro";
-import IconLabel from "@components/common/IconLabel.astro";
+import IconLabel from "@components/common/IconLabel";
 import ExampleGroup from "@components/sections/5_instructions/ExampleGroup.astro";
 import type { InstructionCardVariant, InstructionExampleVariant, InstructionsContent } from "@content/types";
 import SectionLayout from "@layouts/SectionLayout.astro";
@@ -144,7 +144,7 @@ const exampleStyleMap: Record<
 													size={16}
 													iconClass={`${style.itemIconClass} shrink-0`}
 													as="span"
-													class={textClass}
+													className={textClass}
 												>
 													{item}
 												</IconLabel>
