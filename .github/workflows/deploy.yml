@@ -19,7 +19,7 @@ jobs:
     env:
       SECRET_SUPABASE_URL: ${{ secrets.PUBLIC_SUPABASE_URL }}
       SECRET_SUPABASE_KEY: ${{ secrets.PUBLIC_SUPABASE_KEY }}
-      SECRET_TEST_KEY: ${{ secrets.TEST_KEY }}
+      SECRET_TEST_KEY: ${{ secrets.SECRET_TEST_KEY }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout your repository using git
