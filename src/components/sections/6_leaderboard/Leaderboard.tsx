@@ -51,7 +51,7 @@ const highlightConfig: Record<number, { row: string; icon?: { name: string; clas
 
 export default function Leaderboard({ emptyMessage }: { emptyMessage: string }) {
 	const [leaderboard, setLeaderboard] = useState<Team[] | null>(null);
-	const [loading, setLoading] = useState<boolean>(false);
+	const [loading, setLoading] = useState<boolean>(true);
 	const [error, setError] = useState<Error | null>(null);
 
 	const fetchData = useEffectEvent(async () => {
