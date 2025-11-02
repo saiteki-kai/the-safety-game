@@ -169,7 +169,7 @@
 }
 
 .hero-gradient::before {
-	background-image: url("/demo-github-pages/images/background-notitle.webp");
+	background-image: url("/images/background-notitle.webp");
 	background-size: cover;
 	background-position: center;
 	background-repeat: no-repeat;
