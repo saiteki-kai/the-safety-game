@@ -1,10 +1,11 @@
 import react from "@astrojs/react";
+import vercelServerless from "@astrojs/vercel/serverless";
 import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "astro/config";
 
 export default defineConfig({
-	site: "https://saiteki-kai.github.io",
-	base: "/demo-github-pages/",
+	output: "hybrid",
+	adapter: vercelServerless(),
 
 	vite: {
 		plugins: [tailwindcss()],
