@@ -13,10 +13,8 @@ const {
   class?: string;
 };
 
-const BASE_URL = import.meta.env.BASE_URL || "/";
-
 function imgPath(img?: string) {
-  return img ? `${BASE_URL}images/team/${img}` : null;
+  return img ? `/images/team/${img}` : null;
 }
 
 const sizeMap = {
