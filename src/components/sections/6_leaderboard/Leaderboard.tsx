@@ -1,19 +1,27 @@
 import Icon from "@components/common/Icon";
 import IconLabel from "@components/common/IconLabel";
 import type { IconName } from "@content/icons";
+import { PostgrestError } from "@supabase/supabase-js";
 import { formatDateTime } from "@utils/formatters";
 import { useEffect, useEffectEvent, useState } from "react";
 import { supabase } from "../../../db/supabase";
+
+type Team = {
+	name: string;
+	final_score: number;
+	members: Array<string>;
+	last_submission: string;
+};
 
 async function fetchLeaderboard() {
 	const { data, error } = await supabase.from("leaderboard").select();
 
 	if (error) {
 		console.error("Error fetching leaderboard:", error);
-		return [];
+		throw error;
 	}
 
-	return data;
+	return data as Team[];
 }
 
 const formatPercent = (v: number) => {
@@ -21,7 +29,6 @@ const formatPercent = (v: number) => {
 	return (v * 100).toFixed(2);
 };
 
-// format like: 31 ott., 14:32 (day short-month, hour:minute) — no year
 const formatDateShortNoYear = (value: string) => {
 	try {
 		return new Intl.DateTimeFormat("it-IT", {
@@ -43,14 +50,22 @@ const highlightConfig: Record<number, { row: string; icon?: { name: string; clas
 };
 
 export default function Leaderboard({ emptyMessage }: { emptyMessage: string }) {
-	const [leaderboard, setLeaderboard] = useState([]);
-	const [loading, setLoading] = useState(false);
+	const [leaderboard, setLeaderboard] = useState<Team[] | null>(null);
+	const [loading, setLoading] = useState<boolean>(false);
+	const [error, setError] = useState<Error | null>(null);
 
 	const fetchData = useEffectEvent(async () => {
 		setLoading(true);
-		const data = await fetchLeaderboard();
-		setLeaderboard(data);
-		setLoading(false);
+		setError(null);
+		try {
+			const data = await fetchLeaderboard();
+			setLeaderboard(data ?? []);
+		} catch (err: unknown) {
+			setError(err instanceof PostgrestError ? err : new Error("Unknown error"));
+			setLeaderboard([]);
+		} finally {
+			setLoading(false);
+		}
 	});
 
 	useEffect(() => {
@@ -76,9 +91,59 @@ export default function Leaderboard({ emptyMessage }: { emptyMessage: string }) 
 		};
 	}, []);
 
+	const isEmpty = !loading && (!leaderboard || leaderboard.length === 0) && !error;
+
 	return (
 		<>
 			{loading ? (
+				// Table-shaped skeleton to reduce layout shift
+				<table className="table-base animate-pulse">
+					<colgroup>
+						<col style={{ width: "5rem" }} />
+						<col style={{ width: "6rem" }} />
+						<col style={{ width: "5rem" }} />
+						<col />
+						<col style={{ width: "10rem" }} />
+					</colgroup>
+					<thead>
+						<tr>
+							<th className="text-center">Posizione</th>
+							<th className="text-center">Punteggio</th>
+							<th className="text-center">#Membri</th>
+							<th className="text-left">Nome del Team</th>
+							<th className="text-right">Ultima Consegna</th>
+						</tr>
+					</thead>
+					<tbody>
+						{[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((k) => (
+							<tr key={`loading-${k}`} className="h-12">
+								<td className="td py-1">
+									<div className="h-2 w-12 rounded bg-neutral-200" />
+								</td>
+								<td className="td py-1">
+									<div className="mx-auto h-2 w-16 rounded bg-neutral-200" />
+								</td>
+								<td className="td py-1">
+									<div className="mx-auto h-2 w-6 rounded bg-neutral-200" />
+								</td>
+								<td className="td py-1">
+									<div className="h-2 w-48 rounded bg-neutral-200" />
+								</td>
+								<td className="td py-1 text-right">
+									<div className="ml-auto h-2 w-24 rounded bg-neutral-200" />
+								</td>
+							</tr>
+						))}
+					</tbody>
+				</table>
+			) : error ? (
+				<div className="flex h-full items-center justify-center py-6">
+					<div className="leaderboard-empty flex-col justify-center text-center">
+						<Icon name="triangle-alert" size={28} className="mx-auto text-red-500" />
+						<p className="mt-3 text-red-600 text-sm">Impossibile caricare la classifica. Riprova più tardi.</p>
+					</div>
+				</div>
+			) : isEmpty ? (
 				<div className="flex h-full items-center justify-center py-6">
 					<IconLabel
 						name="triangle-alert"
@@ -119,14 +184,14 @@ export default function Leaderboard({ emptyMessage }: { emptyMessage: string }) 
 						</tr>
 					</thead>
 					<tbody>
-						{leaderboard.map((team, index) => {
+						{leaderboard?.map((team, index) => {
 							const rank = index + 1;
 							const highlight = highlightConfig[rank];
 							const rowClass = `leaderboard-row ${highlight?.row ?? ""} ${team.name === "ChatGPT" ? "chatgpt-row" : ""}`;
 
 							return (
 								<tr className={rowClass} key={team.name}>
-									<td className="td rank-cell text-center">
+									<td className="td rank-cell py-1 text-center">
 										{highlight?.icon ? (
 											<div className="podium-icon">
 												<Icon name={highlight.icon.name as IconName} size={20} className={highlight.icon.class} />
@@ -135,9 +200,9 @@ export default function Leaderboard({ emptyMessage }: { emptyMessage: string }) 
 											<div className="podium-icon">{rank}</div>
 										)}
 									</td>
-									<td className="td score-mono text-center">{formatPercent(team.final_score)}</td>
-									<td className="td text-center">{team.members.length}</td>
-									<td className="td team-name text-left">
+									<td className="td score-mono py-1 text-center">{formatPercent(team.final_score)}</td>
+									<td className="td py-1 text-center">{team.members.length}</td>
+									<td className="td team-name py-1 text-left">
 										{team.name === "ChatGPT" ? (
 											<IconLabel
 												name="chatgpt"
@@ -153,7 +218,7 @@ export default function Leaderboard({ emptyMessage }: { emptyMessage: string }) 
 											team.name
 										)}
 									</td>
-									<td className="td text-right">
+									<td className="td py-1 text-right">
 										<time dateTime={team.last_submission}>{formatDateShortNoYear(team.last_submission)}</time>
 									</td>
 								</tr>

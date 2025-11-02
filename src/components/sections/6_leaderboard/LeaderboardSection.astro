@@ -1,19 +1,11 @@
 ---
-import Icon from "@components/common/Icon";
 import IconLabel from "@components/common/IconLabel";
 import type { LeaderboardContent } from "@content/types";
 import SectionLayout from "@layouts/SectionLayout.astro";
-import { formatTime } from "@utils/formatters";
 import Leaderboard from "./Leaderboard";
 
 const { leaderboard } = Astro.props as { leaderboard: LeaderboardContent };
-const { teams, title, description, emptyMessage, lastUpdatedLabel, updatedAt } = leaderboard;
-
-// compute participant count (sum of members)
-const participantCount = teams.reduce((sum, t) => {
-	const members = typeof t.members === "number" ? t.members : Number(t.members ?? 0);
-	return sum + (Number.isFinite(members) ? members : 0);
-}, 0);
+const { title, description, emptyMessage } = leaderboard;
 ---
 
 <SectionLayout
@@ -23,7 +15,6 @@ const participantCount = teams.reduce((sum, t) => {
   sectionClass="bg-white"
 >
   <div class="playground-card">
-    <!-- Top bar: same structure used in Playground => title at left, optional actions at right -->
     <div class="playground-header">
       <div class="flex items-center gap-2">
         <IconLabel
@@ -38,25 +29,10 @@ const participantCount = teams.reduce((sum, t) => {
       </div>
 
       <div class="flex items-center gap-4">
-        <div class="hidden sm:flex items-center gap-6 text-sm">
-          <div class="inline-flex items-center gap-2 text-white">
-            <Icon name="users" size={16} className="text-white" />
-            <span class="font-medium text-white">{participantCount}</span>
-            <span class="text-white">Partecipanti</span>
-            <!-- <span class="font-medium text-white">{teams.length}</span>
-            <span class="text-white">Team</span> -->
-          </div>
-        </div>
-
-        <div class="sm:hidden text-right text-sm text-white">
+        <div class="text-right text-sm text-white hidden sm:block">
           <div class="text-sm text-white font-medium">
-            {participantCount} Partecipanti
+            Lo score più alto ottenuto dal tuo team è mostrato in classifica.
           </div>
-          <!-- <div class="text-sm text-white font-medium">{teams.length} Team</div> -->
-        </div>
-        <div class="text-sm text-white text-right hidden sm:block">
-          {lastUpdatedLabel}
-          {formatTime(updatedAt)}
         </div>
       </div>
     </div>

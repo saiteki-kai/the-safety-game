@@ -1,4 +1,3 @@
-import leaderboardData from "@assets/leaderboard.json";
 import type { WebsiteContent } from "./types";
 
 export const content: WebsiteContent = {
@@ -53,18 +52,8 @@ export const content: WebsiteContent = {
 	// Leaderboard Section
 	leaderboard: {
 		title: "Leaderboard",
-		description: "La classifica viene aggiornata ogni giorno. Riuscirai a battere ChatGPT?",
-		lastUpdatedLabel: "Ultimo aggiornamento:",
+		description: "La classifica è aggiornata in tempo reale. <br/>Riuscirai a battere ChatGPT?",
 		emptyMessage: "Nessun team è presente in classifica al momento. Riprova più tardi.",
-		columns: [
-			{ key: "rank", label: "Posizione" },
-			{ key: "teamName", label: "Team" },
-			{ key: "score", label: "Punteggio" },
-			{ key: "members", label: "Membri" },
-			{ key: "lastUpdated", label: "Ultimo Aggiornamento" },
-		],
-		updatedAt: leaderboardData.updatedAt,
-		teams: leaderboardData.teams,
 	},
 
 	// Team Section

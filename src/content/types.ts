@@ -40,34 +40,10 @@ export interface LeaderboardDataTeam {
 	lastUpdated: string;
 }
 
-export interface LeaderboardData {
-	updatedAt: string;
-	teams: LeaderboardDataTeam[];
-}
-
-export interface LeaderboardTeam {
-	rank: number;
-	teamName: string;
-	score: number;
-	members: number;
-	lastUpdated: string;
-}
-
-export type LeaderboardColumnKey = "rank" | "teamName" | "score" | "members" | "lastUpdated";
-
-export interface LeaderboardColumn {
-	key: LeaderboardColumnKey;
-	label: string;
-}
-
 export interface LeaderboardContent {
 	title: string;
 	description: string;
-	lastUpdatedLabel: string;
 	emptyMessage: string;
-	columns: LeaderboardColumn[];
-	updatedAt: string;
-	teams: LeaderboardTeam[];
 }
 
 // Team Section
