@@ -10,7 +10,8 @@
 			"@content/*": ["./src/content/*"],
 			"@utils/*": ["./src/utils/*"],
 			"@styles/*": ["./src/styles/*"],
-			"@scripts/*": ["./src/scripts/*"]
+			"@scripts/*": ["./src/scripts/*"],
+			"@db/*": ["./src/db/*"]
 		},
 		"jsx": "react-jsx",
 		"jsxImportSource": "react"
