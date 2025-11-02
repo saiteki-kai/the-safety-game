@@ -1,7 +1,3 @@
-export const prerender = false;
-
-import { supabase } from "@db/server";
-
 export default function Prova() {
     console.log("Prova component rendered");
 
@@ -10,12 +6,9 @@ export default function Prova() {
             <button onClick={async () => {
                 console.log("Button clicked");
 
-                const { data, error } = await supabase
-                    .from("teams")
-                    .insert([{ name: "wed fff", members: ["SS", "Bob"] }])
-                    .select();
+                const response = await fetch("/api/register");
 
-                console.log("Insert Result:", { data, error });
+                console.log("Insert Result:", await response.text());
 
                 alert("Clicked!");
             }}>Insert</button>

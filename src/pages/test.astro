@@ -1,8 +1,31 @@
 ---
 export const prerender = false;
-import Prova from "../components/Prova.jsx";
+
+import { supabase } from "@db/server";
+
+if (Astro.request.method === "POST") {
+    const { data, error } = await supabase.from("teams").select("*");
+
+    return new Response(
+        "POST request received with data: " + JSON.stringify(data),
+    );
+}
 ---
 
-<html>
-    <body> Test page <Prova server:defer /></body>
-</html>
+<h1>Register</h1>
+<form method="POST">
+    <label>
+        Username:
+        <input type="text" name="username" />
+    </label>
+
+    <label>
+        Email:
+        <input type="email" name="email" required />
+    </label>
+    <label>
+        Password:
+        <input type="password" name="password" required minlength="6" />
+    </label>
+    <button>Register</button>
+</form>
