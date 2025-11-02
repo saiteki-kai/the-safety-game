@@ -1,3 +1,5 @@
+export const prerender = false;
+
 import { supabase } from "@db/server";
 
 export async function GET() {
