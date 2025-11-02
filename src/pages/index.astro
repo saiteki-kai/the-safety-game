@@ -3,21 +3,33 @@ import "@styles/globals.css";
 
 import { Footer, Navigation } from "@components/layout";
 import {
-	ChallengeSection,
-	FaqSection,
-	HeroSection,
-	InstructionsSection,
-	LeaderboardSection,
-	LogosSection,
-	ParticipationSection,
-	PlaygroundSection,
-	TeamSection,
-	TimelineSection,
+  ChallengeSection,
+  FaqSection,
+  HeroSection,
+  InstructionsSection,
+  LeaderboardSection,
+  LogosSection,
+  ParticipationSection,
+  PlaygroundSection,
+  TeamSection,
+  TimelineSection,
 } from "@components/sections";
 import { content } from "@content/website-content";
+import WebsiteAnalytics from "@vercel/analytics/astro";
+import SpeedInsights from "@vercel/speed-insights/astro";
 
 const pageTitle = "The Safety Game";
-const { home, leaderboard, team, participation, dates, instructions, playground, faqs, challenge } = content;
+const {
+  home,
+  leaderboard,
+  team,
+  participation,
+  dates,
+  instructions,
+  playground,
+  faqs,
+  challenge,
+} = content;
 ---
 
 <html lang="it">
@@ -32,6 +44,8 @@ const { home, leaderboard, team, participation, dates, instructions, playground,
   </head>
   <body class="min-h-screen bg-white">
     <Navigation />
+    <WebsiteAnalytics />
+    <SpeedInsights />
     <main id="main-content">
       <HeroSection home={home} />
       <ChallengeSection challenge={challenge} />
