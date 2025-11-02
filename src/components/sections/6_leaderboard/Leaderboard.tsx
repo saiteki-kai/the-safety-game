@@ -1,8 +1,8 @@
 import Icon from "@components/common/Icon";
 import IconLabel from "@components/common/IconLabel";
-import type { IconName } from "@utils/icons";
 import { PostgrestError } from "@supabase/supabase-js";
 import { formatDateTime } from "@utils/formatters";
+import type { IconName } from "@utils/icons";
 import { useEffect, useEffectEvent, useState } from "react";
 import { supabase } from "../../../db/client";
 

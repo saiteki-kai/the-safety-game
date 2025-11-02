@@ -23,7 +23,10 @@ const {
 };
 ---
 
-<div class={`card-surface ${borderClass ?? ''} ${className}`} style={style ?? undefined}>
+<div
+  class={`card-surface ${borderClass ?? ""} ${className}`}
+  style={style ?? undefined}
+>
   <div class={innerClass}>
     {
       label && (
@@ -33,7 +36,7 @@ const {
             size={20}
             iconClass={iconClass ?? "shrink-0"}
             as="h3"
-            class={labelClass ?? "text-lg font-semibold text-neutral-900"}
+            className={labelClass ?? "text-lg font-semibold text-neutral-900"}
           >
             {label}
           </IconLabel>
