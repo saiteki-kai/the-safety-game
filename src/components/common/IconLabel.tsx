@@ -1,4 +1,4 @@
-import type { IconName } from "@content/icons";
+import type { IconName } from "@utils/icons";
 import type React from "react";
 import type { HTMLAttributes } from "react";
 import Icon from "./Icon";
