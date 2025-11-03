@@ -4,15 +4,15 @@ import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "astro/config";
 
 export default defineConfig({
-	output: "static",
+  output: "static",
 
-	adapter: vercel({
-		webAnalytics: true,
-	}),
+  adapter: vercel({
+    webAnalytics: true,
+  }),
 
-	vite: {
-		plugins: [tailwindcss()],
-	},
+  vite: {
+    plugins: [tailwindcss()],
+  },
 
-	integrations: [react()],
+  integrations: [react()],
 });

@@ -10,8 +10,8 @@ console.log("Supabase URL:", supabaseUrl);
 console.log("Supabase Key:", supabaseKey ? "********" : "Not Set");
 
 export const supabase = createClient<Database>(supabaseUrl, supabaseKey, {
-	auth: {
-		persistSession: false,
-		autoRefreshToken: false,
-	},
+  auth: {
+    persistSession: false,
+    autoRefreshToken: false,
+  },
 });

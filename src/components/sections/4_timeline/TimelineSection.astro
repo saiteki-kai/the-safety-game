@@ -4,38 +4,38 @@ import SectionLayout from "@layouts/SectionLayout.astro";
 import TimelineItem from "./TimelineItem.astro";
 
 interface Props {
-	dates: TimelineContent;
+  dates: TimelineContent;
 }
 
 const { dates } = Astro.props;
 
 // Status configuration
 const STATUS_CONFIG: Record<
-	TimelineStatus,
-	{
-		icon: string;
-		indicator: string;
-		iconColor: string;
-		dateColor: string;
-	}
+  TimelineStatus,
+  {
+    icon: string;
+    indicator: string;
+    iconColor: string;
+    dateColor: string;
+  }
 > = {
-	completed: {
-		icon: "circle-check",
-		indicator: "bg-emerald-500 text-white ring-2 ring-emerald-200",
-		iconColor: "text-white",
-		dateColor: "text-emerald-600",
-	},
-	upcoming: {
-		icon: "circle",
-		indicator: "bg-white text-neutral-400 ring-1 ring-inset ring-neutral-200",
-		iconColor: "text-neutral-400",
-		dateColor: "text-neutral-500",
-	},
+  completed: {
+    icon: "circle-check",
+    indicator: "bg-emerald-500 text-white ring-2 ring-emerald-200",
+    iconColor: "text-white",
+    dateColor: "text-emerald-600",
+  },
+  upcoming: {
+    icon: "circle",
+    indicator: "bg-white text-neutral-400 ring-1 ring-inset ring-neutral-200",
+    iconColor: "text-neutral-400",
+    dateColor: "text-neutral-500",
+  },
 };
 
 const getEntryConfig = (status: TimelineStatus) => ({
-	...STATUS_CONFIG[status],
-	indicatorClass: `timeline-indicator ${STATUS_CONFIG[status].indicator}`,
+  ...STATUS_CONFIG[status],
+  indicatorClass: `timeline-indicator ${STATUS_CONFIG[status].indicator}`,
 });
 ---
 

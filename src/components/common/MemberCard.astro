@@ -2,25 +2,25 @@
 import type { TeamMember } from "@content/types";
 
 const {
-	member,
-	size = "md",
-	showEmail = true,
-	class: className = "",
+  member,
+  size = "md",
+  showEmail = true,
+  class: className = "",
 } = Astro.props as {
-	member: TeamMember;
-	size?: "sm" | "md" | "lg";
-	showEmail?: boolean;
-	class?: string;
+  member: TeamMember;
+  size?: "sm" | "md" | "lg";
+  showEmail?: boolean;
+  class?: string;
 };
 
 function imgPath(img?: string) {
-	return img ? `/images/team/${img}` : null;
+  return img ? `/images/team/${img}` : null;
 }
 
 const sizeMap = {
-	sm: { wrapper: "avatar-sm", px: 56 },
-	md: { wrapper: "avatar-md", px: 72 },
-	lg: { wrapper: "avatar-lg", px: 96 },
+  sm: { wrapper: "avatar-sm", px: 56 },
+  md: { wrapper: "avatar-md", px: 72 },
+  lg: { wrapper: "avatar-lg", px: 96 },
 } as const;
 
 const chosen = sizeMap[size as keyof typeof sizeMap] ?? sizeMap.md;
