@@ -1,17 +1,22 @@
 export default function Prova() {
-    console.log("Prova component rendered");
+	console.log("Prova component rendered");
 
-    return (
-        <div>
-            <button onClick={async () => {
-                console.log("Button clicked");
+	return (
+		<div>
+			<button
+				type="submit"
+				onClick={async () => {
+					console.log("Button clicked");
 
-                const response = await fetch("/api/register");
+					const response = await fetch("/api/register");
 
-                console.log("Insert Result:", await response.text());
+					console.log("Insert Result:", await response.text());
 
-                alert("Clicked!");
-            }}>Insert</button>
-        </div>
-    );
+					alert("Clicked!");
+				}}
+			>
+				Insert
+			</button>
+		</div>
+	);
 }

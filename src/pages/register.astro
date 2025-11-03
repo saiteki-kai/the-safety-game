@@ -3,8 +3,7 @@ export const prerender = false;
 
 import "@styles/globals.css";
 
-import { Footer, Navigation } from "@components/layout";
-import RegisterForm from "@components/RegisterForm.jsx";
+import RegisterForm from "@components/RegisterForm";
 ---
 
 <html lang="it">
@@ -13,15 +12,19 @@ import RegisterForm from "@components/RegisterForm.jsx";
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Registrazione | The Safety Game</title>
   </head>
-  <body class="min-h-screen bg-white">
-    <Navigation />
+  <body class="register-page">
     <main id="main-content" class="register-wrapper">
-      <section class="register-container">
-        <h1>Registrati</h1>
-        <p>Scegli se partecipare come individuo o con il tuo team.</p>
+      <section class="register-container" aria-labelledby="register-title">
+        <header class="register-header">
+          <h1 id="register-title">Registrati</h1>
+          <p>
+            Partecipa come individuo oppure forma un team: compila il modulo per confermare la tua
+            iscrizione.
+          </p>
+        </header>
+
         <RegisterForm client:load />
       </section>
     </main>
-    <Footer />
   </body>
 </html>

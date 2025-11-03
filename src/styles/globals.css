@@ -1056,4 +1056,110 @@
 			height: 320px;
 		}
 	}
+
+	/* ---------- Register page ---------- */
+	.register-page {
+		@apply min-h-screen bg-neutral-100 text-neutral-900;
+	}
+
+	.register-wrapper {
+		@apply flex min-h-screen w-full items-center justify-center px-4 py-16;
+	}
+
+	.register-container {
+		@apply w-full max-w-3xl space-y-10 rounded-3xl border border-neutral-200 bg-white px-6 py-10 shadow-sm sm:px-10 sm:py-12;
+	}
+
+	.register-header {
+		@apply space-y-3 text-center;
+	}
+
+	.register-header h1 {
+		font-family: "Awesome Lathusca", "Playfair Display", serif;
+		@apply text-4xl font-normal uppercase tracking-[0.35em] text-neutral-900 sm:text-5xl;
+	}
+
+	.register-header p {
+		@apply text-base leading-relaxed text-neutral-600 sm:text-lg;
+	}
+
+	.register-form {
+		@apply space-y-8;
+	}
+
+	.register-toggle {
+		@apply space-y-4 rounded-2xl border border-neutral-200 bg-neutral-50 px-5 py-6;
+	}
+
+	.register-toggle legend {
+		@apply text-xs font-semibold uppercase tracking-[0.35em] text-neutral-500;
+	}
+
+	.register-toggle div {
+		@apply flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-6;
+	}
+
+	.register-toggle label {
+		@apply inline-flex items-center gap-2 text-sm font-medium text-neutral-700;
+	}
+
+	.register-toggle input {
+		@apply h-4 w-4 cursor-pointer text-primary focus:outline-none focus:ring-2 focus:ring-primary/40;
+	}
+
+	.register-section {
+		@apply space-y-5 rounded-2xl border border-neutral-200 bg-white/90 px-5 py-6 shadow-sm;
+	}
+
+	.register-section h2 {
+		@apply text-lg font-semibold text-neutral-900;
+	}
+
+	.register-section label {
+		@apply flex flex-col gap-2 text-sm font-medium text-neutral-700;
+	}
+
+	.register-section input {
+		@apply w-full rounded-lg border border-neutral-200 bg-white px-4 py-2.5 text-sm text-neutral-900 shadow-sm transition-all focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30;
+	}
+
+	.register-members {
+		@apply space-y-4;
+	}
+
+	.members-header {
+		@apply flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between;
+	}
+
+	.members-header h3 {
+		@apply text-base font-semibold text-neutral-900;
+	}
+
+	.member-actions {
+		@apply flex flex-wrap gap-3;
+	}
+
+	.member-actions button {
+		@apply inline-flex items-center justify-center rounded-full border border-neutral-200 bg-white px-4 py-2 text-sm font-semibold text-neutral-700 transition-colors hover:bg-neutral-100 disabled:cursor-not-allowed disabled:opacity-60;
+	}
+
+	.member-row {
+		@apply grid grid-cols-1 gap-4 sm:grid-cols-2;
+	}
+
+	.register-status {
+		@apply rounded-xl border px-4 py-3 text-sm font-medium;
+	}
+
+	.register-status.status-error {
+		@apply border-red-200 bg-red-50 text-red-700;
+	}
+
+	.register-status.status-success {
+		@apply border-green-200 bg-green-50 text-green-700;
+	}
+
+	.register-form button[type="submit"] {
+		@apply inline-flex w-full items-center justify-center rounded-full bg-primary px-8 py-3 text-base font-semibold text-primary-foreground shadow-md transition-all hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 disabled:cursor-wait disabled:opacity-80;
+	}
 }

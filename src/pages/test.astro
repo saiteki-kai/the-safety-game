@@ -4,11 +4,9 @@ export const prerender = false;
 import { supabase } from "@db/server";
 
 if (Astro.request.method === "POST") {
-    const { data, error } = await supabase.from("teams").select("*");
+	const { data, error } = await supabase.from("teams").select("*");
 
-    return new Response(
-        "POST request received with data: " + JSON.stringify(data),
-    );
+	return new Response("POST request received with data: " + JSON.stringify(data));
 }
 ---
 
