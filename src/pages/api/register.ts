@@ -65,11 +65,7 @@ export const POST: APIRoute = async ({ request }) => {
             ],
         };
 
-            const { data, error } = await supabase
-                .from("teams")
-                .insert([record])
-            .select("id, name")
-            .single();
+        const { data, error } = await supabase.from("teams").insert([record]).select("id, name").single();
 
         if (error) {
             console.error("Errore durante la registrazione individuale:", error);
@@ -113,11 +109,7 @@ export const POST: APIRoute = async ({ request }) => {
             })),
         };
 
-            const { data, error } = await supabase
-                .from("teams")
-                .insert([record])
-            .select("id, name")
-            .single();
+        const { data, error } = await supabase.from("teams").insert([record]).select("id, name").single();
 
         if (error) {
             console.error("Errore durante la registrazione del team:", error);
@@ -129,6 +121,3 @@ export const POST: APIRoute = async ({ request }) => {
 
     return jsonResponse({ message: "Modalità di registrazione non supportata." }, { status: 400 });
 };
-
-export const GET: APIRoute = () =>
-    jsonResponse({ message: "Usare una richiesta POST per registrarsi." }, { status: 405, statusText: "Method Not Allowed" });
