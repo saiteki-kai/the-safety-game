@@ -1,0 +1,75 @@
+@reference "./globals.css";
+@layer components {
+  /* Dashboard / auth register form */
+  .register-form {
+    @apply w-full max-w-2xl space-y-6 rounded-2xl border border-neutral-200 bg-white px-6 py-6 sm:px-10 sm:py-8;
+  }
+
+  .register-field {
+    @apply flex flex-col gap-1.5;
+  }
+
+  .register-label {
+    @apply text-sm font-semibold text-neutral-900;
+  }
+
+  .register-input {
+    @apply w-full rounded-lg border border-neutral-300 bg-neutral-50 px-4 py-2 text-base text-neutral-900 transition focus:border-neutral-900 focus:outline-none focus:ring-2 focus:ring-neutral-900/20 disabled:cursor-not-allowed disabled:bg-neutral-100 disabled:text-neutral-500;
+  }
+
+  .register-input--error {
+    @apply border-red-500 focus:border-red-500 focus:ring-red-500/40;
+  }
+
+  .register-feedback {
+    @apply min-h-5 text-sm text-neutral-500;
+  }
+
+  .register-feedback--error {
+    @apply font-medium text-red-600;
+  }
+
+  .register-alert {
+    @apply flex items-start gap-2 rounded-xl border px-4 py-3 text-sm;
+  }
+
+  .register-alert--error {
+    @apply border-red-200 bg-red-50 text-red-600;
+  }
+
+  .register-alert--success {
+    @apply border-emerald-200 bg-emerald-50 text-emerald-700;
+  }
+
+  .register-submit {
+    @apply inline-flex w-full items-center justify-center rounded-lg bg-green-600 px-5 py-2.5 font-semibold text-white transition-colors hover:bg-green-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 disabled:cursor-not-allowed disabled:bg-neutral-400 disabled:hover:bg-neutral-400;
+  }
+
+  .register-oauth-button {
+    @apply inline-flex w-full items-center justify-center gap-3 rounded-lg border border-neutral-300 bg-white px-5 py-2.5 text-sm font-semibold text-neutral-800 transition-colors hover:bg-neutral-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-900/20 disabled:cursor-not-allowed disabled:opacity-70;
+  }
+
+  .register-oauth-icon {
+    @apply flex h-5 w-5 items-center justify-center;
+  }
+
+  .register-divider {
+    @apply flex items-center gap-3 text-xs font-semibold uppercase tracking-wide text-neutral-400;
+  }
+
+  .register-divider__line {
+    @apply h-px flex-1 bg-neutral-200;
+  }
+
+  .register-divider__label {
+    @apply whitespace-nowrap;
+  }
+
+  .register-footer {
+    @apply text-center text-sm text-neutral-600;
+  }
+
+  .register-link {
+    @apply font-semibold text-green-600 transition-colors hover:text-green-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500;
+  }
+}

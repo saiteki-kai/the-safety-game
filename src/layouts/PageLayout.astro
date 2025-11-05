@@ -1,0 +1,28 @@
+---
+import "@styles/globals.css";
+
+import WebsiteAnalytics from "@vercel/analytics/astro";
+import SpeedInsights from "@vercel/speed-insights/astro";
+
+const PAGE_TITLE = "The Safety Game";
+const PAGE_DESCRIPTION = "The Safety Game - Hackathon organized by MIND, University of Milan Bicocca";
+---
+
+<html lang="it">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={PAGE_DESCRIPTION} />
+    <title>{PAGE_TITLE}</title>
+  </head>
+  <body class="min-h-screen h-full bg-white">
+    <slot name="navigation" />
+    <WebsiteAnalytics />
+    <SpeedInsights />
+    <main id="main-content">
+      <slot />
+    </main>
+    <slot name="prefooter" />
+    <slot name="footer" />
+  </body>
+</html>

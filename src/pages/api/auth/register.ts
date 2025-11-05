@@ -1,6 +1,6 @@
 export const prerender = false;
 
-import { supabase } from "@db/server";
+import { supabase } from "@db/supabase";
 import type { APIRoute } from "astro";
 
 export const POST: APIRoute = async ({ request, redirect }) => {

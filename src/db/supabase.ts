@@ -5,11 +5,10 @@ const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
 const supabaseKey = import.meta.env.PUBLIC_SUPABASE_KEY;
 
 export const supabase = createClient<Database>(supabaseUrl, supabaseKey, {
-    auth: {
-        flowType: 'pkce',
-        persistSession: true,
-        autoRefreshToken: false,
-        detectSessionInUrl: false,
-    },
+  auth: {
+    flowType: "pkce",
+    persistSession: true,
+    autoRefreshToken: false,
+    detectSessionInUrl: false,
+  },
 });
-
