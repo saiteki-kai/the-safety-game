@@ -1,12 +1,13 @@
 import { defineMiddleware } from "astro:middleware";
 import { supabase } from "@db/supabase";
+import type { APIContext, MiddlewareNext } from "astro";
 import micromatch from "micromatch";
 
 const redirectRoutes = ["/signin", "/register"];
 const protectedRoutes = ["/dashboard"];
 const protectedAPIRoutes = ["/api/submissions"];
 
-export const onRequest = defineMiddleware(async (context: any, next: () => any) => {
+export const onRequest = defineMiddleware(async (context: APIContext, next: MiddlewareNext) => {
   if (micromatch.isMatch(context.url.pathname, protectedRoutes)) {
     console.log("Checking authentication for protected route...");
 
@@ -32,13 +33,13 @@ export const onRequest = defineMiddleware(async (context: any, next: () => any) 
       return context.redirect("/signin");
     }
 
-    context.locals.email = data.user?.email!;
-    context.cookies.set("sb-access-token", data?.session?.access_token!, {
+    context.locals.email = data.user.email ?? null;
+    context.cookies.set("sb-access-token", data?.session?.access_token ?? "", {
       sameSite: "strict",
       path: "/",
       secure: true,
     });
-    context.cookies.set("sb-refresh-token", data?.session?.refresh_token!, {
+    context.cookies.set("sb-refresh-token", data?.session?.refresh_token ?? "", {
       sameSite: "strict",
       path: "/",
       secure: true,
