@@ -1,30 +1,17 @@
 ---
-export const prerender = false;
+import Layout from "../layouts/SectionLayout.astro";
 
-import "@styles/globals.css";
-
-import RegisterForm from "@components/RegisterForm";
+console.log(Astro.cookies)
 ---
 
-<html lang="it">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Registrazione | The Safety Game</title>
-  </head>
-  <body class="register-page">
-    <main id="main-content" class="register-wrapper">
-      <section class="register-container" aria-labelledby="register-title">
-        <header class="register-header">
-          <h1 id="register-title">Registrati</h1>
-          <p>
-            Partecipa come individuo oppure forma un team: compila il modulo per confermare la tua
-            iscrizione.
-          </p>
-        </header>
-
-        <RegisterForm client:load />
-      </section>
-    </main>
-  </body>
-</html>
+<Layout title="Register">
+  <h1>Register</h1>
+  <p>Already have an account? <a href="/signin">Sign in</a></p>
+  <form action="/api/auth/register" method="post">
+    <label for="email">Email</label>
+    <input type="email" name="email" id="email" />
+    <label for="password">Password</label>
+    <input type="password" name="password" id="password" />
+    <button type="submit">Register</button>
+  </form>
+</Layout>
