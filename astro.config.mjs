@@ -10,6 +10,10 @@ export default defineConfig({
     webAnalytics: true,
   }),
 
+  session: {
+    driver: "redis",
+  },
+
   vite: {
     plugins: [tailwindcss()],
   },

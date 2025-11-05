@@ -1,75 +1,218 @@
 @reference "./globals.css";
-@layer components {
-  /* Dashboard / auth register form */
-  .register-form {
-    @apply w-full max-w-2xl space-y-6 rounded-2xl border border-neutral-200 bg-white px-6 py-6 sm:px-10 sm:py-8;
-  }
 
-  .register-field {
-    @apply flex flex-col gap-1.5;
-  }
+/* Dashboard layout */
+.dashboard-section {
+  background-image: linear-gradient(to bottom right, #f3f6ff, white, #f9f3ff);
+}
 
-  .register-label {
-    @apply text-sm font-semibold text-neutral-900;
-  }
+.dashboard-shell {
+  @apply flex min-h-screen items-center justify-center;
+}
 
-  .register-input {
-    @apply w-full rounded-lg border border-neutral-300 bg-neutral-50 px-4 py-2 text-base text-neutral-900 transition focus:border-neutral-900 focus:outline-none focus:ring-2 focus:ring-neutral-900/20 disabled:cursor-not-allowed disabled:bg-neutral-100 disabled:text-neutral-500;
-  }
+.dashboard-container {
+  @apply relative mx-auto w-full max-w-5xl px-4 py-16 sm:px-6 lg:px-8;
+}
 
-  .register-input--error {
-    @apply border-red-500 focus:border-red-500 focus:ring-red-500/40;
-  }
+.dashboard-topbar {
+  @apply absolute top-4 left-0 right-0 flex items-center justify-between px-4 sm:top-6 sm:px-6 lg:px-8;
+}
 
-  .register-feedback {
-    @apply min-h-5 text-sm text-neutral-500;
-  }
+.dashboard-greeting {
+  @apply font-medium text-neutral-500 text-sm;
+}
 
-  .register-feedback--error {
-    @apply font-medium text-red-600;
-  }
+.dashboard-signout {
+  @apply h-9 rounded-md px-3 font-medium text-sm;
+}
 
-  .register-alert {
-    @apply flex items-start gap-2 rounded-xl border px-4 py-3 text-sm;
-  }
+/* Dashboard states */
+.dashboard-team-wrapper {
+  @apply space-y-10;
+}
 
-  .register-alert--error {
-    @apply border-red-200 bg-red-50 text-red-600;
-  }
+.dashboard-team-header {
+  @apply space-y-2 pt-6 text-left;
+}
 
-  .register-alert--success {
-    @apply border-emerald-200 bg-emerald-50 text-emerald-700;
-  }
+.dashboard-team-title,
+.dashboard-empty-title {
+  @apply font-semibold text-3xl text-neutral-900;
+}
 
-  .register-submit {
-    @apply inline-flex w-full items-center justify-center rounded-lg bg-green-600 px-5 py-2.5 font-semibold text-white transition-colors hover:bg-green-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 disabled:cursor-not-allowed disabled:bg-neutral-400 disabled:hover:bg-neutral-400;
-  }
+.dashboard-team-description,
+.dashboard-empty-description {
+  @apply text-base text-neutral-600;
+}
 
-  .register-oauth-button {
-    @apply inline-flex w-full items-center justify-center gap-3 rounded-lg border border-neutral-300 bg-white px-5 py-2.5 text-sm font-semibold text-neutral-800 transition-colors hover:bg-neutral-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-900/20 disabled:cursor-not-allowed disabled:opacity-70;
-  }
+.dashboard-empty-state {
+  @apply flex min-h-[70vh] flex-col items-center justify-center;
+}
 
-  .register-oauth-icon {
-    @apply flex h-5 w-5 items-center justify-center;
-  }
+.dashboard-empty-heading {
+  @apply pt-6 text-center;
+}
 
-  .register-divider {
-    @apply flex items-center gap-3 text-xs font-semibold uppercase tracking-wide text-neutral-400;
-  }
+/* Dashboard tabs */
+.dashboard-tabs-shell {
+  @apply mt-10 flex w-full max-w-sm justify-center;
+}
 
-  .register-divider__line {
-    @apply h-px flex-1 bg-neutral-200;
-  }
+.dashboard-tabs {
+  @apply flex w-full rounded-full border border-white/70 bg-white/80 p-1 backdrop-blur;
+  box-shadow: 0px 12px 40px rgba(15, 23, 42, 0.08);
+}
 
-  .register-divider__label {
-    @apply whitespace-nowrap;
-  }
+.dashboard-tab {
+  @apply flex-1 rounded-full px-4 py-2 font-semibold text-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-900/30;
+}
 
-  .register-footer {
-    @apply text-center text-sm text-neutral-600;
-  }
+.dashboard-tab--active {
+  @apply bg-[#0f1020] text-white shadow;
+}
 
-  .register-link {
-    @apply font-semibold text-green-600 transition-colors hover:text-green-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500;
-  }
+.dashboard-tab--inactive {
+  @apply text-neutral-500 hover:text-neutral-800;
+}
+
+/* Dashboard card */
+.dashboard-card {
+  @apply mt-10 w-full max-w-2xl rounded-[32px] border border-white/80 bg-white/95 p-0 shadow-2xl;
+}
+
+.dashboard-card-header {
+  @apply space-y-3 px-8 pt-8;
+}
+
+.dashboard-card-title {
+  @apply font-semibold text-2xl text-neutral-900;
+}
+
+.dashboard-card-description {
+  @apply text-base text-neutral-600;
+}
+
+.dashboard-card-content {
+  @apply px-8 pb-10;
+}
+
+/* Dashboard forms */
+.dashboard-form {
+  @apply space-y-6;
+}
+
+.dashboard-field {
+  @apply space-y-2;
+}
+
+.dashboard-field-label {
+  @apply font-semibold text-neutral-900 text-sm;
+}
+
+.dashboard-input-wrapper {
+  @apply relative;
+}
+
+.dashboard-input-icon {
+  @apply pointer-events-none absolute top-1/2 left-4 h-4 w-4 -translate-y-1/2 text-neutral-400;
+}
+
+.dashboard-input {
+  @apply h-12 w-full rounded-xl border bg-neutral-50 pl-11 text-base text-neutral-900 placeholder:text-neutral-400 focus:ring-neutral-900/15;
+}
+
+.dashboard-input-default {
+  @apply border-neutral-200 focus:border-neutral-900;
+}
+
+.dashboard-input-error {
+  @apply border-red-600 focus:border-red-600;
+}
+
+.dashboard-input-code {
+  @apply uppercase tracking-[0.3em] placeholder:tracking-normal;
+}
+
+.dashboard-helper-text {
+  @apply mt-1 text-xs text-neutral-500;
+}
+
+.dashboard-helper-text-error {
+  @apply text-red-600;
+}
+
+.dashboard-submit {
+  @apply flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-neutral-900 font-semibold text-base text-white transition hover:bg-neutral-800 focus-visible:ring-neutral-900/40;
+}
+
+/* Auth register/sign-in form */
+.register-form {
+  @apply w-full max-w-2xl space-y-6 rounded-2xl border border-neutral-200 bg-white px-6 py-6 sm:px-10 sm:py-8;
+}
+
+.register-field {
+  @apply flex flex-col gap-1.5;
+}
+
+.register-label {
+  @apply text-sm font-semibold text-neutral-900;
+}
+
+.register-input {
+  @apply w-full rounded-lg border border-neutral-300 bg-neutral-50 px-4 py-2 text-base text-neutral-900 transition focus:border-neutral-900 focus:outline-none focus:ring-2 focus:ring-neutral-900/20 disabled:cursor-not-allowed disabled:bg-neutral-100 disabled:text-neutral-500;
+}
+
+.register-input--error {
+  @apply border-red-500 focus:border-red-500 focus:ring-red-500/40;
+}
+
+.register-feedback {
+  @apply min-h-5 text-sm text-neutral-500;
+}
+
+.register-feedback--error {
+  @apply font-medium text-red-600;
+}
+
+.register-alert {
+  @apply flex items-start gap-2 rounded-xl border px-4 py-3 text-sm;
+}
+
+.register-alert--error {
+  @apply border-red-200 bg-red-50 text-red-600;
+}
+
+.register-alert--success {
+  @apply border-emerald-200 bg-emerald-50 text-emerald-700;
+}
+
+.register-submit {
+  @apply inline-flex w-full items-center justify-center rounded-lg bg-green-600 px-5 py-2.5 font-semibold text-white transition-colors hover:bg-green-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 disabled:cursor-not-allowed disabled:bg-neutral-400 disabled:hover:bg-neutral-400;
+}
+
+.register-oauth-button {
+  @apply inline-flex w-full items-center justify-center gap-3 rounded-lg border border-neutral-300 bg-white px-5 py-2.5 text-sm font-semibold text-neutral-800 transition-colors hover:bg-neutral-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-900/20 disabled:cursor-not-allowed disabled:opacity-70;
+}
+
+.register-oauth-icon {
+  @apply flex h-5 w-5 items-center justify-center;
+}
+
+.register-divider {
+  @apply flex items-center gap-3 text-xs font-semibold uppercase tracking-wide text-neutral-400;
+}
+
+.register-divider__line {
+  @apply h-px flex-1 bg-neutral-200;
+}
+
+.register-divider__label {
+  @apply whitespace-nowrap;
+}
+
+.register-footer {
+  @apply text-center text-sm text-neutral-600;
+}
+
+.register-link {
+  @apply font-semibold text-green-600 transition-colors hover:text-green-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500;
 }

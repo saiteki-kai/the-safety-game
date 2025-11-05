@@ -16,7 +16,7 @@ export type Database = {
           prompt: string;
           response: string;
           score: number | null;
-          team_id: number | null;
+          team_id: string;
         };
         Insert: {
           created_at?: string;
@@ -25,7 +25,7 @@ export type Database = {
           prompt: string;
           response: string;
           score?: number | null;
-          team_id?: number | null;
+          team_id: string;
         };
         Update: {
           created_at?: string;
@@ -34,7 +34,7 @@ export type Database = {
           prompt?: string;
           response?: string;
           score?: number | null;
-          team_id?: number | null;
+          team_id?: string;
         };
         Relationships: [
           {
@@ -49,19 +49,22 @@ export type Database = {
       teams: {
         Row: {
           created_at: string;
-          id: number;
+          id: string;
+          join_code: string;
           members: Json;
           name: string;
         };
         Insert: {
           created_at?: string;
-          id?: number;
+          id?: string;
+          join_code?: string;
           members: Json;
           name: string;
         };
         Update: {
           created_at?: string;
-          id?: number;
+          id?: string;
+          join_code?: string;
           members?: Json;
           name?: string;
         };
@@ -75,7 +78,7 @@ export type Database = {
           last_submission: string | null;
           members: Json | null;
           name: string | null;
-          team_id: number | null;
+          team_id: string | null;
         };
         Relationships: [
           {
@@ -89,7 +92,8 @@ export type Database = {
       };
     };
     Functions: {
-      [_ in never]: never;
+      generate_unique_hex: { Args: never; Returns: string };
+      hello_world: { Args: never; Returns: string };
     };
     Enums: {
       [_ in never]: never;

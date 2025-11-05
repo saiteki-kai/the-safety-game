@@ -3,7 +3,7 @@ import { supabase } from "@db/supabase";
 import type { APIContext, MiddlewareNext } from "astro";
 import micromatch from "micromatch";
 
-const redirectRoutes = ["/signin", "/register"];
+const redirectRoutes = ["/login"];
 const protectedRoutes = ["/dashboard"];
 const protectedAPIRoutes = ["/api/submissions"];
 
@@ -15,7 +15,7 @@ export const onRequest = defineMiddleware(async (context: APIContext, next: Midd
     const refreshToken = context.cookies.get("sb-refresh-token");
 
     if (!accessToken || !refreshToken) {
-      return context.redirect("/signin");
+      return context.redirect("/login");
     }
 
     const { data, error } = await supabase.auth.setSession({
@@ -30,7 +30,7 @@ export const onRequest = defineMiddleware(async (context: APIContext, next: Midd
       context.cookies.delete("sb-refresh-token", {
         path: "/",
       });
-      return context.redirect("/signin");
+      return context.redirect("/login");
     }
 
     context.locals.email = data.user.email ?? null;
