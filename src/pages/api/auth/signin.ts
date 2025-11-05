@@ -14,7 +14,7 @@ export const POST: APIRoute = async ({ request, cookies, redirect }) => {
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: provider as Provider,
       options: {
-        redirectTo: `${new URL(request.url).origin}/api/auth/callback`,
+        redirectTo: `https://thesafetygame.vercel.app/api/auth/callback`,
         queryParams: {
           prompt: "select_account",
         },
