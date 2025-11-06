@@ -41,6 +41,43 @@ export type Database = {
             foreignKeyName: "submissions_team_id_fkey";
             columns: ["team_id"];
             isOneToOne: false;
+            referencedRelation: "leaderboard";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "submissions_team_id_fkey";
+            columns: ["team_id"];
+            isOneToOne: false;
+            referencedRelation: "teams";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      team_members: {
+        Row: {
+          team_id: string;
+          user_id: string;
+        };
+        Insert: {
+          team_id: string;
+          user_id?: string;
+        };
+        Update: {
+          team_id?: string;
+          user_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "team_members_team_id_fkey";
+            columns: ["team_id"];
+            isOneToOne: false;
+            referencedRelation: "leaderboard";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "team_members_team_id_fkey";
+            columns: ["team_id"];
+            isOneToOne: false;
             referencedRelation: "teams";
             referencedColumns: ["id"];
           },
@@ -51,21 +88,18 @@ export type Database = {
           created_at: string;
           id: string;
           join_code: string;
-          members: Json;
           name: string;
         };
         Insert: {
           created_at?: string;
           id?: string;
           join_code?: string;
-          members: Json;
           name: string;
         };
         Update: {
           created_at?: string;
           id?: string;
           join_code?: string;
-          members?: Json;
           name?: string;
         };
         Relationships: [];
@@ -75,20 +109,12 @@ export type Database = {
       leaderboard: {
         Row: {
           final_score: number | null;
+          id: string | null;
           last_submission: string | null;
           members: Json | null;
           name: string | null;
-          team_id: string | null;
         };
-        Relationships: [
-          {
-            foreignKeyName: "submissions_team_id_fkey";
-            columns: ["team_id"];
-            isOneToOne: false;
-            referencedRelation: "teams";
-            referencedColumns: ["id"];
-          },
-        ];
+        Relationships: [];
       };
     };
     Functions: {

@@ -30,21 +30,6 @@ const TAB_COPY: Record<TabKey, TabCopy> = {
 export default function TeamSetupPanel() {
   const [tab, setTab] = useState<TabKey>("create");
   const copy = TAB_COPY[tab];
-  const handleCreateTeam = (name: string) => {
-    void fetch("/api/teams", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ name }),
-    }).catch((error) => {
-      console.error("Unable to create team", error);
-    });
-  };
-
-  const handleJoinTeam = (code: string) => {
-    console.info("Joining with code", code);
-  };
 
   return (
     <div className="dashboard-empty-state">
@@ -80,7 +65,7 @@ export default function TeamSetupPanel() {
           <CardDescription className="dashboard-card-description">{copy.description}</CardDescription>
         </CardHeader>
         <CardContent className="dashboard-card-content">
-          {tab === "create" ? <CreateTeamForm onCreate={handleCreateTeam} /> : <JoinTeamForm onJoin={handleJoinTeam} />}
+          {tab === "create" ? <CreateTeamForm /> : <JoinTeamForm />}
         </CardContent>
       </Card>
     </div>

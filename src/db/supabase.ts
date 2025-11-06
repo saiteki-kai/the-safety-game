@@ -1,14 +1,26 @@
-import { createClient } from "@supabase/supabase-js";
+import { createBrowserClient, createServerClient, parseCookieHeader } from "@supabase/ssr";
+import type { AstroCookies } from "astro";
 import type { Database } from "./types.ts";
 
 const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
 const supabaseKey = import.meta.env.PUBLIC_SUPABASE_KEY;
 
-export const supabase = createClient<Database>(supabaseUrl, supabaseKey, {
-  auth: {
-    flowType: "pkce",
-    persistSession: true,
-    autoRefreshToken: false,
-    detectSessionInUrl: false,
-  },
-});
+export function createClient({ request, cookies }: { request: Request; cookies: AstroCookies }) {
+  const cookieHeader = request.headers.get("Cookie") || "";
+
+  return createServerClient<Database>(supabaseUrl, supabaseKey, {
+    cookies: {
+      getAll() {
+        const cookies = parseCookieHeader(cookieHeader);
+        return cookies.map(({ name, value }) => ({ name, value }));
+      },
+      setAll(cookiesToSet) {
+        cookiesToSet.forEach(({ name, value, options }) => cookies.set(name, value, options));
+      },
+    },
+  });
+}
+
+export function createSupabaseBrowserClient() {
+  return createBrowserClient<Database>(supabaseUrl, supabaseKey);
+}

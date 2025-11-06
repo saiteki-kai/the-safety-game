@@ -4,8 +4,10 @@ import "@styles/globals.css";
 import WebsiteAnalytics from "@vercel/analytics/astro";
 import SpeedInsights from "@vercel/speed-insights/astro";
 
-const PAGE_TITLE = "The Safety Game";
-const PAGE_DESCRIPTION = "The Safety Game - Hackathon organized by MIND, University of Milan Bicocca";
+const PAGE_DESCRIPTION =
+  "The Safety Game - Hackathon organized by MIND, University of Milan Bicocca";
+
+const { title = "The Safety Game" } = Astro.props;
 ---
 
 <html lang="it">
@@ -13,7 +15,8 @@ const PAGE_DESCRIPTION = "The Safety Game - Hackathon organized by MIND, Univers
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={PAGE_DESCRIPTION} />
-    <title>{PAGE_TITLE}</title>
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
   </head>
   <body class="min-h-screen h-full bg-white">
     <slot name="navigation" />

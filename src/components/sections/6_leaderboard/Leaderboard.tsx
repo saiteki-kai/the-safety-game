@@ -1,6 +1,6 @@
 import Icon from "@components/common/Icon";
 import IconLabel from "@components/common/IconLabel";
-import { supabase } from "@db/supabase";
+import { createSupabaseBrowserClient } from "@db/supabase";
 import { PostgrestError } from "@supabase/supabase-js";
 import { formatDateTime } from "@utils/formatters";
 import type { IconName } from "@utils/icons";
@@ -12,6 +12,8 @@ type Team = {
   members: Array<string>;
   last_submission: string;
 };
+
+const supabase = createSupabaseBrowserClient();
 
 async function fetchLeaderboard() {
   const { data, error } = await supabase.from("leaderboard").select();

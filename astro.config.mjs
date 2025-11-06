@@ -8,10 +8,15 @@ export default defineConfig({
 
   adapter: vercel({
     webAnalytics: true,
+    imageService: true,
   }),
 
+  // session: {
+  //   driver: "redis",
+  // },
+
   session: {
-    driver: "redis",
+    driver: "memory",
   },
 
   vite: {

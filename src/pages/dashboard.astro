@@ -4,10 +4,26 @@ export const prerender = false;
 import DashboardClient from "@components/dashboard/DashboardClient";
 import PageLayout from "@layouts/PageLayout.astro";
 
-// TODO: replace with real team data from Supabase once available
-const team: { name?: string } | null = null;
+// const supabase = createClient({
+//   request: Astro.request,
+//   cookies: Astro.cookies,
+// });
+
+// const { data } = await supabase.auth.getClaims();
+
+// if (!data?.claims) {
+//   Astro.redirect("/login");
+// }
+const user = Astro.locals.user || null;
+console.log("Dashboard page user:", !!user);
+
+const team = Astro.locals.team || null;
+console.log("Dashboard page team:", !!team);
+
+// const result = Astro.getActionResult(actions.teams.createTeam);
+// console.log("Dashboard page action result:", result);
 ---
 
 <PageLayout>
-  <DashboardClient client:load team={team} />
+  <DashboardClient client:load user={user} team={team} />
 </PageLayout>

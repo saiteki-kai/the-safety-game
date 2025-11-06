@@ -1,88 +1,46 @@
 import { defineMiddleware } from "astro:middleware";
-import { supabase } from "@db/supabase";
+import { createClient } from "@db/supabase";
 import type { APIContext, MiddlewareNext } from "astro";
 import micromatch from "micromatch";
 
-const redirectRoutes = ["/login"];
 const protectedRoutes = ["/dashboard"];
 const protectedAPIRoutes = ["/api/submissions"];
 
 export const onRequest = defineMiddleware(async (context: APIContext, next: MiddlewareNext) => {
+  const supabase = createClient({
+    request: context.request,
+    cookies: context.cookies,
+  });
+
+  const { data } = await supabase.auth.getClaims();
+  console.log("Middleware claims:", !!data?.claims);
+
+  console.log("Middleware request URL:", context.request.url);
+
+  const user_id = data?.claims?.sub || null;
+  context.locals.user = user_id || null;
+
   if (micromatch.isMatch(context.url.pathname, protectedRoutes)) {
-    console.log("Checking authentication for protected route...");
-
-    const accessToken = context.cookies.get("sb-access-token");
-    const refreshToken = context.cookies.get("sb-refresh-token");
-
-    if (!accessToken || !refreshToken) {
+    if (!data?.claims) {
+      console.log("Middleware redirecting to login");
       return context.redirect("/login");
     }
 
-    const { data, error } = await supabase.auth.setSession({
-      refresh_token: refreshToken.value,
-      access_token: accessToken.value,
-    });
+    if (micromatch.isMatch(context.url.pathname, ["/dashboard"])) {
+      // Rerieve user team
+      const { data, error } = await supabase.from("team_members").select("team_id").eq("user_id", user_id).maybeSingle();
 
-    if (error) {
-      context.cookies.delete("sb-access-token", {
-        path: "/",
-      });
-      context.cookies.delete("sb-refresh-token", {
-        path: "/",
-      });
-      return context.redirect("/login");
-    }
+      if (error) {
+        console.error("Error fetching team member:", error);
+      }
 
-    context.locals.email = data.user.email ?? null;
-    context.cookies.set("sb-access-token", data?.session?.access_token ?? "", {
-      sameSite: "strict",
-      path: "/",
-      secure: true,
-    });
-    context.cookies.set("sb-refresh-token", data?.session?.refresh_token ?? "", {
-      sameSite: "strict",
-      path: "/",
-      secure: true,
-    });
-  }
-
-  if (micromatch.isMatch(context.url.pathname, redirectRoutes)) {
-    console.log("Checking authentication for redirect...");
-    const accessToken = context.cookies.get("sb-access-token");
-    const refreshToken = context.cookies.get("sb-refresh-token");
-
-    if (accessToken && refreshToken) {
-      return context.redirect("/dashboard");
+      context.locals.team = data || null;
     }
   }
 
   if (micromatch.isMatch(context.url.pathname, protectedAPIRoutes)) {
-    const accessToken = context.cookies.get("sb-access-token");
-    const refreshToken = context.cookies.get("sb-refresh-token");
-
-    // Check for tokens
-    if (!accessToken || !refreshToken) {
-      return new Response(
-        JSON.stringify({
-          error: "Unauthorized",
-        }),
-        { status: 401 },
-      );
-    }
-
-    // Verify the tokens
-    const { error } = await supabase.auth.setSession({
-      access_token: accessToken.value,
-      refresh_token: refreshToken.value,
-    });
-
-    if (error) {
-      return new Response(
-        JSON.stringify({
-          error: "Unauthorized",
-        }),
-        { status: 401 },
-      );
+    if (!data?.claims) {
+      return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 401 });
     }
   }
 

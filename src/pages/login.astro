@@ -1,8 +1,21 @@
 ---
 export const prerender = false;
 
-import PageLayout from "../layouts/PageLayout.astro";
 import "@styles/dashboard.css";
+
+import { createClient } from "@db/supabase";
+import PageLayout from "../layouts/PageLayout.astro";
+
+const supabase = createClient({
+  request: Astro.request,
+  cookies: Astro.cookies,
+});
+
+const { data } = await supabase.auth.getClaims();
+
+if (data?.claims) {
+  return Astro.redirect("/dashboard");
+}
 ---
 
 <PageLayout>

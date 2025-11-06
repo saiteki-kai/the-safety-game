@@ -1,6 +1,6 @@
 export const prerender = false;
 
-import { supabase } from "@db/supabase";
+import { createClient } from "@db/supabase";
 import type { Provider } from "@supabase/supabase-js";
 import type { APIRoute } from "astro";
 
@@ -10,11 +10,16 @@ export const POST: APIRoute = async ({ request, cookies, redirect }) => {
   const password = formData.get("password")?.toString();
   const provider = formData.get("provider")?.toString();
 
+  const supabase = createClient({
+    request: request,
+    cookies: cookies,
+  });
+
   if (provider) {
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: provider as Provider,
       options: {
-        redirectTo: `https://thesafetygame.vercel.app/api/auth/callback`,
+        redirectTo: `${new URL(request.url).origin}/api/auth/callback`,
         queryParams: {
           prompt: "select_account",
         },
