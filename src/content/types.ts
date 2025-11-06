@@ -28,6 +28,7 @@ export interface ChallengeContent {
   introduction: SafetyGameParagraph[];
   challenge: string;
   participation: string;
+  what: string;
 }
 
 // Leaderboard Section

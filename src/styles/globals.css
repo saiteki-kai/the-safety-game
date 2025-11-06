@@ -272,6 +272,12 @@
     @apply relative z-10 flex h-11 w-11 items-center justify-center rounded-full shadow-md;
   }
 
+  /* Gradient-filled indicator matching hero gradient */
+  .timeline-indicator--gradient {
+    background-image: linear-gradient(135deg, var(--grad-hero-start) 0%, var(--grad-hero-end) 100%);
+    color: white;
+  }
+
   .timeline-connector {
     @apply absolute left-1/2 top-1/2 h-[calc(100%+2.5rem)] -translate-x-1/2;
   }
@@ -704,6 +710,28 @@
     @apply mt-2 space-y-1;
   }
 
+  /* Blue gradient card surface matching hero CTA colors */
+  .card-surface--blue {
+    background-image: linear-gradient(135deg, var(--grad-hero-start) 0%, var(--grad-hero-end) 100%);
+    color: white;
+    border: none;
+  }
+
+  .card-surface--blue p,
+  .card-surface--blue li {
+    color: white;
+  }
+
+  /* Text gradient utility that uses the same hero gradient */
+  .gradient-text {
+    background-image: linear-gradient(90deg, var(--grad-hero-start) 0%, var(--grad-hero-end) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    display: inline-block;
+  }
+
   .card-surface ul li {
     @apply text-sm text-neutral-600;
   }
@@ -712,20 +740,18 @@
     @apply inline-flex;
   }
 
-  /* Highlight registration CTA inside participation cards */
+  /* Highlight registration CTA inside participation cards - use hero blue gradient */
   .registration-card .registration-cta {
-    /* Use a bright green that complements existing icon green */
-    background-color: #16a34a;
-    /* green-600 */
-    color: white;
+    background-image: linear-gradient(135deg, var(--grad-hero-start) 0%, var(--grad-hero-end) 100%);
+    box-shadow: 0 18px 38px rgba(55, 115, 255, 0.22);
+    color: var(--color-white);
     @apply px-4 py-2 rounded-md font-semibold shadow-md transition-all;
-    border: 1px solid rgba(255, 255, 255, 0.06);
+    border: none;
   }
 
   .registration-card .registration-cta:hover {
     transform: scale(1.02);
-    background-color: #14b86a;
-    /* slightly lighter green */
+    background-image: linear-gradient(135deg, var(--grad-hero-alt-start) 0%, var(--grad-hero-alt-end) 100%);
   }
 
   .registration-card .registration-cta:active {

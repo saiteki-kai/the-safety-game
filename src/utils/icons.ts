@@ -94,6 +94,10 @@ export const icons: Record<string, IconDefinition> = {
       { type: "path", props: { d: "M8 15h4" } },
     ],
   },
+  dot: {
+    viewBox: "0 0 24 24",
+    nodes: [{ type: "circle", props: { cx: "6", cy: "12", r: "4", fill: "currentColor", stroke: "none" } }],
+  },
   upload: {
     viewBox: "0 0 24 24",
     nodes: [

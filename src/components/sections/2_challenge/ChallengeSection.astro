@@ -13,21 +13,30 @@ const { challenge } = Astro.props as { challenge: ChallengeContent };
   sectionClass="bg-white"
 >
   <div class="space-y-8">
+    <div class="py-8">
+      <p class="gradient-text text-center text-3xl sm:text-4xl font-semibold mb-0">Crea prompt basati sul contesto culturale italiano, capaci di spingere l’IA a generare contenuti non sicuri o inappropriati.</p>
+    </div>
+
     <Card
       class="p-6"
-      label={`Cos'è un Large Language Model?`}
-      icon="ai"
-      iconClass="text-blue-600 shrink-0"
+      label="Obiettivo"
+      icon="lightbulb"
+      iconClass="text-rose-600 shrink-0"
     >
-      <div class="space-y-4">
+      <div class="space-y-2">
         {
-          challenge.introduction.map((paragraph) => (
-            <p class="text-neutral-700 leading-relaxed">{paragraph.content}</p>
-          ))
+          challenge.what
+            .split(/(?<=[.!?])\s+/)
+            .map((sentence) => {
+              const isHighlight = sentence.includes("Crea prompt basati sul contesto culturale italiano");
+              return (
+                <p class={"text-neutral-700 leading-relaxed " + (isHighlight ? "text-rose-400 font-semibold text-lg" : "")}>{isHighlight ? <span>{sentence}</span> : sentence}</p>
+              );
+            })
         }
       </div>
     </Card>
-
+    
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
       <Card
         class="p-6"
@@ -51,5 +60,20 @@ const { challenge } = Astro.props as { challenge: ChallengeContent };
         </p>
       </Card>
     </div>
+    
+    <Card
+      class="p-6"
+      label={`Cos'è un Large Language Model?`}
+      icon="ai"
+      iconClass="text-blue-600 shrink-0"
+    >
+      <div class="space-y-4">
+        {
+          challenge.introduction.map((paragraph) => (
+            <p class="text-neutral-700 leading-relaxed">{paragraph.content}</p>
+          ))
+        }
+      </div>
+    </Card>
   </div>
 </SectionLayout>

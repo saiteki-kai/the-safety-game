@@ -9,6 +9,7 @@ import {
   InstructionsSection,
   LeaderboardSection,
   LogosSection,
+  OpponentSection,
   ParticipationSection,
   PlaygroundSection,
   TeamSection,
@@ -38,12 +39,13 @@ const { home, leaderboard, team, participation, dates, instructions, playground,
     <SpeedInsights />
     <main id="main-content">
       <HeroSection home={home} />
-      <ChallengeSection challenge={challenge} />
-      <ParticipationSection participation={participation} />
-      <TimelineSection dates={dates} />
-      <InstructionsSection instructions={instructions} />
-      <LeaderboardSection leaderboard={leaderboard} />
-      <PlaygroundSection playground={playground} />
+  <ChallengeSection challenge={challenge} />
+  <InstructionsSection instructions={instructions} />
+  <ParticipationSection participation={participation} />
+  <TimelineSection dates={dates} />
+    <LeaderboardSection leaderboard={leaderboard} />
+    <OpponentSection />
+    <PlaygroundSection playground={playground} />
       <TeamSection team={team} />
       <FaqSection faqs={faqs} />
     </main>
