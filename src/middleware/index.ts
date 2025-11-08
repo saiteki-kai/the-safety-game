@@ -1,45 +1,62 @@
 import { defineMiddleware } from "astro:middleware";
-import { createClient } from "@db/supabase";
 import type { APIContext, MiddlewareNext } from "astro";
 import micromatch from "micromatch";
+import { serverClient } from "@/lib/supabase";
 
-const protectedRoutes = ["/dashboard"];
+const protectedRoutes = ["/dashboard", "/admin"];
 const protectedAPIRoutes = ["/api/submissions"];
 
 export const onRequest = defineMiddleware(async (context: APIContext, next: MiddlewareNext) => {
-  const supabase = createClient({
-    request: context.request,
-    cookies: context.cookies,
-  });
+  const supabase = serverClient(context);
 
-  const { data } = await supabase.auth.getClaims();
-  console.log("Middleware claims:", !!data?.claims);
+  // Retrieve user claims
+  const { data: claimsData, error: claimsError } = await supabase.auth.getClaims();
 
-  console.log("Middleware request URL:", context.request.url);
+  // If there's an error fetching claims, redirect to login
+  if (claimsError) {
+    console.error("Error fetching auth claims:", claimsError);
+    return context.redirect("/login");
+  }
 
-  const user_id = data?.claims?.sub || null;
-  context.locals.user = user_id || null;
-
+  // Protect routes that require authentication
   if (micromatch.isMatch(context.url.pathname, protectedRoutes)) {
-    if (!data?.claims) {
+    if (!claimsData?.claims) {
+      context.locals.user = null;
+      context.locals.team = null;
+
       console.log("Middleware redirecting to login");
       return context.redirect("/login");
     }
 
-    if (micromatch.isMatch(context.url.pathname, ["/dashboard"])) {
-      // Rerieve user team
-      const { data, error } = await supabase.from("team_members").select("team_id").eq("user_id", user_id).maybeSingle();
+    // Retrieve user team
+    const { data: userTeamData, error: teamError } = await supabase
+      .from("team_members")
+      .select("teams(*), profiles(*)")
+      .eq("user_id", claimsData.claims?.sub)
+      .maybeSingle();
 
-      if (error) {
-        console.error("Error fetching team member:", error);
+    if (teamError) {
+      console.error("Error fetching team member:", teamError);
+      return context.redirect(context.url.pathname);
+    }
+
+    context.locals.team = (userTeamData && userTeamData["teams"]) || null;
+    context.locals.user = (userTeamData && userTeamData["profiles"]) || null;
+
+    // Admin route protection
+    if (context.url.pathname.startsWith("/admin")) {
+      const isAdmin = context.locals.user?.role === "admin";
+
+      if (!isAdmin) {
+        console.log("Middleware blocking non-admin access to admin route");
+        return new Response("Forbidden", { status: 403 });
       }
-
-      context.locals.team = data || null;
     }
   }
 
+  // Protect API routes that require authentication
   if (micromatch.isMatch(context.url.pathname, protectedAPIRoutes)) {
-    if (!data?.claims) {
+    if (!claimsData?.claims) {
       return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 401 });
     }
   }

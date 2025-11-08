@@ -1,11 +1,8 @@
-/// <reference path="../.astro/types.d.ts" />
-import { type User } from "@supabase/supabase-js";
-import { type Team } from "@db/types";
+import { type Team, Profile } from "@lib/supabase.types.ts";
 
 interface ImportMetaEnv {
   readonly PUBLIC_SUPABASE_URL: string;
   readonly PUBLIC_SUPABASE_KEY: string;
-  readonly SECRET_SUPABASE_KEY: string;
 }
 
 interface ImportMeta {
@@ -15,7 +12,7 @@ interface ImportMeta {
 declare global {
   namespace App {
     interface Locals {
-      user: string | null;
+      user: Profile | null;
       team: Team | null;
     }
   }

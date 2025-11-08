@@ -1,6 +1,6 @@
 import { createBrowserClient, createServerClient, parseCookieHeader } from "@supabase/ssr";
 import type { AstroCookies } from "astro";
-import type { Database } from "./supabase.types";
+import type { Database } from "./supabase.generated";
 
 const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
 const supabaseKey = import.meta.env.PUBLIC_SUPABASE_KEY;
