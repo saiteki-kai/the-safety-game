@@ -2,28 +2,19 @@
 export const prerender = false;
 
 import DashboardClient from "@components/dashboard/DashboardClient";
+import DashboardNav from "@components/dashboard/DashboardNav";
 import PageLayout from "@layouts/PageLayout.astro";
 
-// const supabase = createClient({
-//   request: Astro.request,
-//   cookies: Astro.cookies,
-// });
-
-// const { data } = await supabase.auth.getClaims();
-
-// if (!data?.claims) {
-//   Astro.redirect("/login");
-// }
+// Get user and team from locals set in middleware
 const user = Astro.locals.user || null;
-console.log("Dashboard page user:", !!user);
-
 const team = Astro.locals.team || null;
-console.log("Dashboard page team:", !!team);
-
-// const result = Astro.getActionResult(actions.teams.createTeam);
-// console.log("Dashboard page action result:", result);
 ---
 
-<PageLayout>
-  <DashboardClient client:load user={user} team={team} />
+<PageLayout title="Dashboard | The Safety Game">
+  <div
+    class="flex min-h-screen flex-col bg-linear-to-br from-[#f3f6ff] via-white to-[#f9f3ff]"
+  >
+    <DashboardNav user={user} className="px-4 py-3 sm:px-7" client:load />
+    <DashboardClient client:load user={user} team={team} />
+  </div>
 </PageLayout>
