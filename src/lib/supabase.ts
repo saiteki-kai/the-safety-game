@@ -1,11 +1,11 @@
 import { createBrowserClient, createServerClient, parseCookieHeader } from "@supabase/ssr";
 import type { AstroCookies } from "astro";
-import type { Database } from "./types.ts";
+import type { Database } from "./supabase.types";
 
 const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
 const supabaseKey = import.meta.env.PUBLIC_SUPABASE_KEY;
 
-export function createClient({ request, cookies }: { request: Request; cookies: AstroCookies }) {
+export function serverClient({ request, cookies }: { request: Request; cookies: AstroCookies }) {
   const cookieHeader = request.headers.get("Cookie") || "";
 
   return createServerClient<Database>(supabaseUrl, supabaseKey, {
@@ -15,12 +15,14 @@ export function createClient({ request, cookies }: { request: Request; cookies: 
         return cookies.map(({ name, value }) => ({ name, value }));
       },
       setAll(cookiesToSet) {
-        cookiesToSet.forEach(({ name, value, options }) => cookies.set(name, value, options));
+        cookiesToSet.forEach(({ name, value, options }) => {
+          cookies.set(name, value, options);
+        });
       },
     },
   });
 }
 
-export function createSupabaseBrowserClient() {
+export function browserClient() {
   return createBrowserClient<Database>(supabaseUrl, supabaseKey);
 }

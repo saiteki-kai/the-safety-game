@@ -1,8 +1,8 @@
 import type { ActionAPIContext } from "astro:actions";
-import { createClient } from "@db/supabase";
+import { serverClient } from "@/lib/supabase";
 
 export const db = ({ request, cookies }: ActionAPIContext) => {
-  return createClient({
+  return serverClient({
     request,
     cookies,
   });

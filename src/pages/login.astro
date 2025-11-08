@@ -3,10 +3,10 @@ export const prerender = false;
 
 import "@styles/dashboard.css";
 
-import { createClient } from "@db/supabase";
+import { serverClient } from "@/lib/supabase";
 import PageLayout from "../layouts/PageLayout.astro";
 
-const supabase = createClient({
+const supabase = serverClient({
   request: Astro.request,
   cookies: Astro.cookies,
 });

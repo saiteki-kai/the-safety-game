@@ -1,17 +1,6 @@
 @reference "./globals.css";
 
 /* Dashboard layout */
-.dashboard-section {
-  background-image: linear-gradient(to bottom right, #f3f6ff, white, #f9f3ff);
-}
-
-.dashboard-shell {
-  @apply flex min-h-screen items-center justify-center;
-}
-
-.dashboard-container {
-  @apply relative mx-auto w-full max-w-5xl px-4 py-16 sm:px-6 lg:px-8;
-}
 
 .dashboard-topbar {
   @apply absolute top-4 left-0 right-0 flex items-center justify-between px-4 sm:top-6 sm:px-6 lg:px-8;
@@ -27,11 +16,11 @@
 
 /* Dashboard states */
 .dashboard-team-wrapper {
-  @apply space-y-10;
+  @apply flex flex-1 flex-col space-y-2.5 lg:space-y-3.5;
 }
 
 .dashboard-team-header {
-  @apply space-y-2 pt-6 text-left;
+  @apply space-y-2 pt-3 text-left;
 }
 
 .dashboard-team-title,
