@@ -1,17 +1,24 @@
 import { type ActionAPIContext, defineAction } from "astro:actions";
 import { z } from "astro:schema";
-import { checkTeamName, createTeamWithName } from "@/api/teams.ts";
-import { db } from "./utils.ts";
-import type { Team } from "@/lib/supabase.types.ts";
+import { addUserToTeam, checkTeamName, createTeamWithName, findTeamByJoinCode } from "@/api/teams";
+import { db } from "./utils";
 
+// Validation error messages
 const TEAM_NAME_MIN_ERROR = "Il nome del team deve contenere almeno 3 caratteri.";
 const TEAM_NAME_MAX_ERROR = "Il nome del team è troppo lungo.";
 const JOIN_CODE_ERROR = "Il codice deve essere esattamente di 6 caratteri alfanumerici.";
 
-const teamNameSchema = z.object({
-  teamName: z.string().min(3, TEAM_NAME_MIN_ERROR).max(30, TEAM_NAME_MAX_ERROR),
-});
+// Database error messages
+const TEAM_NAME_EXISTS_ERROR = "Esiste già un team con questo nome.";
+const TEAM_NOT_FOUND_ERROR = "Codice team non valido.";
+const USER_NOT_AUTHENTICATED_ERROR = "Utente non autenticato.";
+const TEAM_CREATION_UNKNOWN_ERROR = "Si è verificato un errore durante la creazione del team.";
+const TEAM_JOIN_UNKNOWN_ERROR = "Si è verificato un errore durante l'accesso al team.";
 
+// Schemas
+const teamNameSchema = z.object({
+  teamName: z.string().min(3, TEAM_NAME_MIN_ERROR).max(20, TEAM_NAME_MAX_ERROR),
+});
 const joinCodeSchema = z.object({
   joinCode: z
     .string()
@@ -21,6 +28,7 @@ const joinCodeSchema = z.object({
     .transform((value) => value.toUpperCase()),
 });
 
+// Input types
 type CreateTeamInput = z.infer<typeof teamNameSchema>;
 type JoinTeamInput = z.infer<typeof joinCodeSchema>;
 
@@ -30,41 +38,31 @@ export const teams = {
     input: teamNameSchema,
     handler: async (input: CreateTeamInput, context: ActionAPIContext) => {
       const supabase = db(context);
+      const user = context.locals?.user;
 
-      // Check if team name already exists
+      if (!user) {
+        return { team: null, error: USER_NOT_AUTHENTICATED_ERROR };
+      }
+
       try {
+        // Check if team name already exists
         const teamNameExists = await checkTeamName(supabase, input.teamName);
 
         if (teamNameExists) {
-          // Return duplicate name error to the user
+          return { team: null, error: TEAM_NAME_EXISTS_ERROR };
         }
+
+        // Create new team
+        const newTeam = await createTeamWithName(supabase, input.teamName);
+
+        // Add user to team
+        await addUserToTeam(supabase, user.id, newTeam.id);
+
+        return { team: newTeam, error: null };
       } catch (error) {
-        // TODO: handle error properly
+        console.error("Error creating team:", error);
+        return { team: null, error: TEAM_CREATION_UNKNOWN_ERROR };
       }
-
-      // Insert new team if name is unique
-      let newTeam: Team;
-      try {
-        newTeam = await createTeamWithName(supabase, input.teamName);
-      } catch (error) {
-        // TODO: handle error properly
-      }
-
-      const user_id = context.locals?.user;
-      const team_id = newTeam.id;
-
-      // TODO
-      const { error: updateError } = await supabase.from("team_members").insert({
-        user_id,
-        team_id,
-      });
-
-      if (updateError) {
-        // throw updateError;
-        return {};
-      }
-
-      return { team: newTeam, error: null };
     },
   }),
   joinTeam: defineAction({
@@ -73,37 +71,28 @@ export const teams = {
     handler: async (input: JoinTeamInput, context: ActionAPIContext) => {
       const supabase = db(context);
 
-      const { data: team, error: fetchError } = await supabase
-        .from("teams")
-        .select()
-        .eq("join_code", input.joinCode.toLowerCase())
-        .maybeSingle();
+      const user = context.locals?.user;
 
-      if (fetchError) {
-        throw fetchError;
+      if (!user) {
+        return { team: null, error: USER_NOT_AUTHENTICATED_ERROR };
       }
 
-      if (!team) {
-        return { error: "Codice team non valido.", team: null };
+      try {
+        // Find team by join code
+        const team = await findTeamByJoinCode(supabase, input.joinCode);
+
+        if (!team) {
+          return { team: null, error: TEAM_NOT_FOUND_ERROR };
+        }
+
+        // Add user to team
+        await addUserToTeam(supabase, user.id, team.id);
+
+        return { team, error: null };
+      } catch (error) {
+        console.error("Error joining team:", error);
+        return { team: null, error: TEAM_JOIN_UNKNOWN_ERROR };
       }
-
-      const user_id = context.locals?.user;
-      const team_id = team.id;
-
-      if (!user_id) {
-        throw new Error("User not authenticated");
-      }
-
-      const { error: insertError } = await supabase.from("team_members").insert({
-        user_id,
-        team_id,
-      });
-
-      if (insertError) {
-        throw insertError;
-      }
-
-      return { team: team, error: null };
     },
   }),
 };
