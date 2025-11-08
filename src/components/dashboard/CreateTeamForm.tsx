@@ -6,17 +6,27 @@ import { Button } from "@components/ui/button";
 import { Input } from "@components/ui/input";
 import { Label } from "@components/ui/label";
 import { Rocket, Users } from "lucide-react";
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
+import { useTeam } from "./TeamProvider";
 
 const TEAM_NAME_HINT = "Scegli un nome riconoscibile così i compagni ti trovano più facilmente.";
 
 export default function CreateTeamForm() {
+  const { setTeam } = useTeam();
   const [state, action, isPending] = useActionState(withState(actions.teams.createTeam), undefined);
 
   const inputErrors = isInputError(state?.error) ? state.error.fields : {};
 
   const inputStateClass = state?.error ? "dashboard-input-error" : "dashboard-input-default";
   const helperTextClass = `dashboard-helper-text${state?.error ? " dashboard-helper-text-error" : ""}`;
+
+  useEffect(() => {
+    if (!state?.data || state.data.error || !state.data.team) {
+      return;
+    }
+
+    setTeam(state.data.team);
+  }, [setTeam, state?.data]);
 
   return (
     <form className="dashboard-form" action={action}>

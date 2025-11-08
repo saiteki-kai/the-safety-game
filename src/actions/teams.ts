@@ -101,7 +101,7 @@ export const teams = {
         throw insertError;
       }
 
-      return { team, error: null };
+      return { team: team, error: null };
     },
   }),
   getTeam: defineAction({
@@ -116,7 +116,7 @@ export const teams = {
       }
 
       const team = context.locals?.team;
-      
+
       if (team) {
         return { team };
       }

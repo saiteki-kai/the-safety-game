@@ -6,12 +6,14 @@ import { Button } from "@components/ui/button";
 import { Input } from "@components/ui/input";
 import { Label } from "@components/ui/label";
 import { KeyRound, Puzzle } from "lucide-react";
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
+import { useTeam } from "./TeamProvider";
 
 const JOIN_CODE_HINT = "Inserisci il codice di 6 caratteri condiviso dal tuo team leader.";
 const JOIN_SUCCESS_MESSAGE = "Ti sei unito al team con successo.";
 
 export default function JoinTeamForm() {
+  const { setTeam } = useTeam();
   const [state, action, isPending] = useActionState(withState(actions.teams.joinTeam), undefined);
 
   const inputErrors = isInputError(state?.error) ? state.error.fields : null;
@@ -21,6 +23,14 @@ export default function JoinTeamForm() {
   const helperTextClass = `dashboard-helper-text${inputErrors ? " dashboard-helper-text-error" : ""}`;
 
   const successMessage = state?.data?.team ? JOIN_SUCCESS_MESSAGE : null;
+
+  useEffect(() => {
+    if (!state?.data || state.data.error || !state.data.team) {
+      return;
+    }
+
+    setTeam(state.data.team);
+  }, [setTeam, state?.data]);
 
   return (
     <form className="dashboard-form" action={action}>
