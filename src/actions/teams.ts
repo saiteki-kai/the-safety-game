@@ -74,7 +74,7 @@ export const teams = {
       const { data: team, error: fetchError } = await supabase
         .from("teams")
         .select()
-        .eq("join_code", input.joinCode)
+        .eq("join_code", input.joinCode.toLowerCase())
         .maybeSingle();
 
       if (fetchError) {
