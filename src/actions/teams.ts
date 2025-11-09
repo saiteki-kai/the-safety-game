@@ -1,12 +1,7 @@
-import { type ActionAPIContext, defineAction } from "astro:actions";
-import { z } from "astro:schema";
+import { type ActionAPIContext, ActionError, defineAction } from "astro:actions";
 import { addUserToTeam, checkTeamName, createTeamWithName, findTeamByJoinCode } from "@/api/teams";
+import { type CreateTeamInput, type JoinTeamInput, joinCodeSchema, teamNameSchema } from "@/lib/schemas";
 import { db } from "./utils";
-
-// Validation error messages
-const TEAM_NAME_MIN_ERROR = "Il nome del team deve contenere almeno 3 caratteri.";
-const TEAM_NAME_MAX_ERROR = "Il nome del team è troppo lungo.";
-const JOIN_CODE_ERROR = "Il codice deve essere esattamente di 6 caratteri alfanumerici.";
 
 // Database error messages
 const TEAM_NAME_EXISTS_ERROR = "Esiste già un team con questo nome.";
@@ -15,33 +10,17 @@ const USER_NOT_AUTHENTICATED_ERROR = "Utente non autenticato.";
 const TEAM_CREATION_UNKNOWN_ERROR = "Si è verificato un errore durante la creazione del team.";
 const TEAM_JOIN_UNKNOWN_ERROR = "Si è verificato un errore durante l'accesso al team.";
 
-// Schemas
-const teamNameSchema = z.object({
-  teamName: z.string().min(3, TEAM_NAME_MIN_ERROR).max(20, TEAM_NAME_MAX_ERROR),
-});
-const joinCodeSchema = z.object({
-  joinCode: z
-    .string()
-    .trim()
-    .length(6, { message: JOIN_CODE_ERROR })
-    .regex(/^[A-Za-z0-9]+$/, { message: JOIN_CODE_ERROR })
-    .transform((value) => value.toUpperCase()),
-});
-
-// Input types
-type CreateTeamInput = z.infer<typeof teamNameSchema>;
-type JoinTeamInput = z.infer<typeof joinCodeSchema>;
-
 export const teams = {
   createTeam: defineAction({
     accept: "form",
     input: teamNameSchema,
     handler: async (input: CreateTeamInput, context: ActionAPIContext) => {
       const supabase = db(context);
-      const user = context.locals?.user;
 
-      if (!user) {
-        return { team: null, error: USER_NOT_AUTHENTICATED_ERROR };
+      const user_id = context.locals.user_id;
+
+      if (!user_id) {
+        throw new ActionError({ code: "UNAUTHORIZED" });
       }
 
       try {
@@ -56,7 +35,7 @@ export const teams = {
         const newTeam = await createTeamWithName(supabase, input.teamName);
 
         // Add user to team
-        await addUserToTeam(supabase, user.id, newTeam.id);
+        await addUserToTeam(supabase, user_id, newTeam.id);
 
         return { team: newTeam, error: null };
       } catch (error) {
@@ -71,10 +50,10 @@ export const teams = {
     handler: async (input: JoinTeamInput, context: ActionAPIContext) => {
       const supabase = db(context);
 
-      const user = context.locals?.user;
+      const user_id = context.locals.user_id;
 
-      if (!user) {
-        return { team: null, error: USER_NOT_AUTHENTICATED_ERROR };
+      if (!user_id) {
+        throw new ActionError({ code: "UNAUTHORIZED" });
       }
 
       try {
@@ -86,7 +65,7 @@ export const teams = {
         }
 
         // Add user to team
-        await addUserToTeam(supabase, user.id, team.id);
+        await addUserToTeam(supabase, user_id, team.id);
 
         return { team, error: null };
       } catch (error) {

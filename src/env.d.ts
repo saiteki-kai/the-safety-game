@@ -14,6 +14,7 @@ declare global {
     interface Locals {
       user: Profile | null;
       team: Team | null;
+      user_id: string | null;
     }
   }
 }

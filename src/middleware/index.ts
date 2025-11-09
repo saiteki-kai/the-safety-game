@@ -1,10 +1,11 @@
 import { defineMiddleware } from "astro:middleware";
 import type { APIContext, MiddlewareNext } from "astro";
 import micromatch from "micromatch";
+import { getUserInfo } from "@/api/users";
 import { serverClient } from "@/lib/supabase";
 
 const protectedRoutes = ["/dashboard", "/admin"];
-const protectedAPIRoutes = ["/api/submissions"];
+const protectedAPIRoutes = ["/api/submissions", "_actions/**"];
 
 export const onRequest = defineMiddleware(async (context: APIContext, next: MiddlewareNext) => {
   const supabase = serverClient(context);
@@ -15,33 +16,16 @@ export const onRequest = defineMiddleware(async (context: APIContext, next: Midd
   // If there's an error fetching claims, redirect to login
   if (claimsError) {
     console.error("Error fetching auth claims:", claimsError);
-    return context.redirect("/login");
+    return context.redirect("/");
   }
+
+  context.locals.user_id = claimsData?.claims?.sub || null;
 
   // Protect routes that require authentication
   if (micromatch.isMatch(context.url.pathname, protectedRoutes)) {
     if (!claimsData?.claims) {
-      context.locals.user = null;
-      context.locals.team = null;
-
-      console.log("Middleware redirecting to login");
       return context.redirect("/login");
     }
-
-    // Retrieve user team
-    const { data: userTeamData, error: teamError } = await supabase
-      .from("team_members")
-      .select("teams(*), profiles(*)")
-      .eq("user_id", claimsData.claims?.sub)
-      .maybeSingle();
-
-    if (teamError) {
-      console.error("Error fetching team member:", teamError);
-      return context.redirect(context.url.pathname);
-    }
-
-    context.locals.team = (userTeamData && userTeamData["teams"]) || null;
-    context.locals.user = (userTeamData && userTeamData["profiles"]) || null;
 
     // Admin route protection
     if (context.url.pathname.startsWith("/admin")) {
