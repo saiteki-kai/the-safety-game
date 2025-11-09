@@ -1,6 +1,4 @@
 ---
-import "@styles/globals.css";
-
 import { Footer, Navigation } from "@components/layout";
 import {
   ChallengeSection,
@@ -16,40 +14,21 @@ import {
   TimelineSection,
 } from "@components/sections";
 import { content } from "@content/website-content";
-import WebsiteAnalytics from "@vercel/analytics/astro";
-import SpeedInsights from "@vercel/speed-insights/astro";
-
-const pageTitle = "The Safety Game";
-const { home, leaderboard, team, participation, dates, instructions, playground, faqs, challenge } = content;
+import PageLayout from "@layouts/PageLayout.astro";
 ---
 
-<html lang="it">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="description"
-      content="The Safety Game - Hackathon organized by MIND, University of Milan Bicocca"
-    />
-    <title>{pageTitle}</title>
-  </head>
-  <body class="min-h-screen bg-white">
-    <Navigation />
-    <WebsiteAnalytics />
-    <SpeedInsights />
-    <main id="main-content">
-      <HeroSection home={home} />
-  <ChallengeSection challenge={challenge} />
-  <InstructionsSection instructions={instructions} />
-  <ParticipationSection participation={participation} />
-  <TimelineSection dates={dates} />
-    <LeaderboardSection leaderboard={leaderboard} />
-    <OpponentSection />
-    <PlaygroundSection playground={playground} />
-      <TeamSection team={team} />
-      <FaqSection faqs={faqs} />
-    </main>
-    <LogosSection />
-    <Footer />
-  </body>
-</html>
+<PageLayout title="The Safety Game">
+  <Navigation slot="navigation" />
+  <HeroSection home={content.home} />
+  <ChallengeSection challenge={content.challenge} />
+  <InstructionsSection instructions={content.instructions} />
+  <ParticipationSection participation={content.participation} />
+  <TimelineSection dates={content.dates} />
+  <LeaderboardSection leaderboard={content.leaderboard} />
+  <OpponentSection />
+  <PlaygroundSection playground={content.playground} />
+  <TeamSection team={content.team} />
+  <FaqSection faqs={content.faqs} />
+  <LogosSection slot="prefooter" />
+  <Footer slot="footer" />
+</PageLayout>

@@ -8,35 +8,69 @@ export type Database = {
   };
   public: {
     Tables: {
-      submissions: {
+      profiles: {
         Row: {
-          created_at: string;
+          avatar_url: string | null;
+          email: string;
+          full_name: string;
           id: string;
-          model: string;
-          prompt: string;
-          response: string;
-          score: number | null;
-          team_id: number | null;
+          is_admin: boolean;
+          picture: string | null;
         };
         Insert: {
-          created_at?: string;
-          id?: string;
-          model: string;
-          prompt: string;
-          response: string;
-          score?: number | null;
-          team_id?: number | null;
+          avatar_url?: string | null;
+          email: string;
+          full_name: string;
+          id: string;
+          is_admin?: boolean;
+          picture?: string | null;
         };
         Update: {
-          created_at?: string;
+          avatar_url?: string | null;
+          email?: string;
+          full_name?: string;
           id?: string;
-          model?: string;
-          prompt?: string;
-          response?: string;
+          is_admin?: boolean;
+          picture?: string | null;
+        };
+        Relationships: [];
+      };
+      submissions: {
+        Row: {
+          created_at: string | null;
+          id: string;
+          model: string | null;
+          prompt: string;
+          response: string | null;
+          score: number | null;
+          team_id: string;
+        };
+        Insert: {
+          created_at?: string | null;
+          id?: string;
+          model?: string | null;
+          prompt: string;
+          response?: string | null;
           score?: number | null;
-          team_id?: number | null;
+          team_id: string;
+        };
+        Update: {
+          created_at?: string | null;
+          id?: string;
+          model?: string | null;
+          prompt?: string;
+          response?: string | null;
+          score?: number | null;
+          team_id?: string;
         };
         Relationships: [
+          {
+            foreignKeyName: "submissions_team_id_fkey";
+            columns: ["team_id"];
+            isOneToOne: false;
+            referencedRelation: "leaderboard";
+            referencedColumns: ["id"];
+          },
           {
             foreignKeyName: "submissions_team_id_fkey";
             columns: ["team_id"];
@@ -46,23 +80,60 @@ export type Database = {
           },
         ];
       };
+      team_members: {
+        Row: {
+          team_id: string;
+          user_id: string;
+        };
+        Insert: {
+          team_id: string;
+          user_id?: string;
+        };
+        Update: {
+          team_id?: string;
+          user_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "team_members_team_id_fkey";
+            columns: ["team_id"];
+            isOneToOne: false;
+            referencedRelation: "leaderboard";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "team_members_team_id_fkey";
+            columns: ["team_id"];
+            isOneToOne: false;
+            referencedRelation: "teams";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "team_members_user_id_fkey1";
+            columns: ["user_id"];
+            isOneToOne: true;
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       teams: {
         Row: {
           created_at: string;
-          id: number;
-          members: Json;
+          id: string;
+          join_code: string;
           name: string;
         };
         Insert: {
           created_at?: string;
-          id?: number;
-          members: Json;
+          id?: string;
+          join_code?: string;
           name: string;
         };
         Update: {
           created_at?: string;
-          id?: number;
-          members?: Json;
+          id?: string;
+          join_code?: string;
           name?: string;
         };
         Relationships: [];
@@ -72,24 +143,15 @@ export type Database = {
       leaderboard: {
         Row: {
           final_score: number | null;
+          id: string | null;
           last_submission: string | null;
-          members: Json | null;
           name: string | null;
-          team_id: number | null;
         };
-        Relationships: [
-          {
-            foreignKeyName: "submissions_team_id_fkey";
-            columns: ["team_id"];
-            isOneToOne: false;
-            referencedRelation: "teams";
-            referencedColumns: ["id"];
-          },
-        ];
+        Relationships: [];
       };
     };
     Functions: {
-      [_ in never]: never;
+      generate_unique_hex: { Args: never; Returns: string };
     };
     Enums: {
       [_ in never]: never;

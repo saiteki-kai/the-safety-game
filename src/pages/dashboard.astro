@@ -1,0 +1,25 @@
+---
+export const prerender = false;
+
+import "@styles/dashboard.css";
+
+import DashboardClient from "@components/dashboard/DashboardClient";
+import PageLayout from "@layouts/PageLayout.astro";
+import { getTeamByUserId } from "@/api/teams";
+import { getUserInfo } from "@/api/users";
+import DashboardNav from "@/components/dashboard/common/DashboardNav";
+import { serverClient } from "@/lib/supabase";
+
+const supabase = serverClient(Astro);
+const user = await getUserInfo(supabase, Astro.locals.user_id);
+const team = await getTeamByUserId(supabase, user.id);
+---
+
+<PageLayout title="Dashboard | The Safety Game">
+  <div
+    class="flex flex-1 min-h-0 flex-col bg-linear-to-br from-[#f3f6ff] via-white to-[#f9f3ff]"
+  >
+    <DashboardNav client:load user={user} />
+    <DashboardClient client:load user={user} team={team} />
+  </div>
+</PageLayout>

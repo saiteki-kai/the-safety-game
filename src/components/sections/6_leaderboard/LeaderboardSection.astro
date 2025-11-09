@@ -2,7 +2,7 @@
 import IconLabel from "@components/common/IconLabel";
 import type { LeaderboardContent } from "@content/types";
 import SectionLayout from "@layouts/SectionLayout.astro";
-import Leaderboard from "./Leaderboard";
+import LeaderboardTable from "./Leaderboard";
 
 const { leaderboard } = Astro.props as { leaderboard: LeaderboardContent };
 const { title, description, emptyMessage } = leaderboard;
@@ -44,7 +44,7 @@ const { title, description, emptyMessage } = leaderboard;
         aria-label="Leaderboard"
         tabindex="0"
       >
-        <Leaderboard emptyMessage={emptyMessage} client:load />
+        <LeaderboardTable emptyMessage={emptyMessage} client:load />
       </div>
     </div>
   </div>

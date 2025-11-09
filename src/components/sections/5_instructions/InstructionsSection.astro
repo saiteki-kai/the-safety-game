@@ -13,9 +13,9 @@ const cardStyleMap: Record<
     borderClass: string;
     borderColor?: string;
     backgroundColor: string;
-    headingIcon: "lightbulb" | "circle-check" | "circle-x" | "triangle-alert";
+    headingIcon: "lightbulb" | "circle-check" | "circle-x" | "triangle-alert" | "star" | "dot" | "form";
     headingIconClass: string;
-    itemIcon?: "lightbulb" | "circle-check" | "circle-x" | "triangle-alert";
+    itemIcon?: "lightbulb" | "circle-check" | "circle-x" | "triangle-alert" | "star" | "dot" | "form";
     itemIconClass?: string;
     contentTextClass?: string;
   }
@@ -171,8 +171,8 @@ const exampleStyleMap: Record<
       name="lightbulb"
       size={28}
       iconClass="text-yellow-600"
-      as="h1"
-      class="examples-heading text-2xl sm:text-3xl font-semibold"
+      as="h3"
+      className="examples-heading"
     >
       I Prompt
     </IconLabel>

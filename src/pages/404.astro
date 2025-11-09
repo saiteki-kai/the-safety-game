@@ -1,71 +1,61 @@
 ---
 import "@styles/globals.css";
+import PageLayout from "../layouts/PageLayout.astro";
 
 const currentYear = new Date().getFullYear();
 ---
 
-<html lang="it" class="h-full">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="description"
-      content="Pagina non trovata - The Safety Game, hackathon dedicato alla sicurezza dell'intelligenza artificiale."
-    />
-    <title>Pagina non trovata | The Safety Game</title>
-  </head>
-  <body
-    class="flex h-full min-h-screen flex-col bg-linear-to-br from-neutral-50 via-white to-neutral-100 text-foreground"
-  >
-    <div class="relative isolate flex flex-1 flex-col">
+<PageLayout title={`Pagina non trovata | The Safety Game`}>
+  <div slot="navigation">
+    <header class="flex items-center justify-between px-6 py-6 sm:px-10">
+      <a
+        href="/"
+        class="text-sm font-semibold tracking-tight text-neutral-900 transition hover:text-primary"
+      >
+        The Safety Game
+      </a>
+    </header>
+  </div>
+  <div class="relative isolate flex-1 min-h-0 flex flex-col">
+    <div
+      class="pointer-events-none absolute inset-x-0 top-0 -z-10 overflow-hidden"
+    >
       <div
-        class="pointer-events-none absolute inset-x-0 top-0 -z-10 overflow-hidden"
+        class="absolute right-[-8%] top-[-14%] h-72 w-72 rounded-full bg-primary/5 blur-3xl"
       >
-        <div
-          class="absolute right-[-8%] top-[-14%] h-72 w-72 rounded-full bg-primary/5 blur-3xl"
-        >
-        </div>
-        <div
-          class="absolute left-[-12%] bottom-[-18%] h-80 w-80 rounded-full bg-secondary/30 blur-3xl"
-        >
-        </div>
       </div>
-
-      <header class="flex items-center justify-between px-6 py-6 sm:px-10">
-        <a
-          href="/"
-          class="text-sm font-semibold tracking-tight text-neutral-900 transition hover:text-primary"
-        >
-          The Safety Game
-        </a>
-      </header>
-
-      <main
-        class="flex flex-1 items-center justify-center px-6 pb-16 pt-12 sm:px-10"
+      <div
+        class="absolute left-[-12%] bottom-[-18%] h-80 w-80 rounded-full bg-secondary/30 blur-3xl"
       >
-        <div class="max-w-2xl text-center">
-          <h1
-            class="mt-6 text-4xl font-semibold tracking-tight text-balance text-neutral-900 sm:text-5xl md:text-6xl"
-          >
-            Errore 404
-          </h1>
-          <p class="mt-4 text-lg text-neutral-600 sm:text-xl">
-            Spiacenti, non siamo riusciti a trovare la pagina che stavi
-            cercando.
-          </p>
-          <div
-            class="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4"
-          >
-            <a href="/" class="hero-button">Torna alla home</a>
-          </div>
-        </div>
-      </main>
+      </div>
     </div>
 
+    <main
+      class="flex flex-1 min-h-0 items-center justify-center px-6 pb-16 pt-12 sm:px-10"
+    >
+      <div class="max-w-2xl text-center">
+        <h1
+          class="mt-6 text-4xl font-semibold tracking-tight text-balance text-neutral-900 sm:text-5xl md:text-6xl"
+        >
+          Errore 404
+        </h1>
+        <p class="mt-4 text-lg text-neutral-600 sm:text-xl">
+          Spiacenti, non siamo riusciti a trovare la pagina che stavi cercando.
+        </p>
+        <div
+          class="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4"
+        >
+          <a href="/" class="hero-button">Torna alla home</a>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <div slot="footer">
     <footer
       class="border-t border-neutral-200 bg-white/70 px-6 py-6 text-center text-sm text-neutral-500 backdrop-blur sm:px-10"
     >
-      © {currentYear} The Safety Game. Tutti i diritti riservati.
+      &copy; {currentYear} The Safety Game. Tutti i diritti riservati.
     </footer>
-  </body>
-</html>
+  </div>
+</PageLayout>

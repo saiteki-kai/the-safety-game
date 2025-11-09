@@ -8,7 +8,16 @@ export default defineConfig({
 
   adapter: vercel({
     webAnalytics: true,
+    imageService: true,
   }),
+
+  // session: {
+  //   driver: "redis",
+  // },
+
+  session: {
+    driver: "memory",
+  },
 
   vite: {
     plugins: [tailwindcss()],

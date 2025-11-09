@@ -1,28 +1,14 @@
 import Icon from "@components/common/Icon";
 import IconLabel from "@components/common/IconLabel";
 import { PostgrestError } from "@supabase/supabase-js";
-import { formatDateTime } from "@utils/formatters";
-import type { IconName } from "@utils/icons";
 import { useEffect, useEffectEvent, useState } from "react";
-import { supabase } from "../../../db/client";
+import { getLeaderboard } from "@/api/submissions";
+import { formatDateTime } from "@/lib/formatters";
+import type { IconName } from "@/lib/icons";
+import { browserClient } from "@/lib/supabase";
+import type { Leaderboard } from "@/lib/supabase.types";
 
-type Team = {
-  name: string;
-  final_score: number;
-  members: Array<string>;
-  last_submission: string;
-};
-
-async function fetchLeaderboard() {
-  const { data, error } = await supabase.from("leaderboard").select();
-
-  if (error) {
-    console.error("Error fetching leaderboard:", error);
-    throw error;
-  }
-
-  return data as Team[];
-}
+const supabase = browserClient();
 
 const formatPercent = (v: number) => {
   if (typeof v !== "number" || !Number.isFinite(v)) return "0.00";
@@ -49,8 +35,8 @@ const highlightConfig: Record<number, { row: string; icon?: { name: string; clas
   3: { row: "highlight-3", icon: { name: "award", class: "text-amber-600" } },
 };
 
-export default function Leaderboard({ emptyMessage }: { emptyMessage: string }) {
-  const [leaderboard, setLeaderboard] = useState<Team[] | null>(null);
+export default function LeaderboardTable({ emptyMessage }: { emptyMessage: string }) {
+  const [leaderboard, setLeaderboard] = useState<Leaderboard[] | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<Error | null>(null);
 
@@ -58,8 +44,8 @@ export default function Leaderboard({ emptyMessage }: { emptyMessage: string }) 
     setLoading(true);
     setError(null);
     try {
-      const data = await fetchLeaderboard();
-      setLeaderboard(data ?? []);
+      const data = await getLeaderboard(supabase);
+      setLeaderboard(data);
     } catch (err: unknown) {
       setError(err instanceof PostgrestError ? err : new Error("Unknown error"));
       setLeaderboard([]);
@@ -101,7 +87,6 @@ export default function Leaderboard({ emptyMessage }: { emptyMessage: string }) 
           <colgroup>
             <col style={{ width: "5rem" }} />
             <col style={{ width: "6rem" }} />
-            <col style={{ width: "5rem" }} />
             <col />
             <col style={{ width: "10rem" }} />
           </colgroup>
@@ -109,7 +94,6 @@ export default function Leaderboard({ emptyMessage }: { emptyMessage: string }) 
             <tr>
               <th className="text-center">Posizione</th>
               <th className="text-center">Punteggio</th>
-              <th className="text-center">#Membri</th>
               <th className="text-left">Nome del Team</th>
               <th className="text-right">Ultima Consegna</th>
             </tr>
@@ -160,7 +144,6 @@ export default function Leaderboard({ emptyMessage }: { emptyMessage: string }) 
           <colgroup>
             <col style={{ width: "5rem" }} />
             <col style={{ width: "6rem" }} />
-            <col style={{ width: "5rem" }} />
             <col />
             <col style={{ width: "10rem" }} />
           </colgroup>
@@ -171,9 +154,6 @@ export default function Leaderboard({ emptyMessage }: { emptyMessage: string }) 
               </th>
               <th scope="col" className="text-center">
                 Punteggio
-              </th>
-              <th scope="col" className="text-center">
-                #Membri
               </th>
               <th scope="col" className="text-left">
                 Nome del Team
@@ -201,7 +181,6 @@ export default function Leaderboard({ emptyMessage }: { emptyMessage: string }) 
                     )}
                   </td>
                   <td className="td score-mono py-1 text-center">{formatPercent(team.final_score)}</td>
-                  <td className="td py-1 text-center">{team.members.length}</td>
                   <td className="td team-name py-1 text-left">
                     {team.name === "ChatGPT" ? (
                       <IconLabel
