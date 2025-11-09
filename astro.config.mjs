@@ -11,9 +11,9 @@ export default defineConfig({
     imageService: true,
   }),
 
-  // session: {
-  //   driver: "redis",
-  // },
+  session: {
+    driver: "redis",
+  },
 
   session: {
     driver: "memory",
