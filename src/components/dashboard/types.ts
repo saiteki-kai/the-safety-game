@@ -1,11 +1,9 @@
-export type TeamShape = {
-  id?: string;
-  name?: string | null;
-  join_code?: string | null;
-  members?: string[] | null;
-};
+import type { Profile } from "@/lib/supabase.types";
 
-export type UserShape = {
+export type MemberSlot = {
+  key: string;
   name: string;
-  email: string;
+  initials: string;
+  isPlaceholder: boolean;
+  member?: Profile;
 };

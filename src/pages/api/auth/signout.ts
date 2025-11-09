@@ -1,10 +1,10 @@
 export const prerender = false;
 
-import { createClient } from "@db/supabase";
 import type { APIRoute } from "astro";
+import { serverClient } from "@/lib/supabase";
 
 export const GET: APIRoute = async ({ request, cookies, redirect }) => {
-  const supabase = createClient({
+  const supabase = serverClient({
     request: request,
     cookies: cookies,
   });

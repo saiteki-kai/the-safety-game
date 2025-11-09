@@ -1,58 +1,35 @@
 export const prerender = false;
 
-import "@styles/dashboard.css";
-
-import { Button } from "@components/ui/button";
-import { LogOut } from "lucide-react";
+import type { Profile, Team } from "@lib/supabase.types";
+import TeamSetupPanel from "./setup/TeamSetupPanel";
 import TeamDashboardView from "./TeamDashboardView";
-import TeamSetupPanel from "./TeamSetupPanel";
 import { TeamProvider, useTeam } from "./TeamProvider";
-import type { TeamShape, UserShape } from "./types";
 
 type DashboardClientProps = {
-  team?: TeamShape | null;
-  user?: UserShape | null;
+  team?: Team | null;
+  user?: Profile | null;
 };
 
 export default function DashboardClient({ team, user }: DashboardClientProps) {
   return (
     <TeamProvider initialTeam={team ?? null}>
-      <DashboardContent user={user ?? null} />
+      <DashboardContent user={user} />
     </TeamProvider>
   );
 }
 
 type DashboardContentProps = {
-  user?: UserShape | null;
+  user: Profile;
 };
 
 function DashboardContent({ user }: DashboardContentProps) {
   const { team } = useTeam();
 
   return (
-    <section className="dashboard-section">
-      <div className="dashboard-shell">
-        <div className="dashboard-container">
-          {!team && (
-            <div className="dashboard-topbar">
-              <p className="dashboard-greeting">Bentornato, {user?.name}</p>
-              <Button
-                onClick={() => {
-                  fetch("/api/auth/signout", { method: "GET" }).catch((error) => {
-                    console.error("Unable to sign out", error);
-                  });
-                }}
-                className="dashboard-signout"
-              >
-                <LogOut className="h-4 w-4" aria-hidden="true" />
-                Esci
-              </Button>
-            </div>
-          )}
-
-          {team ? <TeamDashboardView user={user ?? null} /> : <TeamSetupPanel />}
-        </div>
+    <main className="flex min-h-0 flex-1 flex-col overflow-hidden px-4 py-3 sm:px-7 sm:py-6">
+      <div className="flex min-h-0 flex-1 flex-col overflow-auto">
+        {team ? <TeamDashboardView user={user} /> : <TeamSetupPanel />}
       </div>
-    </section>
+    </main>
   );
 }

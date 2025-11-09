@@ -1,13 +1,15 @@
 import "@styles/dashboard.css";
 
-import { actions, isInputError } from "astro:actions";
+import { actions, isActionError, isInputError } from "astro:actions";
 import { withState } from "@astrojs/react/actions";
 import { Button } from "@components/ui/button";
 import { Input } from "@components/ui/input";
 import { Label } from "@components/ui/label";
-import { KeyRound, Puzzle } from "lucide-react";
-import { useActionState, useEffect } from "react";
-import { useTeam } from "./TeamProvider";
+import { KeyRound, OctagonAlert, Puzzle } from "lucide-react";
+import { useActionState, useEffect, useEffectEvent } from "react";
+import { toast } from "sonner";
+import type { Team } from "@/lib/supabase.types";
+import { useTeam } from "../TeamProvider";
 
 const JOIN_CODE_HINT = "Inserisci il codice di 6 caratteri condiviso dal tuo team leader.";
 const JOIN_SUCCESS_MESSAGE = "Ti sei unito al team con successo.";
@@ -24,13 +26,24 @@ export default function JoinTeamForm() {
 
   const successMessage = state?.data?.team ? JOIN_SUCCESS_MESSAGE : null;
 
+  const updateTeam = useEffectEvent((team: Team) => {
+    setTeam(team);
+  });
+
   useEffect(() => {
-    if (!state?.data || state.data.error || !state.data.team) {
-      return;
+    if (isActionError(state?.error)) {
+      toast.error("Errore durante la creazione del team.", {
+        duration: 2000,
+        position: "bottom-center",
+        id: "create-team-error",
+        icon: <OctagonAlert className="h-4 w-4" aria-hidden="true" />,
+      });
     }
 
-    setTeam(state.data.team);
-  }, [setTeam, state?.data]);
+    if (state?.data?.team) {
+      updateTeam(state.data.team);
+    }
+  }, [state]);
 
   return (
     <form className="dashboard-form" action={action}>

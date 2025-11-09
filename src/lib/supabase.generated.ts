@@ -6,31 +6,6 @@ export type Database = {
   __InternalSupabase: {
     PostgrestVersion: "13.0.5";
   };
-  graphql_public: {
-    Tables: {
-      [_ in never]: never;
-    };
-    Views: {
-      [_ in never]: never;
-    };
-    Functions: {
-      graphql: {
-        Args: {
-          extensions?: Json;
-          operationName?: string;
-          query?: string;
-          variables?: Json;
-        };
-        Returns: Json;
-      };
-    };
-    Enums: {
-      [_ in never]: never;
-    };
-    CompositeTypes: {
-      [_ in never]: never;
-    };
-  };
   public: {
     Tables: {
       profiles: {
@@ -39,6 +14,7 @@ export type Database = {
           email: string;
           full_name: string;
           id: string;
+          is_admin: boolean;
           picture: string | null;
         };
         Insert: {
@@ -46,6 +22,7 @@ export type Database = {
           email: string;
           full_name: string;
           id: string;
+          is_admin?: boolean;
           picture?: string | null;
         };
         Update: {
@@ -53,35 +30,36 @@ export type Database = {
           email?: string;
           full_name?: string;
           id?: string;
+          is_admin?: boolean;
           picture?: string | null;
         };
         Relationships: [];
       };
       submissions: {
         Row: {
-          created_at: string;
+          created_at: string | null;
           id: string;
-          model: string;
+          model: string | null;
           prompt: string;
-          response: string;
+          response: string | null;
           score: number | null;
           team_id: string;
         };
         Insert: {
-          created_at?: string;
+          created_at?: string | null;
           id?: string;
-          model: string;
+          model?: string | null;
           prompt: string;
-          response: string;
+          response?: string | null;
           score?: number | null;
           team_id: string;
         };
         Update: {
-          created_at?: string;
+          created_at?: string | null;
           id?: string;
-          model?: string;
+          model?: string | null;
           prompt?: string;
-          response?: string;
+          response?: string | null;
           score?: number | null;
           team_id?: string;
         };
@@ -167,7 +145,6 @@ export type Database = {
           final_score: number | null;
           id: string | null;
           last_submission: string | null;
-          members: Database["public"]["Tables"]["profiles"]["Row"] | null;
           name: string | null;
         };
         Relationships: [];
@@ -175,7 +152,6 @@ export type Database = {
     };
     Functions: {
       generate_unique_hex: { Args: never; Returns: string };
-      hello_world: { Args: never; Returns: string };
     };
     Enums: {
       [_ in never]: never;
@@ -296,9 +272,6 @@ export type CompositeTypes<
     : never;
 
 export const Constants = {
-  graphql_public: {
-    Enums: {},
-  },
   public: {
     Enums: {},
   },

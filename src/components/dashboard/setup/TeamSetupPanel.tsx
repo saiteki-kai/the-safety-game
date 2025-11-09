@@ -42,8 +42,9 @@ export default function TeamSetupPanel() {
 
       <div className="dashboard-tabs-shell">
         <div className="dashboard-tabs">
-          {(Object.keys(TAB_COPY) as TabKey[]).map((key) => {
+          {(["create", "join"] as TabKey[]).map((key) => {
             const isActive = tab === key;
+
             return (
               <button
                 key={key}

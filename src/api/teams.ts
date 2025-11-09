@@ -101,5 +101,5 @@ export const getTeamMembers = async (db: SupabaseClient<Database>, teamId: strin
     throw error;
   }
 
-  return data["profiles"] || [];
+  return data?.map(item => item.profiles) || [];
 };

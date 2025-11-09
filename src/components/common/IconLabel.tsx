@@ -1,6 +1,6 @@
-import type { IconName } from "@utils/icons";
 import type React from "react";
 import type { HTMLAttributes } from "react";
+import type { IconName } from "@/lib/icons";
 import Icon from "./Icon";
 
 export type IconLabelProps = HTMLAttributes<HTMLElement> & {

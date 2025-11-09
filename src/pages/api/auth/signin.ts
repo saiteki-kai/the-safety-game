@@ -1,8 +1,8 @@
 export const prerender = false;
 
-import { createClient } from "@db/supabase";
 import type { Provider } from "@supabase/supabase-js";
 import type { APIRoute } from "astro";
+import { serverClient } from "@/lib/supabase";
 
 export const POST: APIRoute = async ({ request, cookies, redirect }) => {
   const formData = await request.formData();
@@ -10,7 +10,7 @@ export const POST: APIRoute = async ({ request, cookies, redirect }) => {
   const password = formData.get("password")?.toString();
   const provider = formData.get("provider")?.toString();
 
-  const supabase = createClient({
+  const supabase = serverClient({
     request: request,
     cookies: cookies,
   });

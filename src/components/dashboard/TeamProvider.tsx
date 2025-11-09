@@ -1,21 +1,21 @@
-import { createContext, useContext, useMemo, useState, type ReactNode } from "react";
+import { createContext, type ReactNode, useContext, useMemo, useState } from "react";
 
-import type { TeamShape } from "./types";
+import type { Team } from "@/lib/supabase.types";
 
 type TeamContextValue = {
-  team: TeamShape | null;
-  setTeam: (team: TeamShape | null) => void;
+  team: Team | null;
+  setTeam: (team: Team | null) => void;
 };
 
 const TeamContext = createContext<TeamContextValue | undefined>(undefined);
 
 type TeamProviderProps = {
-  initialTeam?: TeamShape | null;
+  initialTeam?: Team | null;
   children: ReactNode;
 };
 
 export function TeamProvider({ initialTeam = null, children }: TeamProviderProps) {
-  const [team, setTeam] = useState<TeamShape | null>(initialTeam);
+  const [team, setTeam] = useState<Team | null>(initialTeam);
   const value = useMemo(() => ({ team, setTeam }), [team]);
 
   return <TeamContext.Provider value={value}>{children}</TeamContext.Provider>;

@@ -1,191 +1,157 @@
 import "@styles/dashboard.css";
 
-import { Button } from "@components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@components/ui/card";
-import { Copy, Users } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { AlertCircle, AlertTriangle } from "lucide-react";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { browserClient } from "@/lib/supabase.ts";
+import type { Profile } from "@/lib/supabase.types";
 import { useTeam } from "./TeamProvider";
-import type { UserShape } from "./types";
+import type { MemberSlot } from "./types";
+import SubmissionPanel from "./view/SubmissionPanel.tsx";
+import TeamOverviewCard from "./view/TeamOverviewCard.tsx";
+import TeamProgressCard, { type ProgressItem, type SubmissionStatus } from "./view/TeamProgressCard.tsx";
 
 type TeamDashboardViewProps = {
-  user?: UserShape | null;
+  user: Profile;
 };
+const COMPLETE_MSG =
+  "Hai completato il numero minimo di prompt richiesti! Scrivine altri per migliorare il tuo punteggio e scalare la classifica.";
+const INCOMPLETE_MSG =
+  "Completa almeno {promptsRequired} prompt per sbloccare la fase successiva. Ti mancano ancora {promptsRemaining} prompt.";
+const MAX_TEAM_SIZE = 4;
 
 export default function TeamDashboardView({ user }: TeamDashboardViewProps) {
   const { team } = useTeam();
-  const [isJoinCodeCopied, setJoinCodeCopied] = useState(false);
+  const [teamMembers, setTeamMembers] = useState<Profile[]>([]);
 
-  const fallbackName = user?.name && user.name.trim().length > 0 ? user.name : "Il tuo team";
-  const resolvedTeamName = team?.name && team.name.trim().length > 0 ? team.name : fallbackName;
-  const teamJoinCode = team?.join_code ?? "S5F4D7";
-  const userEmail = user?.email ?? "user@example.com";
-  const membersList = Array.isArray(team?.members) && team.members.length > 0 ? team.members : [
-    "Member 1",
-    "Member 2",
-    "Member 3",
-    "Member 4",
-  ];
+  const supabase = useMemo(() => browserClient(), []);
+  const teamId = team?.id ?? null;
 
-  const lastAccessLabel = useMemo(
-    () =>
-      new Intl.DateTimeFormat("it-IT", {
-        day: "2-digit",
-        month: "short",
-        hour: "2-digit",
-        minute: "2-digit",
-      }).format(new Date()),
-    [],
-  );
-
-  useEffect(() => {
-    if (!isJoinCodeCopied) {
+  const fetchTeamMembers = useCallback(async () => {
+    if (!teamId) {
+      setTeamMembers([]);
       return;
     }
 
-    const timer = window.setTimeout(() => setJoinCodeCopied(false), 2000);
-    return () => window.clearTimeout(timer);
-  }, [isJoinCodeCopied]);
+    const { data, error } = await supabase.from("team_members").select("profiles(*)").eq("team_id", teamId);
+
+    if (error) {
+      console.error("Error fetching team members:", error);
+      return;
+    }
+
+    const members = (data ?? [])
+      .map((entry) => entry.profiles)
+      .filter((profile): profile is Profile => Boolean(profile?.full_name));
+
+    setTeamMembers(members.slice(0, MAX_TEAM_SIZE));
+  }, [supabase, teamId]);
+
+  useEffect(() => {
+    fetchTeamMembers();
+
+    if (!teamId) {
+      return;
+    }
+
+    const channel = supabase
+      .channel(`public:team_members:team_id=eq.${teamId}`)
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "team_members", filter: `team_id=eq.${teamId}` },
+        fetchTeamMembers,
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [fetchTeamMembers, supabase, teamId]);
+
+  const fallbackName = user.full_name;
+  const resolvedTeamName = team?.name && team.name.trim().length > 0 ? team.name : fallbackName;
+  const teamJoinCode = team?.join_code?.toUpperCase() ?? "";
+
+  const memberSlots = useMemo<MemberSlot[]>(() => {
+    const confirmedMembers = teamMembers.map((member, index) => {
+      const name = member.full_name.trim();
+
+      return {
+        key: `member-${index}-${name}`,
+        name,
+        initials: name.charAt(0).toUpperCase(),
+        isPlaceholder: false,
+        member,
+      } satisfies MemberSlot;
+    });
+
+    const vacancies = Math.max(0, MAX_TEAM_SIZE - confirmedMembers.length);
+    const placeholders: MemberSlot[] = Array.from({ length: vacancies }, (_, index) => ({
+      key: `placeholder-${index}`,
+      name: "Slot disponibile",
+      initials: "+",
+      isPlaceholder: true,
+    }));
+
+    return [...confirmedMembers, ...placeholders];
+  }, [teamMembers]);
+
+  // Progress calculations
+  const promptsTested = 35;
+  const promptsSubmitted = 50;
+  const promptsRequired = 50;
+  const isReadyToSubmit = promptsSubmitted >= promptsRequired;
+  const promptsRemaining = Math.max(0, promptsRequired - promptsTested);
+
+  const progressItems = useMemo<ProgressItem[]>(
+    () => [
+      {
+        id: "tested",
+        label: "Prompt testati",
+        value: promptsTested,
+      },
+      {
+        id: "submitted",
+        label: "Prompt inviati",
+        value: promptsSubmitted,
+        total: promptsRequired,
+        percentage: Math.min(100, (promptsSubmitted / promptsRequired) * 100),
+      },
+    ],
+    [],
+  );
+
+  const submissionStatus = useMemo<SubmissionStatus>(() => {
+    const baseClasses = "flex items-start gap-3 border";
+
+    if (isReadyToSubmit) {
+      return {
+        Icon: AlertCircle,
+        message: COMPLETE_MSG,
+        className: `${baseClasses} text-emerald-600 border-emerald-100 bg-emerald-50`,
+      } satisfies SubmissionStatus;
+    }
+
+    return {
+      Icon: AlertTriangle,
+      message: INCOMPLETE_MSG.replace("{promptsRequired}", promptsRequired.toString()).replace(
+        "{promptsRemaining}",
+        promptsRemaining.toString(),
+      ),
+      className: `${baseClasses} text-amber-600 border-amber-100 bg-amber-50`,
+    } satisfies SubmissionStatus;
+  }, [isReadyToSubmit, promptsRemaining]);
 
   return (
-    <div className="dashboard-team-wrapper space-y-6">
-      <section className="rounded-3xl border border-neutral-200 bg-white px-6 py-6 shadow-sm">
-        <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
-          <div className="flex items-center gap-4">
-            <div className="flex h-14 w-14 items-center justify-center rounded-full bg-neutral-100 text-xl font-semibold text-neutral-500">
-              {(user?.name ?? "User").charAt(0).toUpperCase()}
-            </div>
-            <div>
-              <p className="text-lg font-semibold text-neutral-900">{user?.name ?? "User"}</p>
-              <p className="text-sm text-neutral-500">{userEmail}</p>
-            </div>
-          </div>
-
-          <div className="flex flex-wrap gap-6 text-sm text-neutral-600">
-            <div>
-              <p className="text-xs uppercase tracking-wide text-neutral-400">Team</p>
-              <p className="font-medium text-neutral-900">{resolvedTeamName}</p>
-            </div>
-            <div>
-              <p className="text-xs uppercase tracking-wide text-neutral-400">Ruolo</p>
-              <p className="font-medium text-neutral-900">Team member</p>
-            </div>
-            <div>
-              <p className="text-xs uppercase tracking-wide text-neutral-400">Ultimo accesso</p>
-              <p className="font-medium text-neutral-900">{lastAccessLabel}</p>
-            </div>
-          </div>
-
-          <Button
-            variant="outline"
-            className="self-start"
-            onClick={() => {
-              fetch("/api/auth/signout", { method: "GET" }).catch((error) => {
-                console.error("Unable to sign out", error);
-              });
-            }}
-          >
-            Esci
-          </Button>
+    <main className="flex min-h-0 w-full flex-1 flex-col gap-3 lg:gap-4" aria-label="Team dashboard">
+      <div className="grid min-h-0 w-full flex-1 items-stretch gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] xl:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] 2xl:grid-cols-[minmax(0,1fr)_minmax(0,2.1fr)]">
+        <div className="grid h-full min-h-0 grid-rows-[auto,1fr] gap-3 lg:gap-4">
+          <TeamOverviewCard teamName={resolvedTeamName} memberSlots={memberSlots} teamJoinCode={teamJoinCode} />
+          <TeamProgressCard progressItems={progressItems} submissionStatus={submissionStatus} />
         </div>
-      </section>
-
-      <div className="grid gap-6 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
-        <Card className="h-full">
-          <CardHeader className="pb-0">
-            <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
-              <div className="space-y-3">
-                <CardTitle className="text-xl text-neutral-900">{resolvedTeamName}</CardTitle>
-                <CardDescription className="text-sm text-neutral-500">
-                  Coordina i membri e condividi il codice per aggiungere nuovi partecipanti.
-                </CardDescription>
-              </div>
-              <div className="flex flex-col gap-2">
-                <p className="text-xs uppercase tracking-wide text-neutral-400">Codice invito</p>
-                <div className="inline-flex items-stretch overflow-hidden rounded-lg border border-neutral-300 bg-neutral-50">
-                  <span className="px-5 py-2 text-sm font-mono tracking-widest text-neutral-800">{teamJoinCode}</span>
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    className="h-full rounded-none border-l border-neutral-200 px-4 py-2 text-xs font-medium text-neutral-600 hover:bg-neutral-100"
-                    onClick={() => {
-                      if (typeof navigator !== "undefined" && navigator.clipboard) {
-                        navigator.clipboard
-                          .writeText(teamJoinCode)
-                          .then(() => setJoinCodeCopied(true))
-                          .catch(() => setJoinCodeCopied(false));
-                        return;
-                      }
-
-                      setJoinCodeCopied(false);
-                    }}
-                  >
-                    <Copy className="h-4 w-4" aria-hidden="true" />
-                    <span className="ml-2">{isJoinCodeCopied ? "Copiato" : "Copia"}</span>
-                  </Button>
-                </div>
-                <span aria-live="polite" className="text-xs text-neutral-500">
-                  {isJoinCodeCopied ? "Codice copiato negli appunti." : ""}
-                </span>
-              </div>
-            </div>
-          </CardHeader>
-          <CardContent className="space-y-6 pt-6">
-            <div>
-              <p className="text-xs uppercase tracking-wide text-neutral-400">Membri</p>
-              <ul className="mt-2 space-y-2 text-sm text-neutral-700">
-                {membersList.map((member) => (
-                  <li key={member} className="flex items-center gap-2">
-                    <span className="h-1.5 w-1.5 rounded-full bg-neutral-300" aria-hidden="true" />
-                    <span>{member}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="h-full">
-          <CardHeader className="space-y-1 pb-0">
-            <CardTitle className="text-xl text-neutral-900">Progressi del team</CardTitle>
-            <CardDescription className="text-sm text-neutral-500">
-              Aggiorna gli stati per monitorare l&apos;avanzamento verso la challenge.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-5 pt-6">
-            <dl className="grid gap-4 text-sm text-neutral-700">
-              <div className="flex items-center justify-between rounded-xl border border-neutral-200 bg-neutral-50 px-4 py-3">
-                <dt className="text-neutral-500">Prompt testati</dt>
-                <dd className="text-lg font-semibold text-neutral-900">35</dd>
-              </div>
-              <div className="flex items-center justify-between rounded-xl border border-neutral-200 bg-neutral-50 px-4 py-3">
-                <dt className="text-neutral-500">Prompt inviati</dt>
-                <dd className="text-lg font-semibold text-neutral-900">50</dd>
-              </div>
-            </dl>
-            <p className="text-xs text-neutral-500">
-              Invia almeno 50 prompt per sbloccare la fase successiva.
-            </p>
-            <Button type="button" className="w-full md:w-auto">
-              Registra progresso
-            </Button>
-          </CardContent>
-        </Card>
+        <div className="flex h-full min-h-0 flex-col">
+          <SubmissionPanel teamId={teamId} isReadyToSubmit={isReadyToSubmit} />
+        </div>
       </div>
-
-      <Card>
-        <CardHeader className="space-y-2 pb-0">
-          <CardTitle className="text-xl text-neutral-900">Le mie submission</CardTitle>
-          <CardDescription className="text-sm text-neutral-500">
-            Qui troverai gli invii effettuati e il loro stato di revisione non appena saranno disponibili.
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="pt-6">
-          <div className="flex min-h-[240px] w-full flex-col items-center justify-center rounded-2xl border border-dashed border-neutral-300 bg-neutral-50 text-center">
-            <p className="text-sm font-medium text-neutral-600">Nessuna submission registrata</p>
-            <p className="mt-1 text-xs text-neutral-500">Invia il primo prompt per vedere qui lo storico.</p>
-          </div>
-        </CardContent>
-      </Card>
-    </div>
+    </main>
   );
 }

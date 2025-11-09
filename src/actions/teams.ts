@@ -6,7 +6,6 @@ import { db } from "./utils";
 // Database error messages
 const TEAM_NAME_EXISTS_ERROR = "Esiste già un team con questo nome.";
 const TEAM_NOT_FOUND_ERROR = "Codice team non valido.";
-const USER_NOT_AUTHENTICATED_ERROR = "Utente non autenticato.";
 const TEAM_CREATION_UNKNOWN_ERROR = "Si è verificato un errore durante la creazione del team.";
 const TEAM_JOIN_UNKNOWN_ERROR = "Si è verificato un errore durante l'accesso al team.";
 

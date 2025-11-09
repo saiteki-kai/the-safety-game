@@ -1,20 +1,25 @@
 ---
 export const prerender = false;
 
-import DashboardClient from "@components/dashboard/DashboardClient";
-import DashboardNav from "@components/dashboard/DashboardNav";
-import PageLayout from "@layouts/PageLayout.astro";
+import "@styles/dashboard.css";
 
-// Get user and team from locals set in middleware
-const user = Astro.locals.user || null;
-const team = Astro.locals.team || null;
+import DashboardClient from "@components/dashboard/DashboardClient";
+import PageLayout from "@layouts/PageLayout.astro";
+import { getTeamByUserId } from "@/api/teams";
+import { getUserInfo } from "@/api/users";
+import DashboardNav from "@/components/dashboard/common/DashboardNav";
+import { serverClient } from "@/lib/supabase";
+
+const supabase = serverClient(Astro);
+const user = await getUserInfo(supabase, Astro.locals.user_id);
+const team = await getTeamByUserId(supabase, user.id);
 ---
 
 <PageLayout title="Dashboard | The Safety Game">
   <div
-    class="flex min-h-screen flex-col bg-linear-to-br from-[#f3f6ff] via-white to-[#f9f3ff]"
+    class="flex flex-1 min-h-0 flex-col bg-linear-to-br from-[#f3f6ff] via-white to-[#f9f3ff]"
   >
-    <DashboardNav user={user} className="px-4 py-3 sm:px-7" client:load />
+    <DashboardNav client:load user={user} />
     <DashboardClient client:load user={user} team={team} />
   </div>
 </PageLayout>

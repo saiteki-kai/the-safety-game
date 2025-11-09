@@ -1,7 +1,6 @@
 import { defineMiddleware } from "astro:middleware";
 import type { APIContext, MiddlewareNext } from "astro";
 import micromatch from "micromatch";
-import { getUserInfo } from "@/api/users";
 import { serverClient } from "@/lib/supabase";
 
 const protectedRoutes = ["/dashboard", "/admin"];
@@ -29,7 +28,7 @@ export const onRequest = defineMiddleware(async (context: APIContext, next: Midd
 
     // Admin route protection
     if (context.url.pathname.startsWith("/admin")) {
-      const isAdmin = context.locals.user?.role === "admin";
+      const isAdmin = claimsData?.claims?.role === "admin";
 
       if (!isAdmin) {
         console.log("Middleware blocking non-admin access to admin route");
