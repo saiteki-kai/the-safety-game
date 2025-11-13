@@ -5,8 +5,8 @@ import { Skeleton } from "@components/ui/skeleton";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@components/ui/table";
 import { type ColumnDef, flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { Inbox, Upload } from "lucide-react";
-import { useEffect, useState } from "react";
-import { getTeamSubmissions } from "@/api/submissions";
+import { useEffect, useMemo, useState } from "react";
+import { getTeamSubmissions } from "@/db/submissions";
 import type { TeamSubmissions } from "@/lib/supabase.types";
 import { cn } from "@/lib/utils";
 
@@ -16,45 +16,31 @@ type SubmissionPanelProps = {
 };
 
 export default function SubmissionPanel({ teamId, isReadyToSubmit }: SubmissionPanelProps) {
-  const [submissions, setSubmissions] = useState<TeamSubmissions[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [submissions, setSubmissions] = useState<TeamSubmissions[] | null>(null);
+  const loaders = useMemo(() => createSubmissionLoaders(teamId), [teamId]);
 
+  // Load initial submissions and keep table in sync with realtime updates.
   useEffect(() => {
-    let isMounted = true;
+    let active = true;
+    let unsubscribe: (() => void) | undefined;
 
-    const fetchSubmissions = async () => {
-      if (!isMounted) {
-        return;
-      }
-
-      setLoading(true);
+    const initialize = async () => {
+      await loaders.fetch(() => active, setSubmissions);
 
       try {
-        const supabase = (await import("@/lib/supabase")).browserClient();
-        const data = await getTeamSubmissions(supabase, teamId);
-
-        if (isMounted) {
-          setSubmissions(data ?? []);
-        }
+        unsubscribe = await loaders.subscribe(() => active, setSubmissions);
       } catch (error) {
-        console.error("Failed to load submissions", error);
-
-        if (isMounted) {
-          setSubmissions([]);
-        }
-      } finally {
-        if (isMounted) {
-          setLoading(false);
-        }
+        console.error("Failed to subscribe to submissions", error);
       }
     };
 
-    fetchSubmissions();
+    void initialize();
 
     return () => {
-      isMounted = false;
+      active = false;
+      unsubscribe?.();
     };
-  }, [teamId]);
+  }, [loaders]);
 
   return (
     <Card className="flex h-[640px] min-h-0 w-full flex-col lg:h-full">
@@ -81,22 +67,12 @@ export default function SubmissionPanel({ teamId, isReadyToSubmit }: SubmissionP
       </CardHeader>
       <CardContent className="relative min-h-0 flex-1 overflow-hidden px-6 py-2">
         <div className="relative h-full min-h-0">
-          {loading ? (
+          {submissions === null ? (
             <SubmissionsTableSkeleton />
           ) : submissions.length ? (
             <SubmissionsDataTable data={submissions} />
           ) : (
-            <Empty className="flex h-full min-h-[200px] flex-col justify-center border border-neutral-200 bg-neutral-50/40">
-              <EmptyContent>
-                <EmptyMedia variant="icon">
-                  <Inbox className="h-6 w-6" />
-                </EmptyMedia>
-                <EmptyTitle>Nessuna submission registrata</EmptyTitle>
-                <EmptyDescription>
-                  Invia il primo prompt per vedere qui lo storico delle tue submission e monitorarne lo stato.
-                </EmptyDescription>
-              </EmptyContent>
-            </Empty>
+            <SubmissionsEmptyState />
           )}
         </div>
       </CardContent>
@@ -149,12 +125,6 @@ function SubmissionsDataTable({ data }: { data: TeamSubmissions[] }) {
     getCoreRowModel: getCoreRowModel(),
   });
 
-  const columnWidthMap: Record<string, string> = {
-    prompt: "min-w-0",
-    date: "w-[164px]",
-    score: "w-[104px]",
-  };
-
   return (
     <div className="flex h-full min-h-0 flex-col">
       <div className="absolute inset-0 min-h-0 flex-1 overflow-hidden rounded-md border border-neutral-200 bg-white">
@@ -167,7 +137,7 @@ function SubmissionsDataTable({ data }: { data: TeamSubmissions[] }) {
                     <TableHead
                       key={header.id}
                       className={cn(
-                        "border-neutral-200 border-b py-2 font-semibold text-[0.7rem] text-neutral-500 uppercase tracking-[0.08em]",
+                        tableHeaderBaseClasses,
                         columnWidthMap[header.column.id],
                         header.column.id === "prompt" && "text-left",
                         header.column.id === "date" && "text-center",
@@ -183,44 +153,33 @@ function SubmissionsDataTable({ data }: { data: TeamSubmissions[] }) {
             </TableHeader>
 
             <TableBody>
-              {table.getRowModel().rows.length ? (
-                table.getRowModel().rows.map((row) => (
-                  <TableRow
-                    key={row.id}
-                    data-state={row.getIsSelected() ? "selected" : undefined}
-                    className="border-neutral-200/80 hover:bg-neutral-50"
-                  >
-                    {row.getVisibleCells().map((cell) => (
-                      <TableCell
-                        key={cell.id}
-                        className={cn("py-2 align-middle text-neutral-700 text-sm", columnWidthMap[cell.column.id])}
-                      >
-                        {cell.column.id === "prompt" ? (
-                          <span className="block min-w-0 truncate">
-                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                          </span>
-                        ) : (
-                          <span
-                            className={cn(
-                              "block",
-                              cell.column.id === "date" && "text-center",
-                              cell.column.id === "score" && "text-center font-medium text-neutral-900",
-                            )}
-                          >
-                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                          </span>
-                        )}
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                ))
-              ) : (
-                <TableRow>
-                  <TableCell colSpan={submissionColumns.length} className="py-6 text-center text-neutral-500 text-sm">
-                    Nessuna submission registrata
-                  </TableCell>
+              {table.getRowModel().rows.map((row) => (
+                <TableRow
+                  key={row.id}
+                  data-state={row.getIsSelected() ? "selected" : undefined}
+                  className={tableRowClasses}
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell key={cell.id} className={cn(tableCellBaseClasses, columnWidthMap[cell.column.id])}>
+                      {cell.column.id === "prompt" ? (
+                        <span className="block min-w-0 truncate">
+                          {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                        </span>
+                      ) : (
+                        <span
+                          className={cn(
+                            "block",
+                            cell.column.id === "date" && "text-center",
+                            cell.column.id === "score" && "text-center font-medium text-neutral-900",
+                          )}
+                        >
+                          {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                        </span>
+                      )}
+                    </TableCell>
+                  ))}
                 </TableRow>
-              )}
+              ))}
             </TableBody>
           </Table>
         </div>
@@ -237,28 +196,28 @@ function SubmissionsTableSkeleton() {
           <TableHeader className="sticky top-0 z-20 bg-secondary/90">
             <TableRow>
               <TableHead className="py-2 text-left font-semibold text-neutral-200 text-xs uppercase tracking-[0.08em]">
-                <Skeleton className="h-4 w-40 bg-neutral-700" />
+                <Skeleton className={cn("h-4 bg-neutral-700", skeletonWidths.prompt)} />
               </TableHead>
               <TableHead className="w-[164px] py-2 text-center font-semibold text-neutral-200 text-xs uppercase tracking-[0.08em]">
-                <Skeleton className="mx-auto h-4 w-28 bg-neutral-700" />
+                <Skeleton className={cn("mx-auto h-4 bg-neutral-700", skeletonWidths.date)} />
               </TableHead>
               <TableHead className="w-[104px] py-2 text-center font-semibold text-neutral-200 text-xs uppercase tracking-[0.08em]">
-                <Skeleton className="mx-auto h-4 w-24 bg-neutral-700" />
+                <Skeleton className={cn("mx-auto h-4 bg-neutral-700", skeletonWidths.score)} />
               </TableHead>
             </TableRow>
           </TableHeader>
 
           <TableBody>
-            {Array.from({ length: 8 }).map((n) => (
-              <TableRow key={`${n}`} className="border-neutral-200/80">
+            {skeletonRowKeys.map((key) => (
+              <TableRow key={key} className="border-neutral-200/80">
                 <TableCell className="py-2 align-middle text-neutral-700 text-sm">
                   <Skeleton className="h-4 w-full" />
                 </TableCell>
                 <TableCell className="w-[164px] py-2 text-center align-middle text-neutral-700 text-sm">
-                  <Skeleton className="mx-auto h-4 w-28" />
+                  <Skeleton className={cn("mx-auto h-4", skeletonWidths.date)} />
                 </TableCell>
                 <TableCell className="w-[104px] py-2 text-center align-middle font-medium text-neutral-900 text-sm">
-                  <Skeleton className="mx-auto h-4 w-20" />
+                  <Skeleton className={cn("mx-auto h-4", skeletonWidths.score)} />
                 </TableCell>
               </TableRow>
             ))}
@@ -269,46 +228,118 @@ function SubmissionsTableSkeleton() {
   );
 }
 
-function formatSubmissionDate(value: unknown): string | null {
+function SubmissionsEmptyState() {
+  return (
+    <Empty className="flex h-full min-h-[200px] flex-col justify-center border border-neutral-200 bg-neutral-50/40">
+      <EmptyContent>
+        <EmptyMedia variant="icon">
+          <Inbox className="h-6 w-6" />
+        </EmptyMedia>
+        <EmptyTitle>Nessuna submission registrata</EmptyTitle>
+        <EmptyDescription>
+          Invia il primo prompt per vedere qui lo storico delle tue submission e monitorarne lo stato.
+        </EmptyDescription>
+      </EmptyContent>
+    </Empty>
+  );
+}
+
+async function getSupabaseClient() {
+  return (await import("@/lib/supabase")).browserClient();
+}
+
+function createSubmissionLoaders(teamId: string) {
+  const fetch = async (isActive: () => boolean, set: (value: TeamSubmissions[] | null) => void) => {
+    try {
+      const supabase = await getSupabaseClient();
+      const data = await getTeamSubmissions(supabase, teamId);
+      if (!isActive()) {
+        return;
+      }
+      set(data ?? []);
+    } catch (error) {
+      console.error("Failed to load submissions", error);
+      if (isActive()) {
+        set([]);
+      }
+    }
+  };
+
+  const subscribe = async (
+    isActive: () => boolean,
+    set: (value: TeamSubmissions[] | null) => void,
+  ): Promise<() => void> => {
+    try {
+      const supabase = await getSupabaseClient();
+      const channel = supabase
+        .channel(`team-submissions-${teamId}`)
+        .on(
+          "postgres_changes",
+          { event: "*", schema: "public", table: "submissions", filter: `team_id=eq.${teamId}` },
+          async () => {
+            await fetch(isActive, set);
+          },
+        )
+        .subscribe();
+
+      return () => {
+        void supabase.removeChannel(channel);
+      };
+    } catch (error) {
+      console.error("Failed to subscribe to submissions", error);
+      return () => {};
+    }
+  };
+
+  return { fetch, subscribe };
+}
+
+function parseDate(value: unknown): Date | null {
   if (!value) {
     return null;
   }
 
   const parsed = typeof value === "number" ? new Date(value) : new Date(String(value));
-  if (Number.isNaN(parsed.getTime())) {
-    return null;
-  }
+  return Number.isNaN(parsed.getTime()) ? null : parsed;
+}
 
-  return submissionDateFormatter.format(parsed);
+function formatSubmissionDate(value: unknown): string | null {
+  const parsed = parseDate(value);
+  return parsed ? submissionDateFormatter.format(parsed) : null;
 }
 
 function getISOString(value: unknown): string | undefined {
-  if (!value) {
-    return undefined;
-  }
-
-  const parsed = typeof value === "number" ? new Date(value) : new Date(String(value));
-  if (Number.isNaN(parsed.getTime())) {
-    return undefined;
-  }
-
-  return parsed.toISOString();
+  const parsed = parseDate(value);
+  return parsed ? parsed.toISOString() : undefined;
 }
 
 function formatSubmissionScore(value: unknown): string {
-  if (typeof value === "number" && Number.isFinite(value)) {
-    return value.toFixed(1);
-  }
-
-  const numericScore = typeof value === "string" ? Number.parseFloat(value) : null;
-  if (numericScore !== null && Number.isFinite(numericScore)) {
-    return numericScore.toFixed(1);
-  }
-
-  return "—";
+  const num = typeof value === "number" ? value : Number.parseFloat(String(value));
+  return Number.isFinite(num) ? num.toFixed(1) : "—";
 }
 
 const submissionDateFormatter = new Intl.DateTimeFormat("it-IT", {
   dateStyle: "short",
   timeStyle: "short",
 });
+
+const skeletonRowKeys = Array.from({ length: 8 }, (_, index) => `skeleton-row-${index}`);
+
+// Table configuration constants
+const columnWidthMap: Record<string, string> = {
+  prompt: "min-w-0",
+  date: "w-[164px]",
+  score: "w-[104px]",
+};
+
+const tableHeaderBaseClasses =
+  "border-neutral-200 border-b py-2 font-semibold text-[0.7rem] text-neutral-500 uppercase tracking-[0.08em]";
+const tableCellBaseClasses = "py-2 align-middle text-neutral-700 text-sm";
+const tableRowClasses = "border-neutral-200/80 hover:bg-neutral-50";
+
+// Skeleton configuration
+const skeletonWidths = {
+  prompt: "w-40",
+  date: "w-28",
+  score: "w-20",
+};

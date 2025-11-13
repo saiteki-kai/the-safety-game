@@ -5,7 +5,7 @@ import "@styles/dashboard.css";
 
 import PageLayout from "@layouts/PageLayout.astro";
 import DashboardNav from "@/components/common/DashboardNav";
-import TeamDashboardView from "@/components/dashboard/TeamDashboardView";
+import TeamSetupPanel from "@/components/setup/TeamSetupPanel";
 import { getTeamByUserId } from "@/db/teams";
 import { getUserInfo } from "@/db/users";
 import { serverClient } from "@/lib/supabase";
@@ -14,19 +14,19 @@ const supabase = serverClient(Astro);
 const user = await getUserInfo(supabase, Astro.locals.user_id);
 const team = await getTeamByUserId(supabase, user.id);
 
-if (!team) {
-  return Astro.redirect("/setup");
+if (team) {
+  return Astro.redirect("/dashboard");
 }
 ---
 
-<PageLayout title="Dashboard | The Safety Game">
+<PageLayout title="Team Setup | The Safety Game">
   <div
     class="flex flex-1 min-h-0 flex-col bg-linear-to-br from-[#f3f6ff] via-white to-[#f9f3ff]"
   >
     <DashboardNav client:load user={user} />
     <main class="flex min-h-0 flex-1 flex-col overflow-hidden px-4 py-3 sm:px-7 sm:py-6">
       <div class="flex min-h-0 flex-1 flex-col overflow-auto">
-        <TeamDashboardView client:load team={team} />
+        <TeamSetupPanel client:load />
       </div>
     </main>
   </div>

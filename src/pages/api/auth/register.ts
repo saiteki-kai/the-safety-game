@@ -1,10 +1,9 @@
 export const prerender = false;
 
-import type { APIRoute } from "astro";
-import { browserClient } from "@/lib/supabase";
+import type { APIContext, APIRoute } from "astro";
 
-export const POST: APIRoute = async ({ request, redirect }) => {
-  const formData = await request.formData();
+export const POST: APIRoute = async (context: APIContext) => {
+  const formData = await context.request.formData();
   const email = formData.get("email")?.toString();
   const password = formData.get("password")?.toString();
 
@@ -12,7 +11,7 @@ export const POST: APIRoute = async ({ request, redirect }) => {
     return new Response("Email and password are required", { status: 400 });
   }
 
-  const { error } = await browserClient().auth.signUp({
+  const { error } = await context.locals.db.auth.signUp({
     email,
     password,
   });
@@ -21,5 +20,5 @@ export const POST: APIRoute = async ({ request, redirect }) => {
     return new Response(error.message, { status: 500 });
   }
 
-  return redirect("/login");
+  return context.redirect("/login");
 };

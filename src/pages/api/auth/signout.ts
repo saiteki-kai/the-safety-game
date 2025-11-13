@@ -1,18 +1,9 @@
 export const prerender = false;
 
-import type { APIRoute } from "astro";
-import { serverClient } from "@/lib/supabase";
+import type { APIContext, APIRoute } from "astro";
 
-export const GET: APIRoute = async ({ request, cookies, redirect }) => {
-  const supabase = serverClient({
-    request: request,
-    cookies: cookies,
-  });
+export const GET: APIRoute = async (context: APIContext) => {
+  await context.locals.db.auth.signOut();
 
-  await supabase.auth.signOut();
-
-  cookies.delete("sb-access-token", { path: "/" });
-  cookies.delete("sb-refresh-token", { path: "/" });
-
-  return redirect("/login");
+  return context.redirect("/login");
 };

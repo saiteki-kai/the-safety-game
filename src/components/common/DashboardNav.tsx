@@ -11,19 +11,21 @@ type DashboardNavProps = {
   className?: string;
 };
 
-const handleSignOut = () => {
-  fetch("/api/auth/signout", { method: "GET" })
-    .catch((error) => {
-      toast.error("Si è verificato un errore. Riprova.", {
-        duration: 2000,
-        position: "bottom-center",
-        id: "logout-error",
-      });
-      console.error(error);
-    })
-    .then(() => {
-      navigate("/login");
+const handleSignOut = async () => {
+  const result = await fetch("/api/auth/signout");
+
+  if (!result.ok) {
+    toast.error("Si è verificato un errore. Riprova.", {
+      duration: 2000,
+      position: "bottom-center",
+      id: "logout-error",
     });
+
+    console.error("Error signing out:", result.statusText);
+    return;
+  }
+
+  navigate("/login");
 };
 
 export default function DashboardNav({ user }: DashboardNavProps) {

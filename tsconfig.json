@@ -22,7 +22,6 @@
         "name": "@astrojs/ts-plugin"
       }
     ],
-    "verbatimModuleSyntax": true,
-    "types": ["vitest/globals"]
+    "verbatimModuleSyntax": true
   }
 }

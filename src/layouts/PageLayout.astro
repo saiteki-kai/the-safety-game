@@ -1,6 +1,7 @@
 ---
 import "@styles/globals.css";
 
+import { ClientRouter } from "astro:transitions";
 import { Toaster } from "@components/ui/sonner";
 import WebsiteAnalytics from "@vercel/analytics/astro";
 import SpeedInsights from "@vercel/speed-insights/astro";
@@ -21,6 +22,7 @@ const { title, description = "The Safety Game - Hackathon organized by MIND, Uni
     <meta name="description" content={description} />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
+    <ClientRouter />
   </head>
   <body class="min-h-screen h-full flex flex-col bg-white">
     <slot name="navigation" />

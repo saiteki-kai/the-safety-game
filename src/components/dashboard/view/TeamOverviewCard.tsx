@@ -3,15 +3,16 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@comp
 import { Check, Copy } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
-import type { MemberSlot } from "../types";
+import { MAX_TEAM_SIZE } from "@/lib/consts";
+import type { Profile } from "@/lib/supabase.types";
 
 type TeamOverviewCardProps = {
   teamName: string;
   teamJoinCode: string;
-  memberSlots: MemberSlot[];
+  members: Profile[] | null;
 };
 
-export default function TeamOverviewCard({ teamName, teamJoinCode, memberSlots }: TeamOverviewCardProps) {
+export default function TeamOverviewCard({ teamName, teamJoinCode, members }: TeamOverviewCardProps) {
   return (
     <Card className="flex h-full min-h-0 w-full flex-col">
       <CardHeader className="pb-0">
@@ -29,14 +30,25 @@ export default function TeamOverviewCard({ teamName, teamJoinCode, memberSlots }
         <div>
           <p className="mb-2 font-semibold text-neutral-500 text-xs uppercase tracking-wide">Membri del team</p>
           <ul className="grid grid-cols-1 gap-2 text-neutral-700 sm:grid-cols-2">
-            {memberSlots.map((slot) => (
-              <MemberItem key={slot.key} slot={slot} />
+            {createMemberSlots(members).map((slot, idx) => (
+              <MemberItem
+                key={`member-${idx}-${slot ? slot.full_name.trim() : "placeholder"}`}
+                slot={slot}
+                slotIndex={idx}
+              />
             ))}
           </ul>
         </div>
       </CardContent>
     </Card>
   );
+}
+
+function createMemberSlots(members: Profile[] | null): Array<Profile | null> {
+  const confirmed = members ?? [];
+  const vacancies = Math.max(0, MAX_TEAM_SIZE - confirmed.length);
+
+  return [...confirmed, ...Array.from({ length: vacancies }, () => null)];
 }
 
 type JoinCodeButtonProps = {
@@ -76,20 +88,26 @@ function JoinCodeButton({ teamJoinCode }: JoinCodeButtonProps) {
 }
 
 type MemberItemProps = {
-  slot: MemberSlot;
+  slot: Profile | null;
+  slotIndex: number;
 };
 
-function MemberItem({ slot }: MemberItemProps) {
-  const { name, initials, isPlaceholder, member } = slot;
+function MemberItem({ slot, slotIndex }: MemberItemProps) {
+  const isPlaceholder = slot === null;
+  const displayName = isPlaceholder ? "Slot disponibile" : slot.full_name.trim();
+  const initials = isPlaceholder ? "+" : displayName.charAt(0).toUpperCase();
 
   return (
     <li
-      className={`flex min-w-0 items-center gap-3 rounded-md px-2 py-2 sm:px-3 ${isPlaceholder ? "border border-neutral-200 border-dashed bg-neutral-50 text-neutral-500" : "bg-transparent"}`}
+      className={`flex min-w-0 items-center gap-3 rounded-md px-2 py-2 sm:px-3 ${
+        isPlaceholder ? "border border-neutral-200 border-dashed bg-neutral-50 text-neutral-500" : "bg-transparent"
+      }`}
+      key={`member-${slotIndex}-${isPlaceholder ? "placeholder" : displayName}`}
     >
       <Avatar
         className={`h-10 w-10 shrink-0 border ${isPlaceholder ? "border-neutral-300 border-dashed bg-neutral-50" : "border-neutral-200 bg-white"}`}
       >
-        <AvatarImage src={member?.avatar_url} alt={member?.full_name ?? undefined} />
+        {!isPlaceholder && <AvatarImage src={slot?.avatar_url} alt={slot?.full_name ?? undefined} />}
         <AvatarFallback
           className={`font-semibold text-sm ${isPlaceholder ? "bg-neutral-50 text-neutral-400" : "bg-neutral-100 text-neutral-600"}`}
         >
@@ -100,7 +118,7 @@ function MemberItem({ slot }: MemberItemProps) {
         <span
           className={`wrap-break-word font-medium text-sm leading-snug ${isPlaceholder ? "text-neutral-500" : "text-neutral-900"}`}
         >
-          {name}
+          {displayName}
         </span>
       </div>
     </li>

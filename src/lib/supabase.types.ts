@@ -12,4 +12,17 @@ type TeamSubmissions = {
   score: number;
 };
 
-export type { Database, Profile, Submission, Team, TeamMembers, Leaderboard, Enums, Json, TeamSubmissions };
+type TeamWithMemberNumbers = Team & { members: number };
+
+export type {
+  Database,
+  Profile,
+  Submission,
+  Team,
+  TeamMembers,
+  Leaderboard,
+  Enums,
+  Json,
+  TeamSubmissions,
+  TeamWithMemberNumbers,
+};

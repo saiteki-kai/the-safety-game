@@ -1,40 +1,19 @@
 export const prerender = false;
 
-import type { APIRoute } from "astro";
-import { serverClient } from "@/lib/supabase";
+import type { APIContext, APIRoute } from "astro";
 
-export const GET: APIRoute = async ({ url, request, cookies, redirect }) => {
-  const authCode = url.searchParams.get("code");
+export const GET: APIRoute = async (context: APIContext): Promise<Response> => {
+  const authCode = context.url.searchParams.get("code");
 
   if (!authCode) {
-    return new Response("No code provided", { status: 400 });
+    return context.redirect("/");
   }
 
-  const supabase = serverClient({
-    request: request,
-    cookies: cookies,
-  });
+  const { data, error } = await context.locals.db.auth.exchangeCodeForSession(authCode);
 
-  const { data, error } = await supabase.auth.exchangeCodeForSession(authCode);
-
-  if (error) {
-    return new Response(error.message, { status: 500 });
+  if (error || !data.session) {
+    return context.redirect("/login");
   }
 
-  const { access_token, refresh_token } = data.session;
-
-  console.log("OAuth exchange successful:", data);
-
-  cookies.set("sb-access-token", access_token, {
-    path: "/",
-    secure: true,
-    httpOnly: true,
-  });
-  cookies.set("sb-refresh-token", refresh_token, {
-    path: "/",
-    secure: true,
-    httpOnly: true,
-  });
-
-  return redirect("/dashboard");
+  return context.redirect("/dashboard");
 };

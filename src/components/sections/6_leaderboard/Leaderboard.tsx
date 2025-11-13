@@ -2,7 +2,7 @@ import Icon from "@components/common/Icon";
 import IconLabel from "@components/common/IconLabel";
 import { PostgrestError } from "@supabase/supabase-js";
 import { useEffect, useEffectEvent, useState } from "react";
-import { getLeaderboard } from "@/api/submissions";
+import { getLeaderboard } from "@/db/submissions";
 import { formatDateTime } from "@/lib/formatters";
 import type { IconName } from "@/lib/icons";
 import { browserClient } from "@/lib/supabase";

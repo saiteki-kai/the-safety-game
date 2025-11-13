@@ -1,99 +1,67 @@
-import "@styles/dashboard.css";
+export const prerender = false;
 
+import { actions } from "astro:actions";
 import { AlertCircle, AlertTriangle } from "lucide-react";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useEffect, useEffectEvent, useMemo, useState } from "react";
+import { toast } from "sonner";
 import { browserClient } from "@/lib/supabase.ts";
-import type { Profile } from "@/lib/supabase.types";
-import { useTeam } from "./TeamProvider";
-import type { MemberSlot } from "./types";
+import type { Profile, Team } from "@/lib/supabase.types";
+// MemberSlot is no longer required; TeamOverviewCard accepts `members` directly.
 import SubmissionPanel from "./view/SubmissionPanel.tsx";
 import TeamOverviewCard from "./view/TeamOverviewCard.tsx";
-import TeamProgressCard, { type ProgressItem, type SubmissionStatus } from "./view/TeamProgressCard.tsx";
+import type { ProgressItem, SubmissionStatus } from "./view/TeamProgressCard.tsx";
+import TeamProgressCard from "./view/TeamProgressCard.tsx";
 
 type TeamDashboardViewProps = {
-  user: Profile;
+  team: Team;
 };
 const COMPLETE_MSG =
   "Hai completato il numero minimo di prompt richiesti! Scrivine altri per migliorare il tuo punteggio e scalare la classifica.";
 const INCOMPLETE_MSG =
   "Completa almeno {promptsRequired} prompt per sbloccare la fase successiva. Ti mancano ancora {promptsRemaining} prompt.";
-const MAX_TEAM_SIZE = 4;
+// MAX_TEAM_SIZE moved into TeamOverviewCard
 
-export default function TeamDashboardView({ user }: TeamDashboardViewProps) {
-  const { team } = useTeam();
-  const [teamMembers, setTeamMembers] = useState<Profile[]>([]);
+export default function TeamDashboardView({ team }: TeamDashboardViewProps) {
+  const [members, setMembers] = useState<Profile[] | null>(null);
 
-  const supabase = useMemo(() => browserClient(), []);
-  const teamId = team?.id ?? null;
+  const getMembers = useEffectEvent(async () => {
+    const result = await actions.teams.getMembers({ teamId: team.id });
 
-  const fetchTeamMembers = useCallback(async () => {
-    if (!teamId) {
-      setTeamMembers([]);
+    if (!result) {
+      toast.error("Failed to fetch team members.");
       return;
     }
 
-    const { data, error } = await supabase.from("team_members").select("profiles(*)").eq("team_id", teamId);
-
-    if (error) {
-      console.error("Error fetching team members:", error);
-      return;
-    }
-
-    const members = (data ?? [])
-      .map((entry) => entry.profiles)
-      .filter((profile): profile is Profile => Boolean(profile?.full_name));
-
-    setTeamMembers(members.slice(0, MAX_TEAM_SIZE));
-  }, [supabase, teamId]);
+    setMembers(result?.data);
+  });
 
   useEffect(() => {
-    fetchTeamMembers();
+    getMembers();
 
-    if (!teamId) {
-      return;
-    }
-
+    const supabase = browserClient();
     const channel = supabase
-      .channel(`public:team_members:team_id=eq.${teamId}`)
+      .channel(`public:team_members:team_id=eq.${team.id}`)
       .on(
         "postgres_changes",
-        { event: "*", schema: "public", table: "team_members", filter: `team_id=eq.${teamId}` },
-        fetchTeamMembers,
+        {
+          event: "*",
+          schema: "public",
+          table: "team_members",
+          filter: `team_id=eq.${team.id}`,
+        },
+        () => getMembers(),
       )
       .subscribe();
 
     return () => {
       supabase.removeChannel(channel);
     };
-  }, [fetchTeamMembers, supabase, teamId]);
+  }, [team.id]);
 
-  const fallbackName = user.full_name;
-  const resolvedTeamName = team?.name && team.name.trim().length > 0 ? team.name : fallbackName;
-  const teamJoinCode = team?.join_code?.toUpperCase() ?? "";
+  const teamName = team?.name;
+  const teamJoinCode = team?.join_code.toUpperCase();
 
-  const memberSlots = useMemo<MemberSlot[]>(() => {
-    const confirmedMembers = teamMembers.map((member, index) => {
-      const name = member.full_name.trim();
-
-      return {
-        key: `member-${index}-${name}`,
-        name,
-        initials: name.charAt(0).toUpperCase(),
-        isPlaceholder: false,
-        member,
-      } satisfies MemberSlot;
-    });
-
-    const vacancies = Math.max(0, MAX_TEAM_SIZE - confirmedMembers.length);
-    const placeholders: MemberSlot[] = Array.from({ length: vacancies }, (_, index) => ({
-      key: `placeholder-${index}`,
-      name: "Slot disponibile",
-      initials: "+",
-      isPlaceholder: true,
-    }));
-
-    return [...confirmedMembers, ...placeholders];
-  }, [teamMembers]);
+  // `TeamOverviewCard` now accepts `members` directly and computes placeholders internally.
 
   // Progress calculations
   const promptsTested = 35;
@@ -145,11 +113,11 @@ export default function TeamDashboardView({ user }: TeamDashboardViewProps) {
     <main className="flex min-h-0 w-full flex-1 flex-col gap-3 lg:gap-4" aria-label="Team dashboard">
       <div className="grid min-h-0 w-full flex-1 items-stretch gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] xl:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] 2xl:grid-cols-[minmax(0,1fr)_minmax(0,2.1fr)]">
         <div className="grid h-full min-h-0 grid-rows-[auto,1fr] gap-3 lg:gap-4">
-          <TeamOverviewCard teamName={resolvedTeamName} memberSlots={memberSlots} teamJoinCode={teamJoinCode} />
+          <TeamOverviewCard teamName={teamName} members={members} teamJoinCode={teamJoinCode} />
           <TeamProgressCard progressItems={progressItems} submissionStatus={submissionStatus} />
         </div>
         <div className="flex h-full min-h-0 flex-col">
-          <SubmissionPanel teamId={teamId} isReadyToSubmit={isReadyToSubmit} />
+          <SubmissionPanel teamId={team.id} isReadyToSubmit={isReadyToSubmit} />
         </div>
       </div>
     </main>

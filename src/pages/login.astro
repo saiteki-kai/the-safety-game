@@ -3,14 +3,10 @@ export const prerender = false;
 
 import "@styles/dashboard.css";
 
-import { serverClient } from "@/lib/supabase";
+import { browserClient } from "@/lib/supabase";
 import PageLayout from "../layouts/PageLayout.astro";
 
-const supabase = serverClient({
-  request: Astro.request,
-  cookies: Astro.cookies,
-});
-
+const supabase = browserClient();
 const { data } = await supabase.auth.getClaims();
 
 if (data?.claims) {

@@ -1,28 +1,26 @@
 import { actions, isActionError, isInputError } from "astro:actions";
+import { navigate } from "astro:transitions/client";
 import { withState } from "@astrojs/react/actions";
 import { Button } from "@components/ui/button";
 import { Input } from "@components/ui/input";
 import { Label } from "@components/ui/label";
 import { OctagonAlert, Rocket, Users } from "lucide-react";
-import { useActionState, useEffect, useEffectEvent } from "react";
+import { useActionState, useEffect } from "react";
 import { toast } from "sonner";
-import type { Team } from "@/lib/supabase.types";
-import { useTeam } from "../TeamProvider";
 
 const TEAM_NAME_HINT = "Scegli un nome riconoscibile così i compagni ti trovano più facilmente.";
 
 export default function CreateTeamForm() {
-  const { setTeam } = useTeam();
   const [state, action, isPending] = useActionState(withState(actions.teams.createTeam), undefined);
 
   const inputErrors = isInputError(state?.error) ? state.error.fields : {};
 
-  const inputStateClass = state?.error ? "dashboard-input-error" : "dashboard-input-default";
-  const helperTextClass = `dashboard-helper-text${state?.error ? " dashboard-helper-text-error" : ""}`;
+  const actionMessage = (state as unknown as { data?: { message?: string } })?.data?.message;
+  const inputFieldCount = inputErrors ? Object.keys(inputErrors).length : 0;
+  const hasErrors = Boolean(isActionError(state?.error) || inputFieldCount > 0 || actionMessage);
 
-  const updateTeam = useEffectEvent((team: Team) => {
-    setTeam(team);
-  });
+  const inputStateClass = hasErrors ? "dashboard-input-error" : "dashboard-input-default";
+  const helperTextClass = `dashboard-helper-text${hasErrors ? " dashboard-helper-text-error" : ""}`;
 
   useEffect(() => {
     if (isActionError(state?.error)) {
@@ -34,9 +32,8 @@ export default function CreateTeamForm() {
       });
     }
 
-    // On successful team creation, update the team in context
     if (state?.data?.team) {
-      updateTeam(state.data.team);
+      navigate("/dashboard");
     }
   }, [state]);
 
@@ -44,7 +41,7 @@ export default function CreateTeamForm() {
     <form className="dashboard-form" action={action}>
       <div className="dashboard-field">
         <Label htmlFor="team-name" className="dashboard-field-label">
-          Nome del team *
+          Nome Team
         </Label>
         <div className="dashboard-input-wrapper">
           <Users className="dashboard-input-icon" aria-hidden="true" />
@@ -58,7 +55,7 @@ export default function CreateTeamForm() {
           />
         </div>
         <p aria-live="polite" className={helperTextClass}>
-          {inputErrors?.teamName ?? TEAM_NAME_HINT}
+          {inputErrors?.teamName ?? actionMessage ?? TEAM_NAME_HINT}
         </p>
       </div>
 

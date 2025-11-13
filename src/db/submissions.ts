@@ -37,7 +37,7 @@ export const getTeamSubmissions = async (
     throw error;
   }
 
-  return data;
+  return data.sort((a, b) => b.score - a.score);
 };
 
 /** Inserts multiple prompts for a team.
