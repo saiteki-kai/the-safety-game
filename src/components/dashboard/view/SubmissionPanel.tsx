@@ -6,9 +6,9 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { type ColumnDef, flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { Inbox, Upload } from "lucide-react";
 import { useTeamSubmissions } from "@/hooks/useTeamSubmissions";
+import { browserClient } from "@/lib/supabase";
 import type { TeamSubmissions } from "@/lib/supabase.types";
 import { cn } from "@/lib/utils";
-import { browserClient } from "@/lib/supabase";
 
 type SubmissionPanelProps = {
   teamId: string;

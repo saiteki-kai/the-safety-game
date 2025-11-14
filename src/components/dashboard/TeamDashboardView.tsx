@@ -1,16 +1,13 @@
 export const prerender = false;
 
-import { actions } from "astro:actions";
 import { AlertCircle, AlertTriangle } from "lucide-react";
-import { useEffect, useEffectEvent, useState } from "react";
-import { toast } from "sonner";
+import { useTeamMembers } from "@/hooks/useTeamMembers.tsx";
 import { browserClient } from "@/lib/supabase";
-import type { Profile, Team } from "@/lib/supabase.types";
+import type { Team } from "@/lib/supabase.types";
 import SubmissionPanel from "./view/SubmissionPanel.tsx";
 import TeamOverviewCard from "./view/TeamOverviewCard.tsx";
 import type { ProgressItem, SubmissionStatus } from "./view/TeamProgressCard.tsx";
 import TeamProgressCard from "./view/TeamProgressCard.tsx";
-import { useTeamMembers } from "@/hooks/useTeamMembers.tsx";
 
 type TeamDashboardViewProps = {
   team: Team;
