@@ -7,7 +7,10 @@ const protectedRoutes = ["/dashboard", "/admin"];
 const protectedAPIRoutes = ["/api/submissions", "_actions/**"];
 
 export const onRequest = defineMiddleware(async (context: APIContext, next: MiddlewareNext) => {
+  console.log(`Middleware processing request for: ${context.url.pathname}`);
+  console.log(context);
   if (context.isPrerendered) {
+    console.log("Request is prerendered");
     return next();
   }
 

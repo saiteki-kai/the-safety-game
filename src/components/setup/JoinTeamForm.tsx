@@ -35,7 +35,7 @@ export default function JoinTeamForm() {
   }, [state]);
 
   return (
-    <form className="dashboard-form" action={action}>
+    <form className="dashboard-form" data-astro-reload action={action}>
       <div className="dashboard-field">
         <Label htmlFor="team-code" className="dashboard-field-label">
           Codice Team
