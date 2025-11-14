@@ -13,6 +13,8 @@ type TeamOverviewCardProps = {
 };
 
 export default function TeamOverviewCard({ teamName, teamJoinCode, members }: TeamOverviewCardProps) {
+  const memberSlots = createMemberSlots(members);
+
   return (
     <Card className="flex h-full min-h-0 w-full flex-col">
       <CardHeader className="pb-0">
@@ -30,12 +32,8 @@ export default function TeamOverviewCard({ teamName, teamJoinCode, members }: Te
         <div>
           <p className="mb-2 font-semibold text-neutral-500 text-xs uppercase tracking-wide">Membri del team</p>
           <ul className="grid grid-cols-1 gap-2 text-neutral-700 sm:grid-cols-2">
-            {createMemberSlots(members).map((slot, idx) => (
-              <MemberItem
-                key={`member-${idx}-${slot ? slot.full_name.trim() : "placeholder"}`}
-                slot={slot}
-                slotIndex={idx}
-              />
+            {memberSlots.map((slot, idx) => (
+              <MemberItem key={`member-${slot?.id ?? idx}`} slot={slot} slotIndex={idx} />
             ))}
           </ul>
         </div>

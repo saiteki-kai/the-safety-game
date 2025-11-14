@@ -5,10 +5,10 @@ import { Skeleton } from "@components/ui/skeleton";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@components/ui/table";
 import { type ColumnDef, flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { Inbox, Upload } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
-import { getTeamSubmissions } from "@/db/submissions";
+import { useTeamSubmissions } from "@/hooks/useTeamSubmissions";
 import type { TeamSubmissions } from "@/lib/supabase.types";
 import { cn } from "@/lib/utils";
+import { browserClient } from "@/lib/supabase";
 
 type SubmissionPanelProps = {
   teamId: string;
@@ -16,31 +16,7 @@ type SubmissionPanelProps = {
 };
 
 export default function SubmissionPanel({ teamId, isReadyToSubmit }: SubmissionPanelProps) {
-  const [submissions, setSubmissions] = useState<TeamSubmissions[] | null>(null);
-  const loaders = useMemo(() => createSubmissionLoaders(teamId), [teamId]);
-
-  // Load initial submissions and keep table in sync with realtime updates.
-  useEffect(() => {
-    let active = true;
-    let unsubscribe: (() => void) | undefined;
-
-    const initialize = async () => {
-      await loaders.fetch(() => active, setSubmissions);
-
-      try {
-        unsubscribe = await loaders.subscribe(() => active, setSubmissions);
-      } catch (error) {
-        console.error("Failed to subscribe to submissions", error);
-      }
-    };
-
-    void initialize();
-
-    return () => {
-      active = false;
-      unsubscribe?.();
-    };
-  }, [loaders]);
+  const { submissions } = useTeamSubmissions(browserClient(), teamId);
 
   return (
     <Card className="flex h-[640px] min-h-0 w-full flex-col lg:h-full">
@@ -242,56 +218,6 @@ function SubmissionsEmptyState() {
       </EmptyContent>
     </Empty>
   );
-}
-
-async function getSupabaseClient() {
-  return (await import("@/lib/supabase")).browserClient();
-}
-
-function createSubmissionLoaders(teamId: string) {
-  const fetch = async (isActive: () => boolean, set: (value: TeamSubmissions[] | null) => void) => {
-    try {
-      const supabase = await getSupabaseClient();
-      const data = await getTeamSubmissions(supabase, teamId);
-      if (!isActive()) {
-        return;
-      }
-      set(data ?? []);
-    } catch (error) {
-      console.error("Failed to load submissions", error);
-      if (isActive()) {
-        set([]);
-      }
-    }
-  };
-
-  const subscribe = async (
-    isActive: () => boolean,
-    set: (value: TeamSubmissions[] | null) => void,
-  ): Promise<() => void> => {
-    try {
-      const supabase = await getSupabaseClient();
-      const channel = supabase
-        .channel(`team-submissions-${teamId}`)
-        .on(
-          "postgres_changes",
-          { event: "*", schema: "public", table: "submissions", filter: `team_id=eq.${teamId}` },
-          async () => {
-            await fetch(isActive, set);
-          },
-        )
-        .subscribe();
-
-      return () => {
-        void supabase.removeChannel(channel);
-      };
-    } catch (error) {
-      console.error("Failed to subscribe to submissions", error);
-      return () => {};
-    }
-  };
-
-  return { fetch, subscribe };
 }
 
 function parseDate(value: unknown): Date | null {

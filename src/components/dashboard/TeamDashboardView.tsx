@@ -2,66 +2,30 @@ export const prerender = false;
 
 import { actions } from "astro:actions";
 import { AlertCircle, AlertTriangle } from "lucide-react";
-import { useEffect, useEffectEvent, useMemo, useState } from "react";
+import { useEffect, useEffectEvent, useState } from "react";
 import { toast } from "sonner";
-import { browserClient } from "@/lib/supabase.ts";
+import { browserClient } from "@/lib/supabase";
 import type { Profile, Team } from "@/lib/supabase.types";
-// MemberSlot is no longer required; TeamOverviewCard accepts `members` directly.
 import SubmissionPanel from "./view/SubmissionPanel.tsx";
 import TeamOverviewCard from "./view/TeamOverviewCard.tsx";
 import type { ProgressItem, SubmissionStatus } from "./view/TeamProgressCard.tsx";
 import TeamProgressCard from "./view/TeamProgressCard.tsx";
+import { useTeamMembers } from "@/hooks/useTeamMembers.tsx";
 
 type TeamDashboardViewProps = {
   team: Team;
 };
+
 const COMPLETE_MSG =
   "Hai completato il numero minimo di prompt richiesti! Scrivine altri per migliorare il tuo punteggio e scalare la classifica.";
 const INCOMPLETE_MSG =
   "Completa almeno {promptsRequired} prompt per sbloccare la fase successiva. Ti mancano ancora {promptsRemaining} prompt.";
-// MAX_TEAM_SIZE moved into TeamOverviewCard
 
 export default function TeamDashboardView({ team }: TeamDashboardViewProps) {
-  const [members, setMembers] = useState<Profile[] | null>(null);
+  const { members } = useTeamMembers(browserClient(), team.id);
 
-  const getMembers = useEffectEvent(async () => {
-    const result = await actions.teams.getMembers({ teamId: team.id });
-
-    if (!result) {
-      toast.error("Failed to fetch team members.");
-      return;
-    }
-
-    setMembers(result?.data);
-  });
-
-  useEffect(() => {
-    getMembers();
-
-    const supabase = browserClient();
-    const channel = supabase
-      .channel(`public:team_members:team_id=eq.${team.id}`)
-      .on(
-        "postgres_changes",
-        {
-          event: "*",
-          schema: "public",
-          table: "team_members",
-          filter: `team_id=eq.${team.id}`,
-        },
-        () => getMembers(),
-      )
-      .subscribe();
-
-    return () => {
-      supabase.removeChannel(channel);
-    };
-  }, [team.id]);
-
-  const teamName = team?.name;
-  const teamJoinCode = team?.join_code.toUpperCase();
-
-  // `TeamOverviewCard` now accepts `members` directly and computes placeholders internally.
+  const teamName = team?.name ?? "Team";
+  const teamJoinCode = team?.join_code?.toUpperCase() ?? "------";
 
   // Progress calculations
   const promptsTested = 35;
@@ -70,44 +34,35 @@ export default function TeamDashboardView({ team }: TeamDashboardViewProps) {
   const isReadyToSubmit = promptsSubmitted >= promptsRequired;
   const promptsRemaining = Math.max(0, promptsRequired - promptsTested);
 
-  const progressItems = useMemo<ProgressItem[]>(
-    () => [
-      {
-        id: "tested",
-        label: "Prompt testati",
-        value: promptsTested,
-      },
-      {
-        id: "submitted",
-        label: "Prompt inviati",
-        value: promptsSubmitted,
-        total: promptsRequired,
-        percentage: Math.min(100, (promptsSubmitted / promptsRequired) * 100),
-      },
-    ],
-    [],
-  );
+  const progressItems: ProgressItem[] = [
+    {
+      id: "tested",
+      label: "Prompt testati",
+      value: promptsTested,
+    },
+    {
+      id: "submitted",
+      label: "Prompt inviati",
+      value: promptsSubmitted,
+      total: promptsRequired,
+      percentage: Math.min(100, (promptsSubmitted / promptsRequired) * 100),
+    },
+  ];
 
-  const submissionStatus = useMemo<SubmissionStatus>(() => {
-    const baseClasses = "flex items-start gap-3 border";
-
-    if (isReadyToSubmit) {
-      return {
+  const submissionStatus: SubmissionStatus = isReadyToSubmit
+    ? {
         Icon: AlertCircle,
         message: COMPLETE_MSG,
-        className: `${baseClasses} text-emerald-600 border-emerald-100 bg-emerald-50`,
-      } satisfies SubmissionStatus;
-    }
-
-    return {
-      Icon: AlertTriangle,
-      message: INCOMPLETE_MSG.replace("{promptsRequired}", promptsRequired.toString()).replace(
-        "{promptsRemaining}",
-        promptsRemaining.toString(),
-      ),
-      className: `${baseClasses} text-amber-600 border-amber-100 bg-amber-50`,
-    } satisfies SubmissionStatus;
-  }, [isReadyToSubmit, promptsRemaining]);
+        className: "flex items-start gap-3 border text-emerald-600 border-emerald-100 bg-emerald-50",
+      }
+    : {
+        Icon: AlertTriangle,
+        message: INCOMPLETE_MSG.replace("{promptsRequired}", promptsRequired.toString()).replace(
+          "{promptsRemaining}",
+          promptsRemaining.toString(),
+        ),
+        className: "flex items-start gap-3 border text-amber-600 border-amber-100 bg-amber-50",
+      };
 
   return (
     <main className="flex min-h-0 w-full flex-1 flex-col gap-3 lg:gap-4" aria-label="Team dashboard">
