@@ -14,7 +14,7 @@ export default function JoinTeamForm() {
   const [state, action, isPending] = useActionState(withState(actions.teams.joinTeam), undefined);
 
   const inputErrors = isInputError(state?.error) ? state.error.fields : null;
-  const hasErrors = isActionError(state?.error) || inputErrors || !!state?.data?.message;
+  const hasErrors = !!state?.data?.message || isActionError(state?.error) || inputErrors;
 
   const inputStateClass = hasErrors ? "dashboard-input-error" : "dashboard-input-default";
   const helperTextClass = `dashboard-helper-text${hasErrors ? " dashboard-helper-text-error" : ""}`;
