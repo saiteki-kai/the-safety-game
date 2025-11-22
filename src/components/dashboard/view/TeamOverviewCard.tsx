@@ -18,25 +18,26 @@ export default function TeamOverviewCard({ teamName, teamJoinCode, members }: Te
   return (
     <Card className="flex h-full min-h-0 w-full flex-col">
       <CardHeader className="pb-0">
-        <div className="flex flex-col gap-3">
-          <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
-            <CardTitle className="text-lg text-neutral-900 lg:text-2xl">{teamName}</CardTitle>
+        <div className="flex w-full items-center justify-between gap-4">
+          <div>
+            <CardTitle className="font-semibold text-lg text-neutral-900">{teamName}</CardTitle>
+            <CardDescription className="text-neutral-500 text-sm">
+              Condividi il codice invito per permettere ai nuovi membri di unirsi.
+            </CardDescription>
+          </div>
+          <div className="shrink-0">
             <JoinCodeButton teamJoinCode={teamJoinCode} />
           </div>
-          <CardDescription className="max-w-prose text-neutral-500 text-sm leading-relaxed">
-            Condividi il codice invito per permettere ai nuovi membri di unirsi subito.
-          </CardDescription>
         </div>
       </CardHeader>
-      <CardContent className="min-h-0 flex-1 space-y-4 pt-4">
-        <div>
-          <p className="mb-2 font-semibold text-neutral-500 text-xs uppercase tracking-wide">Membri del team</p>
-          <ul className="grid grid-cols-1 gap-2 text-neutral-700 sm:grid-cols-2">
-            {memberSlots.map((slot, idx) => (
-              <MemberItem key={`member-${slot?.id ?? idx}`} slot={slot} slotIndex={idx} />
-            ))}
-          </ul>
-        </div>
+
+      <CardContent className="min-h-0 flex-1 pt-3">
+        <p className="mb-2 font-semibold text-neutral-500 text-xs uppercase tracking-wide">Membri del team</p>
+        <ul className="grid grid-cols-1 gap-2 text-neutral-700 sm:grid-cols-2">
+          {memberSlots.map((slot, idx) => (
+            <MemberItem key={`member-${slot?.id ?? idx}`} slot={slot} slotIndex={idx} />
+          ))}
+        </ul>
       </CardContent>
     </Card>
   );

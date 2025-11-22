@@ -4,10 +4,11 @@ import { AlertCircle, AlertTriangle } from "lucide-react";
 import { useTeamMembers } from "@/hooks/useTeamMembers.tsx";
 import { browserClient } from "@/lib/supabase";
 import type { Team } from "@/lib/supabase.types";
-import SubmissionPanel from "./view/SubmissionPanel.tsx";
 import TeamOverviewCard from "./view/TeamOverviewCard.tsx";
 import type { ProgressItem, SubmissionStatus } from "./view/TeamProgressCard.tsx";
 import TeamProgressCard from "./view/TeamProgressCard.tsx";
+import { SubmissionHistorySection } from "./view/SubmissionHistorySection.tsx";
+import { DailySubmissionSection } from "./view/DailySubmissionSection.tsx";
 
 type TeamDashboardViewProps = {
   team: Team;
@@ -48,30 +49,47 @@ export default function TeamDashboardView({ team }: TeamDashboardViewProps) {
 
   const submissionStatus: SubmissionStatus = isReadyToSubmit
     ? {
-        Icon: AlertCircle,
-        message: COMPLETE_MSG,
-        className: "flex items-start gap-3 border text-emerald-600 border-emerald-100 bg-emerald-50",
-      }
+      Icon: AlertCircle,
+      message: COMPLETE_MSG,
+      className: "flex items-start gap-3 border text-emerald-600 border-emerald-100 bg-emerald-50",
+    }
     : {
-        Icon: AlertTriangle,
-        message: INCOMPLETE_MSG.replace("{promptsRequired}", promptsRequired.toString()).replace(
-          "{promptsRemaining}",
-          promptsRemaining.toString(),
-        ),
-        className: "flex items-start gap-3 border text-amber-600 border-amber-100 bg-amber-50",
-      };
+      Icon: AlertTriangle,
+      message: INCOMPLETE_MSG.replace("{promptsRequired}", promptsRequired.toString()).replace(
+        "{promptsRemaining}",
+        promptsRemaining.toString(),
+      ),
+      className: "flex items-start gap-3 border text-amber-600 border-amber-100 bg-amber-50",
+    };
 
   return (
-    <main className="flex min-h-0 w-full flex-1 flex-col gap-3 lg:gap-4" aria-label="Team dashboard">
-      <div className="grid min-h-0 w-full flex-1 items-stretch gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] xl:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] 2xl:grid-cols-[minmax(0,1fr)_minmax(0,2.1fr)]">
-        <div className="grid h-full min-h-0 grid-rows-[auto,1fr] gap-3 lg:gap-4">
+    <main className="flex min-h-0 w-full flex-1 flex-col gap-8 px-5 py-6 sm:px-8 sm:py-10" aria-label="Team dashboard">
+      <section className="space-y-2">
+        <p className="font-semibold text-neutral-400 text-xs uppercase tracking-[0.3em]">Dashboard</p>
+        <h1 className="font-semibold text-2xl text-neutral-900 sm:text-3xl">Gestione del team</h1>
+        <p className="max-w-3xl text-neutral-500 text-sm">
+          Tieni sotto controllo i membri, i progressi verso la soglia di submission e l&apos;area di invio giornaliera
+          in un flusso chiaro e lineare.
+        </p>
+      </section>
+
+      <section className="grid gap-4 lg:grid-cols-3" aria-label="Sintesi del team">
+        <div className="lg:col-span-2">
           <TeamOverviewCard teamName={teamName} members={members} teamJoinCode={teamJoinCode} />
+        </div>
+        <div>
           <TeamProgressCard progressItems={progressItems} submissionStatus={submissionStatus} />
         </div>
-        <div className="flex h-full min-h-0 flex-col">
-          <SubmissionPanel teamId={team.id} isReadyToSubmit={isReadyToSubmit} />
-        </div>
-      </div>
+      </section>
+
+      <section aria-label="Area di invio giornaliera" className="space-y-4">
+        <DailySubmissionSection />
+      </section>
+
+      <section aria-label="Area submission" className="space-y-4">
+        <SubmissionHistorySection teamId={team.id} />
+      </section>
+
     </main>
   );
 }
