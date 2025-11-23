@@ -3,6 +3,7 @@ import type { Team, Profile, Database } from "@/lib/supabase.types.ts";
 interface ImportMetaEnv {
   readonly PUBLIC_SUPABASE_URL: string;
   readonly PUBLIC_SUPABASE_KEY: string;
+  readonly HF_API_KEY: `hf_${string}`;
 }
 
 interface ImportMeta {

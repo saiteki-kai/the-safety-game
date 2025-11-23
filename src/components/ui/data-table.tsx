@@ -1,12 +1,12 @@
 import {
   type ColumnDef,
+  type ColumnSizingState,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
   type SortingState,
-  type ColumnSizingState,
   useReactTable,
 } from "@tanstack/react-table";
 import { useState } from "react";
@@ -93,7 +93,11 @@ export function DataTable<TData, TValue>({
                           "px-2 py-2 align-middle",
                           index === 0 ? firstColumnPadding : "",
                           // Per-column text alignment
-                          cellMeta?.align === "center" ? "text-center" : cellMeta?.align === "right" ? "text-right" : undefined,
+                          cellMeta?.align === "center"
+                            ? "text-center"
+                            : cellMeta?.align === "right"
+                              ? "text-right"
+                              : undefined,
                         )}
                       >
                         {flexRender(cell.column.columnDef.cell, cell.getContext())}

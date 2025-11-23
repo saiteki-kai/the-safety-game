@@ -1,3 +1,4 @@
+import { actions } from "astro:actions";
 import { Button } from "@components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@components/ui/card";
 import { DataTableColumnHeader } from "@components/ui/data-table-column-header";
@@ -9,14 +10,6 @@ type DailyPromptRow = {
   prompt: string;
   status?: string;
 };
-
-// default/example queue shown when no CSV has been loaded yet
-const defaultPromptQueue: DailyPromptRow[] = [
-  { prompt: "Scrivi una breve intro per un nuovo gioco di ruolo", status: "In attesa di scoring" },
-  { prompt: "Genera 5 idee creative per una landing page sul climate tech", status: "In attesa di scoring" },
-  { prompt: "Crea una tagline motivazionale per un team di ricerca", status: "In attesa di scoring" },
-  { prompt: "Suggerisci tre titoli per una newsletter settimanale", status: "In attesa di scoring" },
-];
 
 const promptQueueColumns: ColumnDef<DailyPromptRow>[] = [
   {
@@ -34,10 +27,15 @@ const promptQueueColumns: ColumnDef<DailyPromptRow>[] = [
   },
 ];
 
-export function DailySubmissionSection() {
+interface DailySubmissionSectionProps {
+  teamId: string;
+}
+
+export function DailySubmissionSection({ teamId }: DailySubmissionSectionProps) {
   const [isReadyToSubmit, setIsReadyToSubmit] = useState(false);
   const [selectedFileName, setSelectedFileName] = useState<string | null>(null);
   const [previewRows, setPreviewRows] = useState<DailyPromptRow[] | null>(null);
+  const [submissions, setSubmissions] = useState<DailyPromptRow[]>([]);
   const [error, setError] = useState<string | null>(null);
 
   const MAX_FILE_BYTES = 1_000_000; // 1 MB
@@ -61,26 +59,26 @@ export function DailySubmissionSection() {
         }
         continue;
       }
-      if (ch === ',' && !inQuotes) {
+      if (ch === "," && !inQuotes) {
         row.push(cur);
         cur = "";
         continue;
       }
-      if ((ch === '\n' || ch === '\r') && !inQuotes) {
+      if ((ch === "\n" || ch === "\r") && !inQuotes) {
         // handle CRLF
-        if (cur !== '' || row.length > 0) {
+        if (cur !== "" || row.length > 0) {
           row.push(cur);
           rows.push(row);
           row = [];
-          cur = '';
+          cur = "";
         }
         // skip potential LF after CR
-        if (ch === '\r' && text[i + 1] === '\n') i++;
+        if (ch === "\r" && text[i + 1] === "\n") i++;
         continue;
       }
       cur += ch;
     }
-    if (cur !== '' || row.length > 0) {
+    if (cur !== "" || row.length > 0) {
       row.push(cur);
       rows.push(row);
     }
@@ -99,7 +97,7 @@ export function DailySubmissionSection() {
     }
 
     if (file.size > MAX_FILE_BYTES) {
-      setError('File troppo grande. Max 1 MB.');
+      setError("File troppo grande. Max 1 MB.");
       setIsReadyToSubmit(false);
       setSelectedFileName(file.name);
       setPreviewRows(null);
@@ -114,14 +112,14 @@ export function DailySubmissionSection() {
 
       // map first column (assumed prompt) into preview rows
       const mapped: DailyPromptRow[] = rows
-        .filter((r) => r.length > 0 && r.some((c) => c.trim() !== ''))
+        .filter((r) => r.length > 0 && r.some((c) => c.trim() !== ""))
         .slice(0, 50) // limit preview rows
-        .map((r) => ({ prompt: String(r[0] ?? '').trim(), status: 'In attesa di scoring' }));
-
+        .map((r) => ({ prompt: String(r[0] ?? "").trim(), status: "In attesa di scoring" }));
       setPreviewRows(mapped.length > 0 ? mapped : null);
+      setSubmissions(mapped.length > 0 ? mapped : []);
       setIsReadyToSubmit(mapped.length > 0);
     } catch (e) {
-      setError('Errore durante la lettura del file.');
+      setError("Errore durante la lettura del file.");
       setIsReadyToSubmit(false);
       setPreviewRows(null);
     }
@@ -131,22 +129,37 @@ export function DailySubmissionSection() {
     setSelectedFileName(null);
     setIsReadyToSubmit(false);
     setPreviewRows(null);
+    setSubmissions([]);
     setError(null);
     // also clear the input value if present
-    const el = document.getElementById('daily-csv-upload') as HTMLInputElement | null;
-    if (el) el.value = '';
+    const el = document.getElementById("daily-csv-upload") as HTMLInputElement | null;
+    if (el) el.value = "";
   };
 
-  const handleSubmit = () => {
-    // placeholder: real submit would upload to an API
-    if (!isReadyToSubmit || !previewRows) return;
-    // For now, simulate submit by clearing and showing default queue
-    // In a real app we'd call an API and handle responses
-    setPreviewRows(null);
-    setSelectedFileName(null);
+  const handleSubmit = async () => {
+    if (!isReadyToSubmit || submissions.length === 0) return;
+
     setIsReadyToSubmit(false);
-    setError(null);
-    // TODO: implement actual upload
+
+    try {
+      const result = await actions.submissions.uploadDailyPrompts({
+        teamId,
+        prompts: submissions.map((r) => r.prompt),
+      });
+      // Only update when result contains a non-null array in data.data
+      const returned = result?.data?.data ?? null;
+      if (returned && Array.isArray(returned)) {
+        const updated: DailyPromptRow[] = returned.map((s: any) => ({ prompt: s.prompt, status: s.response }));
+        setSubmissions(updated);
+        setPreviewRows(updated);
+        setSelectedFileName(null);
+      } else {
+        setError("Nessuna risposta dal server.");
+      }
+    } catch (e) {
+      setError("Errore durante l'upload dei prompt.");
+      setIsReadyToSubmit(false);
+    }
   };
 
   return (
@@ -155,8 +168,10 @@ export function DailySubmissionSection() {
         <div className="space-y-1">
           <CardTitle className="font-semibold text-base text-neutral-900">Playground</CardTitle>
           <CardDescription className="text-neutral-500 text-sm">
-            Puoi caricare 25 prompt al giorno in questo ambiente di test per ottenere una valutazione preliminare. Ad ogni prompt verrà assegnato un punteggio provvisorio, fornito da un singolo modello di linguaggio.
-            Prova diverse strategie di prompt ed esplora diversi contesti culturali Italiani per ottimizzare i tuoi risultati prima dell'invio finale!
+            Puoi caricare 25 prompt al giorno in questo ambiente di test per ottenere una valutazione preliminare. Ad
+            ogni prompt verrà assegnato un punteggio provvisorio, fornito da un singolo modello di linguaggio. Prova
+            diverse strategie di prompt ed esplora diversi contesti culturali Italiani per ottimizzare i tuoi risultati
+            prima dell'invio finale!
           </CardDescription>
         </div>
       </CardHeader>
@@ -170,14 +185,23 @@ export function DailySubmissionSection() {
                   <p className="text-neutral-500 text-xs">Max 1 MB · un solo file per sessione</p>
                 </div>
                 <div className="flex items-center gap-2">
-                  <input id="daily-csv-upload" type="file" accept=".csv" className="sr-only" onChange={handleFileChange} />
-                  <label htmlFor="daily-csv-upload" className="inline-flex items-center gap-2 rounded-md border px-3 py-2 text-sm font-semibold cursor-pointer bg-white">
+                  <input
+                    id="daily-csv-upload"
+                    type="file"
+                    accept=".csv"
+                    className="sr-only"
+                    onChange={handleFileChange}
+                  />
+                  <label
+                    htmlFor="daily-csv-upload"
+                    className="inline-flex cursor-pointer items-center gap-2 rounded-md border bg-white px-3 py-2 font-semibold text-sm"
+                  >
                     Seleziona CSV
                   </label>
                   <button
                     type="button"
                     onClick={handleClear}
-                    className="inline-flex items-center rounded-md border px-3 py-2 text-sm font-medium text-neutral-700 bg-neutral-50"
+                    className="inline-flex items-center rounded-md border bg-neutral-50 px-3 py-2 font-medium text-neutral-700 text-sm"
                   >
                     Clear
                   </button>
@@ -185,16 +209,16 @@ export function DailySubmissionSection() {
               </div>
 
               <div className="flex items-center justify-between">
-                <p className="text-neutral-500 text-xs">{selectedFileName ?? 'Nessun file caricato'}</p>
+                <p className="text-neutral-500 text-xs">{selectedFileName ?? "Nessun file caricato"}</p>
                 <div className="w-48">
                   <Button
                     type="button"
-                    variant={isReadyToSubmit ? 'default' : 'outline'}
+                    variant={isReadyToSubmit ? "default" : "outline"}
                     className="w-full font-semibold"
                     disabled={!isReadyToSubmit}
                     onClick={handleSubmit}
                   >
-                    {isReadyToSubmit ? 'Submit per scoring' : 'Upload CSV'}
+                    {isReadyToSubmit ? "Submit per scoring" : "Upload CSV"}
                   </Button>
                 </div>
               </div>
@@ -204,7 +228,7 @@ export function DailySubmissionSection() {
           </div>
 
           <div className="w-full">
-            <StatefulDataTable data={previewRows ?? defaultPromptQueue} isLoading={false} columns={promptQueueColumns} />
+            <StatefulDataTable data={previewRows ?? submissions} isLoading={false} columns={promptQueueColumns} />
           </div>
         </div>
       </CardContent>

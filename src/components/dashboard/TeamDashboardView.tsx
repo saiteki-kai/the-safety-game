@@ -4,11 +4,11 @@ import { AlertCircle, AlertTriangle } from "lucide-react";
 import { useTeamMembers } from "@/hooks/useTeamMembers.tsx";
 import { browserClient } from "@/lib/supabase";
 import type { Team } from "@/lib/supabase.types";
+import { DailySubmissionSection } from "./view/DailySubmissionSection.tsx";
+import { SubmissionHistorySection } from "./view/SubmissionHistorySection.tsx";
 import TeamOverviewCard from "./view/TeamOverviewCard.tsx";
 import type { ProgressItem, SubmissionStatus } from "./view/TeamProgressCard.tsx";
 import TeamProgressCard from "./view/TeamProgressCard.tsx";
-import { SubmissionHistorySection } from "./view/SubmissionHistorySection.tsx";
-import { DailySubmissionSection } from "./view/DailySubmissionSection.tsx";
 
 type TeamDashboardViewProps = {
   team: Team;
@@ -49,18 +49,18 @@ export default function TeamDashboardView({ team }: TeamDashboardViewProps) {
 
   const submissionStatus: SubmissionStatus = isReadyToSubmit
     ? {
-      Icon: AlertCircle,
-      message: COMPLETE_MSG,
-      className: "flex items-start gap-3 border text-emerald-600 border-emerald-100 bg-emerald-50",
-    }
+        Icon: AlertCircle,
+        message: COMPLETE_MSG,
+        className: "flex items-start gap-3 border text-emerald-600 border-emerald-100 bg-emerald-50",
+      }
     : {
-      Icon: AlertTriangle,
-      message: INCOMPLETE_MSG.replace("{promptsRequired}", promptsRequired.toString()).replace(
-        "{promptsRemaining}",
-        promptsRemaining.toString(),
-      ),
-      className: "flex items-start gap-3 border text-amber-600 border-amber-100 bg-amber-50",
-    };
+        Icon: AlertTriangle,
+        message: INCOMPLETE_MSG.replace("{promptsRequired}", promptsRequired.toString()).replace(
+          "{promptsRemaining}",
+          promptsRemaining.toString(),
+        ),
+        className: "flex items-start gap-3 border text-amber-600 border-amber-100 bg-amber-50",
+      };
 
   return (
     <main className="flex min-h-0 w-full flex-1 flex-col gap-8 px-5 py-6 sm:px-8 sm:py-10" aria-label="Team dashboard">
@@ -83,13 +83,12 @@ export default function TeamDashboardView({ team }: TeamDashboardViewProps) {
       </section>
 
       <section aria-label="Area di invio giornaliera" className="space-y-4">
-        <DailySubmissionSection />
+        <DailySubmissionSection teamId={team.id} />
       </section>
 
       <section aria-label="Area submission" className="space-y-4">
         <SubmissionHistorySection teamId={team.id} />
       </section>
-
     </main>
   );
 }

@@ -22,7 +22,6 @@ export function toISOStringIfValid(value: unknown): string | undefined {
   return parsed ? parsed.toISOString() : undefined;
 }
 
-
 export function formatDecimal(value: unknown, fractionDigits = 1, fallback = "—"): string {
   const num = typeof value === "number" ? value : Number.parseFloat(String(value));
   return Number.isFinite(num) ? num.toFixed(fractionDigits) : fallback;

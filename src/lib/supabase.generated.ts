@@ -40,6 +40,7 @@ export type Database = {
           created_at: string | null;
           id: string;
           model: string | null;
+          playground: boolean | null;
           prompt: string;
           response: string | null;
           score: number | null;
@@ -49,6 +50,7 @@ export type Database = {
           created_at?: string | null;
           id?: string;
           model?: string | null;
+          playground?: boolean | null;
           prompt: string;
           response?: string | null;
           score?: number | null;
@@ -58,6 +60,7 @@ export type Database = {
           created_at?: string | null;
           id?: string;
           model?: string | null;
+          playground?: boolean | null;
           prompt?: string;
           response?: string | null;
           score?: number | null;

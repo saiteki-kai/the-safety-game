@@ -24,5 +24,11 @@ export const joinCodeSchema = z.object({
     .transform((value) => value.toUpperCase()),
 });
 
+export const dailyPromptsSchema = z.object({
+  teamId: z.string().uuid().nonempty(),
+  prompts: z.array(z.string().min(1, "Il prompt non può essere vuoto.")),
+});
+
 export type CreateTeamInput = z.infer<typeof teamNameSchema>;
 export type JoinTeamInput = z.infer<typeof joinCodeSchema>;
+export type DailyPromptsInput = z.infer<typeof dailyPromptsSchema>;

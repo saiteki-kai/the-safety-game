@@ -4,9 +4,9 @@ import { DataTableColumnHeader } from "@components/ui/data-table-column-header";
 import type { ColumnDef } from "@tanstack/react-table";
 import { Upload } from "lucide-react";
 import { useTeamSubmissions } from "@/hooks/useTeamSubmissions";
+import { formatDateTimeOrNull, formatDecimal, toISOStringIfValid } from "@/lib/formatters";
 import { browserClient } from "@/lib/supabase";
 import type { TeamSubmissions } from "@/lib/supabase.types";
-import { formatDateTimeOrNull, toISOStringIfValid, formatDecimal } from "@/lib/formatters";
 import { StatefulDataTable } from "./StatefulDataTable";
 
 const submissionColumns: ColumnDef<TeamSubmissions>[] = [
@@ -64,7 +64,7 @@ export function SubmissionHistorySection({ teamId }: SubmissionHistorySectionPro
             Consulta gli invii effettuati finora e monitora l&apos;assegnazione dei punteggi.
           </CardDescription>
         </div>
-        <Button type="button" aria-label="Invia prompt" variant="outline" onClick={() => { }}>
+        <Button type="button" aria-label="Invia prompt" variant="outline" onClick={() => {}}>
           <Upload className="h-4 w-4" aria-hidden="true" />
           <span className="ml-2 font-medium">Invia prompt</span>
         </Button>

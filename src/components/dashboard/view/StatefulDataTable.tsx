@@ -7,7 +7,6 @@ import type { ColumnDef } from "@tanstack/react-table";
 import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
-
 interface StatefulDataTableProps<TData, TValue> {
   data: TData[] | null | undefined;
   isLoading: boolean;
@@ -28,7 +27,7 @@ export function StatefulDataTable<TData, TValue>({
   if (isLoading) {
     const skeletonColumns = columns.map((column, index) => {
       return {
-        id: resolveColumnId(column, index)
+        id: resolveColumnId(column, index),
       };
     });
 
@@ -90,7 +89,14 @@ function TableSkeleton({ columns }: TableSkeletonProps) {
           {rows.map((rowKey) => (
             <TableRow key={rowKey} className="border-neutral-100 border-t">
               {columns.map((column, index) => (
-                <TableCell key={`${rowKey}-${column.id}`} className={cn("px-2 py-2 align-middle", index === 0 ? "pl-4" : "", column.align === "center" ? "text-center" : column.align === "right" ? "text-right" : undefined)}>
+                <TableCell
+                  key={`${rowKey}-${column.id}`}
+                  className={cn(
+                    "px-2 py-2 align-middle",
+                    index === 0 ? "pl-4" : "",
+                    column.align === "center" ? "text-center" : column.align === "right" ? "text-right" : undefined,
+                  )}
+                >
                   <Skeleton className="h-4 w-full" />
                 </TableCell>
               ))}
