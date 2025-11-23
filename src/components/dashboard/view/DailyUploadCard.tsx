@@ -45,11 +45,14 @@ const isCsvFile = (file: File) => {
 };
 
 /** Parse a File using PapaParse. Trims values and skips empty lines. */
-const parseFile = (file: File): Promise<string[][]> =>
-  new Promise((resolve, reject) => {
+const parseFile = async (file: File): Promise<string[][]> => {
+  const useWorker = (file.size ?? 0) > 2_000_000; // use worker for files larger than 2MB
+
+  return await new Promise((resolve, reject) => {
     try {
-      const useWorker = (file.size ?? 0) > 2_000_000; // use worker for files larger than 2MB
       Papa.parse<string[]>(file, {
+        header: false,
+        delimiter: ",",
         worker: useWorker,
         skipEmptyLines: true,
         transform: (v) => trimValue(v),
@@ -60,7 +63,16 @@ const parseFile = (file: File): Promise<string[][]> =>
               .join("; ");
             return reject(new Error(msg || "CSV parse error"));
           }
-          return resolve(result.data as unknown as string[][]);
+          const parsedRows = result.data as unknown as string[][];
+          const badRow = parsedRows.findIndex((r) => r.length !== 1);
+          if (badRow !== -1) {
+            return reject(
+              new Error(
+                `Formato CSV non valido: riga ${badRow + 1} contiene ${parsedRows[badRow].length} colonne (è richiesta 1 colonna).`,
+              ),
+            );
+          }
+          return resolve(parsedRows);
         },
         error: (err) => reject(err instanceof Error ? err : new Error(String(err))),
       });
@@ -68,6 +80,7 @@ const parseFile = (file: File): Promise<string[][]> =>
       reject(err instanceof Error ? err : new Error(String(err)));
     }
   });
+};
 
 export function DailyUploadCard({ containerHeight, isLoading, onSubmit }: DailyUploadCardProps): React.ReactElement {
   const [isDragActive, setIsDragActive] = useState(false);
@@ -250,7 +263,9 @@ export function DailyUploadCard({ containerHeight, isLoading, onSubmit }: DailyU
                     </label>
                     <span className="text-neutral-500">o trascina qui il file</span>
                   </div>
-                  <div className="mt-2 text-neutral-500 text-xs">CSV · Max 20 MB</div>
+                  <div className="mt-2 text-neutral-500 text-xs">
+                    CSV a colonna singola (senza intestazione) · Max 20 MB
+                  </div>
                 </div>
               </div>
             ) : (
