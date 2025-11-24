@@ -257,7 +257,7 @@ export function DailyUploadCard({ containerHeight, isLoading, onSubmit }: DailyU
                   <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-lg bg-violet-50 p-2">
                     <Icon name="upload" size={18} className="text-violet-700" />
                   </div>
-                  <div className="mt-3 flex items-center justify-center gap-2">
+                  <div className="mt-6 flex items-center justify-center gap-2">
                     <label htmlFor={INPUT_ID} className="cursor-pointer font-semibold text-violet-700 hover:underline">
                       Clicca per caricare
                     </label>
@@ -284,15 +284,15 @@ export function DailyUploadCard({ containerHeight, isLoading, onSubmit }: DailyU
             {!isLoading && (
               <div className="flex h-9 items-center rounded-md border bg-white px-2 sm:flex-1">
                 <div className="flex min-w-0 grow items-center gap-2">
-                  <FileSpreadsheet size={18} className="text-neutral-900" />
-                  <span className="truncate font-medium text-neutral-900 text-sm">{fileSummaryText}</span>
+                  <FileSpreadsheet size={14} className="text-neutral-900" />
+                  <span className="truncate font-medium text-neutral-900 text-xs">{fileSummaryText}</span>
                 </div>
                 <div className="ml-auto flex items-center gap-2">
                   {isBadgeProblem ? (
                     <Tooltip>
                       <TooltipTrigger asChild>
                         <span
-                          className={`inline-flex items-center rounded-full bg-red-50 px-2 py-0.5 font-semibold text-[12px] text-red-700`}
+                          className={`inline-flex items-center rounded-full bg-red-50 px-2 py-0.5 font-semibold text-red-700 text-xs`}
                         >
                           <InfoIcon size={12} className="mr-1 text-red-700" />
                           {promptCountLabel}
@@ -304,7 +304,7 @@ export function DailyUploadCard({ containerHeight, isLoading, onSubmit }: DailyU
                     </Tooltip>
                   ) : (
                     <span
-                      className={`inline-flex items-center rounded-full bg-violet-50 px-2 py-0.5 font-semibold text-[12px] text-violet-700`}
+                      className={`inline-flex items-center rounded-full bg-violet-50 px-2 py-0.5 font-semibold text-violet-700 text-xs`}
                     >
                       {promptCountLabel}
                     </span>

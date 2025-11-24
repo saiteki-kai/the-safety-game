@@ -1,6 +1,7 @@
 import { actions } from "astro:actions";
 import { useLayoutEffect, useRef, useState } from "react";
 import { DailyUploadCard } from "./DailyUploadCard";
+import { AlertTriangle } from "lucide-react";
 
 interface DailySubmissionSectionProps {
   teamId: string;
@@ -57,10 +58,10 @@ export function DailySubmissionSection({ teamId }: DailySubmissionSectionProps) 
     <div className="space-y-8 px-8 py-8">
       {/* Hero Section */}
       <div className="space-y-4 text-center">
-        <h2 className="font-bold text-2xl text-neutral-900">Playground di Test</h2>
+        <h2 className="font-bold text-2xl text-neutral-900">Playground</h2>
         <p className="mx-auto max-w-2xl text-lg text-neutral-600">
-          Carica i tuoi prompt in un ambiente sicuro per testare e ottimizzare prima dell'invio finale. Ottieni
-          valutazioni preliminari e migliora le tue strategie.
+          Carica i tuoi prompt ogni giorno per testare e migliorare prima dell'invio finale. Ottieni
+          valutazioni preliminari e scopri prompt più efficaci.
         </p>
       </div>
 
@@ -73,12 +74,10 @@ export function DailySubmissionSection({ teamId }: DailySubmissionSectionProps) 
             <h3 className="mb-4 font-semibold text-lg text-neutral-800">Come Funziona</h3>
             <div className="space-y-3 text-neutral-600 text-sm">
               <p>
-                Carica fino a 25 prompt al giorno per ottenere valutazioni preliminari da un modello di linguaggio.
-                Questo ti aiuta a testare strategie diverse prima dell'invio ufficiale.
+                Puoi caricare fino a 25 prompt al giorno per ottenere delle valutazioni preliminari che ti aiutano a testare strategie diverse prima dell'invio ufficiale.
               </p>
               <p>
-                Ogni prompt riceve un punteggio provvisorio basato su sicurezza, chiarezza e contesto culturale
-                italiano.
+                Ogni prompt riceve un punteggio provvisorio da un singolo modello di linguaggio. Nella consegna finale, i prompt verranno valutati da diversi modelli e combinati per una valutazione più accurata.
               </p>
             </div>
           </div>
@@ -86,22 +85,28 @@ export function DailySubmissionSection({ teamId }: DailySubmissionSectionProps) 
           <div className="rounded-lg border border-yellow-200 bg-yellow-50 p-6">
             <h3 className="mb-4 font-semibold text-lg text-yellow-800">Consigli Importanti</h3>
             <ul className="space-y-3 text-sm text-yellow-700">
-              <li className="flex items-start gap-2">
-                <span className="text-yellow-600">⚠️</span>
+              <li className="flex items-start align-middle gap-2">
+                <AlertTriangle size={16} className="text-yellow-600" />
                 <span>
-                  <strong>Nessun duplicato:</strong> Evita righe ripetute nel file per risultati accurati.
+                  Leggi bene tutte le istruzioni prima di procedere.
                 </span>
               </li>
-              <li className="flex items-start gap-2">
-                <span className="text-yellow-600">⚠️</span>
+              <li className="flex items-start align-middle gap-2">
+                <AlertTriangle size={16} className="text-yellow-600" />
                 <span>
-                  <strong>Pensa prima di inviare:</strong> L'upload è definitivo per questa sessione.
+                  Prompt identici a quelli già inviati non saranno accettati.
                 </span>
               </li>
-              <li className="flex items-start gap-2">
-                <span className="text-yellow-600">⚠️</span>
+              <li className="flex items-start align-middle gap-2">
+                <AlertTriangle size={16} className="text-yellow-600" />
                 <span>
-                  <strong>Esplora contesti:</strong> Prova diversi aspetti culturali italiani e di sicurezza.
+                  Puoi effettuare un solo upload giornaliero per team.
+                </span>
+              </li>
+              <li className="flex items-start align-middle gap-2">
+                <AlertTriangle size={16} className="text-yellow-600" />
+                <span>
+                  Prova diversi aspetti culturali italiani e di sicurezza.
                 </span>
               </li>
             </ul>
