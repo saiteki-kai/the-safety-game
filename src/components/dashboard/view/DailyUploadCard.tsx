@@ -1,5 +1,6 @@
 import Icon from "@components/common/Icon";
 import { Button } from "@components/ui/button";
+import { ScrollArea } from "@components/ui/scroll-area";
 import { Spinner } from "@components/ui/spinner";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@components/ui/tooltip";
 import { AlertTriangle, FileSpreadsheet, Info as InfoIcon, Trash2 } from "lucide-react";
@@ -9,7 +10,6 @@ import type { ChangeEvent, DragEvent } from "react";
 import { useRef, useState } from "react";
 
 interface DailyUploadCardProps {
-  containerHeight?: number;
   isLoading: boolean;
   onSubmit: (prompts: string[]) => Promise<{ prompt: string; response?: string }[] | null>;
 }
@@ -82,7 +82,7 @@ const parseFile = async (file: File): Promise<string[][]> => {
   });
 };
 
-export function DailyUploadCard({ containerHeight, isLoading, onSubmit }: DailyUploadCardProps): React.ReactElement {
+export function DailyUploadCard({ isLoading, onSubmit }: DailyUploadCardProps): React.ReactElement {
   const [isDragActive, setIsDragActive] = useState(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -206,29 +206,29 @@ export function DailyUploadCard({ containerHeight, isLoading, onSubmit }: DailyU
   };
 
   return (
-    <div className="h-full min-h-0" style={containerHeight ? { height: `${containerHeight}px` } : undefined}>
-      <div className="h-full min-h-0 rounded-2xl border-2 border-neutral-200 border-dashed bg-neutral-50 p-6">
-        <div className="flex h-full min-h-0 flex-col">
-          <div className="space-y-2">
-            <div className="flex items-center justify-between gap-3">
-              <div className="min-w-0">
-                <h3 className="font-semibold text-neutral-900 text-xl leading-tight">Carica Prompt</h3>
-                <p className="mt-1 text-neutral-600 text-sm">Invia i tuoi prompt per la valutazione giornaliera</p>
-              </div>
+    <div className="h-full min-h-0 rounded-2xl border-2 border-neutral-200 border-dashed bg-neutral-50 p-6">
+      <div className="flex h-full min-h-0 flex-col">
+        <div className="space-y-2">
+          <div className="flex items-center justify-between gap-3">
+            <div className="min-w-0">
+              <h3 className="font-semibold text-neutral-900 text-xl leading-tight">Carica Prompt</h3>
+              <p className="mt-1 text-neutral-600 text-sm">Invia i tuoi prompt per la valutazione giornaliera</p>
             </div>
-
-            <div className="h-0" aria-hidden />
-            <input
-              id={INPUT_ID}
-              ref={fileInputRef}
-              type="file"
-              accept=".csv"
-              className="sr-only"
-              onChange={handleFileChange}
-              disabled={isLoading}
-            />
           </div>
 
+          <div className="h-0" aria-hidden />
+          <input
+            id={INPUT_ID}
+            ref={fileInputRef}
+            type="file"
+            accept=".csv"
+            className="sr-only"
+            onChange={handleFileChange}
+            disabled={isLoading}
+          />
+        </div>
+
+        {prompts.length === 0 ? (
           <fieldset
             aria-describedby="upload-instructions"
             onDragOver={(event) => {
@@ -237,7 +237,7 @@ export function DailyUploadCard({ containerHeight, isLoading, onSubmit }: DailyU
             }}
             onDragLeave={() => setIsDragActive(false)}
             onDrop={handleDrop}
-            className={`relative h-full min-h-0 flex-1 overflow-y-auto rounded-lg border bg-white p-4 ${
+            className={`relative h-full min-h-0 flex-1 rounded-lg border bg-white p-4 sm:p-6 ${
               isDragActive ? "border-amber-300 ring-2 ring-amber-200/60" : "border-neutral-200"
             } ${prompts.length === 0 ? "flex items-center justify-center" : ""}`}
           >
@@ -251,25 +251,28 @@ export function DailyUploadCard({ containerHeight, isLoading, onSubmit }: DailyU
                 <span>{error}</span>
               </output>
             )}
-            {prompts.length === 0 ? (
-              <div id="upload-instructions" className="text-neutral-500 text-sm">
-                <div className="text-center">
-                  <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-lg bg-violet-50 p-2">
-                    <Icon name="upload" size={18} className="text-violet-700" />
-                  </div>
-                  <div className="mt-6 flex items-center justify-center gap-2">
-                    <label htmlFor={INPUT_ID} className="cursor-pointer font-semibold text-violet-700 hover:underline">
-                      Clicca per caricare
-                    </label>
-                    <span className="text-neutral-500">o trascina qui il file</span>
-                  </div>
-                  <div className="mt-2 text-neutral-500 text-xs">
-                    CSV a colonna singola (senza intestazione) · Max 20 MB
-                  </div>
+
+            <div id="upload-instructions" className="text-neutral-500 text-sm">
+              <div className="text-center">
+                <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-lg bg-violet-50 p-2">
+                  <Icon name="upload" size={18} className="text-violet-700" />
+                </div>
+                <div className="mt-6 flex items-center justify-center gap-2">
+                  <label htmlFor={INPUT_ID} className="cursor-pointer font-semibold text-violet-700 hover:underline">
+                    Clicca per caricare
+                  </label>
+                  <span className="text-neutral-500">o trascina qui il file</span>
+                </div>
+                <div className="mt-2 text-neutral-500 text-xs">
+                  CSV a colonna singola (senza intestazione) · Max 20 MB
                 </div>
               </div>
-            ) : (
-              <ul className="flex flex-col gap-2 text-neutral-700 text-sm">
+            </div>
+          </fieldset>
+        ) : (
+          <ScrollArea className="relative h-full overflow-hidden rounded-lg border border-neutral-200 bg-white text-neutral-700 text-sm">
+            <div className="relative md:absolute md:inset-0">
+              <ul className="flex flex-col gap-2 bg-white p-4 text-neutral-700 text-sm sm:p-6">
                 {prompts.map((s, index) => (
                   <li key={`preview-${index}-${(s ?? "").slice(0, 30)}`} className="flex items-start gap-2">
                     <span className="shrink-0 text-neutral-400">•</span>
@@ -277,72 +280,88 @@ export function DailyUploadCard({ containerHeight, isLoading, onSubmit }: DailyU
                   </li>
                 ))}
               </ul>
-            )}
-          </fieldset>
-
-          <div className="mt-3 flex flex-col sm:flex-row sm:items-center sm:gap-3">
-            {!isLoading && (
-              <div className="flex h-9 items-center rounded-md border bg-white px-2 sm:flex-1">
-                <div className="flex min-w-0 grow items-center gap-2">
-                  <FileSpreadsheet size={14} className="text-neutral-900" />
-                  <span className="truncate font-medium text-neutral-900 text-xs">{fileSummaryText}</span>
-                </div>
-                <div className="ml-auto flex items-center gap-2">
-                  {isBadgeProblem ? (
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <span
-                          className={`inline-flex items-center rounded-full bg-red-50 px-2 py-0.5 font-semibold text-red-700 text-xs`}
-                        >
-                          <InfoIcon size={12} className="mr-1 text-red-700" />
-                          {promptCountLabel}
-                        </span>
-                      </TooltipTrigger>
-                      <TooltipContent sideOffset={6}>
-                        <span className="max-w-xs whitespace-normal text-xs">{badgeTitle}</span>
-                      </TooltipContent>
-                    </Tooltip>
-                  ) : (
-                    <span
-                      className={`inline-flex items-center rounded-full bg-violet-50 px-2 py-0.5 font-semibold text-violet-700 text-xs`}
-                    >
-                      {promptCountLabel}
-                    </span>
-                  )}
-                  <div aria-hidden className="h-5 w-px bg-neutral-200" />
-                  <button
-                    type="button"
-                    aria-label="Cancella file"
-                    onClick={hasSelection ? handleClear : undefined}
-                    className={`rounded-md p-1.5 ${hasSelection ? "text-neutral-500 hover:text-neutral-700" : "cursor-not-allowed text-neutral-300"}`}
-                    disabled={!hasSelection}
-                  >
-                    <Trash2 size={14} className={hasSelection ? "text-neutral-500" : "text-neutral-300"} />
-                  </button>
-                </div>
-              </div>
-            )}
-
-            <div className={isLoading ? "mt-2 w-full sm:mt-0 sm:flex-1" : "mt-2 w-full sm:mt-0 sm:w-28"}>
-              <Button
-                type="button"
-                variant={prompts.length > 0 && !isBadgeProblem ? "default" : "outline"}
-                className="h-9 w-full font-semibold text-sm"
-                disabled={isLoading || isBadgeProblem}
-                aria-disabled={isLoading || isBadgeProblem}
-                onClick={handleSubmitClick}
-                aria-busy={isLoading}
-              >
-                {isLoading ? (
-                  <span className="flex items-center gap-2 text-sm">
-                    <Spinner />
-                    <span className="truncate">Valutazione in corso — potrebbe richiedere qualche minuto.</span>
-                  </span>
-                ) : (
-                  "Invia"
-                )}
-              </Button>
             </div>
+          </ScrollArea>
+        )}
+
+        <div className="mt-3 flex flex-col sm:flex-row sm:items-center sm:gap-3">
+          {!isLoading && (
+            <div className="flex h-9 items-center rounded-md border bg-white px-2 sm:flex-1">
+              <div className="flex min-w-0 grow items-center gap-2">
+                <FileSpreadsheet size={14} className="text-neutral-900" />
+                <span className="truncate font-medium text-neutral-900 text-xs">{fileSummaryText}</span>
+              </div>
+              <div className="ml-auto flex items-center gap-2">
+                {isBadgeProblem ? (
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <span
+                        className={`inline-flex items-center rounded-full bg-red-50 px-2 py-0.5 font-semibold text-red-700 text-xs`}
+                      >
+                        <InfoIcon size={12} className="mr-1 text-red-700" />
+                        {promptCountLabel}
+                      </span>
+                    </TooltipTrigger>
+                    <TooltipContent sideOffset={6}>
+                      <span className="max-w-xs whitespace-normal text-xs">{badgeTitle}</span>
+                    </TooltipContent>
+                  </Tooltip>
+                ) : promptCount < 25 ? (
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <span
+                        className={`inline-flex items-center rounded-full bg-yellow-50 px-2 py-0.5 font-semibold text-xs text-yellow-700`}
+                      >
+                        <InfoIcon size={12} className="mr-1 text-yellow-700" />
+                        {promptCountLabel}
+                      </span>
+                    </TooltipTrigger>
+                    <TooltipContent sideOffset={6}>
+                      <span className="max-w-xs whitespace-normal text-xs">
+                        Puoi caricare altri {25 - promptCount} prompt
+                      </span>
+                    </TooltipContent>
+                  </Tooltip>
+                ) : (
+                  <span
+                    className={`inline-flex items-center rounded-full bg-violet-50 px-2 py-0.5 font-semibold text-violet-700 text-xs`}
+                  >
+                    {promptCountLabel}
+                  </span>
+                )}
+                <div aria-hidden className="h-5 w-px bg-neutral-200" />
+                <button
+                  type="button"
+                  aria-label="Cancella file"
+                  onClick={hasSelection ? handleClear : undefined}
+                  className={`rounded-md p-1.5 ${hasSelection ? "text-neutral-500 hover:text-neutral-700" : "cursor-not-allowed text-neutral-300"}`}
+                  disabled={!hasSelection}
+                >
+                  <Trash2 size={14} className={hasSelection ? "text-neutral-500" : "text-neutral-300"} />
+                </button>
+              </div>
+            </div>
+          )}
+
+          <div className={isLoading ? "mt-2 w-full sm:mt-0 sm:flex-1" : "mt-2 w-full sm:mt-0 sm:w-28"}>
+            <Button
+              type="button"
+              variant={prompts.length > 0 && !isBadgeProblem ? "default" : "outline"}
+              className="h-9 w-full font-semibold text-sm"
+              disabled={isLoading || isBadgeProblem}
+              aria-disabled={isLoading || isBadgeProblem}
+              onClick={handleSubmitClick}
+              aria-busy={isLoading}
+            >
+              {isLoading ? (
+                <span className="flex items-center gap-2 text-sm">
+                  <Spinner />
+                  <span className="truncate">Valutazione in corso — potrebbe richiedere qualche minuto.</span>
+                </span>
+              ) : (
+                "Invia"
+              )}
+            </Button>
           </div>
         </div>
       </div>
