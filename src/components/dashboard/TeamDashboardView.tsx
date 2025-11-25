@@ -1,13 +1,12 @@
 export const prerender = false;
 
-import { AlertCircle, AlertTriangle } from "lucide-react";
 import { useTeamMembers } from "@/hooks/useTeamMembers.tsx";
 import { browserClient } from "@/lib/supabase";
 import type { Team } from "@/lib/supabase.types";
 import { DailySubmissionSection } from "./view/DailySubmissionSection.tsx";
 import { SubmissionHistorySection } from "./view/SubmissionHistorySection.tsx";
 import TeamOverviewCard from "./view/TeamOverviewCard.tsx";
-import type { ProgressItem, SubmissionStatus } from "./view/TeamOverviewCard.tsx";
+import type { ProgressItem } from "./view/types";
 
 type TeamDashboardViewProps = {
   team: Team;
@@ -21,15 +20,12 @@ export default function TeamDashboardView({ team }: TeamDashboardViewProps) {
   const teamJoinCode = team?.join_code?.toUpperCase() ?? "------";
 
   // Progress calculations
-  const promptsTested = 35;
   const promptsSubmitted = 50;
   const promptsRequired = 50;
-  const isReadyToSubmit = promptsSubmitted >= promptsRequired;
-  const promptsRemaining = Math.max(0, promptsRequired - promptsTested);
   const averageScore = 8.7;
   const highestScore = 9.8;
   const challengeDaysRemaining = 12;
-  const totalChallengeDays = 20;
+  // totalChallengeDays is unused at the moment
   const finalSubmissionDone = true;
   const leaderboardPosition = 3;
   const dailySubmissionsDone = false; // Example: could be based on today's submissions

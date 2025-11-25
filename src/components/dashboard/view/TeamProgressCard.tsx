@@ -1,28 +1,14 @@
 import { Alert, AlertDescription } from "@components/ui/alert";
 import { Progress } from "@components/ui/progress";
-import type { LucideIcon } from "lucide-react";
+import type { ProgressItem, SubmissionStatus } from "./types";
 
 type TeamProgressCardProps = {
   progressItems: ProgressItem[];
   submissionStatus: SubmissionStatus;
 };
 
-export type ProgressItem = {
-  id: string;
-  label: string;
-  value: number;
-  total?: number;
-  percentage?: number;
-};
-
-export type SubmissionStatus = {
-  Icon: LucideIcon;
-  message: string;
-  className: string;
-};
-
 export default function TeamProgressCard({ progressItems, submissionStatus }: TeamProgressCardProps) {
-  const { Icon } = submissionStatus;
+  const Icon = submissionStatus.Icon;
 
   return (
     <div className="space-y-8 px-8 py-8">
@@ -55,7 +41,7 @@ export default function TeamProgressCard({ progressItems, submissionStatus }: Te
                         className="h-3 rounded-full bg-neutral-100"
                       />
                       <div className="text-right">
-                        <span className="text-xs font-medium text-neutral-500">
+                        <span className="font-medium text-neutral-500 text-xs">
                           {Math.round(percentage)}%
                         </span>
                       </div>
@@ -69,10 +55,10 @@ export default function TeamProgressCard({ progressItems, submissionStatus }: Te
 
         <div className="space-y-6 lg:flex-1">
           <div className="rounded-lg border border-amber-200 bg-amber-50 p-6">
-            <h3 className="mb-4 font-semibold text-lg text-amber-800">Stato Submission</h3>
-            <Alert className={`${submissionStatus.className} rounded-lg px-4 py-3 border-0`}>
+            <h3 className="mb-4 font-semibold text-amber-800 text-lg">Stato Submission</h3>
+            <Alert className={`${submissionStatus.className} rounded-lg border-0 px-4 py-3`}>
               <Icon className="h-4 w-4" aria-hidden="true" />
-              <AlertDescription className="text-sm font-medium">{submissionStatus.message}</AlertDescription>
+              <AlertDescription className="font-medium text-sm">{submissionStatus.message}</AlertDescription>
             </Alert>
           </div>
         </div>
