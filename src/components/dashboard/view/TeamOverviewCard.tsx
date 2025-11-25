@@ -5,31 +5,36 @@ import type { Profile } from "@/lib/supabase.types";
 import JoinCodeButton from "./JoinCodeButton";
 import MemberItem from "./MemberItem";
 import StatusActionRow from "./StatusActionRow";
-import type { ProgressItem } from "./types";
+import ProgressMetricRow from "./ProgressMetricRow";
+
+type ProgressState = {
+  challengeDaysRemaining: number;
+  finalSubmissionDone: boolean;
+  leaderboardPosition: number;
+  dailySubmissionsDone: boolean;
+  // metric values
+  promptsSubmitted: number;
+  averageScore: number;
+  highestScore: number;
+  // optional totals for score display (e.g. 10)
+  scoreTotal?: number;
+};
 
 type TeamOverviewCardProps = {
   teamName: string;
   teamJoinCode: string;
   members: Profile[] | null;
-  progressItems: ProgressItem[];
-  challengeDaysRemaining: number;
-  finalSubmissionDone: boolean;
-  leaderboardPosition: number;
-  dailySubmissionsDone: boolean;
+  progress: ProgressState;
 };
-
 
 export default function TeamOverviewCard({
   teamName,
   teamJoinCode,
   members,
-  progressItems,
-  challengeDaysRemaining,
-  finalSubmissionDone,
-  leaderboardPosition,
-  dailySubmissionsDone,
+  progress,
 }: TeamOverviewCardProps) {
   const memberSlots = useMemo(() => createMemberSlots(members), [members]);
+  const { challengeDaysRemaining, finalSubmissionDone, leaderboardPosition, dailySubmissionsDone, promptsSubmitted, averageScore, highestScore, scoreTotal } = progress;
 
   return (
     <div className="space-y-8 px-8 py-8">
@@ -73,47 +78,14 @@ export default function TeamOverviewCard({
             <div className="mb-6 min-h-0 flex-1 space-y-3">
               <h4 className="mb-3 font-medium text-neutral-700 text-sm">Performance</h4>
 
-              {/* Prompts Submitted */}
-              <div className="flex items-center gap-3 rounded-lg border border-neutral-100 bg-neutral-50 px-3 py-2">
-                <div className="shrink-0">
-                  <FileText className="h-4 w-4 text-neutral-600" />
-                </div>
-                <div className="min-w-0 flex-1">
-                  <div className="font-medium text-neutral-700 text-sm">Prompt Inviati</div>
-                </div>
-                <div className="shrink-0 text-right">
-                  <div className="font-semibold text-neutral-900 text-sm">
-                    {progressItems.find((item) => item.id === "submission")?.value || 0}
-                  </div>
-                </div>
-              </div>
+              <div className="space-y-2">
+                <ProgressMetricRow icon={<FileText className="h-4 w-4 text-neutral-600" />} value={promptsSubmitted} label="Prompt Inviati" />
 
-              {/* Scores - Separate Columns */}
-              <div className="grid grid-cols-2 gap-3">
-                {progressItems
-                  .filter((item) => item.id.includes("score"))
-                  .map(({ id, value }) => (
-                    <div
-                      key={id}
-                      className="flex items-center gap-3 rounded-lg border border-neutral-100 bg-neutral-50 px-3 py-2"
-                    >
-                      <div className="shrink-0">
-                        {id === "average_score" ? (
-                          <Target className="h-4 w-4 text-amber-600" />
-                        ) : (
-                          <Trophy className="h-4 w-4 text-purple-600" />
-                        )}
-                      </div>
-                      <div className="min-w-0 flex-1">
-                        <div className="font-medium text-neutral-700 text-sm">
-                          {id === "average_score" ? "Punteggio Medio" : "Punteggio Massimo"}
-                        </div>
-                      </div>
-                      <div className="shrink-0 text-right">
-                        <div className="font-semibold text-neutral-900 text-sm">{value}/10</div>
-                      </div>
-                    </div>
-                  ))}
+                <div className="grid grid-cols-2 gap-3">
+                  <ProgressMetricRow icon={<Target className="h-4 w-4 text-amber-600" />} value={averageScore} total={scoreTotal} label="Punteggio Medio" />
+
+                  <ProgressMetricRow icon={<Trophy className="h-4 w-4 text-purple-600" />} value={highestScore} total={scoreTotal} label="Punteggio Massimo" />
+                </div>
               </div>
             </div>
 
@@ -170,5 +142,5 @@ function createMemberSlots(members: Profile[] | null): Array<Profile | null> {
   const confirmed = members ?? [];
   const vacancies = Math.max(0, MAX_TEAM_SIZE - confirmed.length);
 
-  return [...confirmed, ...Array.from({ length: vacancies }, () => null)];
+  return confirmed.concat(Array(vacancies).fill(null));
 }
