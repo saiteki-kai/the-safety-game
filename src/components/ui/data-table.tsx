@@ -1,12 +1,12 @@
 import {
   type ColumnDef,
-  type ColumnSizingState,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
   type SortingState,
+  type PaginationState,
   useReactTable,
 } from "@tanstack/react-table";
 import { useState } from "react";
@@ -28,6 +28,9 @@ interface DataTableProps<TData, TValue> {
   data: TData[];
   tableWrapperClassName?: string;
   firstColumnPadding?: string;
+  // optional controlled pagination
+  pagination?: PaginationState;
+  onPaginationChange?: (updater: PaginationState) => void;
 }
 
 export function DataTable<TData, TValue>({
@@ -35,25 +38,37 @@ export function DataTable<TData, TValue>({
   data,
   tableWrapperClassName,
   firstColumnPadding = "pl-4",
+  pagination: paginationProp,
+  onPaginationChange,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
+  const [pagination, setPagination] = useState<PaginationState>({ pageIndex: 0, pageSize: 10 });
+  const controlledPagination = paginationProp ?? pagination;
+  const handlePaginationChange = onPaginationChange ?? setPagination;
 
   const table = useReactTable({
     data,
     columns,
     onSortingChange: setSorting,
+    onPaginationChange: handlePaginationChange,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     state: {
       sorting,
+      pagination: controlledPagination,
+    },
+    defaultColumn: {
+      size: 40,
+      minSize: 10,
+      maxSize: Number.MAX_SAFE_INTEGER,
     },
   });
 
   return (
     <div className="w-full">
-      <div className={cn("overflow-hidden rounded-md border", tableWrapperClassName)}>
+      <div className={cn("overflow-hidden rounded-t-md border border-border", tableWrapperClassName)}>
         <Table className="min-w-full">
           <TableHeader className="bg-neutral-50">
             {table.getHeaderGroups().map((headerGroup) => (
@@ -64,7 +79,7 @@ export function DataTable<TData, TValue>({
                       key={header.id}
                       style={{ width: header.getSize() }}
                       className={cn(
-                        "px-2 py-2 text-[11px] text-neutral-500 uppercase tracking-[0.06em]",
+                        "px-3 py-3 text-[11px] text-neutral-500 uppercase tracking-[0.06em]",
                         index === 0 ? firstColumnPadding : "",
                       )}
                     >
@@ -90,7 +105,7 @@ export function DataTable<TData, TValue>({
                         key={cell.id}
                         style={{ width: cell.column.getSize() }}
                         className={cn(
-                          "px-2 py-2 align-middle",
+                          "px-3 py-3 align-middle",
                           index === 0 ? firstColumnPadding : "",
                           // Per-column text alignment
                           cellMeta?.align === "center"
