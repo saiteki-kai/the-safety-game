@@ -1,4 +1,6 @@
 import { DataTable } from "@components/ui/data-table";
+import type { PaginationState } from "@tanstack/react-table";
+import { useState } from "react";
 
 import { Empty, EmptyContent, EmptyDescription, EmptyMedia, EmptyTitle } from "@components/ui/empty";
 import { Skeleton } from "@components/ui/skeleton";
@@ -24,6 +26,7 @@ export function StatefulDataTable<TData, TValue>({
   emptyTitle,
   emptyDescription,
 }: StatefulDataTableProps<TData, TValue>) {
+  const [pagination, setPagination] = useState<PaginationState>({ pageIndex: 0, pageSize: 10 });
   if (isLoading) {
     const skeletonColumns = columns.map((column, index) => {
       return {
@@ -50,7 +53,7 @@ export function StatefulDataTable<TData, TValue>({
     );
   }
 
-  return <DataTable columns={columns} data={data} />;
+  return <DataTable columns={columns} data={data} pagination={pagination} onPaginationChange={setPagination} />;
 }
 
 type TableSkeletonProps = {
@@ -67,7 +70,7 @@ function TableSkeleton({ columns }: TableSkeletonProps) {
   const rows = Array.from({ length: DEFAULT_SKELETON_ROWS }, (_, index) => `skeleton-row-${index}`);
 
   return (
-    <div className="overflow-hidden rounded-md border">
+    <div className="overflow-hidden rounded-t-md border border-border">
       <Table className="min-w-full">
         <TableHeader className="bg-neutral-50">
           <TableRow className="overflow-visible">
@@ -75,12 +78,12 @@ function TableSkeleton({ columns }: TableSkeletonProps) {
               <TableHead
                 key={column.id}
                 className={cn(
-                  "px-2 py-2 text-neutral-400 text-xs uppercase tracking-[0.08em]",
+                  "px-3 py-3 text-neutral-400 text-xs uppercase tracking-[0.08em]",
                   index === 0 ? "pl-4" : "",
                   column.align === "center" ? "text-center" : column.align === "right" ? "text-right" : undefined,
                 )}
               >
-                <Skeleton className="h-4 w-24 bg-neutral-200" />
+                <Skeleton className="h-5 w-28 bg-neutral-200" />
               </TableHead>
             ))}
           </TableRow>
@@ -92,20 +95,20 @@ function TableSkeleton({ columns }: TableSkeletonProps) {
                 <TableCell
                   key={`${rowKey}-${column.id}`}
                   className={cn(
-                    "px-2 py-2 align-middle",
+                    "px-3 py-3 align-middle",
                     index === 0 ? "pl-4" : "",
                     column.align === "center" ? "text-center" : column.align === "right" ? "text-right" : undefined,
                   )}
                 >
-                  <Skeleton className="h-4 w-full" />
+                  <Skeleton className="h-6 w-full" />
                 </TableCell>
               ))}
             </TableRow>
           ))}
         </TableBody>
       </Table>
-      <div className="border-neutral-100 border-t px-4 py-3">
-        <Skeleton className="h-4 w-32" />
+      <div className="rounded-b-md border border-border border-t-0 bg-neutral-50 px-3 py-2">
+        <Skeleton className="h-3 w-28" />
       </div>
     </div>
   );

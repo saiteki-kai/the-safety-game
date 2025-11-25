@@ -1,8 +1,5 @@
-import { Button } from "@components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@components/ui/card";
 import { DataTableColumnHeader } from "@components/ui/data-table-column-header";
 import type { ColumnDef } from "@tanstack/react-table";
-import { Upload } from "lucide-react";
 import { useTeamSubmissions } from "@/hooks/useTeamSubmissions";
 import { formatDateTimeOrNull, formatDecimal, toISOStringIfValid } from "@/lib/formatters";
 import { browserClient } from "@/lib/supabase";
@@ -53,25 +50,19 @@ type SubmissionHistorySectionProps = {
 
 export function SubmissionHistorySection({ teamId }: SubmissionHistorySectionProps) {
   const { submissions } = useTeamSubmissions(browserClient(), teamId);
+
   const isLoading = submissions === null;
 
   return (
-    <Card className="w-full border-neutral-200">
-      <CardHeader className="flex flex-col gap-3 pb-4 lg:flex-row lg:items-end lg:justify-between">
-        <div className="space-y-1">
-          <CardTitle className="font-semibold text-lg text-neutral-900">Storico submission</CardTitle>
-          <CardDescription className="text-neutral-500 text-sm">
-            Consulta gli invii effettuati finora e monitora l&apos;assegnazione dei punteggi.
-          </CardDescription>
-        </div>
-        <Button type="button" aria-label="Invia prompt" variant="outline" onClick={() => {}}>
-          <Upload className="h-4 w-4" aria-hidden="true" />
-          <span className="ml-2 font-medium">Invia prompt</span>
-        </Button>
-      </CardHeader>
-      <CardContent className="px-6 pb-6">
-        <StatefulDataTable data={submissions} isLoading={isLoading} columns={submissionColumns} />
-      </CardContent>
-    </Card>
+    <div className="space-y-8 px-8 py-8">
+      <div className="space-y-4 text-center">
+        <h2 className="font-bold text-2xl text-neutral-900">Storico Submission</h2>
+        <p className="mx-auto max-w-2xl text-lg text-neutral-600">
+          Consulta i punteggi assegnati ad ogni prompt inviato dal tuo team.
+        </p>
+      </div>
+
+      <StatefulDataTable data={submissions} isLoading={isLoading} columns={submissionColumns} />
+    </div>
   );
 }

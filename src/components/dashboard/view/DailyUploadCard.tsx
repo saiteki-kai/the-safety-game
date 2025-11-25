@@ -8,6 +8,7 @@ import Papa from "papaparse";
 import type React from "react";
 import type { ChangeEvent, DragEvent } from "react";
 import { useRef, useState } from "react";
+import { MAX_DAILY_PROMPTS } from "@/lib/consts";
 
 interface DailyUploadCardProps {
   isLoading: boolean;
@@ -105,12 +106,12 @@ export function DailyUploadCard({ isLoading, onSubmit }: DailyUploadCardProps): 
 
   const promptCount = prompts.length;
   const isPromptZero = promptCount === 0;
-  const isPromptTooLarge = promptCount > 25;
+  const isPromptTooLarge = promptCount > MAX_DAILY_PROMPTS;
   const isBadgeProblem = isPromptZero || isPromptTooLarge;
   const badgeTitle = isPromptZero
     ? "Attenzione: nessun prompt nel file. Carica almeno un prompt"
     : isPromptTooLarge
-      ? `Attenzione: il file contiene ${promptCount} prompt. E' possibile caricare al massimo 25 prompt al giorno.`
+      ? `Attenzione: il file contiene ${promptCount} prompt. E' possibile caricare al massimo ${MAX_DAILY_PROMPTS} prompt al giorno.`
       : "";
 
   const hasSelection = !!selectedFileName || prompts.length > 0;
@@ -306,7 +307,7 @@ export function DailyUploadCard({ isLoading, onSubmit }: DailyUploadCardProps): 
                       <span className="max-w-xs whitespace-normal text-xs">{badgeTitle}</span>
                     </TooltipContent>
                   </Tooltip>
-                ) : promptCount < 25 ? (
+                ) : promptCount < MAX_DAILY_PROMPTS ? (
                   <Tooltip>
                     <TooltipTrigger asChild>
                       <span
@@ -318,7 +319,7 @@ export function DailyUploadCard({ isLoading, onSubmit }: DailyUploadCardProps): 
                     </TooltipTrigger>
                     <TooltipContent sideOffset={6}>
                       <span className="max-w-xs whitespace-normal text-xs">
-                        Puoi caricare altri {25 - promptCount} prompt
+                        Puoi caricare altri {MAX_DAILY_PROMPTS - promptCount} prompt
                       </span>
                     </TooltipContent>
                   </Tooltip>

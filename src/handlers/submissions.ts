@@ -1,7 +1,7 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { insertPrompts, updateSubmissions } from "@/db/submissions";
 import { MAX_DAILY_PROMPTS } from "@/lib/consts";
-import type { Database, Profile, Submission, Team } from "@/lib/supabase.types";
+import type { Database, Submission } from "@/lib/supabase.types";
 
 export const uploadDailyPrompts = async (
   db: SupabaseClient<Database>,
