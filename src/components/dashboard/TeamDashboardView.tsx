@@ -7,11 +7,11 @@ import { DailySubmissionSection } from "./view/DailySubmissionSection.tsx";
 import { SubmissionHistorySection } from "./view/SubmissionHistorySection.tsx";
 import TeamOverviewCard from "./view/TeamOverviewCard.tsx";
 import type { ProgressItem } from "./view/types";
+import { CHALLENGE_END_DATE } from "@/lib/consts.ts";
 
 type TeamDashboardViewProps = {
   team: Team;
 };
-
 
 export default function TeamDashboardView({ team }: TeamDashboardViewProps) {
   const { members } = useTeamMembers(browserClient(), team.id);
@@ -21,47 +21,40 @@ export default function TeamDashboardView({ team }: TeamDashboardViewProps) {
 
   // Progress calculations
   const promptsSubmitted = 50;
-  const promptsRequired = 50;
   const averageScore = 8.7;
   const highestScore = 9.8;
-  const challengeDaysRemaining = 12;
-  // totalChallengeDays is unused at the moment
-  const finalSubmissionDone = true;
+  const challengeDaysRemaining = Date.now() < CHALLENGE_END_DATE.getTime() ? Math.ceil((CHALLENGE_END_DATE.getTime() - Date.now()) / (1000 * 60 * 60 * 24)) : 0;
   const leaderboardPosition = 3;
-  const dailySubmissionsDone = false; // Example: could be based on today's submissions
+  const finalSubmissionDone = true;
+  const dailySubmissionsDone = false;
 
   const progressItems: ProgressItem[] = [
     {
       id: "submission",
       label: "Prompt Inviati",
       value: promptsSubmitted,
-      total: promptsRequired,
-      percentage: Math.min(100, (promptsSubmitted / promptsRequired) * 100),
     },
     {
       id: "average_score",
       label: "Punteggio Medio",
       value: averageScore,
       total: 10,
-      percentage: (averageScore / 10) * 100,
     },
     {
       id: "highest_score",
       label: "Punteggio Massimo",
       value: highestScore,
       total: 10,
-      percentage: (highestScore / 10) * 100,
     },
   ];
-
 
   return (
     <main className="flex min-h-0 w-full flex-1 flex-col gap-8 px-5 py-6 sm:px-8 sm:py-10" aria-label="Team dashboard">
       <section className="grid gap-4 lg:grid-cols-3" aria-label="Sintesi del team">
         <div className="lg:col-span-3">
-          <TeamOverviewCard 
-            teamName={teamName} 
-            members={members} 
+          <TeamOverviewCard
+            teamName={teamName}
+            members={members}
             teamJoinCode={teamJoinCode}
             progressItems={progressItems}
             challengeDaysRemaining={challengeDaysRemaining}

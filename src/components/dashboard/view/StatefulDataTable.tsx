@@ -1,12 +1,10 @@
 import { DataTable } from "@components/ui/data-table";
-import type { PaginationState } from "@tanstack/react-table";
-import { useState } from "react";
-
 import { Empty, EmptyContent, EmptyDescription, EmptyMedia, EmptyTitle } from "@components/ui/empty";
 import { Skeleton } from "@components/ui/skeleton";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@components/ui/table";
-import type { ColumnDef } from "@tanstack/react-table";
+import type { ColumnDef, PaginationState } from "@tanstack/react-table";
 import type { ReactNode } from "react";
+import { useState } from "react";
 import { cn } from "@/lib/utils";
 
 interface StatefulDataTableProps<TData, TValue> {
