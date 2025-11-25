@@ -1,4 +1,4 @@
-import { Calendar, FileText, Flag, Target, Trophy, Upload } from "lucide-react";
+import { Calendar, FileText, Flag, Target, Trophy, Upload, Zap } from "lucide-react";
 import { useMemo } from "react";
 import { MAX_DAILY_PROMPTS, MAX_TEAM_SIZE } from "@/lib/consts";
 import type { Profile } from "@/lib/supabase.types";
@@ -18,6 +18,8 @@ type ProgressState = {
   highestScore: number;
   // optional totals for score display (e.g. 10)
   scoreTotal?: number;
+  // optional ChatGPT baseline to compare against
+  chatgptBaseline?: number;
 };
 
 type TeamOverviewCardProps = {
@@ -34,7 +36,9 @@ export default function TeamOverviewCard({
   progress,
 }: TeamOverviewCardProps) {
   const memberSlots = useMemo(() => createMemberSlots(members), [members]);
-  const { challengeDaysRemaining, finalSubmissionDone, leaderboardPosition, dailySubmissionsDone, promptsSubmitted, averageScore, highestScore, scoreTotal } = progress;
+  const { challengeDaysRemaining, finalSubmissionDone, leaderboardPosition, dailySubmissionsDone, promptsSubmitted, averageScore, highestScore, scoreTotal, chatgptBaseline } = progress;
+  const baseline = chatgptBaseline ?? 9.0;
+  const baselineBeaten = highestScore >= baseline;
 
   return (
     <div className="space-y-8 px-8 py-8">
@@ -93,24 +97,9 @@ export default function TeamOverviewCard({
             <div className="border-neutral-100 border-t pt-4">
               <h4 className="mb-3 font-medium text-neutral-700 text-sm">Stato Challenge</h4>
 
-              {/* Status Grid - Left: two small square cards horizontally; Right: two stacked wide items */}
-              <div className="grid grid-cols-1 items-center gap-4 md:grid-cols-12">
-                {/* Left column: small squares side-by-side */}
-                <div className="flex items-center gap-3 md:col-span-3">
-                  <div className="flex aspect-square flex-1 flex-col items-center justify-center rounded-lg border border-blue-100 bg-blue-50 p-4 text-center transition-colors hover:bg-blue-100">
-                    <Calendar className="mb-2 h-6 w-6 text-blue-600" />
-                    <div className="font-bold text-blue-700 text-xl">{challengeDaysRemaining}</div>
-                    <div className="mt-1 font-medium text-blue-600 text-xs">Giorni</div>
-                  </div>
-                  <div className="flex aspect-square flex-1 flex-col items-center justify-center rounded-lg border border-amber-100 bg-amber-50 p-4 text-center transition-colors hover:bg-amber-100">
-                    <Trophy className="mb-2 h-6 w-6 text-amber-600" />
-                    <div className="font-bold text-amber-700 text-xl">#{leaderboardPosition}</div>
-                    <div className="mt-1 font-medium text-amber-600 text-xs">Classifica</div>
-                  </div>
-                </div>
-
-                {/* Right column: two compact stacked rows with action links */}
-                <div className="flex flex-col gap-3 md:col-span-9">
+              {/* Status Grid: action rows on top, small summary cards (days & position) below */}
+              <div className="grid grid-cols-1 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                   <StatusActionRow
                     Icon={Upload}
                     label="Invii Giornalieri"
@@ -128,6 +117,26 @@ export default function TeamOverviewCard({
                     subtitle={finalSubmissionDone ? "Già inviato" : "In attesa di consegna"}
                     href="/final-submission"
                   />
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 items-stretch">
+                  <div className="flex w-full flex-col items-center justify-center rounded-lg border border-blue-100 bg-blue-50 p-4 text-center transition-colors hover:bg-blue-100">
+                    <Calendar className="mb-2 h-6 w-6 text-blue-600" />
+                    <div className="font-bold text-blue-700 text-xl">{challengeDaysRemaining}</div>
+                    <div className="mt-1 font-medium text-blue-600 text-xs">Giorni Rimanenti</div>
+                  </div>
+
+                  <div className="flex w-full flex-col items-center justify-center rounded-lg border border-amber-100 bg-amber-50 p-4 text-center transition-colors hover:bg-amber-100">
+                    <Trophy className="mb-2 h-6 w-6 text-amber-600" />
+                    <div className="font-bold text-amber-700 text-xl">#{leaderboardPosition}</div>
+                    <div className="mt-1 font-medium text-amber-600 text-xs">Posto in Classifica</div>
+                  </div>
+
+                  <div className="flex w-full flex-col items-center justify-center rounded-lg border border-neutral-200 bg-white p-4 text-center">
+                    <Zap className={`mb-2 h-6 w-6 ${baselineBeaten ? "text-green-600" : "text-neutral-600"}`} />
+                    <div className={`font-bold ${baselineBeaten ? "text-green-700" : "text-neutral-900"} text-xl`}>{baseline}</div>
+                    <div className={`mt-1 font-medium ${baselineBeaten ? "text-green-600" : "text-neutral-700"} text-xs`}>{baselineBeaten ? "ChatGPT Superato" : "ChatGPT da superare"}</div>
+                  </div>
                 </div>
               </div>
             </div>
