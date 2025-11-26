@@ -58,7 +58,7 @@ export default function LeaderboardTable({ emptyMessage }: { emptyMessage: strin
     fetchData();
 
     const channel = supabase
-      .channel("submissions-changes")
+      .channel("submission_channel")
       .on(
         "postgres_changes",
         {

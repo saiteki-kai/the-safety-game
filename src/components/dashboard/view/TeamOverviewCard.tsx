@@ -99,7 +99,7 @@ export default function TeamOverviewCard({
 
               {/* Status Grid: action rows on top, small summary cards (days & position) below */}
               <div className="grid grid-cols-1 gap-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
                   <StatusActionRow
                     Icon={Upload}
                     label="Invii Giornalieri"
@@ -119,7 +119,7 @@ export default function TeamOverviewCard({
                   />
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 items-stretch">
+                <div className="grid grid-cols-1 items-stretch gap-3 sm:grid-cols-3">
                   <div className="flex w-full flex-col items-center justify-center rounded-lg border border-blue-100 bg-blue-50 p-4 text-center transition-colors hover:bg-blue-100">
                     <Calendar className="mb-2 h-6 w-6 text-blue-600" />
                     <div className="font-bold text-blue-700 text-xl">{challengeDaysRemaining}</div>

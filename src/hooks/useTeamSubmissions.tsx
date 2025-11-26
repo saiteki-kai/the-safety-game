@@ -19,11 +19,12 @@ export function useTeamSubmissions(supabase: SupabaseClient, teamId: string) {
 
   const unsubscribe = useEffectEvent((teamId: string) => {
     const channel = supabase
-      .channel(`team-submissions-${teamId}`)
+      .channel(`submission_channel`)
       .on(
         "postgres_changes",
         { event: "*", schema: "public", table: "submissions", filter: `team_id=eq.${teamId}` },
         async () => {
+          console.log("Re-fetching team submissions due to change...");
           await fetchSubmissions();
         },
       )
@@ -35,6 +36,7 @@ export function useTeamSubmissions(supabase: SupabaseClient, teamId: string) {
   });
 
   useEffect(() => {
+    console.log("FETCHING TEAM SUBMISSIONS FOR TEAM ID:", teamId);
     void fetchSubmissions();
     return unsubscribe(teamId);
   }, [teamId]);

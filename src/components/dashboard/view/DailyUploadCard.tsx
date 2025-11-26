@@ -4,7 +4,6 @@ import { ScrollArea } from "@components/ui/scroll-area";
 import { Spinner } from "@components/ui/spinner";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@components/ui/tooltip";
 import { AlertTriangle, FileSpreadsheet, Info as InfoIcon, Trash2 } from "lucide-react";
-import Papa from "papaparse";
 import type React from "react";
 import type { ChangeEvent, DragEvent } from "react";
 import { useRef, useState } from "react";
@@ -16,71 +15,43 @@ interface DailyUploadCardProps {
 }
 
 const MAX_FILE_BYTES = 20_000_000; // 20 MB
-const INPUT_ID = "daily-csv-upload";
+const INPUT_ID = "daily-text-upload";
 
 // Centralized error messages
 const ERRORS = {
   FILE_TOO_LARGE: "File troppo grande. Max 20 MB",
   READ_ERROR: "Errore durante la lettura del file.",
   SERVER_ERROR: "Errore dal server durante l'upload.",
-  INVALID_TYPE: "Formato file non supportato. Usa CSV.",
+  INVALID_TYPE: "Formato file non supportato. Usa file di testo (.txt).",
 } as const;
 
 /** Safe trim to string */
 const trimValue = (v: unknown) => String(v ?? "").trim();
 
-/** Map parsed Papa rows to prompt strings (first column, trimmed). */
-const mapRowsToPrompts = (rows: string[][]): string[] =>
-  rows
-    .filter((r) => r.length > 0 && r.some((c) => (c ?? "") !== ""))
-    .map((r) => String(r[0] ?? ""))
+/** Map text lines to prompt strings (trimmed). */
+const mapLinesToPrompts = (lines: string[]): string[] =>
+  lines
+    .map((l) => String(l ?? "").trim())
     .filter((s) => s !== "");
 
-/** Check if the file looks like a CSV by extension or mime. */
-const isCsvFile = (file: File) => {
+/** Check if the file looks like a plain text file by extension or mime. */
+const isTextFile = (file: File) => {
   const name = file.name || "";
   const ext = name.split(".").pop()?.toLowerCase() ?? "";
-  if (ext === "csv") return true;
+  if (ext === "txt") return true;
   const mime = file.type || "";
-  return mime.includes("csv");
+  return mime.startsWith("text/") || mime.includes("plain");
 };
 
-/** Parse a File using PapaParse. Trims values and skips empty lines. */
-const parseFile = async (file: File): Promise<string[][]> => {
-  const useWorker = (file.size ?? 0) > 2_000_000; // use worker for files larger than 2MB
-
-  return await new Promise((resolve, reject) => {
-    try {
-      Papa.parse<string[]>(file, {
-        header: false,
-        delimiter: ",",
-        worker: useWorker,
-        skipEmptyLines: true,
-        transform: (v) => trimValue(v),
-        complete: (result) => {
-          if (result.errors && result.errors.length > 0) {
-            const msg = result.errors
-              .map((e) => `${e.message}${typeof e.row === "number" ? ` (row ${e.row})` : ""}`)
-              .join("; ");
-            return reject(new Error(msg || "CSV parse error"));
-          }
-          const parsedRows = result.data as unknown as string[][];
-          const badRow = parsedRows.findIndex((r) => r.length !== 1);
-          if (badRow !== -1) {
-            return reject(
-              new Error(
-                `Formato CSV non valido: riga ${badRow + 1} contiene ${parsedRows[badRow].length} colonne (è richiesta 1 colonna).`,
-              ),
-            );
-          }
-          return resolve(parsedRows);
-        },
-        error: (err) => reject(err instanceof Error ? err : new Error(String(err))),
-      });
-    } catch (err) {
-      reject(err instanceof Error ? err : new Error(String(err)));
-    }
-  });
+/** Parse a plain text File by reading lines. Trims values and skips empty lines. */
+const parseFile = async (file: File): Promise<string[]> => {
+  try {
+    const text = await file.text();
+    const lines = text.split(/\r?\n/).map((l) => trimValue(l));
+    return mapLinesToPrompts(lines);
+  } catch (err) {
+    throw err instanceof Error ? err : new Error(String(err));
+  }
 };
 
 export function DailyUploadCard({ isLoading, onSubmit }: DailyUploadCardProps): React.ReactElement {
@@ -148,7 +119,7 @@ export function DailyUploadCard({ isLoading, onSubmit }: DailyUploadCardProps): 
       return;
     }
 
-    if (!isCsvFile(file)) {
+    if (!isTextFile(file)) {
       setError(ERRORS.INVALID_TYPE);
       setSelectedFileName(file.name);
       setPrompts([]);
@@ -158,8 +129,7 @@ export function DailyUploadCard({ isLoading, onSubmit }: DailyUploadCardProps): 
     setSelectedFileName(file.name);
 
     try {
-      const rows = await parseFile(file);
-      const mapped = mapRowsToPrompts(rows);
+      const mapped = await parseFile(file);
       setPrompts(mapped.length > 0 ? mapped : []);
     } catch (err) {
       const msg = err instanceof Error ? err.message : ERRORS.READ_ERROR;
@@ -218,15 +188,15 @@ export function DailyUploadCard({ isLoading, onSubmit }: DailyUploadCardProps): 
           </div>
 
           <div className="h-0" aria-hidden />
-          <input
-            id={INPUT_ID}
-            ref={fileInputRef}
-            type="file"
-            accept=".csv"
-            className="sr-only"
-            onChange={handleFileChange}
-            disabled={isLoading}
-          />
+            <input
+              id={INPUT_ID}
+              ref={fileInputRef}
+              type="file"
+              accept="text/plain"
+              className="sr-only"
+              onChange={handleFileChange}
+              disabled={isLoading}
+            />
         </div>
 
         {prompts.length === 0 ? (
@@ -265,7 +235,7 @@ export function DailyUploadCard({ isLoading, onSubmit }: DailyUploadCardProps): 
                   <span className="text-neutral-500">o trascina qui il file</span>
                 </div>
                 <div className="mt-2 text-neutral-500 text-xs">
-                  CSV a colonna singola (senza intestazione) · Max 20 MB
+                  File di testo (una riga = un prompt) · Max 20 MB
                 </div>
               </div>
             </div>
