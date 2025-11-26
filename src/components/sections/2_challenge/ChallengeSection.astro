@@ -37,12 +37,12 @@ const { challenge } = Astro.props as { challenge: ChallengeContent };
       </div>
     </Card>
     
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
       <Card
         class="p-6"
         label="Riuscerai a battere ChatGPT?"
-        icon="trophy"
-        iconClass="text-amber-600 shrink-0"
+        icon="star"
+        iconClass="text-yellow-400 shrink-0"
       >
         <p class="text-neutral-700 leading-relaxed mb-4">
           {challenge.challenge}
@@ -57,6 +57,17 @@ const { challenge } = Astro.props as { challenge: ChallengeContent };
       >
         <p class="text-neutral-700 leading-relaxed">
           {challenge.participation}
+        </p>
+      </Card>
+      
+      <Card
+        class="p-6"
+        label="Premi"
+        icon="trophy"
+        iconClass="text-amber-600 shrink-0"
+      >
+        <p class="text-neutral-700 leading-relaxed">
+          Il team che produrrà i migliori prompt verrà premiato davanti al Collegio Docenti del dipartimento di Informatica di Milano-Bicocca. <br> A tutti i partecipanti verrà rilasciato un certificato di partecipazione.
         </p>
       </Card>
     </div>

@@ -29,7 +29,7 @@ export const navigationLinks = [
 ].map((section) => toAnchorLink(section));
 
 export const footerQuickLinks = [
-  { section: sections.leaderboard, label: "Classifica" },
+  { section: sections.leaderboard, label: "Leaderboard" },
   { section: sections.participate },
   { section: sections.instructions },
   { section: sections.playground },

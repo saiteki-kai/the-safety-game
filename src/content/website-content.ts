@@ -56,8 +56,9 @@ export const content: WebsiteContent = {
 
   // Leaderboard Section
   leaderboard: {
-    title: "Leaderboard",
-    description: "La classifica è aggiornata in tempo reale. <br/>Riuscirai a battere ChatGPT?",
+    title: "Temporary Leaderboard",
+    description: "La Leaderbord temporanea riporta i risultati provvisori raccolti dal Playground. <br/> La classifica è aggiornata in tempo reale.<br/> \
+    I punteggi finali, verranno annunciati al termine della challenge.",
     emptyMessage: "Nessun team è presente in classifica al momento. Riprova più tardi.",
   },
 
@@ -300,21 +301,20 @@ export const content: WebsiteContent = {
       {
         question: "Chi può partecipare?",
         answer:
-          "Il Safety Game è aperto a studenti universitari, ricercatori e professionisti interessati all'IA. Non sono richieste competenze tecniche avanzate.",
+          "Il Safety Game è aperto a studenti universitari, ricercatori e professionisti interessati all'IA. Non sono richieste competenze tecniche avanzate. Basta avere una mail @campus.unimib.it (o @unimib.it) per registrarsi!",
       },
       {
-        question: "Qual è la differenza nelle valutazioni tra team e partecipanti singoli?",
-        answer:
-          "Tutti i progetti sono valutati con gli stessi criteri. I giudici considerano il lavoro realizzato indipendentemente dalle dimensioni del team.",
+        question: "Posso far parte di più team?",
+        answer: "No. Ogni partecipante può iscriversi e competere in un solo team (anche se il team include un solo partecipante).",
+      },
+      {
+        question: "Posso modificare il mio team dopo l'iscrizione?",
+        answer: "Non è possibile modificare i membri del team dopo l'iscrizione. Assicurati che tutti i membri siano definiti correttamente prima di registrarti.\n \
+          In caso di necessità particolari, contattaci e faremo del nostro meglio per accontentarvi.",
       },
       {
         question: "Quanto costa partecipare?",
         answer: "La partecipazione è completamente gratuita!",
-      },
-      {
-        question: "Quali sono i premi?",
-        answer:
-          "I primi tre team riceveranno certificati ufficiali, gadget tech e la possibilità di presentare il proprio lavoro in un workshop dedicato. Il team vincitore avrà anche un meeting con il nostro laboratorio di ricerca.",
       },
       {
         question: "Serve esperienza di programmazione?",
@@ -325,6 +325,11 @@ export const content: WebsiteContent = {
         question: "Come funziona la valutazione?",
         answer:
           "I prompt vengono valutati automaticamente in base a vari criteri: efficacia, creatività, aderenza ai principi etici e capacità di 'battere' le difese di ChatGPT.",
+      },
+      {
+        question: "Il numero di componenti del team impatta sulla valutazione?",
+        answer:
+          "Tutte le partecipazioni sono valutate con lo stesso criterio, indipendentemente dal numero di persone che compongono il team.",
       },
       {
         question: "Cosa è un prompt?",

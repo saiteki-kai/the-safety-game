@@ -8,4 +8,3 @@ export { default as PlaygroundSection } from "./7_playground/PlaygroundSection.a
 export { default as TeamSection } from "./8_team/TeamSection.astro";
 export { default as FaqSection } from "./9_faq/FaqSection.astro";
 export { default as LogosSection } from "./10_logos/LogosSection.astro";
-export { default as OpponentSection } from "./11_opponent/OpponentSection.astro";
