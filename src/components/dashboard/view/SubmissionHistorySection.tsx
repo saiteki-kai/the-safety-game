@@ -1,8 +1,6 @@
 import { DataTableColumnHeader } from "@components/ui/data-table-column-header";
 import type { ColumnDef } from "@tanstack/react-table";
-import { useTeamSubmissions } from "@/hooks/useTeamSubmissions";
 import { formatDateTimeOrNull, formatDecimal, toISOStringIfValid } from "@/lib/formatters";
-import { browserClient } from "@/lib/supabase";
 import type { TeamSubmissions } from "@/lib/supabase.types";
 import { StatefulDataTable } from "./StatefulDataTable";
 
@@ -45,12 +43,11 @@ const submissionColumns: ColumnDef<TeamSubmissions>[] = [
 ];
 
 type SubmissionHistorySectionProps = {
-  teamId: string;
+  teamId?: string;
+  submissions: TeamSubmissions[] | null;
 };
 
-export function SubmissionHistorySection({ teamId }: SubmissionHistorySectionProps) {
-  const { submissions } = useTeamSubmissions(browserClient(), teamId);
-
+export function SubmissionHistorySection({ submissions }: SubmissionHistorySectionProps) {
   const isLoading = submissions === null;
 
   return (

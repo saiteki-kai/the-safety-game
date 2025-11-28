@@ -30,7 +30,7 @@ export const getTeamSubmissions = async (
 ): Promise<TeamSubmissions[]> => {
   const { data, error } = await supabase
     .from("submissions")
-    .select("prompt, date:created_at.max(), score:score.avg()")
+    .select("prompt, date:created_at.max(), score:score.avg(), playground")
     .eq("team_id", teamId);
 
   if (error) {

@@ -12,6 +12,7 @@ import { MAX_DAILY_PROMPTS } from "@/lib/consts";
 interface DailyUploadCardProps {
   isLoading: boolean;
   onSubmit: (prompts: string[]) => Promise<{ prompt: string; response?: string }[] | null>;
+  disabled?: boolean;
 }
 
 const MAX_FILE_BYTES = 20_000_000; // 20 MB
@@ -30,9 +31,7 @@ const trimValue = (v: unknown) => String(v ?? "").trim();
 
 /** Map text lines to prompt strings (trimmed). */
 const mapLinesToPrompts = (lines: string[]): string[] =>
-  lines
-    .map((l) => String(l ?? "").trim())
-    .filter((s) => s !== "");
+  lines.map((l) => String(l ?? "").trim()).filter((s) => s !== "");
 
 /** Check if the file looks like a plain text file by extension or mime. */
 const isTextFile = (file: File) => {
@@ -54,7 +53,7 @@ const parseFile = async (file: File): Promise<string[]> => {
   }
 };
 
-export function DailyUploadCard({ isLoading, onSubmit }: DailyUploadCardProps): React.ReactElement {
+export function DailyUploadCard({ isLoading, onSubmit, disabled = false }: DailyUploadCardProps): React.ReactElement {
   const [isDragActive, setIsDragActive] = useState(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -158,7 +157,7 @@ export function DailyUploadCard({ isLoading, onSubmit }: DailyUploadCardProps): 
 
   /** Submit prompts via the provided onSubmit handler */
   const handleSubmitClick = async () => {
-    if (prompts.length === 0 || isLoading) return;
+    if (prompts.length === 0 || isLoading || disabled) return;
     setError(null);
     const toSend = prompts.slice();
     try {
@@ -188,29 +187,33 @@ export function DailyUploadCard({ isLoading, onSubmit }: DailyUploadCardProps): 
           </div>
 
           <div className="h-0" aria-hidden />
-            <input
-              id={INPUT_ID}
-              ref={fileInputRef}
-              type="file"
-              accept="text/plain"
-              className="sr-only"
-              onChange={handleFileChange}
-              disabled={isLoading}
-            />
+          <input
+            id={INPUT_ID}
+            ref={fileInputRef}
+            type="file"
+            accept="text/plain"
+            className="sr-only"
+            onChange={handleFileChange}
+            disabled={isLoading || disabled}
+          />
         </div>
 
         {prompts.length === 0 ? (
           <fieldset
             aria-describedby="upload-instructions"
-            onDragOver={(event) => {
-              event.preventDefault();
-              setIsDragActive(true);
-            }}
-            onDragLeave={() => setIsDragActive(false)}
-            onDrop={handleDrop}
+            onDragOver={
+              disabled
+                ? undefined
+                : (event) => {
+                    event.preventDefault();
+                    setIsDragActive(true);
+                  }
+            }
+            onDragLeave={disabled ? undefined : () => setIsDragActive(false)}
+            onDrop={disabled ? undefined : handleDrop}
             className={`relative h-full min-h-0 flex-1 rounded-lg border bg-white p-4 sm:p-6 ${
               isDragActive ? "border-amber-300 ring-2 ring-amber-200/60" : "border-neutral-200"
-            } ${prompts.length === 0 ? "flex items-center justify-center" : ""}`}
+            } ${prompts.length === 0 ? "flex items-center justify-center" : ""} ${disabled ? "cursor-not-allowed" : ""}`}
           >
             {error && (
               <output
@@ -223,21 +226,35 @@ export function DailyUploadCard({ isLoading, onSubmit }: DailyUploadCardProps): 
               </output>
             )}
 
-            <div id="upload-instructions" className="text-neutral-500 text-sm">
-              <div className="text-center">
-                <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-lg bg-violet-50 p-2">
-                  <Icon name="upload" size={18} className="text-violet-700" />
+            <div id="upload-instructions" className="text-neutral-500 text-sm transition-all duration-300 ease-in-out">
+              {disabled ? (
+                <div className="fade-in-0 zoom-in-95 animate-in text-center duration-500">
+                  <div className="mx-auto">
+                    <Icon name="check-circle" size={32} className="text-blue-600 drop-shadow-sm" />
+                  </div>
+                  <div className="mt-4 space-y-3">
+                    <h4 className="font-bold text-blue-900 text-xl">🎉 Invio Completato!</h4>
+                    <p className="text-base text-blue-800 leading-relaxed">
+                      Hai già effettuato l'invio giornaliero oggi.
+                      <br />
+                      <span className="font-medium">Torna domani per il prossimo round!</span>
+                    </p>
+                  </div>
                 </div>
-                <div className="mt-6 flex items-center justify-center gap-2">
-                  <label htmlFor={INPUT_ID} className="cursor-pointer font-semibold text-violet-700 hover:underline">
-                    Clicca per caricare
-                  </label>
-                  <span className="text-neutral-500">o trascina qui il file</span>
+              ) : (
+                <div className="text-center">
+                  <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-lg bg-violet-50 p-2">
+                    <Icon name="upload" size={18} className="text-violet-700" />
+                  </div>
+                  <div className="mt-6 flex items-center justify-center gap-2">
+                    <label htmlFor={INPUT_ID} className="cursor-pointer font-semibold text-violet-700 hover:underline">
+                      Clicca per caricare
+                    </label>
+                    <span className="text-neutral-500">o trascina qui il file</span>
+                  </div>
+                  <div className="mt-2 text-neutral-500 text-xs">File di testo (una riga = un prompt) · Max 20 MB</div>
                 </div>
-                <div className="mt-2 text-neutral-500 text-xs">
-                  File di testo (una riga = un prompt) · Max 20 MB
-                </div>
-              </div>
+              )}
             </div>
           </fieldset>
         ) : (
@@ -256,7 +273,7 @@ export function DailyUploadCard({ isLoading, onSubmit }: DailyUploadCardProps): 
         )}
 
         <div className="mt-3 flex flex-col sm:flex-row sm:items-center sm:gap-3">
-          {!isLoading && (
+          {!disabled && !isLoading && (
             <div className="flex h-9 items-center rounded-md border bg-white px-2 sm:flex-1">
               <div className="flex min-w-0 grow items-center gap-2">
                 <FileSpreadsheet size={14} className="text-neutral-900" />
@@ -315,24 +332,26 @@ export function DailyUploadCard({ isLoading, onSubmit }: DailyUploadCardProps): 
           )}
 
           <div className={isLoading ? "mt-2 w-full sm:mt-0 sm:flex-1" : "mt-2 w-full sm:mt-0 sm:w-28"}>
-            <Button
-              type="button"
-              variant={prompts.length > 0 && !isBadgeProblem ? "default" : "outline"}
-              className="h-9 w-full font-semibold text-sm"
-              disabled={isLoading || isBadgeProblem}
-              aria-disabled={isLoading || isBadgeProblem}
-              onClick={handleSubmitClick}
-              aria-busy={isLoading}
-            >
-              {isLoading ? (
-                <span className="flex items-center gap-2 text-sm">
-                  <Spinner />
-                  <span className="truncate">Valutazione in corso — potrebbe richiedere qualche minuto.</span>
-                </span>
-              ) : (
-                "Invia"
-              )}
-            </Button>
+            {!disabled && (
+              <Button
+                type="button"
+                variant={prompts.length > 0 && !isBadgeProblem ? "default" : "outline"}
+                className="h-9 w-full font-semibold text-sm"
+                disabled={isLoading || isBadgeProblem || disabled}
+                aria-disabled={isLoading || isBadgeProblem || disabled}
+                onClick={handleSubmitClick}
+                aria-busy={isLoading}
+              >
+                {isLoading ? (
+                  <span className="flex items-center gap-2 text-sm">
+                    <Spinner />
+                    <span className="truncate">Valutazione in corso — potrebbe richiedere qualche minuto.</span>
+                  </span>
+                ) : (
+                  "Invia"
+                )}
+              </Button>
+            )}
           </div>
         </div>
       </div>

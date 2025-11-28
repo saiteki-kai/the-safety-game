@@ -10,6 +10,7 @@ type TeamSubmissions = {
   prompt: string;
   date: number;
   score: number;
+  playground: boolean;
 };
 
 type TeamWithMemberNumbers = Team & { members: number };

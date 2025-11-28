@@ -26,3 +26,14 @@ export function formatDecimal(value: unknown, fractionDigits = 1, fallback = "â€
   const num = typeof value === "number" ? value : Number.parseFloat(String(value));
   return Number.isFinite(num) ? num.toFixed(fractionDigits) : fallback;
 }
+
+export function isToday(value: unknown): boolean {
+  const parsed = parseDateValue(value);
+  if (!parsed) return false;
+  const now = new Date();
+  return (
+    parsed.getFullYear() === now.getFullYear() &&
+    parsed.getMonth() === now.getMonth() &&
+    parsed.getDate() === now.getDate()
+  );
+}

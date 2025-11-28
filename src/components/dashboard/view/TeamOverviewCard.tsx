@@ -4,8 +4,8 @@ import { MAX_DAILY_PROMPTS, MAX_TEAM_SIZE } from "@/lib/consts";
 import type { Profile } from "@/lib/supabase.types";
 import JoinCodeButton from "./JoinCodeButton";
 import MemberItem from "./MemberItem";
-import StatusActionRow from "./StatusActionRow";
 import ProgressMetricRow from "./ProgressMetricRow";
+import StatusActionRow from "./StatusActionRow";
 
 type ProgressState = {
   challengeDaysRemaining: number;
@@ -29,14 +29,19 @@ type TeamOverviewCardProps = {
   progress: ProgressState;
 };
 
-export default function TeamOverviewCard({
-  teamName,
-  teamJoinCode,
-  members,
-  progress,
-}: TeamOverviewCardProps) {
+export default function TeamOverviewCard({ teamName, teamJoinCode, members, progress }: TeamOverviewCardProps) {
   const memberSlots = useMemo(() => createMemberSlots(members), [members]);
-  const { challengeDaysRemaining, finalSubmissionDone, leaderboardPosition, dailySubmissionsDone, promptsSubmitted, averageScore, highestScore, scoreTotal, chatgptBaseline } = progress;
+  const {
+    challengeDaysRemaining,
+    finalSubmissionDone,
+    leaderboardPosition,
+    dailySubmissionsDone,
+    promptsSubmitted,
+    averageScore,
+    highestScore,
+    scoreTotal,
+    chatgptBaseline,
+  } = progress;
   const baseline = chatgptBaseline ?? 9.0;
   const baselineBeaten = highestScore >= baseline;
 
@@ -83,12 +88,26 @@ export default function TeamOverviewCard({
               <h4 className="mb-3 font-medium text-neutral-700 text-sm">Performance</h4>
 
               <div className="space-y-2">
-                <ProgressMetricRow icon={<FileText className="h-4 w-4 text-neutral-600" />} value={promptsSubmitted} label="Prompt Inviati" />
+                <ProgressMetricRow
+                  icon={<FileText className="h-4 w-4 text-neutral-600" />}
+                  value={promptsSubmitted}
+                  label="Prompt Inviati"
+                />
 
                 <div className="grid grid-cols-2 gap-3">
-                  <ProgressMetricRow icon={<Target className="h-4 w-4 text-amber-600" />} value={averageScore} total={scoreTotal} label="Punteggio Medio" />
+                  <ProgressMetricRow
+                    icon={<Target className="h-4 w-4 text-amber-600" />}
+                    value={averageScore}
+                    total={scoreTotal}
+                    label="Punteggio Medio"
+                  />
 
-                  <ProgressMetricRow icon={<Trophy className="h-4 w-4 text-purple-600" />} value={highestScore} total={scoreTotal} label="Punteggio Massimo" />
+                  <ProgressMetricRow
+                    icon={<Trophy className="h-4 w-4 text-purple-600" />}
+                    value={highestScore}
+                    total={scoreTotal}
+                    label="Punteggio Massimo"
+                  />
                 </div>
               </div>
             </div>
@@ -134,8 +153,14 @@ export default function TeamOverviewCard({
 
                   <div className="flex w-full flex-col items-center justify-center rounded-lg border border-neutral-200 bg-white p-4 text-center">
                     <Zap className={`mb-2 h-6 w-6 ${baselineBeaten ? "text-green-600" : "text-neutral-600"}`} />
-                    <div className={`font-bold ${baselineBeaten ? "text-green-700" : "text-neutral-900"} text-xl`}>{baseline}</div>
-                    <div className={`mt-1 font-medium ${baselineBeaten ? "text-green-600" : "text-neutral-700"} text-xs`}>{baselineBeaten ? "ChatGPT Superato" : "ChatGPT da superare"}</div>
+                    <div className={`font-bold ${baselineBeaten ? "text-green-700" : "text-neutral-900"} text-xl`}>
+                      {baseline}
+                    </div>
+                    <div
+                      className={`mt-1 font-medium ${baselineBeaten ? "text-green-600" : "text-neutral-700"} text-xs`}
+                    >
+                      {baselineBeaten ? "ChatGPT Superato" : "ChatGPT da superare"}
+                    </div>
                   </div>
                 </div>
               </div>

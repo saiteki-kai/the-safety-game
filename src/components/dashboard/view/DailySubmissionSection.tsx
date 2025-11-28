@@ -5,9 +5,10 @@ import { DailyUploadCard } from "./DailyUploadCard";
 
 interface DailySubmissionSectionProps {
   teamId: string;
+  disabled?: boolean;
 }
 
-export function DailySubmissionSection({ teamId }: DailySubmissionSectionProps) {
+export function DailySubmissionSection({ teamId, disabled = false }: DailySubmissionSectionProps) {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (prompts: string[]): Promise<{ prompt: string; response?: string }[] | null> => {
@@ -75,7 +76,7 @@ export function DailySubmissionSection({ teamId }: DailySubmissionSectionProps) 
           </div>
         </div>
         <div className="h-[500px] lg:h-auto lg:flex-1">
-          <DailyUploadCard isLoading={isLoading} onSubmit={handleSubmit} />
+          <DailyUploadCard isLoading={isLoading} onSubmit={handleSubmit} disabled={disabled} />
         </div>
       </div>
     </div>

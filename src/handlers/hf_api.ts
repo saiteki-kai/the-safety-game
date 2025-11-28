@@ -1,5 +1,4 @@
 import { Client } from "@gradio/client";
-import type { submissions } from "@/actions/submissions";
 import type { Submission } from "@/lib/supabase.types";
 
 type Prompt = {
