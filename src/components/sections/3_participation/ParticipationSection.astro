@@ -20,28 +20,21 @@ const { participation } = Astro.props as {
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
   <Card class="p-5 registration-card md:col-span-2 h-full" innerClass="h-full flex flex-col justify-between" label="Registrazione" icon="form" iconClass="text-blue-600 shrink-0">
         <p class="text-neutral-700 mb-2">
-          Puoi partecipare come singolo oppure creare un team di 2–4 persone.
+          I team possono essere composti da 1 a 4 persone. Ogni membro del team deve registrarsi con la propria email universitaria per partecipare alla challenge.
         </p>
         <p class="text-neutral-700 mb-3">
-          Se scegli il team, registra il nome del team e i nomi dei membri usando il modulo sottostante; se partecipi da solo, indica semplicemente il tuo nome.
+          Dopo l'accesso potrai accedere alla dashboard del tuo team.
         </p>
-        {participation.registration && (
-          <div class="flex justify-center">
-            <a
-              class="btn btn-primary registration-cta mx-auto"
-              href={participation.registration.formUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Apri modulo di registrazione
-            </a>
-          </div>
-        )}
+        <div class="flex justify-center">
+          <a class="btn btn-primary registration-cta mx-auto" href="/login">
+            Registrati
+          </a>
+        </div>
       </Card>
 
-      <Card class="p-5 md:col-span-1 h-full" innerClass="h-full flex flex-col justify-between" label="Privacy" icon="eye-off" iconClass="text-neutral-600 shrink-0">
+      <Card class="p-5 md:col-span-1 h-full" innerClass="h-full flex flex-col" label="Privacy" icon="eye-off" iconClass="text-neutral-600 shrink-0">
         <p class="text-neutral-700 mb-2">
-          La partecipazione alla challenge implica l’integrale accettazione del <a href="/privacy" class="text-blue-600 hover:underline">regolamento e delle linee guida operative </a> della stessa.
+          La partecipazione alla challenge implica l'integrale accettazione del <a href="/privacy" class="text-blue-600 hover:underline">regolamento e delle linee guida operative </a> della stessa.
         </p>
       </Card>
     </div>

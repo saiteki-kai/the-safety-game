@@ -6,9 +6,9 @@ export const content: WebsiteContent = {
     title: "The Safety Game",
     description:
       "Metti alla prova la tua creatività, la tua logica e la tua conoscenza dell'IA in una competizione di prompt engineering etico.",
-    cta: "Riuscirai a battere ChatGPT?",
-    buttonText: "Registra il tuo team",
-    buttonLink: "#participate",
+  cta: "Riuscirai a battere ChatGPT?",
+  buttonText: "Registrati",
+  buttonLink: "/login",
     highlights: [
       {
         emoji: "🎯",
@@ -122,13 +122,13 @@ export const content: WebsiteContent = {
       {
         step: "1",
         title: "Forma il tuo team",
-        description: "Crea un team di 2-4 persone, o partecipa come singolo.",
+  description: "Crea un team di 1-4 persone, o partecipa come singolo.",
       },
       {
         step: "2",
         title: "Registrati online",
         description:
-          "Compila il modulo di registrazione con i dettagli del tuo team entro il 15 novembre. Riceverai successivamente via email le credenziali per accedere al Playground.",
+          "Compila il modulo di registrazione con i dettagli del tuo team entro il 15 novembre. Ogni membro del team deve registrarsi con la propria email universitaria.",
       },
       {
         step: "3",
@@ -150,7 +150,7 @@ export const content: WebsiteContent = {
       fields: [
         "Nome del team",
         "Email del referente del team (verrà usata per le comunicazioni)",
-        "Nomi e email dei membri (2-4, separati da virgola)",
+  "Nomi e email dei membri (1-4, separati da virgola)",
         "Istituzione / Affiliazione (opzionale)",
         "Breve descrizione del team / focus (opzionale)",
       ],
@@ -302,7 +302,7 @@ export const content: WebsiteContent = {
       {
         question: "Chi può partecipare?",
         answer:
-          "Il Safety Game è aperto a studenti universitari, ricercatori e professionisti interessati all'IA. Non sono richieste competenze tecniche avanzate. Basta avere una mail @campus.unimib.it (o @unimib.it) per registrarsi!",
+          "Il Safety Game è aperto a studenti universitari, ricercatori e professionisti interessati all'IA. Non sono richieste competenze tecniche avanzate. Ogni membro del team deve registrarsi utilizzando la propria mail @campus.unimib.it (o @unimib.it).",
       },
       {
         question: "Posso far parte di più team?",

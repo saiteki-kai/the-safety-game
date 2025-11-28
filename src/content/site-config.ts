@@ -4,11 +4,10 @@ type Section = {
 };
 
 const sections = {
-  leaderboard: { id: "leaderboard", label: "Leaderboard" },
+  instructions: { id: "instructions", label: "Istruzioni" },
   participate: { id: "participate", label: "Partecipa" },
   dates: { id: "dates", label: "Date Importanti" },
-  instructions: { id: "instructions", label: "Istruzioni" },
-  playground: { id: "playground", label: "Playground" },
+  leaderboard: { id: "leaderboard", label: "Leaderboard" },
   team: { id: "team", label: "Il Team" },
   faq: { id: "faq", label: "FAQ" },
 } as const satisfies Record<string, Section>;
@@ -23,7 +22,6 @@ export const navigationLinks = [
   sections.dates,
   sections.instructions,
   sections.leaderboard,
-  sections.playground,
   sections.team,
   sections.faq,
 ].map((section) => toAnchorLink(section));
@@ -32,7 +30,6 @@ export const footerQuickLinks = [
   { section: sections.leaderboard, label: "Leaderboard" },
   { section: sections.participate },
   { section: sections.instructions },
-  { section: sections.playground },
   { section: sections.faq },
 ].map(({ section, label }) => toAnchorLink(section, label));
 
