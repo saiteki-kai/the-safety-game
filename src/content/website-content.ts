@@ -57,7 +57,8 @@ export const content: WebsiteContent = {
   // Leaderboard Section
   leaderboard: {
     title: "Temporary Leaderboard",
-    description: "La Leaderbord temporanea riporta i risultati provvisori raccolti dal Playground. <br/> La classifica è aggiornata in tempo reale.<br/> \
+    description:
+      "La Leaderbord temporanea riporta i risultati provvisori raccolti dal Playground. <br/> La classifica è aggiornata in tempo reale.<br/> \
     I punteggi finali, verranno annunciati al termine della challenge.",
     emptyMessage: "Nessun team è presente in classifica al momento. Riprova più tardi.",
   },
@@ -305,11 +306,13 @@ export const content: WebsiteContent = {
       },
       {
         question: "Posso far parte di più team?",
-        answer: "No. Ogni partecipante può iscriversi e competere in un solo team (anche se il team include un solo partecipante).",
+        answer:
+          "No. Ogni partecipante può iscriversi e competere in un solo team (anche se il team include un solo partecipante).",
       },
       {
         question: "Posso modificare il mio team dopo l'iscrizione?",
-        answer: "Non è possibile modificare i membri del team dopo l'iscrizione. Assicurati che tutti i membri siano definiti correttamente prima di registrarti.\n \
+        answer:
+          "Non è possibile modificare i membri del team dopo l'iscrizione. Assicurati che tutti i membri siano definiti correttamente prima di registrarti.\n \
           In caso di necessità particolari, contattaci e faremo del nostro meglio per accontentarvi.",
       },
       {
