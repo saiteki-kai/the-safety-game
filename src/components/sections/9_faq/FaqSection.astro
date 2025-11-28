@@ -1,7 +1,7 @@
 ---
-import Icon from "@components/common/Icon";
 import type { FaqContent } from "@content/types";
 import SectionLayout from "@layouts/SectionLayout.astro";
+import FaqAccordion from "./FaqAccordion";
 
 const { faqs } = Astro.props as { faqs: FaqContent };
 ---
@@ -12,40 +12,7 @@ const { faqs } = Astro.props as { faqs: FaqContent };
   description={faqs.description}
   sectionClass="bg-white"
 >
-  <div data-accordion class="max-w-3xl mx-auto">
-    {
-      faqs.items.map((item, index) => (
-        <div class="border-b last:border-b-0" data-accordion-item>
-          <button
-            type="button"
-            class="accordion-trigger focus-ring"
-            data-accordion-trigger
-            aria-expanded="false"
-            aria-controls={`faq-panel-${index}`}
-            id={`faq-trigger-${index}`}
-          >
-            {item.question}
-            <Icon
-              data-accordion-icon
-              className="accordion-icon text-muted-foreground"
-              name="chevron-down"
-              size={24}
-              aria-hidden="true"
-            />
-          </button>
-          <div
-            id={`faq-panel-${index}`}
-            role="region"
-            aria-labelledby={`faq-trigger-${index}`}
-            class="accordion-panel hidden"
-            data-accordion-content
-          >
-            {item.answer}
-          </div>
-        </div>
-      ))
-    }
+  <div class="max-w-3xl mx-auto">
+    <FaqAccordion client:idle items={faqs.items} />
   </div>
 </SectionLayout>
-
-<script src="@scripts/accordion.ts"></script>

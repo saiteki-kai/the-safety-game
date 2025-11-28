@@ -35,8 +35,8 @@ export default function TeamDashboardView({ team }: TeamDashboardViewProps) {
       ? Math.ceil((CHALLENGE_END_DATE.getTime() - Date.now()) / (1000 * 60 * 60 * 24))
       : 0;
   const leaderboardPosition = 3; // Placeholder for leaderboard position!!!
-  const finalSubmissionDone = submissions ? submissions.some((s) => !s.playground) : false;
-  const dailySubmissionsDone = submissions && submissions.some((s) => isToday(s.date));
+  const finalSubmissionDone = submissions?.some((s) => !s.playground) ?? false;
+  const dailySubmissionsDone = submissions?.some((s) => isToday(s.date)) ?? false;
 
   const progress = {
     promptsSubmitted,
