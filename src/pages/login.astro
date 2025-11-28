@@ -6,11 +6,7 @@ import "@styles/dashboard.css";
 import { serverClient } from "@/lib/supabase";
 import PageLayout from "../layouts/PageLayout.astro";
 
-const supabase = serverClient({
-  request: Astro.request,
-  cookies: Astro.cookies,
-});
-
+const supabase = serverClient(Astro);
 const { data } = await supabase.auth.getClaims();
 
 if (data?.claims) {
@@ -50,7 +46,7 @@ if (data?.claims) {
           </p>
         </div>
 
-        <form method="POST" action="/api/auth/signin" class="mt-10 space-y-4">
+        <form method="post" action="/api/auth/signin" data-astro-reload class="mt-10 space-y-4">
           <input type="hidden" name="provider" value="google" />
           <button type="submit" class="register-oauth-button">
             <span class="register-oauth-icon" aria-hidden="true">

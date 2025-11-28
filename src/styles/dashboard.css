@@ -86,7 +86,7 @@
 
 /* Dashboard forms */
 .dashboard-form {
-  @apply space-y-6;
+  @apply space-y-6 py-6;
 }
 
 .dashboard-field {
@@ -94,7 +94,7 @@
 }
 
 .dashboard-field-label {
-  @apply font-semibold text-neutral-900 text-sm;
+  @apply font-semibold text-neutral-900 text-sm pb-2;
 }
 
 .dashboard-input-wrapper {

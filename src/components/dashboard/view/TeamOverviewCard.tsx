@@ -1,108 +1,180 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@components/ui/avatar";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@components/ui/card";
-import { Check, Copy } from "lucide-react";
-import { useState } from "react";
-import { toast } from "sonner";
-import type { MemberSlot } from "../types";
+import { Calendar, FileText, Flag, Target, Trophy, Upload, Zap } from "lucide-react";
+import { useMemo } from "react";
+import { MAX_DAILY_PROMPTS, MAX_TEAM_SIZE } from "@/lib/consts";
+import type { Profile } from "@/lib/supabase.types";
+import JoinCodeButton from "./JoinCodeButton";
+import MemberItem from "./MemberItem";
+import ProgressMetricRow from "./ProgressMetricRow";
+import StatusActionRow from "./StatusActionRow";
+
+type ProgressState = {
+  challengeDaysRemaining: number;
+  finalSubmissionDone: boolean;
+  leaderboardPosition: number;
+  dailySubmissionsDone: boolean;
+  // metric values
+  promptsSubmitted: number;
+  averageScore: number;
+  highestScore: number;
+  // optional totals for score display (e.g. 10)
+  scoreTotal?: number;
+  // optional ChatGPT baseline to compare against
+  chatgptBaseline?: number;
+};
 
 type TeamOverviewCardProps = {
   teamName: string;
   teamJoinCode: string;
-  memberSlots: MemberSlot[];
+  members: Profile[] | null;
+  progress: ProgressState;
 };
 
-export default function TeamOverviewCard({ teamName, teamJoinCode, memberSlots }: TeamOverviewCardProps) {
-  return (
-    <Card className="flex h-full min-h-0 w-full flex-col">
-      <CardHeader className="pb-0">
-        <div className="flex flex-col gap-3">
-          <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
-            <CardTitle className="text-lg text-neutral-900 lg:text-2xl">{teamName}</CardTitle>
-            <JoinCodeButton teamJoinCode={teamJoinCode} />
-          </div>
-          <CardDescription className="max-w-prose text-neutral-500 text-sm leading-relaxed">
-            Condividi il codice invito per permettere ai nuovi membri di unirsi subito.
-          </CardDescription>
-        </div>
-      </CardHeader>
-      <CardContent className="min-h-0 flex-1 space-y-4 pt-4">
-        <div>
-          <p className="mb-2 font-semibold text-neutral-500 text-xs uppercase tracking-wide">Membri del team</p>
-          <ul className="grid grid-cols-1 gap-2 text-neutral-700 sm:grid-cols-2">
-            {memberSlots.map((slot) => (
-              <MemberItem key={slot.key} slot={slot} />
-            ))}
-          </ul>
-        </div>
-      </CardContent>
-    </Card>
-  );
-}
-
-type JoinCodeButtonProps = {
-  teamJoinCode: string;
-};
-
-function JoinCodeButton({ teamJoinCode }: JoinCodeButtonProps) {
-  const [isJoinCodeCopied, setJoinCodeCopied] = useState(false);
-
-  const onClick = async () => {
-    toast.success("Codice copiato negli appunti", {
-      duration: 2000,
-      position: "top-center",
-      id: "copy-join-code-success",
-    });
-    await navigator.clipboard.writeText(teamJoinCode);
-    setJoinCodeCopied(true);
-    setTimeout(() => setJoinCodeCopied(false), 2000);
-  };
+export default function TeamOverviewCard({ teamName, teamJoinCode, members, progress }: TeamOverviewCardProps) {
+  const memberSlots = useMemo(() => createMemberSlots(members), [members]);
+  const {
+    challengeDaysRemaining,
+    finalSubmissionDone,
+    leaderboardPosition,
+    dailySubmissionsDone,
+    promptsSubmitted,
+    averageScore,
+    highestScore,
+    scoreTotal,
+    chatgptBaseline,
+  } = progress;
+  const baseline = chatgptBaseline ?? 9.0;
+  const baselineBeaten = highestScore >= baseline;
 
   return (
-    <button
-      type="button"
-      onClick={onClick}
-      aria-label="Copia codice invito"
-      className="group flex w-full items-center justify-between gap-3 rounded-md bg-white px-3 py-2 font-sans text-sky-900 text-sm ring-1 ring-neutral-200 transition-shadow hover:shadow-sm lg:w-auto lg:justify-center"
-    >
-      <span className="font-semibold text-base tracking-widest lg:font-medium lg:text-sm">{teamJoinCode}</span>
-      {isJoinCodeCopied ? (
-        <Check className="h-4 w-4 text-emerald-600 transition-transform group-active:scale-95" aria-hidden="true" />
-      ) : (
-        <Copy className="h-4 w-4 text-sky-500 transition-transform group-hover:scale-105" aria-hidden="true" />
-      )}
-      <span className="sr-only">Copia il codice invito</span>
-    </button>
-  );
-}
-
-type MemberItemProps = {
-  slot: MemberSlot;
-};
-
-function MemberItem({ slot }: MemberItemProps) {
-  const { name, initials, isPlaceholder, member } = slot;
-
-  return (
-    <li
-      className={`flex min-w-0 items-center gap-3 rounded-md px-2 py-2 sm:px-3 ${isPlaceholder ? "border border-neutral-200 border-dashed bg-neutral-50 text-neutral-500" : "bg-transparent"}`}
-    >
-      <Avatar
-        className={`h-10 w-10 shrink-0 border ${isPlaceholder ? "border-neutral-300 border-dashed bg-neutral-50" : "border-neutral-200 bg-white"}`}
-      >
-        <AvatarImage src={member?.avatar_url} alt={member?.full_name ?? undefined} />
-        <AvatarFallback
-          className={`font-semibold text-sm ${isPlaceholder ? "bg-neutral-50 text-neutral-400" : "bg-neutral-100 text-neutral-600"}`}
-        >
-          {initials}
-        </AvatarFallback>
-      </Avatar>
-      <div className="flex min-w-0 flex-1 items-center">
-        <span
-          className={`wrap-break-word font-medium text-sm leading-snug ${isPlaceholder ? "text-neutral-500" : "text-neutral-900"}`}
-        >
-          {name}
-        </span>
+    <div className="space-y-8 px-8 py-8">
+      {/* Hero Section */}
+      <div className="space-y-3 text-center">
+        <h1 className="font-extrabold text-3xl text-neutral-900 sm:text-4xl">{teamName}</h1>
+        <p className="mx-auto max-w-2xl text-lg text-neutral-600">
+          Gestisci i membri del tuo team, monitora i progressi e accedi facilmente all'area di invio giornaliera.
+        </p>
       </div>
-    </li>
+
+      {/* Main Content */}
+      <div className="grid grid-cols-1 items-stretch gap-8 md:grid md:grid-cols-4 md:gap-8">
+        <div className="flex min-h-0 min-w-0 flex-col space-y-6 md:col-span-1">
+          <div className="flex h-full flex-col rounded-lg border border-neutral-200 bg-white p-6">
+            <div className="mb-4 flex flex-col justify-between">
+              <h3 className="font-semibold text-lg text-neutral-800">Il tuo Team</h3>
+              <p className="text-neutral-500 text-sm">Gestisci i membri del tuo team e condividi il codice di invito</p>
+            </div>
+            <div className="mb-6 min-h-0 flex-1 space-y-3 overflow-y-auto">
+              {memberSlots.map((slot, idx) => (
+                <MemberItem key={`member-${slot?.id ?? idx}`} member={slot} />
+              ))}
+            </div>
+            {/* Invite Code Box - Smaller */}
+            <div className="border-neutral-100 border-t pt-4">
+              <h4 className="mb-3 font-medium text-neutral-700 text-sm">Codice Invito</h4>
+              <JoinCodeButton teamJoinCode={teamJoinCode} />
+            </div>
+          </div>
+        </div>
+
+        <div className="flex min-h-0 min-w-0 flex-col space-y-6 md:col-span-3">
+          <div className="flex h-full flex-col rounded-lg border border-neutral-200 bg-white p-6">
+            <div className="mb-4 flex flex-col justify-between">
+              <h3 className="font-semibold text-lg text-neutral-800">Progresso Challenge</h3>
+              <p className="text-neutral-500 text-sm">Monitora i tuoi progressi e risultati</p>
+            </div>
+
+            {/* Performance Metrics */}
+            <div className="mb-6 min-h-0 flex-1 space-y-3">
+              <h4 className="mb-3 font-medium text-neutral-700 text-sm">Performance</h4>
+
+              <div className="space-y-2">
+                <ProgressMetricRow
+                  icon={<FileText className="h-4 w-4 text-neutral-600" />}
+                  value={promptsSubmitted}
+                  label="Prompt Inviati"
+                />
+
+                <div className="grid grid-cols-2 gap-3">
+                  <ProgressMetricRow
+                    icon={<Target className="h-4 w-4 text-amber-600" />}
+                    value={averageScore}
+                    total={scoreTotal}
+                    label="Punteggio Medio"
+                  />
+
+                  <ProgressMetricRow
+                    icon={<Trophy className="h-4 w-4 text-purple-600" />}
+                    value={highestScore}
+                    total={scoreTotal}
+                    label="Punteggio Massimo"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Challenge Status */}
+            <div className="border-neutral-100 border-t pt-4">
+              <h4 className="mb-3 font-medium text-neutral-700 text-sm">Stato Challenge</h4>
+
+              {/* Status Grid: action rows on top, small summary cards (days & position) below */}
+              <div className="grid grid-cols-1 gap-4">
+                <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+                  <StatusActionRow
+                    Icon={Upload}
+                    label="Invii Giornalieri"
+                    subtitle={
+                      dailySubmissionsDone
+                        ? "Hai effettuato l'invio giornaliero."
+                        : `Puoi ancora inviare ${MAX_DAILY_PROMPTS} prompt oggi`
+                    }
+                    href="/playground"
+                  />
+
+                  <StatusActionRow
+                    Icon={Flag}
+                    label="Invio Finale"
+                    subtitle={finalSubmissionDone ? "Già inviato" : "In attesa di consegna"}
+                    href="/final-submission"
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 items-stretch gap-3 sm:grid-cols-3">
+                  <div className="flex w-full flex-col items-center justify-center rounded-lg border border-blue-100 bg-blue-50 p-4 text-center transition-colors hover:bg-blue-100">
+                    <Calendar className="mb-2 h-6 w-6 text-blue-600" />
+                    <div className="font-bold text-blue-700 text-xl">{challengeDaysRemaining}</div>
+                    <div className="mt-1 font-medium text-blue-600 text-xs">Giorni Rimanenti</div>
+                  </div>
+
+                  <div className="flex w-full flex-col items-center justify-center rounded-lg border border-amber-100 bg-amber-50 p-4 text-center transition-colors hover:bg-amber-100">
+                    <Trophy className="mb-2 h-6 w-6 text-amber-600" />
+                    <div className="font-bold text-amber-700 text-xl">#{leaderboardPosition}</div>
+                    <div className="mt-1 font-medium text-amber-600 text-xs">Posto in Classifica</div>
+                  </div>
+
+                  <div className="flex w-full flex-col items-center justify-center rounded-lg border border-neutral-200 bg-white p-4 text-center">
+                    <Zap className={`mb-2 h-6 w-6 ${baselineBeaten ? "text-green-600" : "text-neutral-600"}`} />
+                    <div className={`font-bold ${baselineBeaten ? "text-green-700" : "text-neutral-900"} text-xl`}>
+                      {baseline}
+                    </div>
+                    <div
+                      className={`mt-1 font-medium ${baselineBeaten ? "text-green-600" : "text-neutral-700"} text-xs`}
+                    >
+                      {baselineBeaten ? "ChatGPT Superato" : "ChatGPT da superare"}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   );
+}
+
+function createMemberSlots(members: Profile[] | null): Array<Profile | null> {
+  const confirmed = members ?? [];
+  const vacancies = Math.max(0, MAX_TEAM_SIZE - confirmed.length);
+
+  return confirmed.concat(Array(vacancies).fill(null));
 }

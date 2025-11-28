@@ -15,10 +15,6 @@ export default defineConfig({
     driver: "redis",
   },
 
-  session: {
-    driver: "memory",
-  },
-
   vite: {
     plugins: [tailwindcss()],
   },

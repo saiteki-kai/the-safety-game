@@ -7,10 +7,18 @@ const protectedRoutes = ["/dashboard", "/admin"];
 const protectedAPIRoutes = ["/api/submissions", "_actions/**"];
 
 export const onRequest = defineMiddleware(async (context: APIContext, next: MiddlewareNext) => {
-  const supabase = serverClient(context);
+  console.log(`Middleware processing request for: ${context.url.pathname}`);
+
+  if (context.isPrerendered) {
+    console.log("Request is prerendered");
+    return next();
+  }
+
+  // Set up Supabase client in locals
+  context.locals.db = serverClient(context);
 
   // Retrieve user claims
-  const { data: claimsData, error: claimsError } = await supabase.auth.getClaims();
+  const { data: claimsData, error: claimsError } = await context.locals.db.auth.getClaims();
 
   // If there's an error fetching claims, redirect to login
   if (claimsError) {

@@ -1,5 +1,5 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
-import type { Database, Profile, Team } from "@/lib/supabase.types";
+import type { Database, Profile, Team, TeamWithMemberNumbers } from "@/lib/supabase.types";
 
 /**
  * Check if a team name already exists
@@ -40,16 +40,23 @@ export const createTeamWithName = async (db: SupabaseClient<Database>, name: str
  * @param db - Supabase client
  * @param joinCode - The join code to search for
  * @throws If database query fails
- * @returns The Team if found, otherwise null
+ * @returns The Team with member count if found, otherwise null
  */
-export const findTeamByJoinCode = async (db: SupabaseClient<Database>, joinCode: string): Promise<Team | null> => {
-  const { data, error } = await db.from("teams").select().eq("join_code", joinCode.toLowerCase()).maybeSingle();
+export const findTeamByJoinCode = async (
+  db: SupabaseClient<Database>,
+  joinCode: string,
+): Promise<TeamWithMemberNumbers | null> => {
+  const { data, error } = await db
+    .from("teams")
+    .select("*,members:team_members(user_id.count())")
+    .eq("join_code", joinCode.toLowerCase())
+    .maybeSingle();
 
   if (error) {
     throw error;
   }
 
-  return data;
+  return { ...data, members: data.members[0].count };
 };
 
 /**
@@ -57,17 +64,24 @@ export const findTeamByJoinCode = async (db: SupabaseClient<Database>, joinCode:
  * @param db - Supabase client
  * @param userId - The ID of the user
  * @param teamId - The ID of the team
+ * @returns True if the user was added successfully
  * @throws If database query fails
  */
-export const addUserToTeam = async (db: SupabaseClient<Database>, userId: string, teamId: string): Promise<void> => {
-  const { error } = await db.from("team_members").insert({
-    user_id: userId,
-    team_id: teamId,
-  });
+export const addUserToTeam = async (db: SupabaseClient<Database>, userId: string, teamId: string): Promise<boolean> => {
+  const { data, error } = await db
+    .from("team_members")
+    .insert({
+      user_id: userId,
+      team_id: teamId,
+    })
+    .select()
+    .maybeSingle();
 
   if (error) {
     throw error;
   }
+
+  return !!data;
 };
 
 /**
@@ -101,5 +115,5 @@ export const getTeamMembers = async (db: SupabaseClient<Database>, teamId: strin
     throw error;
   }
 
-  return data?.map(item => item.profiles) || [];
+  return data?.map((item) => item.profiles) || [];
 };

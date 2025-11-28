@@ -30,8 +30,38 @@ export const getTeamSubmissions = async (
 ): Promise<TeamSubmissions[]> => {
   const { data, error } = await supabase
     .from("submissions")
-    .select("prompt, date:created_at.max(), score:score.avg()")
+    .select("prompt, date:created_at.max(), score:score.avg(), playground")
     .eq("team_id", teamId);
+
+  if (error) {
+    throw error;
+  }
+
+  return data.sort((a, b) => b.score - a.score);
+};
+
+/** Inserts multiple prompts for a team.
+ * @param supabase - Supabase client
+ * @param teamId - ID of the team
+ * @param prompts - Array of prompts to insert
+ * @throws Error if the insertion fails
+ * @returns True if insertion was successful, false otherwise
+ */
+export const insertPrompts = async (
+  supabase: SupabaseClient<Database>,
+  teamId: string,
+  prompts: string[],
+): Promise<Submission[]> => {
+  const submissions: Omit<Submission, "id" | "created_at">[] = prompts.map((prompt) => ({
+    team_id: teamId,
+    prompt: prompt,
+    response: null,
+    model: null,
+    score: null,
+    playground: true,
+  }));
+
+  const { data, error } = await supabase.from("submissions").insert(submissions).select();
 
   if (error) {
     throw error;
@@ -40,30 +70,21 @@ export const getTeamSubmissions = async (
   return data;
 };
 
-/** Inserts multiple prompts for a team.
+/** Updates a submission with the HF response and score.
  * @param supabase - Supabase client
- * @param teamId - ID of the team
- * @param prompts - Array of prompts to insert
- * @throws Error if the insertion fails
+ * @param submissions - Array of submissions to update
+ * @throws Error if the update fails
+ * @returns True if update was successful, false otherwise
  */
-export const insertPrompts = async (
+export const updateSubmissions = async (
   supabase: SupabaseClient<Database>,
-  teamId: string,
-  prompts: string[],
-): Promise<void> => {
-  const submissions: Submission[] = prompts.map((prompt) => ({
-    id: null,
-    created_at: null,
-    team_id: teamId,
-    prompt: prompt,
-    response: null,
-    model: null,
-    score: null,
-  }));
-
-  const { error } = await supabase.from("submissions").insert(submissions);
+  submissions: Omit<Submission, "created_at" | "playground">[],
+): Promise<Submission[]> => {
+  const { data, error } = await supabase.from("submissions").upsert(submissions).select();
 
   if (error) {
     throw error;
   }
+
+  return data;
 };

@@ -10,6 +10,20 @@ type TeamSubmissions = {
   prompt: string;
   date: number;
   score: number;
+  playground: boolean;
 };
 
-export type { Database, Profile, Submission, Team, TeamMembers, Leaderboard, Enums, Json, TeamSubmissions };
+type TeamWithMemberNumbers = Team & { members: number };
+
+export type {
+  Database,
+  Profile,
+  Submission,
+  Team,
+  TeamMembers,
+  Leaderboard,
+  Enums,
+  Json,
+  TeamSubmissions,
+  TeamWithMemberNumbers,
+};

@@ -1,5 +1,3 @@
-import "@styles/dashboard.css";
-
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@components/ui/card";
 import { useState } from "react";
 
