@@ -38,7 +38,7 @@ export function useTeamSubmissions(supabase: SupabaseClient, teamId: string) {
   useEffect(() => {
     void fetchSubmissions();
     return unsubscribe(teamId);
-  }, [teamId]);
+  }, []);
 
   return { submissions, error };
 }
