@@ -17,7 +17,7 @@ export function useTeamSubmissions(supabase: SupabaseClient, teamId: string) {
     }
   });
 
-  const unsubscribe = useEffectEvent((teamId: string) => {
+  const unsubscribe = useEffectEvent(() => {
     const channel = supabase
       .channel(`submission-channel-${teamId}`)
       .on(
@@ -37,7 +37,7 @@ export function useTeamSubmissions(supabase: SupabaseClient, teamId: string) {
 
   useEffect(() => {
     void fetchSubmissions();
-    return unsubscribe(teamId);
+    return unsubscribe();
   }, []);
 
   return { submissions, error };

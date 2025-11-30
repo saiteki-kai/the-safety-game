@@ -6,9 +6,9 @@ export const content: WebsiteContent = {
     title: "The Safety Game",
     description:
       "Metti alla prova la tua creatività, la tua logica e la tua conoscenza dell'IA in una competizione di prompt engineering etico.",
-  cta: "Riuscirai a battere ChatGPT?",
-  buttonText: "Registrati",
-  buttonLink: "/login",
+    cta: "Riuscirai a battere ChatGPT?",
+    buttonText: "Registrati",
+    buttonLink: "/login",
     highlights: [
       {
         emoji: "🎯",
@@ -122,7 +122,7 @@ export const content: WebsiteContent = {
       {
         step: "1",
         title: "Forma il tuo team",
-  description: "Crea un team di 1-4 persone, o partecipa come singolo.",
+        description: "Crea un team di 1-4 persone, o partecipa come singolo.",
       },
       {
         step: "2",
@@ -150,7 +150,7 @@ export const content: WebsiteContent = {
       fields: [
         "Nome del team",
         "Email del referente del team (verrà usata per le comunicazioni)",
-  "Nomi e email dei membri (1-4, separati da virgola)",
+        "Nomi e email dei membri (1-4, separati da virgola)",
         "Istituzione / Affiliazione (opzionale)",
         "Breve descrizione del team / focus (opzionale)",
       ],

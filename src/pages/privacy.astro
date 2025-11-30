@@ -1,111 +1,260 @@
 ---
 import "@styles/globals.css";
 import Footer from "@components/common/Footer.astro";
-import Navigation from "@components/common/Navigation.astro";
+import SimpleNavigation from "@components/common/SimpleNavigation";
 import PageLayout from "@layouts/PageLayout.astro";
+import { Separator } from "@/components/ui/separator";
 
-const currentYear = new Date().getFullYear();
+const lastModified = "30 novembre 2025";
 ---
 
 <PageLayout title={`Informativa sulla Privacy | The Safety Game`}>
-  <Navigation slot="navigation" />
+  <SimpleNavigation slot="navigation" client:load profile={null} />
 
-  <div class="relative isolate flex-1 min-h-0 flex flex-col py-12 px-6 sm:px-10">
-    <main class="max-w-3xl mx-auto">
-      <h1 class="text-3xl font-semibold mb-4">Informativa sulla Privacy e Disclaimer della Challenge</h1>
+  <div
+    class="relative isolate flex-1 min-h-0 flex flex-col pt-20 pb-12 px-8 sm:pt-24 sm:px-12"
+  >
+    <main class="max-w-3xl mx-auto text-neutral-800">
+      <div class="space-y-8">
+        <h1 class="text-3xl font-bold text-neutral-900 tracking-tight">
+          Informativa sulla Privacy e Disclaimer della Challenge
+        </h1>
 
-      <p class="text-neutral-700 mb-4">
-        The Safety Game prende sul serio la tutela della privacy e la sicurezza dei partecipanti. Questa pagina descrive come i dati vengono trattati durante la challenge e contiene il disclaimer relativo ai contenuti generati e valutati.
-      </p>
+        <div class="mt-3 text-sm text-neutral-600">
+          Ultima modifica: {lastModified}
+        </div>
 
-      <h2 class="text-xl font-semibold mt-6 mb-2">Finalità della challenge</h2>
-      <p class="text-neutral-700 mb-4">
-      La challenge ha scopo di ricerca ed è finalizzata allo <b>studio dei limiti di sicurezza dei modelli linguistici</b> e al miglioramento degli standard di robustezza e affidabilità.
-      </p>
+        <p>
+          The Safety Game prende sul serio la tutela della privacy e la
+          sicurezza dei partecipanti. Questa pagina descrive come i dati vengono
+          trattati durante la challenge e contiene il disclaimer relativo ai
+          contenuti generati e valutati.
+        </p>
 
-      <h2 class="text-xl font-semibold mt-6 mb-2">Accettazione delle condizioni</h2>
-      <p class="text-neutral-700 mb-4">
-        La partecipazione alla challenge implica l’integrale accettazione del presente regolamento e delle linee guida operative della stessa. L’invio dei materiali costituirà conferma esplicita di presa visione e accettazione.
-      </p>
+        <section>
+          <h2
+            class="text-xl font-semibold text-neutral-900 tracking-tight mt-6"
+          >
+            Finalità della challenge
+          </h2>
+          <Separator className="mt-2 mb-4" />
+          <p>
+            La challenge ha scopo di ricerca ed è finalizzata allo <b
+              >studio dei limiti di sicurezza dei modelli linguistici</b
+            > e al miglioramento degli standard di robustezza e affidabilità.
+          </p>
+        </section>
 
-      <h2 class="text-xl font-semibold mt-6 mb-2">Facoltà di recesso</h2>
-      <p class="text-neutral-700 mb-4">
-      La partecipazione alla challenge è <b>volontaria e non vincolante.</b><br>
-      I partecipanti possono ritirarsi o interrompere la propria partecipazione in qualsiasi momento, senza obbligo di motivazione e senza alcuna penalizzazione.
-      Nel caso di recesso, gli eventuali materiali già inviati potranno essere:
-      </p>
+        <section>
+          <h2
+            class="text-xl font-semibold text-neutral-900 tracking-tight mt-6"
+          >
+            Accettazione delle condizioni
+          </h2>
+          <Separator className="mt-2 mb-4" />
+          <p>
+            La partecipazione alla challenge implica l'integrale accettazione
+            del presente regolamento e delle linee guida operative della stessa.
+            L'invio dei materiali costituirà conferma esplicita di presa visione
+            e accettazione.
+          </p>
+        </section>
 
-      <ul class="list-disc pl-6 text-neutral-700 mb-4">
-        <li>eliminati su richiesta esplicita del partecipante, oppure</li>
-        <li>mantenuti in archivio solo se già inclusi in analisi aggregate e anonimizzate.</li>
-      </ul>
+        <section>
+          <h2
+            class="text-xl font-semibold text-neutral-900 tracking-tight mt-6"
+          >
+            Facoltà di recesso
+          </h2>
+          <Separator className="mt-2 mb-4" />
+          <p>
+            La partecipazione alla challenge è <b
+              >volontaria e non vincolante.</b
+            ><br />
+            I partecipanti possono ritirarsi o interrompere la propria partecipazione
+            in qualsiasi momento, senza obbligo di motivazione e senza alcuna penalizzazione.
+            Nel caso di recesso, gli eventuali materiali già inviati potranno essere:
+          </p>
 
-      <h2 class="text-xl font-semibold mt-6 mb-2">Contenuti ammessi</h2>
-      <p class="text-neutral-700 mb-4">
-        Non è richiesto, né necessario, includere nei prompt <b> contenuti sensibili, offensivi o riferimenti a persone reali.</b><br> 
-      Gli organizzatori riconoscono che la produzione di prompt tali da favorire la generazione di contenuti potenzialmente dannosi può avere conseguenze su individui, contesti o comunità, e pertanto <b>ne scoraggiano l’adozione</b> al di fuori di un ambiente controllato, quale la challenge (i partecipanti non sono esposti a tali contenuti).
-      La scelta di includere tali elementi non costituisce requisito di partecipazione, né condiziona l’ammissibilità alla challenge.<br><br>
-      <b> Eventuali effetti, interpretazioni o conseguenze derivanti dall’inserimento volontario di contenuti sensibili o problematici ricadono esclusivamente e integralmente sul partecipante. <br><br>
-      Qualora un partecipante decida deliberatamente di utilizzare o proporre contenuti che, per forma o contesto, possano risultare non etici, lo fa sotto la propria unica responsabilità, nel rispetto delle normative vigenti e del presente regolamento.</b><br><br>
-      Gli organizzatori si riservano il diritto insindacabile di rifiutare, sospendere o escludere contenuti non conformi, tra i quali:
-      </p>
-      <ul class="list-disc pl-6 text-neutral-700 mb-4">
-        <li>diffamatori, discriminatori, violenti, offensivi o contrari alla legge;</li>
-        <li>volti a promuovere attività illecite o dannose;</li>
-        <li>intenzionalmente costruiti per incentivare comportamenti reali non sicuri.</li>
-      </ul>
+          <ul class="list-disc pl-6 text-neutral-800">
+            <li>eliminati su richiesta esplicita del partecipante, oppure</li>
+            <li>
+              mantenuti in archivio solo se già inclusi in analisi aggregate e
+              anonimizzate.
+            </li>
+          </ul>
+        </section>
 
-      <h2 class="text-xl font-semibold mt-6 mb-2">Originalità dei contenuti</h2>
-      <p class="text-neutral-700 mb-2">I partecipanti dichiarano e garantiscono che i prompt sottomessi:</p>
-      <ul class="list-disc pl-6 text-neutral-700 mb-4">
-        <li>sono <b>di propria creazione;</b></li>
-        <li><b>non</b> sono stati generati, assistiti o rielaborati tramite strumenti di <b>intelligenza artificiale</b>, modelli linguistici o sistemi automatizzati;</li>
-        <li>non violano diritti di terzi, inclusi diritti d’autore, marchi, brevetti o diritti della personalità.</li>
-      </ul>
+        <section>
+          <h2
+            class="text-xl font-semibold text-neutral-900 tracking-tight mt-6"
+          >
+            Contenuti ammessi
+          </h2>
+          <Separator className="mt-2 mb-4" />
+          <p>
+            Non è richiesto, né necessario, includere nei prompt <b>
+              contenuti sensibili, offensivi o riferimenti a persone reali.</b
+            ><br />
+            Gli organizzatori riconoscono che la produzione di prompt tali da favorire
+            la generazione di contenuti potenzialmente dannosi può avere conseguenze
+            su individui, contesti o comunità, e pertanto <b
+              >ne scoraggiano l'adozione</b
+            > al di fuori di un ambiente controllato, quale la challenge (i partecipanti
+            non sono esposti a tali contenuti). La scelta di includere tali elementi
+            non costituisce requisito di partecipazione, né condiziona l'ammissibilità
+            alla challenge.<br /><br />
+            <b>
+              Eventuali effetti, interpretazioni o conseguenze derivanti
+              dall'inserimento volontario di contenuti sensibili o problematici
+              ricadono esclusivamente e integralmente sul partecipante.
+              <br /><br />Qualora un partecipante decida deliberatamente di
+              utilizzare o proporre contenuti che, per forma o contesto, possano
+              risultare non etici, lo fa sotto la propria unica responsabilità,
+              nel rispetto delle normative vigenti e del presente regolamento.
+            </b>
+            <br /><br />Gli organizzatori si riservano il diritto insindacabile
+            di rifiutare, sospendere o escludere contenuti non conformi, tra i
+            quali:
+          </p>
 
-      <h2 class="text-xl font-semibold mt-6 mb-2">Utilizzo e diffusione del materiale</h2>
-      <p class="text-neutral-700 mb-4">
-        <b>I prompt inviati potranno essere utilizzati, analizzati, archiviati, pubblicati, riprodotti e ridistribuiti</b> dagli organizzatori, in forma integrale o parziale, <b>per finalità di ricerca, studio, analisi comparativa e divulgazione scientifica.</b> L’eventuale diffusione avverrà in <b>forma anonima</b>: non verranno associati a nomi o identificativi dei partecipanti o dei team.
-      </p>
+          <ul class="list-disc pl-6 text-neutral-800">
+            <li>
+              diffamatori, discriminatori, violenti, offensivi o contrari alla
+              legge;
+            </li>
+            <li>volti a promuovere attività illecite o dannose;</li>
+            <li>
+              intenzionalmente costruiti per incentivare comportamenti reali non
+              sicuri.
+            </li>
+          </ul>
+        </section>
 
-      <h2 class="text-xl font-semibold mt-6 mb-2">Protezione dei dati personali</h2>
-      <p class="text-neutral-700 mb-4">
-        <b>Nessun dato personale dei partecipanti verrà raccolto, diffuso o condiviso pubblicamente.</b> Eventuali dati personali forniti (es. email o nickname) saranno utilizzati esclusivamente per:
-      </p>
-      <ul class="list-disc pl-6 text-neutral-700 mb-4">
-        <li>verificare l’idoneità della partecipazione;</li>
-        <li>comunicare esiti e informazioni relative alla challenge;</li>
-        <li>certificare l’avvenuta consegna dei materiali.</li>
-      </ul>
-      <p class="text-neutral-700 mb-4">
-        I dati non saranno utilizzati per altre finalità, né ceduti a terzi.
-      </p>
+        <section>
+          <h2
+            class="text-xl font-semibold text-neutral-900 tracking-tight mt-6"
+          >
+            Originalità dei contenuti
+          </h2>
+          <Separator className="mt-2 mb-4" />
+          <p>
+            I partecipanti dichiarano e garantiscono che i prompt sottomessi:
+          </p>
+          <ul class="list-disc pl-6 text-neutral-800">
+            <li>sono <b>di propria creazione;</b></li>
+            <li>
+              <b>non</b> sono stati generati, assistiti o rielaborati tramite strumenti
+              di <b>intelligenza artificiale</b>, modelli linguistici o sistemi
+              automatizzati;
+            </li>
+            <li>
+              non violano diritti di terzi, inclusi diritti d'autore, marchi,
+              brevetti o diritti della personalità.
+            </li>
+          </ul>
+        </section>
 
-      
+        <section>
+          <h2
+            class="text-xl font-semibold text-neutral-900 tracking-tight mt-6"
+          >
+            Utilizzo e diffusione del materiale
+          </h2>
+          <Separator className="mt-2 mb-4" />
+          <p>
+            <b
+              >I prompt inviati potranno essere utilizzati, analizzati,
+              archiviati, pubblicati, riprodotti e ridistribuiti</b
+            > dagli organizzatori, in forma integrale o parziale, <b
+              >per finalità di ricerca, studio, analisi comparativa e
+              divulgazione scientifica.</b
+            > L'eventuale diffusione avverrà in <b>forma anonima</b>: non
+            verranno associati a nomi o identificativi dei partecipanti o dei
+            team.
+          </p>
+        </section>
 
-      
+        <section>
+          <h2
+            class="text-xl font-semibold text-neutral-900 tracking-tight mt-6"
+          >
+            Protezione dei dati personali
+          </h2>
+          <Separator className="mt-2 mb-4" />
+          <p>
+            <b
+              >Nessun dato personale dei partecipanti verrà raccolto, diffuso o
+              condiviso pubblicamente.</b
+            > Eventuali dati personali forniti (es. email o nickname) saranno utilizzati
+            esclusivamente per:
+          </p>
+          <ul class="list-disc pl-6 text-neutral-800">
+            <li>verificare l'idoneità della partecipazione;</li>
+            <li>comunicare esiti e informazioni relative alla challenge;</li>
+            <li>certificare l'avvenuta consegna dei materiali.</li>
+          </ul>
+          <p>
+            I dati non saranno utilizzati per altre finalità, né ceduti a terzi.
+          </p>
+        </section>
 
-      <h2 class="text-xl font-semibold mt-6 mb-2">Modalità di valutazione</h2>
-      <p class="text-neutral-700 mb-4">
-      Non verrà fornito alcun materiale aggiuntivo ai partecipanti oltre al regolamento e alle linee guida. La valutazione dei prompt avverrà <b>in modo completamente automatico</b> tramite un sistema dedicato. Ai partecipanti verrà restituito <b>unicamente lo score finale</b>, senza accesso ai contenuti generati dai modelli durante la fase di valutazione, al fine di <b>impedire l’accesso a eventuali contenuti non sicuri o non etici.</b>
-      L’intera pipeline di valutazione sarà descritta in modo trasparente e completo.<br>
-      Tuttavia, <b>qualsiasi riproduzione, modifica o utilizzo improprio della pipeline al di fuori del contesto della challenge, nonché eventuali conseguenze o impieghi impropri, ricadono interamente sotto la responsabilità del partecipante.</b>
-      </p>
+        <section>
+          <h2
+            class="text-xl font-semibold text-neutral-900 tracking-tight mt-6"
+          >
+            Modalità di valutazione
+          </h2>
+          <Separator className="mt-2 mb-4" />
+          <p>
+            Non verrà fornito alcun materiale aggiuntivo ai partecipanti oltre
+            al regolamento e alle linee guida. La valutazione dei prompt avverrà <b
+              >in modo completamente automatico</b
+            > tramite un sistema dedicato. Ai partecipanti verrà restituito <b
+              >unicamente lo score finale</b
+            >, senza accesso ai contenuti generati dai modelli durante la fase
+            di valutazione, al fine di <b
+              >impedire l'accesso a eventuali contenuti non sicuri o non etici.</b
+            >
+            L'intera pipeline di valutazione sarà descritta in modo trasparente e
+            completo.<br />Tuttavia, <b
+              >qualsiasi riproduzione, modifica o utilizzo improprio della
+              pipeline al di fuori del contesto della challenge, nonché
+              eventuali conseguenze o impieghi impropri, ricadono interamente
+              sotto la responsabilità del partecipante.</b
+            >
+          </p>
+        </section>
 
-      
-      
+        <section>
+          <h2
+            class="text-xl font-semibold text-neutral-900 tracking-tight mt-6"
+          >
+            Diritto di modifica del regolamento
+          </h2>
+          <Separator className="mt-2 mb-4" />
+          <p>
+            Gli organizzatori si riservano la facoltà di modificare o integrare
+            il presente regolamento in qualsiasi momento, comunicandone gli
+            aggiornamenti attraverso i canali ufficiali della challenge.
+          </p>
+        </section>
 
-      <h2 class="text-xl font-semibold mt-6 mb-2">Diritto di modifica del regolamento</h2>
-      <p class="text-neutral-700 mb-4">
-      Gli organizzatori si riservano la facoltà di modificare o integrare il presente regolamento in qualsiasi momento, comunicandone gli aggiornamenti attraverso i canali ufficiali della challenge.
-      </p>
-
-      <h2 class="text-xl font-semibold mt-6 mb-2">Contatti</h2>
-      <p class="text-neutral-700 mb-4">
-        Per domande relative alla privacy, contattaci a <a href="mailto:safety-game@university.edu" class="text-blue-600">safety-game@university.edu</a>.
-      </p>
-
-      <div class="mt-8 text-sm text-neutral-500">&copy; {currentYear} The Safety Game</div>
+        <section>
+          <h2
+            class="text-xl font-semibold text-neutral-900 tracking-tight mt-6"
+          >
+            Contatti
+          </h2>
+          <Separator className="mt-2 mb-4" />
+          <p>
+            Per domande relative alla privacy, contattaci a <a
+              href="mailto:safety-game@university.edu"
+              class="text-blue-700">safety-game@university.edu</a
+            >.
+          </p>
+        </section>
+      </div>
     </main>
   </div>
 

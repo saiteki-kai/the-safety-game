@@ -17,7 +17,7 @@ export function useTeamMembers(supabase: SupabaseClient, teamId: string) {
     }
   });
 
-  const unsubscribe = useEffectEvent((teamId: string) => {
+  const unsubscribe = useEffectEvent(() => {
     const channel = supabase
       .channel(`team-members-${teamId}`)
       .on(
@@ -36,7 +36,7 @@ export function useTeamMembers(supabase: SupabaseClient, teamId: string) {
 
   useEffect(() => {
     void fetchMembers();
-    return unsubscribe(teamId);
+    return unsubscribe();
   }, []);
 
   return { members, error };

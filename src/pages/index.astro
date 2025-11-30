@@ -1,6 +1,6 @@
 ---
 import Footer from "@components/common/Footer.astro";
-import Navigation from "@components/common/Navigation.astro";
+import LandingNavigation from "@components/common/LandingNavigation";
 import {
   ChallengeSection,
   FaqSection,
@@ -17,7 +17,7 @@ import PageLayout from "@layouts/PageLayout.astro";
 ---
 
 <PageLayout title="The Safety Game">
-  <Navigation slot="navigation" />
+  <LandingNavigation slot="navigation" client:load profile={null} />
   <HeroSection home={content.home} />
   <ChallengeSection challenge={content.challenge} />
   <InstructionsSection instructions={content.instructions} />

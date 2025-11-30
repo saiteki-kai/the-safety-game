@@ -5,6 +5,7 @@ type Section = {
 
 const sections = {
   instructions: { id: "instructions", label: "Istruzioni" },
+  challenge: { id: "challenge", label: "La Sfida" },
   participate: { id: "participate", label: "Partecipa" },
   dates: { id: "dates", label: "Date Importanti" },
   leaderboard: { id: "leaderboard", label: "Leaderboard" },
@@ -18,9 +19,10 @@ const toAnchorLink = (section: Section, label?: string) => ({
 });
 
 export const navigationLinks = [
+  sections.challenge,
+  sections.instructions,
   sections.participate,
   sections.dates,
-  sections.instructions,
   sections.leaderboard,
   sections.team,
   sections.faq,
