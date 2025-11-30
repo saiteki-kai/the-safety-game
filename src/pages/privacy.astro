@@ -1,4 +1,6 @@
 ---
+export const prerender = false;
+
 import "@styles/globals.css";
 import Footer from "@components/common/Footer.astro";
 import SimpleNavigation from "@components/common/SimpleNavigation";
@@ -6,10 +8,11 @@ import PageLayout from "@layouts/PageLayout.astro";
 import { Separator } from "@/components/ui/separator";
 
 const lastModified = "30 novembre 2025";
+const profile = Astro.locals.user;
 ---
 
 <PageLayout title={`Informativa sulla Privacy | The Safety Game`}>
-  <SimpleNavigation slot="navigation" client:load profile={null} />
+  <SimpleNavigation slot="navigation" client:load profile={profile} />
 
   <div
     class="relative isolate flex-1 min-h-0 flex flex-col pt-20 pb-12 px-8 sm:pt-24 sm:px-12"

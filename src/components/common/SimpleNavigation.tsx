@@ -7,24 +7,26 @@ import type { MenuItem } from "./NavigationParts";
 import { LayoutDashboard } from "lucide-react";
 import type { Profile } from "@/lib/supabase.types";
 
-const logo = { url: "/", alt: "Logo", title: "The Safety Game" };
-const menu: MenuItem[] = [{ title: "Home", url: "/" }];
-const actionItems = [{ label: "Dashboard", href: "/dashboard", icon: <LayoutDashboard className="h-4 w-4" /> }];
-
 export interface SimpleNavProps {
-  profile?: Profile;
+  profile?: Profile | null;
 }
 
 export default function SimpleNavigation({ profile }: SimpleNavProps): ReactElement {
+  const logo = { url: "/", alt: "Logo", title: "The Safety Game" };
+  const menu: MenuItem[] = [{ title: "Home", url: "/" }];
+  const items = [{ label: "Dashboard", href: "/dashboard", icon: <LayoutDashboard className="h-4 w-4" /> }];
+
+  const actions = <AccountMenu profile={profile} items={items} />;
+  const actionsMobile = <AccountMenu profile={profile} items={items} />;
+
   return (
     <Navigation
       logo={logo}
       menu={menu}
-      actions={<AccountMenu profile={profile} items={actionItems} />}
-      actionsMobile={<AccountMenu profile={profile} items={actionItems} />}
+      actions={actions}
+      actionsMobile={actionsMobile}
       activeSection={null}
       navOpacity={1}
-      scrolled={false}
     />
   );
 }

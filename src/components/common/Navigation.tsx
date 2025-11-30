@@ -24,7 +24,6 @@ export interface NavbarProps {
   actionsMobile?: React.ReactNode;
   activeSection?: string | null;
   navOpacity?: number;
-  scrolled?: boolean;
   isIndexPage?: boolean;
 }
 
@@ -44,7 +43,6 @@ export default function Navigation({
   actionsMobile = undefined,
   activeSection = null,
   navOpacity = 0,
-  scrolled = false,
   isIndexPage = false,
 }: NavbarProps) {
   const [open, setOpen] = useState(false);

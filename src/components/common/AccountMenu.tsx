@@ -93,7 +93,7 @@ const signOut: MouseEventHandler<HTMLButtonElement | HTMLAnchorElement> = async 
       return;
     }
 
-    navigate("/login");
+    navigate("/");
   } catch (err) {
     // Catch any network errors and display a toast
     showSignOutErrorToast();

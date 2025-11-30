@@ -1,4 +1,6 @@
 ---
+export const prerender = false;
+
 import Footer from "@components/common/Footer.astro";
 import LandingNavigation from "@components/common/LandingNavigation";
 import {
@@ -14,10 +16,12 @@ import {
 } from "@components/sections";
 import { content } from "@content/website-content";
 import PageLayout from "@layouts/PageLayout.astro";
+
+const profile = Astro.locals.user;
 ---
 
 <PageLayout title="The Safety Game">
-  <LandingNavigation slot="navigation" client:load profile={null} />
+  <LandingNavigation slot="navigation" client:load profile={profile} />
   <HeroSection home={content.home} />
   <ChallengeSection challenge={content.challenge} />
   <InstructionsSection instructions={content.instructions} />

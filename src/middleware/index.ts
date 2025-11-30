@@ -2,6 +2,7 @@ import { defineMiddleware } from "astro:middleware";
 import type { APIContext, MiddlewareNext } from "astro";
 import micromatch from "micromatch";
 import { serverClient } from "@/lib/supabase";
+import { getUserInfo } from "@/db/users";
 
 const protectedRoutes = ["/dashboard", "/admin"];
 const protectedAPIRoutes = ["/api/submissions", "_actions/**"];
@@ -27,6 +28,17 @@ export const onRequest = defineMiddleware(async (context: APIContext, next: Midd
   }
 
   context.locals.user_id = claimsData?.claims?.sub || null;
+
+  if (context.locals.user_id) {
+    try {
+      context.locals.user = await getUserInfo(context.locals.db, context.locals.user_id);
+    } catch (error) {
+      console.error("Error fetching profile in middleware:", error);
+      context.locals.user = null;
+    }
+  } else {
+    context.locals.user = null;
+  }
 
   // Protect routes that require authentication
   if (micromatch.isMatch(context.url.pathname, protectedRoutes)) {

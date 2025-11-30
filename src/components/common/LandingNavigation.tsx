@@ -1,27 +1,24 @@
 "use client";
 
-import { LayoutDashboard, LogIn } from "lucide-react";
+import { LayoutDashboard } from "lucide-react";
 import type { ReactElement } from "react";
-import { useEffect, useState } from "react";
 import useHomeActiveSection from "@/hooks/useActiveSection";
-import { browserClient } from "@/lib/supabase";
-import type { Profile } from "@/lib/supabase.types";
-import AccountMenu, { AccountMenuMobile, type MenuListItemProps } from "./AccountMenu";
+import AccountMenu, { AccountMenuMobile } from "./AccountMenu";
 import Navigation from "./Navigation";
+import type { Profile } from "@/lib/supabase.types";
 
-export interface NavbarProps {
+export interface LandingNavProps {
   profile?: Profile | null;
 }
 
+export default function LandingNavigation({ profile }: LandingNavProps): ReactElement {
+  const { activeSection, navOpacity } = useHomeActiveSection();
 
-const logo = { url: "/", alt: "Logo", title: "The Safety Game" };
-const actionItems = [{ label: "Dashboard", href: "/dashboard", icon: <LayoutDashboard className="h-4 w-4" /> }];
+  const logo = { url: "/", alt: "Logo", title: "The Safety Game" };
+  const items = [{ label: "Dashboard", href: "/dashboard", icon: <LayoutDashboard className="h-4 w-4" /> }];
 
-export default function LandingNavigation({ profile }: NavbarProps): ReactElement {
-  const { activeSection, navOpacity, scrolled } = useHomeActiveSection();
-
-  const actions = <AccountMenu profile={profile} items={actionItems} />;
-  const actionsMobile = <AccountMenuMobile profile={profile} items={actionItems} />;
+  const actions = <AccountMenu profile={profile} items={items} />;
+  const actionsMobile = <AccountMenuMobile profile={profile} items={items} />;
 
   return (
     <Navigation
@@ -30,7 +27,6 @@ export default function LandingNavigation({ profile }: NavbarProps): ReactElemen
       actionsMobile={actionsMobile}
       activeSection={activeSection}
       navOpacity={navOpacity}
-      scrolled={scrolled}
       isIndexPage={true}
     />
   );
