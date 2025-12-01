@@ -37,7 +37,10 @@ export function DailySubmissionSection({ teamId, disabled = false }: DailySubmis
       </div>
 
       {/* Main Content Grid */}
-      <div className="flex flex-col items-stretch gap-8 lg:flex-row-reverse">
+      <div className="flex flex-col items-stretch gap-8 lg:flex-row">
+        <div className="h-[500px] lg:h-auto lg:flex-1">
+          <DailyUploadCard isLoading={isLoading} onSubmit={handleSubmit} disabled={disabled && !isLoading} />
+        </div>
         <div className="h-full space-y-6 lg:flex-1">
           <div className="rounded-lg border border-neutral-200 bg-white p-6">
             <h3 className="mb-4 font-semibold text-lg text-neutral-800">Come Funziona</h3>
@@ -49,6 +52,9 @@ export function DailySubmissionSection({ teamId, disabled = false }: DailySubmis
               <p>
                 Ogni prompt riceve un punteggio provvisorio da un singolo modello di linguaggio. Nella consegna finale,
                 i prompt verranno valutati da diversi modelli e combinati per una valutazione più accurata.
+              </p>
+              <p>
+                <strong>Formato del file:</strong> Carica un file di testo semplice dove ogni riga contiene un singolo prompt.
               </p>
             </div>
           </div>
@@ -74,9 +80,6 @@ export function DailySubmissionSection({ teamId, disabled = false }: DailySubmis
               </li>
             </ul>
           </div>
-        </div>
-        <div className="h-[500px] lg:h-auto lg:flex-1">
-          <DailyUploadCard isLoading={isLoading} onSubmit={handleSubmit} disabled={disabled && !isLoading} />
         </div>
       </div>
     </div>
