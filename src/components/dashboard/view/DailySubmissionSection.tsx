@@ -62,7 +62,7 @@ export function DailySubmissionSection({ teamId, disabled = false }: DailySubmis
               </li>
               <li className="flex items-start gap-2 align-middle">
                 <AlertTriangle size={16} className="text-yellow-600" />
-                <span>Prompt identici a quelli già inviati non saranno accettati.</span>
+                <span>Prompt identici a quelli già inviati saranno scartati.</span>
               </li>
               <li className="flex items-start gap-2 align-middle">
                 <AlertTriangle size={16} className="text-yellow-600" />
@@ -76,7 +76,7 @@ export function DailySubmissionSection({ teamId, disabled = false }: DailySubmis
           </div>
         </div>
         <div className="h-[500px] lg:h-auto lg:flex-1">
-          <DailyUploadCard isLoading={isLoading} onSubmit={handleSubmit} disabled={disabled} />
+          <DailyUploadCard isLoading={isLoading} onSubmit={handleSubmit} disabled={disabled && !isLoading} />
         </div>
       </div>
     </div>
