@@ -26,7 +26,7 @@ export function DailySubmissionSection({ teamId, disabled = false }: DailySubmis
   };
 
   return (
-    <div className="space-y-8 px-8 py-8">
+    <div className="space-y-8 px-8 py-8 scroll-mt-16" id="playground">
       {/* Hero Section */}
       <div className="space-y-4 text-center">
         <h2 className="font-bold text-2xl text-neutral-900">Playground</h2>
@@ -38,9 +38,6 @@ export function DailySubmissionSection({ teamId, disabled = false }: DailySubmis
 
       {/* Main Content Grid */}
       <div className="flex flex-col items-stretch gap-8 lg:flex-row">
-        <div className="h-[500px] lg:h-auto lg:flex-1">
-          <DailyUploadCard isLoading={isLoading} onSubmit={handleSubmit} disabled={disabled && !isLoading} />
-        </div>
         <div className="h-full space-y-6 lg:flex-1">
           <div className="rounded-lg border border-neutral-200 bg-white p-6">
             <h3 className="mb-4 font-semibold text-lg text-neutral-800">Come Funziona</h3>
@@ -80,6 +77,9 @@ export function DailySubmissionSection({ teamId, disabled = false }: DailySubmis
               </li>
             </ul>
           </div>
+        </div>
+        <div className="h-[500px] lg:h-auto lg:flex-1">
+          <DailyUploadCard isLoading={isLoading} onSubmit={handleSubmit} disabled={disabled && !isLoading} />
         </div>
       </div>
     </div>

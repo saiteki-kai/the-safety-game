@@ -127,7 +127,7 @@ export default function TeamOverviewCard({ teamName, teamJoinCode, members, prog
                         ? "Hai effettuato l'invio giornaliero."
                         : `Puoi ancora inviare ${MAX_DAILY_PROMPTS} prompt oggi`
                     }
-                    href="/playground"
+                    href="#playground"
                   />
 
                   <StatusActionRow
