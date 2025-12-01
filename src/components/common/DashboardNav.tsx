@@ -1,16 +1,15 @@
 "use client";
 
+import type { Profile } from "@/lib/supabase.types";
 import AccountMenu, { AccountMenuMobile } from "./AccountMenu";
 import Navigation from "./Navigation";
 import type { MenuItem } from "./NavigationParts";
-import type { Profile } from "@/lib/supabase.types";
 
 type DashboardNavProps = {
   profile?: Profile | null;
 };
 
 export default function DashboardNav({ profile }: DashboardNavProps) {
-
   const logo = { url: "/", alt: "Logo", title: "The Safety Game" };
   const menu: MenuItem[] = [{ title: "Home", url: "/" }];
 

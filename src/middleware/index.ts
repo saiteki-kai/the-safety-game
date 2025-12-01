@@ -1,8 +1,8 @@
 import { defineMiddleware } from "astro:middleware";
 import type { APIContext, MiddlewareNext } from "astro";
 import micromatch from "micromatch";
-import { serverClient } from "@/lib/supabase";
 import { getUserInfo } from "@/db/users";
+import { serverClient } from "@/lib/supabase";
 
 const protectedRoutes = ["/dashboard", "/admin"];
 const protectedAPIRoutes = ["/api/submissions", "_actions/**"];

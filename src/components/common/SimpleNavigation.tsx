@@ -1,11 +1,11 @@
 "use client";
 
+import { LayoutDashboard } from "lucide-react";
 import type { ReactElement } from "react";
+import type { Profile } from "@/lib/supabase.types";
 import AccountMenu from "./AccountMenu";
 import Navigation from "./Navigation";
 import type { MenuItem } from "./NavigationParts";
-import { LayoutDashboard } from "lucide-react";
-import type { Profile } from "@/lib/supabase.types";
 
 export interface SimpleNavProps {
   profile?: Profile | null;

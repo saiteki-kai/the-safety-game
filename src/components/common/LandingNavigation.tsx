@@ -3,9 +3,9 @@
 import { LayoutDashboard } from "lucide-react";
 import type { ReactElement } from "react";
 import useHomeActiveSection from "@/hooks/useActiveSection";
+import type { Profile } from "@/lib/supabase.types";
 import AccountMenu, { AccountMenuMobile } from "./AccountMenu";
 import Navigation from "./Navigation";
-import type { Profile } from "@/lib/supabase.types";
 
 export interface LandingNavProps {
   profile?: Profile | null;
