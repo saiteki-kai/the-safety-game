@@ -48,7 +48,7 @@ export default function TeamOverviewCard({ teamName, teamJoinCode, members, prog
   return (
     <div className="space-y-8 px-8 py-8">
       {/* Hero Section */}
-      <div className="space-y-3 text-center">
+      <div className="space-y-3 text-center pt-6">
         <h1 className="font-extrabold text-3xl text-neutral-900 sm:text-4xl">{teamName}</h1>
         <p className="mx-auto max-w-2xl text-lg text-neutral-600">
           Gestisci i membri del tuo team, monitora i progressi e accedi facilmente all'area di invio giornaliera.
