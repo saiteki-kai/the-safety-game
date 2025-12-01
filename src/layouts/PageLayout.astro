@@ -5,6 +5,7 @@ import { ClientRouter } from "astro:transitions";
 import { Toaster } from "@components/ui/sonner";
 import WebsiteAnalytics from "@vercel/analytics/astro";
 import SpeedInsights from "@vercel/speed-insights/astro";
+import { ScrollToTopButton } from "@components/common/ScrollToTopButton";
 
 interface Props {
   title: string;
@@ -32,6 +33,7 @@ const { title, description = "The Safety Game - Hackathon organized by MIND, Uni
     <main id="main-content" class="flex-1 flex min-h-0 flex-col h-screen">
       <slot />
     </main>
+    <ScrollToTopButton client:load />
     <slot name="prefooter" />
     <slot name="footer" />
   </body>

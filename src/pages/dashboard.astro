@@ -6,6 +6,7 @@ import "@styles/dashboard.css";
 import PageLayout from "@layouts/PageLayout.astro";
 import DashboardNav from "@/components/common/DashboardNav";
 import TeamDashboardView from "@/components/dashboard/TeamDashboardView";
+import Footer from "@/components/common/Footer.astro";
 import { getTeamByUserId } from "@/db/teams";
 import { serverClient } from "@/lib/supabase";
 
@@ -24,4 +25,5 @@ if (!team) {
 <PageLayout title="Dashboard | The Safety Game">
   <DashboardNav client:load profile={profile} />
   <TeamDashboardView client:load team={team} />
+  <Footer slot="footer" />
 </PageLayout>
