@@ -14,6 +14,7 @@ export const nav: NavContent = {
   skipToContent: "Skip to main content",
   openMenu: "Open menu",
   closeMenu: "Close menu",
+  home: "Home",
   dashboard: "Dashboard",
   login: "Login",
   logout: "Logout",

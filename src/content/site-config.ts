@@ -18,6 +18,8 @@ const toAnchorLink = (section: Section, label?: string) => ({
   label: label ?? section.label,
 });
 
+const toRouteLink = (href: string, label: string) => ({ href, label });
+
 export const navigationLinks = [
   sections.challenge,
   sections.instructions,
@@ -29,11 +31,9 @@ export const navigationLinks = [
 ].map((section) => toAnchorLink(section));
 
 export const footerQuickLinks = [
-  { section: sections.leaderboard, label: "Leaderboard" },
-  { section: sections.participate },
-  { section: sections.instructions },
-  { section: sections.faq },
-].map(({ section, label }) => toAnchorLink(section, label));
+  toRouteLink("/", "Home"),
+  toRouteLink("/dashboard", "Dashboard"),
+];
 
 export type NavigationLink = (typeof navigationLinks)[number];
 export type FooterQuickLink = (typeof footerQuickLinks)[number];

@@ -3,6 +3,8 @@ export const prerender = false;
 
 import "@styles/globals.css";
 import Footer from "@components/common/Footer.astro";
+import { footer as t } from "@i18n/locales/it";
+import { footerQuickLinks } from "@/content/site-config";
 import SimpleNavigation from "@components/common/SimpleNavigation";
 import PageLayout from "@layouts/PageLayout.astro";
 import { Separator } from "@/components/ui/separator";
@@ -262,5 +264,5 @@ const profile = Astro.locals.user;
     </main>
   </div>
 
-  <Footer slot="footer" />
+  <Footer slot="footer" t={t} quickLinks={footerQuickLinks} />
 </PageLayout>

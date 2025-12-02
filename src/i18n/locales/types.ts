@@ -13,6 +13,7 @@ export interface NavContent {
   skipToContent: string;
   openMenu: string;
   closeMenu: string;
+  home: string;
   dashboard: string;
   login: string;
   logout: string;
