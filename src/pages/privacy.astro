@@ -6,6 +6,7 @@ import Footer from "@components/common/Footer.astro";
 import SimpleNavigation from "@components/common/SimpleNavigation";
 import PageLayout from "@layouts/PageLayout.astro";
 import { Separator } from "@/components/ui/separator";
+import { FOOTER_LINKS } from "@/lib/consts";
 
 const lastModified = "30 novembre 2025";
 const profile = Astro.locals.user;
@@ -252,8 +253,8 @@ const profile = Astro.locals.user;
           <Separator className="mt-2 mb-4" />
           <p>
             Per domande relative alla privacy, contattaci a <a
-              href="mailto:safety-game@university.edu"
-              class="text-blue-700">safety-game@university.edu</a
+              href=`mailto:${FOOTER_LINKS.email}`
+              class="text-blue-700">{FOOTER_LINKS.email}</a
             >.
           </p>
         </section>

@@ -1,0 +1,10 @@
+---
+import translations from "@/i18n/translations";
+
+const { class: className = "" } = Astro.props as { class?: string };
+
+const t = translations[Astro.locals.locale];
+const currentYear = new Date().getFullYear();
+---
+
+<span class={className}>&copy; {currentYear} {t.meta.siteTitle}. {t.footer.copyright}</span>

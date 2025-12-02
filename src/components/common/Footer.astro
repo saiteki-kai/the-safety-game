@@ -3,13 +3,14 @@ import GithubIcon from "@assets/github.svg";
 import HuggingFaceIcon from "@assets/huggingface.svg";
 import { FOOTER_LINKS } from "@lib/consts";
 import { Mail } from "lucide-react";
+import Copyright from "@/components/common/Copyright.astro";
 import { Separator } from "@/components/ui/separator";
+import translations from "@/i18n/translations";
+import { getFooterQuickLinks, getLocale } from "@/i18n/utils";
 
-const currentYear = new Date().getFullYear();
-const QUICK_LINKS = [
-  { href: FOOTER_LINKS.dashboard, label: "Dashboard" },
-  { href: FOOTER_LINKS.home, label: "Home" },
-];
+const locale = getLocale(Astro.url);
+const t = translations[locale];
+const QUICK_LINKS = getFooterQuickLinks(locale);
 ---
 
 <footer
@@ -27,15 +28,14 @@ const QUICK_LINKS = [
       <div class="space-y-4">
         <p class="text-lg font-semibold text-white">The Safety Game</p>
         <p class="max-w-xl text-sm text-neutral-400">
-          Una competizione di prompt engineering etico organizzata dal
-          laboratorio di ricerca in AI Safety.
+          {t.footer.tagline}
         </p>
       </div>
       <div>
         <p
           class="text-xs font-semibold uppercase tracking-wider text-neutral-500"
         >
-          Link rapidi
+          {t.footer.quickLinks}
         </p>
         <ul class="mt-3 space-y-2 text-sm text-neutral-200">
           {
@@ -53,11 +53,11 @@ const QUICK_LINKS = [
         <p
           class="text-xs font-semibold uppercase tracking-wider text-neutral-500"
         >
-          Contatti
+          {t.footer.contacts}
         </p>
         <div class="mt-3 flex flex-col gap-3 text-xs md:text-sm">
           <a
-            href={FOOTER_LINKS.email}
+            href={`mailto:${FOOTER_LINKS.email}`}
             class="flex items-center gap-2 text-neutral-200 hover:text-white transition-colors"
           >
             <Mail className="h-4 w-4" aria-hidden="true" />
@@ -88,9 +88,9 @@ const QUICK_LINKS = [
     <div
       class="flex flex-col gap-3 text-xs text-neutral-500 md:flex-row md:items-center md:justify-between"
     >
-      <span>© {currentYear} The Safety Game. Tutti i diritti riservati.</span>
+      <Copyright />
       <a href={FOOTER_LINKS.privacy} class="hover:text-white transition-colors">
-        Privacy Policy
+        {t.footer.privacy}
       </a>
     </div>
   </div>
