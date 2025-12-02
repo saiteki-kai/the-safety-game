@@ -1,10 +1,10 @@
 ---
-import type { TimelineContent, TimelineStatus } from "@content/types";
+import type { DatesContent, TimelineStatus } from "@/i18n/locales/types";
 import SectionLayout from "@layouts/SectionLayout.astro";
 import TimelineItem from "./TimelineItem.astro";
 
 interface Props {
-  dates: TimelineContent;
+  dates: DatesContent;
 }
 
 const { dates } = Astro.props;
@@ -44,7 +44,7 @@ const getEntryConfig = (status: TimelineStatus) => ({
     <ol class="relative pl-6 sm:pl-10" role="list">
       {
         dates.timeline.length === 0 ? (
-          <li class="text-sm text-neutral-500">More updates coming soon.</li>
+          <li class="text-sm text-neutral-500">{dates.emptyMessage}</li>
         ) : (
           dates.timeline.map((entry, index) => {
             const config = getEntryConfig(entry.status);

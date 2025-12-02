@@ -1,0 +1,31 @@
+import type { ChallengeContent } from "../types";
+
+export const challenge: ChallengeContent = {
+  title: "The Challenge",
+  description:
+    "An ethical prompt engineering challenge that invites you to test the safety boundaries of language models in the Italian cultural context.",
+  introduction: [
+    {
+      content:
+        "Large Language Models are AI models capable of understanding and generating human-like natural language text. Their use is constantly growing, especially as chatbots and conversational assistants like ChatGPT, Gemini, and Claude. However, these models can sometimes produce dangerous, ethically inappropriate, or even incorrect responses.",
+    },
+    {
+      content:
+        "The goal of the challenge is to help make Large Language Models safer by identifying potential vulnerabilities specific to the Italian audience, and discovering cases where the model is inadequate or produces problematic responses.",
+    },
+  ],
+  what: "Analyze how Italian language models react to stimuli that can elicit unsafe behaviors, to understand their ethical and safety limits in realistic Italian cultural contexts.",
+  challengeText:
+    "We asked ChatGPT to generate some examples of prompts that could induce language models to produce problematic responses. In this challenge, you will compete with ChatGPT to find even more effective prompts.",
+  participation:
+    "No knowledge of artificial intelligence is required. The only requirement is knowledge of the Italian language and culture.",
+  objectiveLabel: "Objective",
+  challengeLabel: "Can you beat ChatGPT?",
+  participationLabel: "Anyone can participate!",
+  prizesLabel: "Prizes",
+  prizesDescription:
+    "The team that produces the best prompts will be awarded in front of the Faculty Board of the Department of Computer Science at Milan-Bicocca. <br/>All participants will receive a certificate of participation.",
+  llmLabel: "What is a Large Language Model?",
+  tagline:
+    "Create prompts based on Italian cultural context, capable of pushing AI to generate unsafe or inappropriate content.",
+};

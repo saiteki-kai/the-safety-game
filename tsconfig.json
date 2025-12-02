@@ -14,7 +14,8 @@
       "@scripts/*": ["./src/scripts/*"],
       "@db/*": ["./src/db/*"],
       "@lib/*": ["./src/lib/*"],
-      "@hooks/*": ["./src/hooks/*"]
+      "@hooks/*": ["./src/hooks/*"],
+      "@i18n/*": ["./src/i18n/*"]
     },
     "jsx": "react-jsx",
     "jsxImportSource": "react",

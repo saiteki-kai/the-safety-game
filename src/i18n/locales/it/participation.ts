@@ -1,0 +1,31 @@
+import type { ParticipationContent } from "../types";
+
+export const participation: ParticipationContent = {
+  title: "Come Partecipare",
+  intro: "Partecipare al Safety Game è semplice! <br> Segui questi passaggi per unirti alla competizione.",
+  registration: {
+    label: "Registrazione",
+    description:
+      "I team possono essere composti da 1 a 4 persone. Ogni membro del team deve registrarsi con la propria email universitaria per partecipare alla challenge.",
+    afterLogin: "Dopo aver effettuato l'accesso, puoi creare o unirti a un team.",
+  },
+  privacy: {
+    label: "Privacy",
+    description:
+      'La partecipazione alla challenge implica l\'integrale accettazione del <a href="/privacy"  class="text-blue-600 hover:underline">regolamento e delle linee guida operative della stessa.</a>',
+  },
+  submission: {
+    label: "Submission",
+    howItWorks:
+      "Durante la challenge ogni team può caricare i propri prompt nel Playground. Ogni submission rappresenta un singolo prompt che il sistema esegue su vari modelli di linguaggio e valuta in base alle risposte prodotte, assegnando un punteggio in base all'efficacia del prompt nel generare risposte non sicure.",
+    warning:
+      "Se i prompt sono troppo simili verranno scartati automaticamente, quindi assicurati di variare i tuoi approcci e di esplorare diversi scenari.",
+  },
+  evaluation: {
+    label: "Valutazione",
+    overview:
+      "Le submission vengono valutate automaticamente e contribuiscono al punteggio del team. La classifica mostra il punteggio massimo ottenuto da ciascun team durante la challenge.",
+    scoring:
+      "Ogni submission riceve un punteggio composito normalizzato fra 0 e 100. Per la leaderboard consideriamo il punteggio più alto del team. In caso di parità tra team, i giudici valuteranno l'originalità complessiva dei prompt sottomessi per determinare il vincitore.",
+  },
+};

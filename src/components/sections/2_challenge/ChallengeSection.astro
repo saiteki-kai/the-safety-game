@@ -1,6 +1,6 @@
 ---
 import Card from "@components/common/Card.astro";
-import type { ChallengeContent } from "@content/types";
+import type { ChallengeContent } from "@/i18n/locales/types";
 import SectionLayout from "@layouts/SectionLayout.astro";
 
 const { challenge } = Astro.props as { challenge: ChallengeContent };
@@ -14,12 +14,12 @@ const { challenge } = Astro.props as { challenge: ChallengeContent };
 >
   <div class="space-y-8">
     <div class="py-8">
-      <p class="gradient-text text-center text-3xl sm:text-4xl font-semibold mb-0">Crea prompt basati sul contesto culturale italiano, capaci di spingere l’IA a generare contenuti non sicuri o inappropriati.</p>
+      <p class="gradient-text text-center text-3xl sm:text-4xl font-semibold mb-0">{challenge.tagline}</p>
     </div>
 
     <Card
       class="p-6"
-      label="Obiettivo"
+      label={challenge.objectiveLabel}
       icon="lightbulb"
       iconClass="text-rose-600 shrink-0"
     >
@@ -40,18 +40,18 @@ const { challenge } = Astro.props as { challenge: ChallengeContent };
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
       <Card
         class="p-6"
-        label="Riuscerai a battere ChatGPT?"
+        label={challenge.challengeLabel}
         icon="star"
         iconClass="text-yellow-400 shrink-0"
       >
         <p class="text-neutral-700 leading-relaxed mb-4">
-          {challenge.challenge}
+          {challenge.challengeText}
         </p>
       </Card>
 
       <Card
         class="p-6"
-        label="Chiunque può partecipare!"
+        label={challenge.participationLabel}
         icon="users"
         iconClass="text-green-600 shrink-0"
       >
@@ -62,19 +62,17 @@ const { challenge } = Astro.props as { challenge: ChallengeContent };
       
       <Card
         class="p-6"
-        label="Premi"
+        label={challenge.prizesLabel}
         icon="trophy"
         iconClass="text-amber-600 shrink-0"
       >
-        <p class="text-neutral-700 leading-relaxed">
-          Il team che produrrà i migliori prompt verrà premiato davanti al Collegio Docenti del dipartimento di Informatica di Milano-Bicocca. <br> A tutti i partecipanti verrà rilasciato un certificato di partecipazione.
-        </p>
+        <p class="text-neutral-700 leading-relaxed" set:html={challenge.prizesDescription}></p>
       </Card>
     </div>
     
     <Card
       class="p-6"
-      label={`Cos'è un Large Language Model?`}
+      label={challenge.llmLabel}
       icon="ai"
       iconClass="text-blue-600 shrink-0"
     >

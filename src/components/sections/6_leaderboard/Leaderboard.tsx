@@ -35,7 +35,15 @@ const highlightConfig: Record<number, { row: string; icon?: { name: string; clas
   3: { row: "highlight-3", icon: { name: "award", class: "text-amber-600" } },
 };
 
-export default function LeaderboardTable({ emptyMessage }: { emptyMessage: string }) {
+type Labels = {
+  rank: string;
+  score: string;
+  teamName: string;
+  lastSubmission: string;
+  loadError: string;
+};
+
+export default function LeaderboardTable({ emptyMessage, labels }: { emptyMessage: string; labels: Labels }) {
   const [leaderboard, setLeaderboard] = useState<Leaderboard[] | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<Error | null>(null);
@@ -92,10 +100,10 @@ export default function LeaderboardTable({ emptyMessage }: { emptyMessage: strin
           </colgroup>
           <thead>
             <tr>
-              <th className="text-center">Posizione</th>
-              <th className="text-center">Punteggio</th>
-              <th className="text-left">Nome del Team</th>
-              <th className="text-right">Ultima Consegna</th>
+              <th className="text-center">{labels.rank}</th>
+              <th className="text-center">{labels.score}</th>
+              <th className="text-left">{labels.teamName}</th>
+              <th className="text-right">{labels.lastSubmission}</th>
             </tr>
           </thead>
           <tbody>
@@ -123,9 +131,9 @@ export default function LeaderboardTable({ emptyMessage }: { emptyMessage: strin
       ) : error ? (
         <div className="flex h-full items-center justify-center py-6">
           <div className="leaderboard-empty flex-col justify-center text-center">
-            <Icon name="triangle-alert" size={28} className="mx-auto text-red-500" />
-            <p className="mt-3 text-red-600 text-sm">Impossibile caricare la classifica. Riprova più tardi.</p>
-          </div>
+              <Icon name="triangle-alert" size={28} className="mx-auto text-red-500" />
+              <p className="mt-3 text-red-600 text-sm">{labels.loadError}</p>
+            </div>
         </div>
       ) : isEmpty ? (
         <div className="flex h-full items-center justify-center py-6">
@@ -150,16 +158,16 @@ export default function LeaderboardTable({ emptyMessage }: { emptyMessage: strin
           <thead>
             <tr>
               <th scope="col" className="text-center">
-                Posizione
+                {labels.rank}
               </th>
               <th scope="col" className="text-center">
-                Punteggio
+                {labels.score}
               </th>
               <th scope="col" className="text-left">
-                Nome del Team
+                {labels.teamName}
               </th>
               <th scope="col" className="text-right">
-                Ultima Consegna
+                {labels.lastSubmission}
               </th>
             </tr>
           </thead>

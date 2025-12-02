@@ -1,14 +1,14 @@
 ---
-import type { HeroContent } from "@content/types";
+import type { HomeContent } from "@/i18n/locales/types";
 
-const { home } = Astro.props as { home: HeroContent };
+const { home } = Astro.props as { home: HomeContent };
 ---
 
 <section id="home" class="hero-section hero-gradient hero-theme-cosmic">
   <div class="hero-content">
     <div class="hero-main">
       <div class="hero-main-top">
-        <p class="hero-kicker">AI Safety Hackathon 2025</p>
+        <p class="hero-kicker">{home.kicker}</p>
         <p class="hero-description">
           {home.description}
         </p>
@@ -21,13 +21,13 @@ const { home } = Astro.props as { home: HeroContent };
         </span>
       </div>
       <div class="hero-main-bottom">
-        <span class="hero-dates">Dal 6 al 20 Novembre</span>
+        <span class="hero-dates">{home.eventDates}</span>
         <p class="hero-cta-text">{home.cta}</p>
       </div>
     </div>
   </div>
   <a href="#challenge" class="hero-indicator focus-ring">
-    Scopri di più
+    {home.learnMore}
     <span aria-hidden="true">↓</span>
   </a>
 </section>

@@ -9,7 +9,7 @@
 // UI & Navigation
 // ============================================================================
 
-export interface NavTranslations {
+export interface NavContent {
   skipToContent: string;
   openMenu: string;
   closeMenu: string;
@@ -19,7 +19,7 @@ export interface NavTranslations {
   account: string;
 }
 
-export interface CommonTranslations {
+export interface CommonContent {
   loading: string;
   error: string;
   retry: string;
@@ -31,7 +31,7 @@ export interface CommonTranslations {
   submit: string;
 }
 
-export interface SectionTranslations {
+export interface SectionContent {
   challenge: string;
   instructions: string;
   participate: string;
@@ -41,13 +41,13 @@ export interface SectionTranslations {
   faq: string;
 }
 
-export interface AuthTranslations {
+export interface AuthContent {
   signOutError: string;
   signInPrompt: string;
   signUpPrompt: string;
 }
 
-export interface FooterTranslations {
+export interface FooterContent {
   tagline: string;
   quickLinks: string;
   contacts: string;
@@ -55,7 +55,7 @@ export interface FooterTranslations {
   privacy: string;
 }
 
-export interface DashboardTranslations {
+export interface DashboardContent {
   title: string;
   welcome: string;
   noTeam: string;
@@ -66,7 +66,7 @@ export interface DashboardTranslations {
   totalSubmissions: string;
 }
 
-export interface FormsTranslations {
+export interface FormsContent {
   teamName: string;
   teamCode: string;
   email: string;
@@ -77,7 +77,7 @@ export interface FormsTranslations {
   maxLength: string;
 }
 
-export interface ErrorsTranslations {
+export interface ErrorsContent {
   generic: string;
   notFound: string;
   notFoundMessage: string;
@@ -86,7 +86,7 @@ export interface ErrorsTranslations {
   networkError: string;
 }
 
-export interface MetaTranslations {
+export interface MetaContent {
   siteTitle: string;
   siteDescription: string;
   notFoundTitle: string;
@@ -96,7 +96,7 @@ export interface MetaTranslations {
 // Content Sections
 // ============================================================================
 
-export interface HomeTranslations {
+export interface HomeContent {
   title: string;
   description: string;
   cta: string;
@@ -105,15 +105,15 @@ export interface HomeTranslations {
   eventDates: string;
 }
 
-export interface IntroductionParagraph {
+export interface IntroductionContent {
   content: string;
   emphasis?: boolean;
 }
 
-export interface ChallengeTranslations {
+export interface ChallengeContent {
   title: string;
   description: string;
-  introduction: readonly IntroductionParagraph[];
+  introduction: readonly IntroductionContent[];
   what: string;
   challengeText: string;
   participation: string;
@@ -127,13 +127,15 @@ export interface ChallengeTranslations {
   tagline: string;
 }
 
-export interface LeaderboardTranslations {
+export interface LeaderboardContent {
   title: string;
   description: string;
   emptyMessage: string;
   rank: string;
   teamName: string;
   score: string;
+  lastSubmission: string;
+  loadError: string;
   scoreNote: string;
 }
 
@@ -145,7 +147,7 @@ export interface TeamMember {
   email: string;
 }
 
-export interface TeamTranslations {
+export interface TeamContent {
   title: string;
   description: string;
   members: readonly TeamMember[];
@@ -174,7 +176,7 @@ export interface EvaluationInfo {
   scoring: string;
 }
 
-export interface ParticipationTranslations {
+export interface ParticipationContent {
   title: string;
   intro: string;
   registration: RegistrationInfo;
@@ -193,7 +195,7 @@ export interface TimelineEntry {
   status: TimelineStatus;
 }
 
-export interface DatesTranslations {
+export interface DatesContent {
   title: string;
   timeline: readonly TimelineEntry[];
   emptyMessage: string;
@@ -223,14 +225,14 @@ export interface InstructionExampleGroup {
   prompts: readonly InstructionExamplePrompt[];
 }
 
-export interface InstructionsTranslations {
+export interface InstructionsContent {
   title: string;
   intro: string;
   cards: readonly InstructionCard[];
   exampleGroups: readonly InstructionExampleGroup[];
 }
 
-export interface PlaygroundTranslations {
+export interface PlaygroundContent {
   title: string;
   description: string;
   huggingFaceSpace: string;
@@ -242,7 +244,7 @@ export interface FaqItem {
   answer: string;
 }
 
-export interface FaqTranslations {
+export interface FaqContent {
   title: string;
   description: string;
   items: readonly FaqItem[];
@@ -254,24 +256,23 @@ export interface FaqTranslations {
 
 export interface Translations {
   // UI
-  nav: NavTranslations;
-  common: CommonTranslations;
-  sections: SectionTranslations;
-  auth: AuthTranslations;
-  footer: FooterTranslations;
-  dashboard: DashboardTranslations;
-  forms: FormsTranslations;
-  errors: ErrorsTranslations;
-  meta: MetaTranslations;
+  nav: NavContent;
+  common: CommonContent;
+  sections: SectionContent;
+  auth: AuthContent;
+  footer: FooterContent;
+  dashboard: DashboardContent;
+  forms: FormsContent;
+  errors: ErrorsContent;
+  meta: MetaContent;
 
   // Content
-  home: HomeTranslations;
-  challenge: ChallengeTranslations;
-  leaderboard: LeaderboardTranslations;
-  team: TeamTranslations;
-  participation: ParticipationTranslations;
-  dates: DatesTranslations;
-  instructions: InstructionsTranslations;
-  playground: PlaygroundTranslations;
-  faq: FaqTranslations;
+  home: HomeContent;
+  challenge: ChallengeContent;
+  leaderboard: LeaderboardContent;
+  team: TeamContent;
+  participation: ParticipationContent;
+  dates: DatesContent;
+  instructions: InstructionsContent;
+  faq: FaqContent;
 }

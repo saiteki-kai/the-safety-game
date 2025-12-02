@@ -1,0 +1,38 @@
+import type { DatesContent } from "../types";
+
+export const dates: DatesContent = {
+  title: "Date Importanti",
+  timeline: [
+    {
+      date: "1 Novembre 2025",
+      title: "Apertura Registrazioni",
+      description: "Inizia la fase di registrazione per i team partecipanti.",
+      status: "completed",
+    },
+    {
+      date: "18 Novembre 2025",
+      title: "Webinar Introduttivo",
+      description: "Sessione online di introduzione alle regole e alla piattaforma.",
+      status: "upcoming",
+    },
+    {
+      date: "20 Novembre 2025",
+      title: "Inizio Challenge",
+      description: "Parte ufficialmente la competizione! Il playground si attiva.",
+      status: "upcoming",
+    },
+    {
+      date: "30 Novembre 2025",
+      title: "Fine Challenge",
+      description: "Ultimo giorno per sottomettere i prompt. Chiusura alle 23:59.",
+      status: "upcoming",
+    },
+    {
+      date: "5 Dicembre 2025",
+      title: "Premiazione Vincitori",
+      description: "Evento finale con presentazione della classifica e premiazione.",
+      status: "upcoming",
+    },
+  ],
+  emptyMessage: "Altre date in arrivo.",
+};

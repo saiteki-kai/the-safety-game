@@ -1,0 +1,11 @@
+import type { HomeContent } from "../types";
+
+export const home: HomeContent = {
+  title: "The Safety Game",
+  description:
+    "Metti alla prova la tua creatività, la tua logica e la tua conoscenza dell'IA in una competizione di prompt engineering etico.",
+  kicker: "AI Safety Challenge",
+  cta: "Riuscirai a battere ChatGPT?",
+  learnMore: "Scopri di più",
+  eventDates: "Dal 6 al 20 Novembre",
+};

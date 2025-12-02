@@ -1,11 +1,18 @@
 ---
 import IconLabel from "@components/common/IconLabel";
-import type { LeaderboardContent } from "@content/types";
+import type { LeaderboardContent } from "@/i18n/locales/types";
 import SectionLayout from "@layouts/SectionLayout.astro";
 import LeaderboardTable from "./Leaderboard";
 
 const { leaderboard } = Astro.props as { leaderboard: LeaderboardContent };
-const { title, description, emptyMessage } = leaderboard;
+const { title, description, emptyMessage, scoreNote } = leaderboard;
+const labels = {
+  rank: leaderboard.rank,
+  score: leaderboard.score,
+  teamName: leaderboard.teamName,
+  lastSubmission: leaderboard.lastSubmission,
+  loadError: leaderboard.loadError,
+};
 ---
 
 <SectionLayout
@@ -31,7 +38,7 @@ const { title, description, emptyMessage } = leaderboard;
       <div class="flex items-center gap-4">
         <div class="text-right text-sm text-white hidden sm:block">
           <div class="text-sm text-white font-medium">
-            Lo score più alto ottenuto dal tuo team è mostrato in classifica.
+            {scoreNote}
           </div>
         </div>
       </div>
@@ -42,9 +49,8 @@ const { title, description, emptyMessage } = leaderboard;
         class="table-scroll"
         role="region"
         aria-label="Leaderboard"
-        tabindex="0"
       >
-        <LeaderboardTable emptyMessage={emptyMessage} client:visible />
+  <LeaderboardTable emptyMessage={emptyMessage} labels={labels} client:visible />
       </div>
     </div>
   </div>

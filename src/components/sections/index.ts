@@ -4,7 +4,6 @@ export { default as ParticipationSection } from "./3_participation/Participation
 export { default as TimelineSection } from "./4_timeline/TimelineSection.astro";
 export { default as InstructionsSection } from "./5_instructions/InstructionsSection.astro";
 export { default as LeaderboardSection } from "./6_leaderboard/LeaderboardSection.astro";
-export { default as PlaygroundSection } from "./7_playground/PlaygroundSection.astro";
 export { default as TeamSection } from "./8_team/TeamSection.astro";
 export { default as FaqSection } from "./9_faq/FaqSection.astro";
 export { default as LogosSection } from "./10_logos/LogosSection.astro";

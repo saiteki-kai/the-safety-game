@@ -1,0 +1,14 @@
+import type { LeaderboardContent } from "../types";
+
+export const leaderboard: LeaderboardContent = {
+  title: "Leaderboard Temporanea",
+  description:
+    "La Leaderboard temporanea riporta i risultati provvisori raccolti dal Playground.<br/>La classifica è aggiornata in tempo reale.<br/>I punteggi finali verranno annunciati al termine della challenge.",
+  emptyMessage: "Nessun team è presente in classifica al momento. Riprova più tardi.",
+  rank: "Posizione",
+  teamName: "Team",
+  score: "Punteggio",
+  lastSubmission: "Ultima Consegna",
+  loadError: "Impossibile caricare la classifica. Riprova più tardi.",
+  scoreNote: "Punteggio più alto ottenuto dal team durante la challenge",
+};

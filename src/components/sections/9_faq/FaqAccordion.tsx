@@ -5,7 +5,7 @@ type FaqItem = {
   answer: string;
 };
 
-export default function FaqAccordion({ items }: { items: FaqItem[] }) {
+export default function FaqAccordion({ items }: { items: readonly FaqItem[] }) {
   return (
     <Accordion type="single" collapsible>
       {items.map((item, index) => (
