@@ -26,7 +26,7 @@ export function DailySubmissionSection({ teamId, disabled = false }: DailySubmis
   };
 
   return (
-    <div className="space-y-8 px-8 py-8 scroll-mt-16" id="playground">
+    <div className="scroll-mt-16 space-y-8 px-8 py-8" id="playground">
       {/* Hero Section */}
       <div className="space-y-4 text-center">
         <h2 className="font-bold text-2xl text-neutral-900">Playground</h2>
@@ -51,7 +51,8 @@ export function DailySubmissionSection({ teamId, disabled = false }: DailySubmis
                 i prompt verranno valutati da diversi modelli e combinati per una valutazione più accurata.
               </p>
               <p>
-                <strong>Formato del file:</strong> Carica un file di testo semplice dove ogni riga contiene un singolo prompt.
+                <strong>Formato del file:</strong> Carica un file di testo semplice dove ogni riga contiene un singolo
+                prompt.
               </p>
             </div>
           </div>

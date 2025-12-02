@@ -7,6 +7,13 @@ Content:
 - [ ] Footer: links to social media, contact info
 - [ ] Registration link
 - [ ] (optional) Admin page (number of users, teams, submissions stats)
+- [ ] Mettere posizione leaderboard
+
+- [ ] Controllare robe da tradurre
+- [ ] Controllo prompt duplicati con warning
+- [ ] stile pagina di login
+- [ ] Box invio finale in un altra pagina
+- [ ] Aggiungere link all'invio finale
 
 Code Quality and Optimization:
 
