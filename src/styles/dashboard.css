@@ -171,7 +171,7 @@
 }
 
 .register-alert--success {
-  @apply border-emerald-200 bg-emerald-50 text-emerald-700;
+  @apply border-indigo-200 bg-indigo-50 text-indigo-700;
 }
 
 .register-submit {

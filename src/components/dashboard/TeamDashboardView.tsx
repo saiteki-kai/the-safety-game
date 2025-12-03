@@ -6,8 +6,8 @@ import { CHALLENGE_END_DATE } from "@/lib/consts.ts";
 import { isToday } from "@/lib/formatters.ts";
 import { browserClient } from "@/lib/supabase";
 import type { Team } from "@/lib/supabase.types";
-import { DailySubmissionSection } from "./view/DailySubmissionSection.tsx";
-import { SubmissionHistorySection } from "./view/SubmissionHistorySection.tsx";
+import { DailySubmissionSection } from "./view/daily/DailySubmissionSection.tsx";
+import { SubmissionHistorySection } from "./view/table/SubmissionHistorySection.tsx";
 import TeamOverviewCard from "./view/TeamOverviewCard.tsx";
 
 type TeamDashboardViewProps = {
@@ -36,7 +36,9 @@ export default function TeamDashboardView({ team }: TeamDashboardViewProps) {
       : 0;
   const leaderboardPosition = 3; // Placeholder for leaderboard position!!!
   const finalSubmissionDone = submissions?.some((s) => !s.playground) ?? false;
-  const dailySubmissionsDone = submissions?.some((s) => isToday(s.date)) ?? false;
+  const dailySubmissionsDone = submissions?.some((s) => isToday(s.date) && s.playground) ?? false;
+  console.log("submissions:", submissions);
+  console.log("TeamDashboardView - dailySubmissionsDone:", dailySubmissionsDone);
 
   const progress = {
     promptsSubmitted,
@@ -50,20 +52,22 @@ export default function TeamDashboardView({ team }: TeamDashboardViewProps) {
   };
 
   return (
-    <main className="flex min-h-0 w-full flex-1 flex-col gap-8 px-5 py-6 sm:px-8 sm:py-10" aria-label="Team dashboard">
-      <section className="grid gap-4 lg:grid-cols-3" aria-label="Sintesi del team">
+    <main className="flex min-h-0 w-full flex-1 flex-col gap-8 px-4 py-6 sm:px-2 sm:py-10" aria-label="Team dashboard">
+  <div className="mx-auto w-full lg:container">
+        <section className="grid gap-4 lg:grid-cols-3" aria-label="Sintesi del team">
         <div className="lg:col-span-3">
           <TeamOverviewCard teamName={teamName} members={members} teamJoinCode={teamJoinCode} progress={progress} />
         </div>
       </section>
 
-      <section aria-label="Area di invio giornaliera" className="space-y-4">
-        <DailySubmissionSection teamId={team.id} disabled={dailySubmissionsDone} />
-      </section>
+        <section aria-label="Area di invio giornaliera" className="space-y-4">
+          <DailySubmissionSection teamId={team.id} disabled={dailySubmissionsDone} />
+        </section>
 
-      <section aria-label="Area submission" className="space-y-4">
-        <SubmissionHistorySection teamId={team.id} submissions={submissions} />
-      </section>
+        <section aria-label="Area submission" className="space-y-4">
+          <SubmissionHistorySection teamId={team.id} submissions={submissions} />
+        </section>
+      </div>
     </main>
   );
 }

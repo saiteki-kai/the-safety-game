@@ -51,7 +51,7 @@ export function SubmissionHistorySection({ submissions }: SubmissionHistorySecti
   const isLoading = submissions === null;
 
   return (
-    <div className="space-y-8 px-8 py-8">
+  <div className="space-y-8 px-4 py-8 sm:px-8">
       <div className="space-y-4 text-center">
         <h2 className="font-bold text-2xl text-neutral-900">Storico Submission</h2>
         <p className="mx-auto max-w-2xl text-lg text-neutral-600">

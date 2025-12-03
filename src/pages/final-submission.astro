@@ -1,0 +1,45 @@
+---
+export const prerender = false;
+
+import "@styles/dashboard.css";
+
+import PageLayout from "@layouts/PageLayout.astro";
+import DashboardNav from "@/components/common/DashboardNav";
+import { FinalSubmissionSection } from "@/components/dashboard/final/FinalSubmissionSection";
+import Footer from "@/components/common/Footer.astro";
+import { footer as t } from "@i18n/locales/it";
+import { footerQuickLinks } from "@/content/site-config";
+import { getTeamByUserId } from "@/db/teams";
+import { serverClient } from "@/lib/supabase";
+import { getTeamSubmissions } from "@/db/submissions";
+
+const supabase = serverClient(Astro);
+const profile = Astro.locals.user;
+if (!profile) {
+  return Astro.redirect("/login");
+}
+const team = await getTeamByUserId(supabase, profile.id);
+
+if (!team) {
+  return Astro.redirect("/setup");
+}
+
+// Check if the team has already made a final submission
+const submissions = await getTeamSubmissions(supabase, team.id);
+const finalSubmissionDone = submissions?.some((s) => !s.playground) ?? false;
+
+const navMenu = [
+  { title: "Home", url: "/" },
+  { title: "Dashboard", url: "/dashboard" },
+];
+---
+
+<PageLayout title="Invio Finale | The Safety Game">
+  <DashboardNav client:load profile={profile} menu={navMenu} />
+  <main class="flex min-h-0 w-full flex-1 flex-col my-12 gap-8 px-4 py-6 sm:px-8 sm:py-10" aria-label="Final submission">
+    <div class="mx-auto w-full lg:container">
+      <FinalSubmissionSection client:load teamId={team.id} disabled={finalSubmissionDone} />
+    </div>
+  </main>
+  <Footer slot="footer" t={t} quickLinks={footerQuickLinks} />
+</PageLayout>

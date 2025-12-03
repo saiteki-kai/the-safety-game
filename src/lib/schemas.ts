@@ -29,6 +29,12 @@ export const dailyPromptsSchema = z.object({
   prompts: z.array(z.string().min(1, "Il prompt non può essere vuoto.")),
 });
 
+export const finalPromptsSchema = z.object({
+  teamId: z.string().uuid().nonempty(),
+  prompts: z.array(z.string().min(1, "Il prompt non può essere vuoto.")),
+});
+
 export type CreateTeamInput = z.infer<typeof teamNameSchema>;
 export type JoinTeamInput = z.infer<typeof joinCodeSchema>;
 export type DailyPromptsInput = z.infer<typeof dailyPromptsSchema>;
+export type FinalPromptsInput = z.infer<typeof finalPromptsSchema>;

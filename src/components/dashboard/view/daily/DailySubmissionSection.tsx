@@ -1,7 +1,7 @@
 import { actions } from "astro:actions";
 import { AlertTriangle } from "lucide-react";
 import { useState } from "react";
-import { DailyUploadCard } from "./DailyUploadCard";
+import { UploadCard, dailyUploadConfig } from "../../shared";
 
 interface DailySubmissionSectionProps {
   teamId: string;
@@ -10,6 +10,7 @@ interface DailySubmissionSectionProps {
 
 export function DailySubmissionSection({ teamId, disabled = false }: DailySubmissionSectionProps) {
   const [isLoading, setIsLoading] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const handleSubmit = async (prompts: string[]): Promise<{ prompt: string; response?: string }[] | null> => {
     if (!prompts || prompts.length === 0 || isLoading) return null;
@@ -17,6 +18,11 @@ export function DailySubmissionSection({ teamId, disabled = false }: DailySubmis
     try {
       const result = await actions.submissions.uploadDailyPrompts({ teamId, prompts });
       const returned = result?.data?.data ?? null;
+
+      if (returned && Array.isArray(returned)) {
+        setIsSubmitted(true);
+      }
+
       return returned && Array.isArray(returned) ? returned : null;
     } catch (_e) {
       return null;
@@ -26,7 +32,7 @@ export function DailySubmissionSection({ teamId, disabled = false }: DailySubmis
   };
 
   return (
-    <div className="scroll-mt-16 space-y-8 px-8 py-8" id="playground">
+    <div className="scroll-mt-16 space-y-8 px-4 py-8 sm:px-8" id="playground">
       {/* Hero Section */}
       <div className="space-y-4 text-center">
         <h2 className="font-bold text-2xl text-neutral-900">Playground</h2>
@@ -80,7 +86,7 @@ export function DailySubmissionSection({ teamId, disabled = false }: DailySubmis
           </div>
         </div>
         <div className="h-[500px] lg:h-auto lg:flex-1">
-          <DailyUploadCard isLoading={isLoading} onSubmit={handleSubmit} disabled={disabled && !isLoading} />
+          <UploadCard config={dailyUploadConfig} isLoading={isLoading} onSubmit={handleSubmit} disabled={disabled} completed={isSubmitted || disabled} />
         </div>
       </div>
     </div>

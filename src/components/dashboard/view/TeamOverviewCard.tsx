@@ -2,10 +2,10 @@ import { Calendar, FileText, Flag, Target, Trophy, Upload, Zap } from "lucide-re
 import { useMemo } from "react";
 import { MAX_DAILY_PROMPTS, MAX_TEAM_SIZE } from "@/lib/consts";
 import type { Profile } from "@/lib/supabase.types";
-import JoinCodeButton from "./JoinCodeButton";
-import MemberItem from "./MemberItem";
-import ProgressMetricRow from "./ProgressMetricRow";
-import StatusActionRow from "./StatusActionRow";
+import JoinCodeButton from "./team/JoinCodeButton";
+import MemberItem from "./team/MemberItem";
+import ProgressMetricRow from "./progress/ProgressMetricRow";
+import StatusActionRow from "./progress/StatusActionRow";
 
 type ProgressState = {
   challengeDaysRemaining: number;
@@ -46,7 +46,7 @@ export default function TeamOverviewCard({ teamName, teamJoinCode, members, prog
   const baselineBeaten = highestScore >= baseline;
 
   return (
-    <div className="space-y-8 px-8 py-8">
+  <div className="space-y-8 px-4 py-8 sm:px-8">
       {/* Hero Section */}
       <div className="space-y-3 pt-6 text-center">
         <h1 className="font-extrabold text-3xl text-neutral-900 sm:text-4xl">{teamName}</h1>
