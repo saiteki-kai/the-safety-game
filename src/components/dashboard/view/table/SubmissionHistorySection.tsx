@@ -13,6 +13,7 @@ const submissionColumns: ColumnDef<TeamSubmissions>[] = [
       return <span className="text-neutral-700 text-sm">{prompt ?? "—"}</span>;
     },
     enableSorting: true,
+    size: undefined,
   },
   {
     accessorKey: "date",
@@ -29,6 +30,7 @@ const submissionColumns: ColumnDef<TeamSubmissions>[] = [
       );
     },
     enableSorting: true,
+    size: 160,
   },
   {
     accessorKey: "score",
@@ -39,6 +41,7 @@ const submissionColumns: ColumnDef<TeamSubmissions>[] = [
       return <span className="font-medium text-neutral-900 text-sm">{score}</span>;
     },
     enableSorting: true,
+    size: 120,
   },
 ];
 

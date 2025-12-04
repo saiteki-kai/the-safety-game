@@ -38,3 +38,19 @@ export const parseFile = async (file: File): Promise<string[]> => {
     throw err instanceof Error ? err : new Error(String(err));
   }
 };
+
+/** Detect if there are any duplicate prompts */
+export const hasDuplicates = (prompts: string[]): boolean => {
+  const seen = new Set<string>();
+  
+  for (const prompt of prompts) {
+    const key = prompt.toLowerCase();
+    if (seen.has(key)) {
+      return true; // Found duplicate, return early
+    }
+    seen.add(key);
+  }
+  
+  return false; // No duplicates found
+};
+

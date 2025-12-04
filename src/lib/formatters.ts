@@ -32,8 +32,8 @@ export function isToday(value: unknown): boolean {
   if (!parsed) return false;
   const now = new Date();
   return (
-    parsed.getFullYear() === now.getFullYear() &&
-    parsed.getMonth() === now.getMonth() &&
-    parsed.getDate() === now.getDate()
+    parsed.getUTCFullYear() === now.getUTCFullYear() &&
+    parsed.getUTCMonth() === now.getUTCMonth() &&
+    parsed.getUTCDate() === now.getUTCDate()
   );
 }

@@ -74,10 +74,12 @@ export function DataTable<TData, TValue>({
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id} className="overflow-visible">
                 {headerGroup.headers.map((header, index) => {
+                  const size = header.column.columnDef.size;
+                  const hasFixedSize = size !== undefined && size !== 150; // 150 is TanStack default
                   return (
                     <TableHead
                       key={header.id}
-                      style={{ width: header.getSize() }}
+                      style={hasFixedSize ? { width: `${size}px`, minWidth: `${size}px`, maxWidth: `${size}px` } : undefined}
                       className={cn(
                         "px-3 py-3 text-[11px] text-neutral-500 uppercase tracking-[0.06em]",
                         index === 0 ? firstColumnPadding : "",
@@ -100,10 +102,12 @@ export function DataTable<TData, TValue>({
                 >
                   {row.getVisibleCells().map((cell, index) => {
                     const cellMeta = cell.column.columnDef.meta as ColumnMeta | undefined;
+                    const size = cell.column.columnDef.size;
+                    const hasFixedSize = size !== undefined && size !== 150; // 150 is TanStack default
                     return (
                       <TableCell
                         key={cell.id}
-                        style={{ width: cell.column.getSize() }}
+                        style={hasFixedSize ? { width: `${size}px`, minWidth: `${size}px`, maxWidth: `${size}px` } : undefined}
                         className={cn(
                           "px-3 py-3 align-middle",
                           index === 0 ? firstColumnPadding : "",
@@ -113,6 +117,8 @@ export function DataTable<TData, TValue>({
                             : cellMeta?.align === "right"
                               ? "text-right"
                               : undefined,
+                          // Allow text wrap for columns without fixed size
+                          !hasFixedSize && "whitespace-normal",
                         )}
                       >
                         {flexRender(cell.column.columnDef.cell, cell.getContext())}

@@ -54,12 +54,13 @@ export const insertPrompts = async (
   prompts: string[],
   playground = true,
 ): Promise<Submission[]> => {
-  const submissions: Omit<Submission, "id" | "created_at">[] = prompts.map((prompt) => ({
+  const submissions: Omit<Submission, "id">[] = prompts.map((prompt) => ({
     team_id: teamId,
     prompt: prompt,
     response: null,
     model: null,
     score: null,
+    created_at: new Date().toUTCString(),
     playground,
   }));
 

@@ -11,20 +11,25 @@ interface DailySubmissionSectionProps {
 export function DailySubmissionSection({ teamId, disabled = false }: DailySubmissionSectionProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isError, setIsError] = useState(false);
 
   const handleSubmit = async (prompts: string[]): Promise<{ prompt: string; response?: string }[] | null> => {
     if (!prompts || prompts.length === 0 || isLoading) return null;
     setIsLoading(true);
     try {
       const result = await actions.submissions.uploadDailyPrompts({ teamId, prompts });
+      console.log(result)
       const returned = result?.data?.data ?? null;
 
-      if (returned && Array.isArray(returned)) {
+      if (result.data.success && Array.isArray(returned) && returned.length > 0) {
         setIsSubmitted(true);
+      } else {
+        setIsError(true);
       }
 
       return returned && Array.isArray(returned) ? returned : null;
     } catch (_e) {
+      setIsError(true);
       return null;
     } finally {
       setIsLoading(false);
@@ -86,7 +91,7 @@ export function DailySubmissionSection({ teamId, disabled = false }: DailySubmis
           </div>
         </div>
         <div className="h-[500px] lg:h-auto lg:flex-1">
-          <UploadCard config={dailyUploadConfig} isLoading={isLoading} onSubmit={handleSubmit} disabled={disabled} completed={isSubmitted || disabled} />
+          <UploadCard config={dailyUploadConfig} isLoading={isLoading} onSubmit={handleSubmit} disabled={disabled} completed={isSubmitted || disabled} isError={isError} />
         </div>
       </div>
     </div>

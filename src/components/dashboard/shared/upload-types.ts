@@ -12,6 +12,9 @@ export const uploadCardLabels: Record<"final" | "daily", UploadCardLabels> = {
     subtitle: `Invia i tuoi ${MAX_FINAL_PROMPTS} prompt per la valutazione ufficiale`,
     completedTitle: "🎉 Consegna Finale Effettuata!",
     completedSubtitle: "**Buona fortuna!**",
+    errorTitle: "Errore durante l'invio finale",
+    errorSubtitle: "Si è verificato un errore durante la consegna. Riprova o contatta l'assistenza se il problema persiste.",
+    retryButton: "Riprova",
     uploadLabel: "Clicca per caricare",
     uploadHint: `File di testo (una riga = un prompt) · Esattamente ${MAX_FINAL_PROMPTS} prompt · Max 20 MB`,
     filePlaceholder: "Seleziona un file per l'invio finale",
@@ -28,6 +31,9 @@ export const uploadCardLabels: Record<"final" | "daily", UploadCardLabels> = {
     completedTitle: "🎉 Invio Completato!",
     completedSubtitle:
       "Hai già effettuato l'invio giornaliero oggi.\n**Torna domani per il prossimo invio!**",
+    errorTitle: "Errore durante l'invio",
+    errorSubtitle: "Si è verificato un problema con l'invio giornaliero. Riprova più tardi.",
+    retryButton: "Riprova",
     uploadLabel: "Clicca per caricare",
     uploadHint: "File di testo (una riga = un prompt) · Max 20 MB",
     filePlaceholder: "Seleziona un file per la valutazione",
@@ -46,6 +52,7 @@ export const finalUploadConfig: UploadCardConfig = {
   requireExactCount: true,
   labels: uploadCardLabels.final,
   inputId: "final-text-upload",
+  blockOnDuplicates: true,
 };
 
 export const dailyUploadConfig: UploadCardConfig = {
@@ -53,6 +60,7 @@ export const dailyUploadConfig: UploadCardConfig = {
   requireExactCount: false,
   labels: uploadCardLabels.daily,
   inputId: "daily-text-upload",
+  blockOnDuplicates: false,
 };
 
 export type { UploadCardConfig, UploadCardLabels };

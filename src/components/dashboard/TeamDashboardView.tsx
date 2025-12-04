@@ -1,5 +1,6 @@
 export const prerender = false;
 
+import { useLeaderboardPosition } from "@/hooks/useLeaderboardPosition.tsx";
 import { useTeamMembers } from "@/hooks/useTeamMembers.tsx";
 import { useTeamSubmissions } from "@/hooks/useTeamSubmissions.tsx";
 import { CHALLENGE_END_DATE } from "@/lib/consts.ts";
@@ -18,6 +19,7 @@ export default function TeamDashboardView({ team }: TeamDashboardViewProps) {
   const supabase = browserClient();
   const { members } = useTeamMembers(supabase, team.id);
   const { submissions } = useTeamSubmissions(supabase, team.id);
+  const { position: leaderboardPosition } = useLeaderboardPosition(supabase, team.id);
 
   const teamName = team?.name ?? "Team";
   const teamJoinCode = team?.join_code?.toUpperCase() ?? "------";
@@ -34,11 +36,8 @@ export default function TeamDashboardView({ team }: TeamDashboardViewProps) {
     Date.now() < CHALLENGE_END_DATE.getTime()
       ? Math.ceil((CHALLENGE_END_DATE.getTime() - Date.now()) / (1000 * 60 * 60 * 24))
       : 0;
-  const leaderboardPosition = 3; // Placeholder for leaderboard position!!!
   const finalSubmissionDone = submissions?.some((s) => !s.playground) ?? false;
-  const dailySubmissionsDone = submissions?.some((s) => isToday(s.date) && s.playground) ?? false;
-  console.log("submissions:", submissions);
-  console.log("TeamDashboardView - dailySubmissionsDone:", dailySubmissionsDone);
+  const dailySubmissionsDone = submissions?.some((s) => isToday(s.date) && !!s.playground && !!s.score) ?? false;
 
   const progress = {
     promptsSubmitted,
@@ -61,7 +60,7 @@ export default function TeamDashboardView({ team }: TeamDashboardViewProps) {
       </section>
 
         <section aria-label="Area di invio giornaliera" className="space-y-4">
-          <DailySubmissionSection teamId={team.id} disabled={dailySubmissionsDone} />
+          <DailySubmissionSection teamId={team.id} disabled={false} />
         </section>
 
         <section aria-label="Area submission" className="space-y-4">

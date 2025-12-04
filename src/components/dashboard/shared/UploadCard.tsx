@@ -17,7 +17,7 @@ import type React from "react";
 import type { ChangeEvent, DragEvent } from "react";
 import { useRef, useState } from "react";
 
-import { isTextFile, MAX_FILE_BYTES, parseFile, UPLOAD_ERRORS } from "./upload-utils";
+import { isTextFile, MAX_FILE_BYTES, parseFile, UPLOAD_ERRORS, hasDuplicates } from "./upload-utils";
 
 // ============================================================================
 // Types
@@ -28,6 +28,9 @@ export interface UploadCardLabels {
   subtitle: string;
   completedTitle: string;
   completedSubtitle: string;
+  errorTitle: string;
+  errorSubtitle: string;
+  retryButton: string;
   uploadLabel: string;
   uploadHint: string;
   filePlaceholder: string;
@@ -42,6 +45,8 @@ export interface UploadCardConfig {
   requireExactCount: boolean;
   labels: UploadCardLabels;
   inputId: string;
+  /** If true, duplicates block submission. If false, just show warning (duplicates will be discarded). */
+  blockOnDuplicates?: boolean;
 }
 
 export interface UploadCardProps {
@@ -52,6 +57,8 @@ export interface UploadCardProps {
   ) => Promise<{ prompt: string; response?: string }[] | null>;
   disabled?: boolean;
   completed?: boolean;
+  isError?: boolean;
+  onRetry?: () => void;
 }
 
 // ============================================================================
@@ -92,6 +99,56 @@ function CompletedState({ title, subtitle }: CompletedStateProps) {
               );
             })}
           </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+interface ErrorStateProps {
+  title: string;
+  subtitle: string;
+  retryLabel: string;
+  onRetry?: () => void;
+}
+
+function ErrorState({ title, subtitle, retryLabel, onRetry }: ErrorStateProps) {
+  return (
+    <div className="flex h-full min-h-0 flex-1 items-center justify-center rounded-lg border border-red-200 bg-red-50 p-4 sm:p-6">
+      <div className="fade-in-0 zoom-in-95 animate-in text-center duration-500">
+        <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-lg bg-red-100 p-2">
+          <AlertTriangle size={18} className="text-red-600 drop-shadow-sm" />
+        </div>
+        <div className="mt-4 space-y-3">
+          <h4 className="font-bold text-xl text-red-900">{title}</h4>
+          <p className="text-base leading-relaxed text-red-800">
+            {subtitle.split("\n").map((line, i, arr) => {
+              const parts = line.split(/(\*\*.*?\*\*)/g);
+              return (
+                <span key={i}>
+                  {parts.map((part, j) => {
+                    if (part.startsWith("**") && part.endsWith("**")) {
+                      return (
+                        <span key={j} className="font-medium">
+                          {part.slice(2, -2)}
+                        </span>
+                      );
+                    }
+                    return part;
+                  })}
+                  {i < arr.length - 1 && <br />}
+                </span>
+              );
+            })}
+          </p>
+          <Button
+            type="button"
+            variant="outline"
+            className="mt-4 border-red-300 text-red-700 hover:bg-red-100 hover:text-red-800"
+            onClick={() => onRetry?.()}
+          >
+            {retryLabel}
+          </Button>
         </div>
       </div>
     </div>
@@ -157,22 +214,27 @@ function UploadDropzone({
 
 interface PromptsPreviewProps {
   prompts: string[];
+  warning?: string | null;
+  warningIsError?: boolean;
 }
 
-function PromptsPreview({ prompts }: PromptsPreviewProps) {
+function PromptsPreview({ prompts, warning, warningIsError = false }: PromptsPreviewProps) {
   return (
-    <ScrollArea className="relative h-full overflow-hidden rounded-lg border border-neutral-200 bg-white text-neutral-700 text-sm">
-      <div className="relative md:absolute md:inset-0">
-        <ul className="flex flex-col gap-2 bg-white p-4 text-neutral-700 text-sm sm:p-6">
-          {prompts.map((s, index) => (
-            <li key={`preview-${index}-${(s ?? "").slice(0, 30)}`} className="flex items-start gap-2">
-              <span className="shrink-0 text-neutral-400">•</span>
-              <span className="leading-tight">{s}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </ScrollArea>
+    <div className="flex h-full min-h-0 flex-1 flex-col gap-3">
+      {warning && <WarningBanner message={warning} isError={warningIsError} />}
+      <ScrollArea className="relative h-full overflow-hidden rounded-lg border border-neutral-200 bg-white text-neutral-700 text-sm">
+        <div className="relative md:absolute md:inset-0">
+          <ul className="flex flex-col gap-2 bg-white p-4 text-neutral-700 text-sm sm:p-6">
+            {prompts.map((s, index) => (
+              <li key={`preview-${index}-${(s ?? "").slice(0, 30)}`} className="flex items-start gap-2">
+                <span className="shrink-0 text-neutral-400">•</span>
+                <span className="leading-tight">{s}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </ScrollArea>
+    </div>
   );
 }
 
@@ -190,6 +252,28 @@ function ErrorBanner({ message }: ErrorBannerProps) {
       <span className="sr-only">Errore: </span>
       <span>{message}</span>
     </output>
+  );
+}
+
+interface WarningBannerProps {
+  message: string;
+}
+
+function WarningBanner({ message, isError }: WarningBannerProps & { isError?: boolean }) {
+  if (isError) {
+    return (
+      <div className="flex items-center gap-2 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
+        <AlertTriangle className="h-4 w-4 shrink-0 text-red-600" />
+        <span>{message}</span>
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex items-center gap-2 rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-800">
+      <AlertTriangle className="h-4 w-4 shrink-0 text-amber-600" />
+      <span>{message}</span>
+    </div>
   );
 }
 
@@ -347,20 +431,26 @@ export function UploadCard({
   onSubmit,
   disabled = false,
   completed = false,
+  isError = false,
+  onRetry,
 }: UploadCardProps): React.ReactElement {
-  const { maxPrompts, requireExactCount, labels, inputId } = config;
+  const { maxPrompts, requireExactCount, labels, inputId, blockOnDuplicates = false } = config;
 
   const [isDragActive, setIsDragActive] = useState(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [selectedFileName, setSelectedFileName] = useState<string | null>(null);
   const [prompts, setPrompts] = useState<string[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [warning, setWarning] = useState<string | null>(null);
+  const [hasDuplicatesInFile, setHasDuplicatesInFile] = useState(false);
+  const [internalError, setInternalError] = useState(false);
 
   const promptCount = prompts.length;
   const isPromptZero = promptCount === 0;
   const isPromptTooLarge = promptCount > maxPrompts;
   const isCountMismatch = requireExactCount && promptCount !== maxPrompts && promptCount > 0;
-  const isBadgeProblem = isPromptZero || isPromptTooLarge || isCountMismatch;
+  const isDuplicateBlocking = blockOnDuplicates && hasDuplicatesInFile;
+  const isBadgeProblem = isPromptZero || isPromptTooLarge || isCountMismatch || isDuplicateBlocking;
   const hasSelection = !!selectedFileName || prompts.length > 0;
 
   // -------------------------------------------------------------------------
@@ -369,6 +459,8 @@ export function UploadCard({
 
   const processFile = async (file?: File | null) => {
     setError(null);
+    setWarning(null);
+    setHasDuplicatesInFile(false);
     if (!file) {
       setSelectedFileName(null);
       setPrompts([]);
@@ -395,6 +487,16 @@ export function UploadCard({
     try {
       const mapped = await parseFile(file);
       setPrompts(mapped.length > 0 ? mapped : []);
+      
+      // Check for duplicates
+      if (mapped.length > 0 && hasDuplicates(mapped)) {
+        setHasDuplicatesInFile(true);
+        if (blockOnDuplicates) {
+          setWarning("Duplicati trovati. Rimuovili prima di inviare.");
+        } else {
+          setWarning("Duplicati trovati. Saranno scartati durante l'invio.");
+        }
+      }
     } catch (err) {
       const msg = err instanceof Error ? err.message : UPLOAD_ERRORS.READ_ERROR;
       setError(msg);
@@ -427,13 +529,30 @@ export function UploadCard({
     setSelectedFileName(null);
     setPrompts([]);
     setError(null);
+    setWarning(null);
+    setHasDuplicatesInFile(false);
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
 
   const handleSubmitClick = async () => {
     if (prompts.length === 0 || isLoading || disabled || isBadgeProblem) return;
     setError(null);
-    const toSend = prompts.slice();
+    setInternalError(false);
+    // Prepare submission list. For daily uploads (blockOnDuplicates=false) we remove duplicates before sending.
+    const toSendOriginal = prompts.slice();
+    let toSend = toSendOriginal;
+    if (!blockOnDuplicates && hasDuplicatesInFile) {
+      const seen = new Set<string>();
+      const unique: string[] = [];
+      for (const p of toSendOriginal) {
+        const key = p.toLowerCase();
+        if (!seen.has(key)) {
+          seen.add(key);
+          unique.push(p);
+        }
+      }
+      toSend = unique;
+    }
     try {
       const returned = await onSubmit(toSend);
       if (returned && Array.isArray(returned)) {
@@ -443,9 +562,11 @@ export function UploadCard({
         if (fileInputRef.current) fileInputRef.current.value = "";
       } else {
         setError(UPLOAD_ERRORS.SERVER_ERROR);
+        setInternalError(true);
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : UPLOAD_ERRORS.SERVER_ERROR);
+      setInternalError(true);
     }
   };
 
@@ -458,11 +579,27 @@ export function UploadCard({
     setIsDragActive(false);
   };
 
+  const handleRetry = async () => {
+    setInternalError(false);
+    await handleSubmitClick();
+  };
+
   // -------------------------------------------------------------------------
   // Render content based on state (early returns)
   // -------------------------------------------------------------------------
 
   const renderContent = () => {
+    if (internalError) {
+      return (
+        <ErrorState
+          title={labels.errorTitle}
+          subtitle={labels.errorSubtitle}
+          retryLabel={labels.retryButton}
+          onRetry={handleRetry}
+        />
+      );
+    }
+
     if (completed) {
       return <CompletedState title={labels.completedTitle} subtitle={labels.completedSubtitle} />;
     }
@@ -482,11 +619,11 @@ export function UploadCard({
       );
     }
 
-    return <PromptsPreview prompts={prompts} />;
+    return <PromptsPreview prompts={prompts} warning={warning} warningIsError={blockOnDuplicates && hasDuplicatesInFile} />;
   };
 
   const renderFooter = () => {
-    if (completed) return null;
+    if (completed || internalError) return null;
 
     return (
       <div className="mt-3 flex flex-col sm:flex-row sm:items-center sm:gap-3">
