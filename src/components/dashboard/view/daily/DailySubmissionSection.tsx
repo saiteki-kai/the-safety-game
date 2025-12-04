@@ -1,7 +1,7 @@
 import { actions } from "astro:actions";
 import { AlertTriangle } from "lucide-react";
 import { useState } from "react";
-import { UploadCard, dailyUploadConfig } from "../../shared";
+import { dailyUploadConfig, UploadCard } from "../../shared";
 
 interface DailySubmissionSectionProps {
   teamId: string;
@@ -18,7 +18,7 @@ export function DailySubmissionSection({ teamId, disabled = false }: DailySubmis
     setIsLoading(true);
     try {
       const result = await actions.submissions.uploadDailyPrompts({ teamId, prompts });
-      console.log(result)
+      console.log(result);
       const returned = result?.data?.data ?? null;
 
       if (result.data.success && Array.isArray(returned) && returned.length > 0) {
@@ -91,7 +91,14 @@ export function DailySubmissionSection({ teamId, disabled = false }: DailySubmis
           </div>
         </div>
         <div className="h-[500px] lg:h-auto lg:flex-1">
-          <UploadCard config={dailyUploadConfig} isLoading={isLoading} onSubmit={handleSubmit} disabled={disabled} completed={isSubmitted || disabled} isError={isError} />
+          <UploadCard
+            config={dailyUploadConfig}
+            isLoading={isLoading}
+            onSubmit={handleSubmit}
+            disabled={disabled}
+            completed={isSubmitted || disabled}
+            isError={isError}
+          />
         </div>
       </div>
     </div>

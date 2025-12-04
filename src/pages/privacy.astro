@@ -3,11 +3,11 @@ export const prerender = false;
 
 import "@styles/globals.css";
 import Footer from "@components/common/Footer.astro";
-import { footer as t } from "@i18n/locales/it";
-import { footerQuickLinks } from "@/content/site-config";
 import SimpleNavigation from "@components/common/SimpleNavigation";
+import { footer as t } from "@i18n/locales/it";
 import PageLayout from "@layouts/PageLayout.astro";
 import { Separator } from "@/components/ui/separator";
+import { footerQuickLinks } from "@/content/site-config";
 import { FOOTER_LINKS } from "@/lib/consts";
 
 const lastModified = "30 novembre 2025";

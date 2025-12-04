@@ -42,7 +42,7 @@ export const parseFile = async (file: File): Promise<string[]> => {
 /** Detect if there are any duplicate prompts */
 export const hasDuplicates = (prompts: string[]): boolean => {
   const seen = new Set<string>();
-  
+
   for (const prompt of prompts) {
     const key = prompt.toLowerCase();
     if (seen.has(key)) {
@@ -50,7 +50,6 @@ export const hasDuplicates = (prompts: string[]): boolean => {
     }
     seen.add(key);
   }
-  
+
   return false; // No duplicates found
 };
-

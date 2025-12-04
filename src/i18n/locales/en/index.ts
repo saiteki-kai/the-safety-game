@@ -1,27 +1,15 @@
 import type { Translations } from "../types";
-
-// UI translations
-import {
-  nav,
-  common,
-  sections,
-  auth,
-  footer,
-  dashboard,
-  forms,
-  errors,
-  meta,
-} from "./ui";
-
+import { challenge } from "./challenge";
+import { dates } from "./dates";
+import { faq } from "./faq";
 // Content translations
 import { home } from "./home";
-import { challenge } from "./challenge";
-import { leaderboard } from "./leaderboard";
-import { team } from "./team";
-import { participation } from "./participation";
-import { dates } from "./dates";
 import { instructions } from "./instructions";
-import { faq } from "./faq";
+import { leaderboard } from "./leaderboard";
+import { participation } from "./participation";
+import { team } from "./team";
+// UI translations
+import { auth, common, dashboard, errors, footer, forms, meta, nav, sections } from "./ui";
 
 /**
  * English translations

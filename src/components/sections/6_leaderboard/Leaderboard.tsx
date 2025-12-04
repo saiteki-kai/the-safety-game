@@ -131,9 +131,9 @@ export default function LeaderboardTable({ emptyMessage, labels }: { emptyMessag
       ) : error ? (
         <div className="flex h-full items-center justify-center py-6">
           <div className="leaderboard-empty flex-col justify-center text-center">
-              <Icon name="triangle-alert" size={28} className="mx-auto text-red-500" />
-              <p className="mt-3 text-red-600 text-sm">{labels.loadError}</p>
-            </div>
+            <Icon name="triangle-alert" size={28} className="mx-auto text-red-500" />
+            <p className="mt-3 text-red-600 text-sm">{labels.loadError}</p>
+          </div>
         </div>
       ) : isEmpty ? (
         <div className="flex h-full items-center justify-center py-6">

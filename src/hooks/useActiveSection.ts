@@ -23,7 +23,6 @@ export function useHomeActiveSection(links?: NavigationLink[]) {
       const heroKicker = document.querySelector(".hero-kicker") as HTMLElement | null;
       const nav = document.querySelector('nav[role="navigation"]') as HTMLElement | null;
       const navHeight = nav ? nav.getBoundingClientRect().height : 0;
-      const mainEl = document.getElementById("main-content");
 
       // Only compute dynamic opacity on the site home where we have a hero
       if (!isHomePath || !heroSection || !heroKicker) {
@@ -32,22 +31,24 @@ export function useHomeActiveSection(links?: NavigationLink[]) {
         return 1;
       }
 
-      if (mainEl && mainEl.scrollHeight > mainEl.clientHeight) {
+      // ScrollArea uses a viewport element for scrolling
+      const scrollViewport = document.querySelector('[data-slot="scroll-area-viewport"]') as HTMLElement | null;
+      if (scrollViewport && scrollViewport.scrollHeight > scrollViewport.clientHeight) {
         const heroRect = heroKicker.getBoundingClientRect();
-        const mainRect = mainEl.getBoundingClientRect();
-        const heroTopWithinMain = heroRect.top - mainRect.top + mainEl.scrollTop;
-        const y = mainEl.scrollTop;
-        const targetY = Math.max(1, heroTopWithinMain - navHeight);
+        const viewportRect = scrollViewport.getBoundingClientRect();
+        const heroTopWithinViewport = heroRect.top - viewportRect.top + scrollViewport.scrollTop;
+        const y = scrollViewport.scrollTop;
+        const targetY = Math.max(1, heroTopWithinViewport - navHeight);
         const progress = Math.min(1, Math.max(0, y / targetY));
         // Apply smooth easing for better visual transition
         const easedProgress = progress < 0.5 ? 2 * progress * progress : 1 - (-2 * progress + 2) ** 2 / 2;
         if (DEBUG)
-          console.debug("useActiveSection(main):", {
+          console.debug("useActiveSection(viewport):", {
             y,
             targetY,
             progress,
             easedProgress,
-            heroTopWithinMain,
+            heroTopWithinViewport,
             navHeight,
           });
         return easedProgress;
@@ -94,14 +95,15 @@ export function useHomeActiveSection(links?: NavigationLink[]) {
 
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
-    const mainEl = document.getElementById("main-content");
-    if (mainEl) mainEl.addEventListener("scroll", onScroll, { passive: true });
+    // ScrollArea uses a viewport element for scrolling, so we need to listen on that
+    const scrollViewport = document.querySelector('[data-slot="scroll-area-viewport"]');
+    if (scrollViewport) scrollViewport.addEventListener("scroll", onScroll, { passive: true });
     // also recompute timing when resizing so target recalc is accurate
     const onResize = () => onScroll();
     window.addEventListener("resize", onResize, { passive: true });
     return () => {
       window.removeEventListener("scroll", onScroll);
-      if (mainEl) mainEl.removeEventListener("scroll", onScroll);
+      if (scrollViewport) scrollViewport.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onResize);
     };
   }, [links]);

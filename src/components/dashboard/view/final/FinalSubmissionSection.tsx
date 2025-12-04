@@ -1,8 +1,8 @@
 import { actions } from "astro:actions";
 import { AlertTriangle, CheckCircle, Trophy } from "lucide-react";
 import { useState } from "react";
-import { UploadCard, finalUploadConfig } from "../../shared";
 import { MAX_FINAL_PROMPTS } from "@/lib/consts";
+import { finalUploadConfig, UploadCard } from "../../shared";
 
 interface FinalSubmissionSectionProps {
   teamId: string;
@@ -31,7 +31,7 @@ export function FinalSubmissionSection({ teamId, disabled = false }: FinalSubmis
   };
 
   return (
-  <div className="scroll-mt-16 space-y-8 px-4 py-8 sm:px-8" id="final-submission">
+    <div className="scroll-mt-16 space-y-8 px-4 py-8 sm:px-8" id="final-submission">
       {/* Hero Section */}
       <div className="space-y-4 text-center">
         <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-indigo-100">
@@ -48,7 +48,7 @@ export function FinalSubmissionSection({ teamId, disabled = false }: FinalSubmis
       <div className="flex flex-col items-stretch gap-8 lg:flex-row">
         <div className="h-full space-y-6 lg:flex-1">
           <div className="rounded-lg border border-indigo-200 bg-white p-6">
-            <h3 className="mb-4 font-semibold text-lg text-indigo-800">Come Funziona l'Invio Finale</h3>
+            <h3 className="mb-4 font-semibold text-indigo-800 text-lg">Come Funziona l'Invio Finale</h3>
             <div className="space-y-3 text-neutral-600 text-sm">
               <p>
                 L'invio finale è l'ultima fase della competizione. Devi caricare esattamente{" "}
@@ -66,8 +66,8 @@ export function FinalSubmissionSection({ teamId, disabled = false }: FinalSubmis
           </div>
 
           <div className="rounded-lg border border-indigo-200 bg-indigo-50 p-6">
-            <h3 className="mb-4 font-semibold text-lg text-indigo-800">Checklist Prima dell'Invio</h3>
-            <ul className="space-y-3 text-sm text-indigo-700">
+            <h3 className="mb-4 font-semibold text-indigo-800 text-lg">Checklist Prima dell'Invio</h3>
+            <ul className="space-y-3 text-indigo-700 text-sm">
               <li className="flex items-start gap-2 align-middle">
                 <CheckCircle size={16} className="text-indigo-600" />
                 <span>
@@ -91,7 +91,7 @@ export function FinalSubmissionSection({ teamId, disabled = false }: FinalSubmis
 
           <div className="rounded-lg border border-red-200 bg-red-50 p-6">
             <h3 className="mb-4 font-semibold text-lg text-red-800">Attenzione</h3>
-            <ul className="space-y-3 text-sm text-red-700">
+            <ul className="space-y-3 text-red-700 text-sm">
               <li className="flex items-start gap-2 align-middle">
                 <AlertTriangle size={16} className="text-red-600" />
                 <span>

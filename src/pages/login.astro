@@ -1,8 +1,7 @@
 ---
 export const prerender = false;
 
-import "@styles/dashboard.css";
-
+import Google from "@assets/google.svg";
 import { serverClient } from "@/lib/supabase";
 import PageLayout from "../layouts/PageLayout.astro";
 
@@ -14,70 +13,75 @@ if (data?.claims) {
 }
 ---
 
-<PageLayout title="Accedi | The Safety Game">
-  <section class="bg-neutral-50">
-    <div
-      class="mx-auto flex min-h-[70vh] max-w-6xl flex-col items-center justify-center gap-16 px-4 py-20 text-center sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:text-left lg:px-8"
-    >
-      <div class="max-w-2xl space-y-6">
-        <h1
-          class="text-3xl font-semibold text-neutral-900 sm:text-4xl lg:text-5xl"
+<PageLayout
+  title="Accedi | The Safety Game"
+  description="Accedi a The Safety Game"
+>
+  <div
+    class="hero-section hero-gradient hero-theme-cosmic relative min-h-screen"
+  >
+    <!-- Centered login card -->
+    <div class="relative z-10 flex items-center justify-center min-h-screen">
+      <div class="w-full max-w-[500px] p-6 mt-24">
+        <div
+          class="w-full bg-white/95 backdrop-blur-md rounded-2xl py-6 px-6 shadow-xl ring-1 ring-neutral-200"
         >
-          Accedi e registrati per partecipare alla sfida
-        </h1>
-        <p class="text-base leading-relaxed text-neutral-700">
-          Ogni membro del team deve registrarsi utilizzando la propria email
-          universitaria.
-        </p>
-        <p class="text-base leading-relaxed text-neutral-700">
-          Dopo l'accesso, potrai creare un nuovo team o unirti a uno esistente.
-        </p>
-      </div>
+          <div class="text-center mb-6">
+            <h1 class="text-xl md:text-2xl font-bold text-neutral-900 mb-2">
+              Accedi per partecipare
+            </h1>
+            <p class="text-sm text-neutral-600">
+              Usa il tuo account universitario (@campus.unimib.it)
+            </p>
+          </div>
 
-      <div
-        class="w-full max-w-2xl rounded-3xl bg-white p-10 shadow-xl shadow-neutral-900/5 ring-1 ring-neutral-200"
-      >
-        <div class="space-y-2 text-left">
-          <h2 class="text-2xl font-semibold text-neutral-900">
-            Continua con Google
-          </h2>
-          <p class="text-sm text-neutral-600">
-            Accedi con l'account universitario (@campus.unimib.it)
-          </p>
+          <form
+            method="post"
+            action="/api/auth/signin"
+            data-astro-reload
+            class="space-y-4"
+          >
+            <input type="hidden" name="provider" value="google" />
+            <button
+              type="submit"
+              class="w-full h-11 flex items-center justify-center gap-2 px-4 py-2 bg-white border border-neutral-300 rounded-lg text-neutral-700 font-medium shadow-sm hover:bg-neutral-50 hover:border-neutral-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all cursor-pointer"
+            >
+              <Google class="h-5 w-5" />
+
+              <span>Continua con Google</span>
+            </button>
+          </form>
         </div>
 
-        <form method="post" action="/api/auth/signin" data-astro-reload class="mt-10 space-y-4">
-          <input type="hidden" name="provider" value="google" />
-          <button type="submit" class="register-oauth-button">
-            <span class="register-oauth-icon" aria-hidden="true">
-              <svg
-                viewBox="-3 0 262 262"
-                class="h-5 w-5"
-                role="img"
-                aria-hidden="true"
-              >
-                <path
-                  d="M255.878 133.451c0-10.734-.871-18.567-2.756-26.69H130.55v48.448h71.947c-1.45 12.04-9.283 30.172-26.69 42.356l-.244 1.622 38.755 30.023 2.685.268c24.659-22.774 38.875-56.282 38.875-96.027"
-                  fill="#4285F4"
-                  stroke="none"></path>
-                <path
-                  d="M130.55 261.1c35.248 0 64.839-11.605 86.453-31.622l-41.196-31.913c-11.024 7.688-25.82 13.055-45.257 13.055-34.523 0-63.824-22.773-74.269-54.25l-1.531.13-40.298 31.187-.527 1.465C35.393 231.798 79.49 261.1 130.55 261.1"
-                  fill="#34A853"
-                  stroke="none"></path>
-                <path
-                  d="M56.281 156.37c-2.756-8.123-4.351-16.827-4.351-25.82 0-8.994 1.595-17.697 4.206-25.82l-.073-1.73L15.26 71.312l-1.335.635C5.077 89.644 0 109.517 0 130.55s5.077 40.905 13.925 58.602l42.356-32.782"
-                  fill="#FBBC05"
-                  stroke="none"></path>
-                <path
-                  d="M130.55 50.479c24.514 0 41.05 10.589 50.479 19.438l36.844-35.974C195.245 12.91 165.798 0 130.55 0 79.49 0 35.393 29.301 13.925 71.947l42.211 32.783c10.59-31.477 39.891-54.251 74.414-54.251"
-                  fill="#EB4335"
-                  stroke="none"></path>
-              </svg>
-            </span>
-            <span>Continua con Google</span>
-          </button>
-        </form>
+        <div class="bottom-8 pt-4 left-0 right-0 z-10">
+          <p class="text-center">
+            <a
+              href="/"
+              class="text-sm text-white/80 hover:text-white transition-colors"
+              >← Torna alla home</a
+            >
+          </p>
+        </div>
       </div>
     </div>
-  </section>
+    <!-- subtle page-specific overlay (above background pseudo-elements, below content) -->
+    <div class="login-overlay" aria-hidden="true"></div>
+  </div>
 </PageLayout>
+
+<style>
+  /* Darken the global hero slightly for the login page only */
+  .login-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: -1; /* sits above hero pseudo elements but below z-10 content */
+    background: linear-gradient(rgba(6, 8, 18, 0.45), rgba(6, 8, 18, 0.45));
+    pointer-events: none;
+  }
+
+  @media (max-width: 900px) {
+    .login-overlay {
+      background: linear-gradient(rgba(6, 8, 18, 0.55), rgba(6, 8, 18, 0.55));
+    }
+  }
+</style>

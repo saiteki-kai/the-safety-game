@@ -1,5 +1,5 @@
-import it from "./it";
 import en from "./en";
+import it from "./it";
 
 import type { Translations } from "./types";
 

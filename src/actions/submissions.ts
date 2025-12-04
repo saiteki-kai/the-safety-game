@@ -1,7 +1,7 @@
 import { type ActionAPIContext, defineAction } from "astro:actions";
 import { sendPromptsToHF } from "@/handlers/hf_api";
 import { updatePromptResponses, uploadDailyPrompts, uploadFinalPrompts } from "@/handlers/submissions";
-import { type DailyPromptsInput, type FinalPromptsInput, dailyPromptsSchema, finalPromptsSchema } from "@/lib/schemas";
+import { type DailyPromptsInput, dailyPromptsSchema, type FinalPromptsInput, finalPromptsSchema } from "@/lib/schemas";
 
 export const submissions = {
   uploadDailyPrompts: defineAction({

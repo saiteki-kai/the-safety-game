@@ -6,12 +6,12 @@ Content:
 - [x] Add submission page
 - [x] Footer: links to social media, contact info
 - [x] Registration link
-- [ ] (optional) Admin page (number of users, teams, submissions stats)
-- [ ] Mettere posizione leaderboard
+- [x] Mettere posizione leaderboard
+- [ ] (optional) Admin page (number of users, teams list, submissions stats)
 
 - [ ] Tradurre sito
-- [ ] Controllo prompt duplicati con warning
-- [ ] stile pagina di login
+- [ ] Stile pagina di login
+- [x] Controllo prompt duplicati con warning
 - [x] Box invio finale in un altra pagina
 - [x] Aggiungere link all'invio finale
 

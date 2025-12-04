@@ -59,7 +59,7 @@ export function MenuListItem({
           e.preventDefault();
           navigate(href);
         }}
-        className={`${classes} hover:bg-accent hover:text-accent-foreground rounded-sm px-2 py-1`}
+        className={`${classes} rounded-sm px-2 py-1 hover:bg-accent hover:text-accent-foreground`}
         role="menuitem"
       >
         <span>{label}</span>
@@ -72,7 +72,7 @@ export function MenuListItem({
     <button
       type="button"
       onClick={onClick}
-      className={`${classes} hover:bg-accent hover:text-accent-foreground rounded-sm px-2 py-1 ${destructive ? "text-destructive hover:bg-destructive/10 hover:text-destructive" : ""}`.trim()}
+      className={`${classes} rounded-sm px-2 py-1 hover:bg-accent hover:text-accent-foreground ${destructive ? "text-destructive hover:bg-destructive/10 hover:text-destructive" : ""}`.trim()}
       role="menuitem"
     >
       <span>{label}</span>

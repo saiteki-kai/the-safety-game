@@ -2,8 +2,6 @@
 export const prerender = false;
 
 import Footer from "@components/common/Footer.astro";
-import { footer as t } from "@i18n/locales/it";
-import { footerQuickLinks } from "@/content/site-config";
 import LandingNavigation from "@components/common/LandingNavigation";
 import {
   ChallengeSection,
@@ -16,8 +14,19 @@ import {
   TeamSection,
   TimelineSection,
 } from "@components/sections";
-import { home, challenge, instructions, participation, dates, leaderboard, team, faq } from "@i18n/locales/it";
+import {
+  challenge,
+  dates,
+  faq,
+  home,
+  instructions,
+  leaderboard,
+  participation,
+  footer as t,
+  team,
+} from "@i18n/locales/it";
 import PageLayout from "@layouts/PageLayout.astro";
+import { footerQuickLinks } from "@/content/site-config";
 
 const profile = Astro.locals.user;
 ---

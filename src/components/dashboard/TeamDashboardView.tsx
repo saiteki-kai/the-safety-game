@@ -8,8 +8,8 @@ import { isToday } from "@/lib/formatters.ts";
 import { browserClient } from "@/lib/supabase";
 import type { Team } from "@/lib/supabase.types";
 import { DailySubmissionSection } from "./view/daily/DailySubmissionSection.tsx";
-import { SubmissionHistorySection } from "./view/table/SubmissionHistorySection.tsx";
 import TeamOverviewCard from "./view/TeamOverviewCard.tsx";
+import { SubmissionHistorySection } from "./view/table/SubmissionHistorySection.tsx";
 
 type TeamDashboardViewProps = {
   team: Team;
@@ -52,12 +52,12 @@ export default function TeamDashboardView({ team }: TeamDashboardViewProps) {
 
   return (
     <main className="flex min-h-0 w-full flex-1 flex-col gap-8 px-4 py-6 sm:px-2 sm:py-10" aria-label="Team dashboard">
-  <div className="mx-auto w-full lg:container">
+      <div className="mx-auto w-full lg:container">
         <section className="grid gap-4 lg:grid-cols-3" aria-label="Sintesi del team">
-        <div className="lg:col-span-3">
-          <TeamOverviewCard teamName={teamName} members={members} teamJoinCode={teamJoinCode} progress={progress} />
-        </div>
-      </section>
+          <div className="lg:col-span-3">
+            <TeamOverviewCard teamName={teamName} members={members} teamJoinCode={teamJoinCode} progress={progress} />
+          </div>
+        </section>
 
         <section aria-label="Area di invio giornaliera" className="space-y-4">
           <DailySubmissionSection teamId={team.id} disabled={false} />

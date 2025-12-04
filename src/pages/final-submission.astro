@@ -3,15 +3,15 @@ export const prerender = false;
 
 import "@styles/dashboard.css";
 
+import { footer as t } from "@i18n/locales/it";
 import PageLayout from "@layouts/PageLayout.astro";
 import DashboardNav from "@/components/common/DashboardNav";
-import { FinalSubmissionSection } from "@/components/dashboard/final/FinalSubmissionSection";
 import Footer from "@/components/common/Footer.astro";
-import { footer as t } from "@i18n/locales/it";
+import { FinalSubmissionSection } from "@/components/dashboard/final/FinalSubmissionSection";
 import { footerQuickLinks } from "@/content/site-config";
+import { getTeamSubmissions } from "@/db/submissions";
 import { getTeamByUserId } from "@/db/teams";
 import { serverClient } from "@/lib/supabase";
-import { getTeamSubmissions } from "@/db/submissions";
 
 const supabase = serverClient(Astro);
 const profile = Astro.locals.user;

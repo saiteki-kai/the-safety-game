@@ -2,10 +2,11 @@
 import "@styles/globals.css";
 
 import { ClientRouter } from "astro:transitions";
+import { ScrollToTopButton } from "@components/common/ScrollToTopButton";
+import { ScrollArea } from "@components/ui/scroll-area";
 import { Toaster } from "@components/ui/sonner";
 import WebsiteAnalytics from "@vercel/analytics/astro";
 import SpeedInsights from "@vercel/speed-insights/astro";
-import { ScrollToTopButton } from "@components/common/ScrollToTopButton";
 
 interface Props {
   title: string;
@@ -25,16 +26,18 @@ const { title, description = "The Safety Game - Hackathon organized by MIND, Uni
     <title>{title}</title>
     <ClientRouter />
   </head>
-  <body class="min-h-screen h-full flex flex-col bg-white">
+  <body class="h-screen overflow-hidden bg-white">
     <slot name="navigation" />
     <Toaster client:load />
     <WebsiteAnalytics />
     <SpeedInsights />
-    <main id="main-content" class="flex-1 flex min-h-0 flex-col h-screen">
-      <slot />
-    </main>
-    <ScrollToTopButton client:load />
-    <slot name="prefooter" />
-    <slot name="footer" />
+    <ScrollArea className="h-screen" client:load>
+      <main id="main-content" class="flex min-h-0 flex-col">
+        <slot />
+      </main>
+      <ScrollToTopButton client:load />
+      <slot name="prefooter" />
+      <slot name="footer" />
+    </ScrollArea>
   </body>
 </html>

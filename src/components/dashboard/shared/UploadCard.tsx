@@ -2,22 +2,13 @@ import Icon from "@components/common/Icon";
 import { Button } from "@components/ui/button";
 import { ScrollArea } from "@components/ui/scroll-area";
 import { Spinner } from "@components/ui/spinner";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@components/ui/tooltip";
-import {
-  AlertTriangle,
-  FileSpreadsheet,
-  Info as InfoIcon,
-  Trash2,
-} from "lucide-react";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@components/ui/tooltip";
+import { AlertTriangle, FileSpreadsheet, Info as InfoIcon, Trash2 } from "lucide-react";
 import type React from "react";
 import type { ChangeEvent, DragEvent } from "react";
 import { useRef, useState } from "react";
 
-import { isTextFile, MAX_FILE_BYTES, parseFile, UPLOAD_ERRORS, hasDuplicates } from "./upload-utils";
+import { hasDuplicates, isTextFile, MAX_FILE_BYTES, parseFile, UPLOAD_ERRORS } from "./upload-utils";
 
 // ============================================================================
 // Types
@@ -52,9 +43,7 @@ export interface UploadCardConfig {
 export interface UploadCardProps {
   config: UploadCardConfig;
   isLoading: boolean;
-  onSubmit: (
-    prompts: string[]
-  ) => Promise<{ prompt: string; response?: string }[] | null>;
+  onSubmit: (prompts: string[]) => Promise<{ prompt: string; response?: string }[] | null>;
   disabled?: boolean;
   completed?: boolean;
   isError?: boolean;
@@ -78,8 +67,8 @@ function CompletedState({ title, subtitle }: CompletedStateProps) {
           <Icon name="check-circle" size={32} className="text-indigo-600 drop-shadow-sm" />
         </div>
         <div className="mt-4 space-y-3">
-          <h4 className="font-bold text-xl text-indigo-900">{title}</h4>
-          <p className="text-base leading-relaxed text-indigo-800">
+          <h4 className="font-bold text-indigo-900 text-xl">{title}</h4>
+          <p className="text-base text-indigo-800 leading-relaxed">
             {subtitle.split("\n").map((line, i, arr) => {
               const parts = line.split(/(\*\*.*?\*\*)/g);
               return (
@@ -120,8 +109,8 @@ function ErrorState({ title, subtitle, retryLabel, onRetry }: ErrorStateProps) {
           <AlertTriangle size={18} className="text-red-600 drop-shadow-sm" />
         </div>
         <div className="mt-4 space-y-3">
-          <h4 className="font-bold text-xl text-red-900">{title}</h4>
-          <p className="text-base leading-relaxed text-red-800">
+          <h4 className="font-bold text-red-900 text-xl">{title}</h4>
+          <p className="text-base text-red-800 leading-relaxed">
             {subtitle.split("\n").map((line, i, arr) => {
               const parts = line.split(/(\*\*.*?\*\*)/g);
               return (
@@ -188,19 +177,13 @@ function UploadDropzone({
     >
       {error && <ErrorBanner message={error} />}
 
-      <div
-        id="upload-instructions"
-        className="text-neutral-500 text-sm transition-all duration-300 ease-in-out"
-      >
+      <div id="upload-instructions" className="text-neutral-500 text-sm transition-all duration-300 ease-in-out">
         <div className="text-center">
           <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-lg bg-violet-50 p-2">
             <Icon name="upload" size={18} className="text-violet-700" />
           </div>
           <div className="mt-6 flex items-center justify-center gap-2">
-            <label
-              htmlFor={inputId}
-              className="cursor-pointer font-semibold text-violet-700 hover:underline"
-            >
+            <label htmlFor={inputId} className="cursor-pointer font-semibold text-violet-700 hover:underline">
               {labels.uploadLabel}
             </label>
             <span className="text-neutral-500">o trascina qui il file</span>
@@ -262,7 +245,7 @@ interface WarningBannerProps {
 function WarningBanner({ message, isError }: WarningBannerProps & { isError?: boolean }) {
   if (isError) {
     return (
-      <div className="flex items-center gap-2 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
+      <div className="flex items-center gap-2 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-red-700 text-sm">
         <AlertTriangle className="h-4 w-4 shrink-0 text-red-600" />
         <span>{message}</span>
       </div>
@@ -270,7 +253,7 @@ function WarningBanner({ message, isError }: WarningBannerProps & { isError?: bo
   }
 
   return (
-    <div className="flex items-center gap-2 rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-800">
+    <div className="flex items-center gap-2 rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-amber-800 text-sm">
       <AlertTriangle className="h-4 w-4 shrink-0 text-amber-600" />
       <span>{message}</span>
     </div>
@@ -317,7 +300,9 @@ function PromptCountBadge({ count, maxPrompts, requireExactCount, labels }: Prom
     return (
       <Tooltip>
         <TooltipTrigger asChild>
-          <span className={`inline-flex items-center rounded-full px-2 py-0.5 font-semibold text-xs ${getBadgeClasses()}`}>
+          <span
+            className={`inline-flex items-center rounded-full px-2 py-0.5 font-semibold text-xs ${getBadgeClasses()}`}
+          >
             <InfoIcon size={12} className="mr-1" />
             {promptCountLabel}
           </span>
@@ -355,17 +340,13 @@ function FileInfoBar({
   hasSelection,
   onClear,
 }: FileInfoBarProps) {
-  const fileSummaryText = fileName
-    ? fileName
-    : promptCount > 0
-      ? `${promptCount} prompt`
-      : labels.filePlaceholder;
+  const fileSummaryText = fileName ? fileName : promptCount > 0 ? `${promptCount} prompt` : labels.filePlaceholder;
 
   return (
     <div className="flex h-9 items-center rounded-md border border-neutral-200 bg-white px-2 sm:flex-1">
       <div className="flex min-w-0 grow items-center gap-2">
         <FileSpreadsheet size={14} className="text-neutral-900" />
-        <span className="truncate font-medium text-xs text-neutral-900">{fileSummaryText}</span>
+        <span className="truncate font-medium text-neutral-900 text-xs">{fileSummaryText}</span>
       </div>
       <div className="ml-auto flex items-center gap-2">
         <PromptCountBadge
@@ -487,7 +468,7 @@ export function UploadCard({
     try {
       const mapped = await parseFile(file);
       setPrompts(mapped.length > 0 ? mapped : []);
-      
+
       // Check for duplicates
       if (mapped.length > 0 && hasDuplicates(mapped)) {
         setHasDuplicatesInFile(true);
@@ -619,7 +600,9 @@ export function UploadCard({
       );
     }
 
-    return <PromptsPreview prompts={prompts} warning={warning} warningIsError={blockOnDuplicates && hasDuplicatesInFile} />;
+    return (
+      <PromptsPreview prompts={prompts} warning={warning} warningIsError={blockOnDuplicates && hasDuplicatesInFile} />
+    );
   };
 
   const renderFooter = () => {
@@ -660,13 +643,13 @@ export function UploadCard({
   // -------------------------------------------------------------------------
 
   return (
-    <div className="h-full min-h-0 rounded-2xl border-2 border-dashed border-neutral-200 bg-neutral-50 p-6">
+    <div className="h-full min-h-0 rounded-2xl border-2 border-neutral-200 border-dashed bg-neutral-50 p-6">
       <div className="flex h-full min-h-0 flex-col">
         <div className="space-y-2">
           <div className="flex items-center justify-between gap-3">
             <div className="min-w-0">
-              <h3 className="font-semibold text-xl leading-tight text-neutral-900">{labels.title}</h3>
-              <p className="mt-1 text-sm text-neutral-600">{labels.subtitle}</p>
+              <h3 className="font-semibold text-neutral-900 text-xl leading-tight">{labels.title}</h3>
+              <p className="mt-1 text-neutral-600 text-sm">{labels.subtitle}</p>
             </div>
           </div>
 

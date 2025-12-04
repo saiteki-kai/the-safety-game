@@ -79,7 +79,9 @@ export function DataTable<TData, TValue>({
                   return (
                     <TableHead
                       key={header.id}
-                      style={hasFixedSize ? { width: `${size}px`, minWidth: `${size}px`, maxWidth: `${size}px` } : undefined}
+                      style={
+                        hasFixedSize ? { width: `${size}px`, minWidth: `${size}px`, maxWidth: `${size}px` } : undefined
+                      }
                       className={cn(
                         "px-3 py-3 text-[11px] text-neutral-500 uppercase tracking-[0.06em]",
                         index === 0 ? firstColumnPadding : "",
@@ -107,7 +109,11 @@ export function DataTable<TData, TValue>({
                     return (
                       <TableCell
                         key={cell.id}
-                        style={hasFixedSize ? { width: `${size}px`, minWidth: `${size}px`, maxWidth: `${size}px` } : undefined}
+                        style={
+                          hasFixedSize
+                            ? { width: `${size}px`, minWidth: `${size}px`, maxWidth: `${size}px` }
+                            : undefined
+                        }
                         className={cn(
                           "px-3 py-3 align-middle",
                           index === 0 ? firstColumnPadding : "",

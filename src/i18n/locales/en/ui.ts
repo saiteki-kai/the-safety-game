@@ -1,13 +1,13 @@
 import type {
-  NavContent,
-  CommonContent,
-  SectionContent,
   AuthContent,
-  FooterContent,
+  CommonContent,
   DashboardContent,
-  FormsContent,
   ErrorsContent,
+  FooterContent,
+  FormsContent,
   MetaContent,
+  NavContent,
+  SectionContent,
 } from "../types";
 
 export const nav: NavContent = {

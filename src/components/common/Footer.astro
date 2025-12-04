@@ -1,18 +1,15 @@
 ---
 import GithubIcon from "@assets/github.svg";
 import HuggingFaceIcon from "@assets/huggingface.svg";
+import { footer as t } from "@i18n/locales/it";
 import { FOOTER_LINKS } from "@lib/consts";
 import { Mail } from "lucide-react";
 import Copyright from "@/components/common/Copyright.astro";
-
 import { Separator } from "@/components/ui/separator";
-
-import { footerQuickLinks } from "@/content/site-config";
 import type { FooterQuickLink } from "@/content/site-config";
-import { footer as t } from "@i18n/locales/it";
+import { footerQuickLinks } from "@/content/site-config";
 
 const quickLinks: FooterQuickLink[] = footerQuickLinks;
-
 ---
 
 <footer
