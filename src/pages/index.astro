@@ -7,6 +7,5 @@ console.log(Astro.request.headers.get("accept-language"));
 console.log(Astro.preferredLocaleList);
 console.log(Astro.currentLocale);
 
-const url = getRelativeLocaleUrl(Astro.currentLocale, "/home");
-return Astro.redirect(url);
+return Astro.redirect(getRelativeLocaleUrl(Astro.currentLocale, "/home"));
 ---
