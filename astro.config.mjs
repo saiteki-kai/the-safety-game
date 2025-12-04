@@ -15,9 +15,18 @@ export default defineConfig({
     driver: "redis",
   },
 
+  i18n: {
+    locales: ["it", "en"],
+    defaultLocale: "it"
+  },
+
   vite: {
     plugins: [tailwindcss()],
   },
 
   integrations: [react()],
+
+  experimental: {
+    svgo: true,
+  }
 });

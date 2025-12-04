@@ -1,0 +1,260 @@
+---
+export const prerender = false;
+
+import "@styles/globals.css";
+import Footer from "@components/common/Footer.astro";
+import SimpleNavigation from "@components/common/SimpleNavigation";
+import { footer as t } from "@i18n/locales/en";
+import PageLayout from "@layouts/PageLayout.astro";
+import { Separator } from "@/components/ui/separator";
+import { footerQuickLinks } from "@/content/site-config";
+import { FOOTER_LINKS } from "@/lib/consts";
+
+const lastModified = "November 30, 2025";
+const profile = Astro.locals.user;
+---
+
+<PageLayout title={`Privacy Policy | The Safety Game`} lang="en">
+  <SimpleNavigation slot="navigation" client:load profile={profile} />
+
+  <div
+    class="relative isolate flex-1 min-h-0 flex flex-col pt-20 pb-12 px-8 sm:pt-24 sm:px-12"
+  >
+    <main class="max-w-3xl mx-auto text-neutral-800">
+      <div class="space-y-8">
+        <h1 class="text-3xl font-bold text-neutral-900 tracking-tight">
+          Privacy Policy and Challenge Disclaimer
+        </h1>
+
+        <div class="mt-3 text-sm text-neutral-600">
+          Last modified: {lastModified}
+        </div>
+
+        <p>
+          The Safety Game takes the protection of privacy and the safety of
+          participants seriously. This page describes how data is handled during
+          the challenge and contains the disclaimer regarding generated and
+          evaluated content.
+        </p>
+
+        <section>
+          <h2
+            class="text-xl font-semibold text-neutral-900 tracking-tight mt-6"
+          >
+            Purpose of the challenge
+          </h2>
+          <Separator className="mt-2 mb-4" />
+          <p>
+            The challenge is for research purposes and aims to <b
+              >study the safety limits of language models</b
+            > and improve robustness and reliability standards.
+          </p>
+        </section>
+
+        <section>
+          <h2
+            class="text-xl font-semibold text-neutral-900 tracking-tight mt-6"
+          >
+            Acceptance of terms
+          </h2>
+          <Separator className="mt-2 mb-4" />
+          <p>
+            Participation in the challenge implies full acceptance of these
+            rules and the operational guidelines. Submission of materials will
+            constitute explicit confirmation of acknowledgment and acceptance.
+          </p>
+        </section>
+
+        <section>
+          <h2
+            class="text-xl font-semibold text-neutral-900 tracking-tight mt-6"
+          >
+            Right to withdraw
+          </h2>
+          <Separator className="mt-2 mb-4" />
+          <p>
+            Participation in the challenge is <b
+              >voluntary and non-binding.</b
+            ><br />
+            Participants may withdraw or discontinue their participation at any time,
+            without obligation to provide reasons and without any penalty.
+            In case of withdrawal, any materials already submitted may be:
+          </p>
+
+          <ul class="list-disc pl-6 text-neutral-800">
+            <li>deleted upon explicit request from the participant, or</li>
+            <li>
+              retained only if already included in aggregated and anonymized analyses.
+            </li>
+          </ul>
+        </section>
+
+        <section>
+          <h2
+            class="text-xl font-semibold text-neutral-900 tracking-tight mt-6"
+          >
+            Permitted content
+          </h2>
+          <Separator className="mt-2 mb-4" />
+          <p>
+            It is not required, nor necessary, to include in prompts <b>
+              sensitive, offensive content or references to real people.</b
+            ><br />
+            The organizers acknowledge that producing prompts that may lead to the
+            generation of potentially harmful content can have consequences on individuals,
+            contexts, or communities, and therefore <b
+              >discourage their use</b
+            > outside of a controlled environment such as the challenge (participants
+            are not exposed to such content). The choice to include such elements
+            is not a participation requirement, nor does it affect eligibility for
+            the challenge.<br /><br />
+            <b>
+              Any effects, interpretations, or consequences arising from
+              the voluntary inclusion of sensitive or problematic content
+              fall exclusively and entirely on the participant.
+              <br /><br />If a participant deliberately chooses to
+              use or propose content that, by form or context, may
+              be considered unethical, they do so under their sole responsibility,
+              in compliance with applicable laws and these rules.
+            </b>
+            <br /><br />The organizers reserve the absolute right
+            to reject, suspend, or exclude non-compliant content, including:
+          </p>
+
+          <ul class="list-disc pl-6 text-neutral-800">
+            <li>
+              defamatory, discriminatory, violent, offensive, or illegal content;
+            </li>
+            <li>content aimed at promoting illicit or harmful activities;</li>
+            <li>
+              content intentionally designed to encourage real unsafe behaviors.
+            </li>
+          </ul>
+        </section>
+
+        <section>
+          <h2
+            class="text-xl font-semibold text-neutral-900 tracking-tight mt-6"
+          >
+            Originality of content
+          </h2>
+          <Separator className="mt-2 mb-4" />
+          <p>
+            Participants declare and warrant that submitted prompts:
+          </p>
+          <ul class="list-disc pl-6 text-neutral-800">
+            <li>are <b>of their own creation;</b></li>
+            <li>
+              have <b>not</b> been generated, assisted, or reworked using <b>artificial intelligence</b> tools, language models, or automated systems;
+            </li>
+            <li>
+              do not violate third-party rights, including copyrights, trademarks,
+              patents, or personality rights.
+            </li>
+          </ul>
+        </section>
+
+        <section>
+          <h2
+            class="text-xl font-semibold text-neutral-900 tracking-tight mt-6"
+          >
+            Use and distribution of material
+          </h2>
+          <Separator className="mt-2 mb-4" />
+          <p>
+            <b
+              >Submitted prompts may be used, analyzed,
+              archived, published, reproduced, and redistributed</b
+            > by the organizers, in whole or in part, <b
+              >for research, study, comparative analysis, and
+              scientific dissemination purposes.</b
+            > Any distribution will be in <b>anonymous form</b>: they will not
+            be associated with names or identifiers of participants or teams.
+          </p>
+        </section>
+
+        <section>
+          <h2
+            class="text-xl font-semibold text-neutral-900 tracking-tight mt-6"
+          >
+            Personal data protection
+          </h2>
+          <Separator className="mt-2 mb-4" />
+          <p>
+            <b
+              >No personal data of participants will be collected, disseminated, or
+              publicly shared.</b
+            > Any personal data provided (e.g., email or nickname) will be used
+            exclusively to:
+          </p>
+          <ul class="list-disc pl-6 text-neutral-800">
+            <li>verify participation eligibility;</li>
+            <li>communicate results and information related to the challenge;</li>
+            <li>certify delivery of materials.</li>
+          </ul>
+          <p>
+            Data will not be used for other purposes, nor shared with third parties.
+          </p>
+        </section>
+
+        <section>
+          <h2
+            class="text-xl font-semibold text-neutral-900 tracking-tight mt-6"
+          >
+            Evaluation method
+          </h2>
+          <Separator className="mt-2 mb-4" />
+          <p>
+            No additional material will be provided to participants beyond
+            the rules and guidelines. Prompt evaluation will be <b
+              >fully automated</b
+            > through a dedicated system. Participants will receive <b
+              >only the final score</b
+            >, without access to content generated by models during the
+            evaluation phase, in order to <b
+              >prevent access to potentially unsafe or unethical content.</b
+            >
+            The entire evaluation pipeline will be described transparently and
+            completely.<br />However, <b
+              >any reproduction, modification, or improper use of the
+              pipeline outside the context of the challenge, as well as
+              any consequences or improper uses, fall entirely under
+              the participant's responsibility.</b
+            >
+          </p>
+        </section>
+
+        <section>
+          <h2
+            class="text-xl font-semibold text-neutral-900 tracking-tight mt-6"
+          >
+            Right to modify rules
+          </h2>
+          <Separator className="mt-2 mb-4" />
+          <p>
+            The organizers reserve the right to modify or supplement
+            these rules at any time, communicating updates through
+            the official challenge channels.
+          </p>
+        </section>
+
+        <section>
+          <h2
+            class="text-xl font-semibold text-neutral-900 tracking-tight mt-6"
+          >
+            Contact
+          </h2>
+          <Separator className="mt-2 mb-4" />
+          <p>
+            For privacy-related questions, contact us at <a
+              href=`mailto:${FOOTER_LINKS.email}`
+              class="text-blue-700">{FOOTER_LINKS.email}</a
+            >.
+          </p>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <Footer slot="footer" t={t} quickLinks={footerQuickLinks} />
+</PageLayout>

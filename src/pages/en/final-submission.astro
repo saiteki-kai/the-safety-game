@@ -3,7 +3,7 @@ export const prerender = false;
 
 import "@styles/dashboard.css";
 
-import { footer as t } from "@i18n/locales/it";
+import { footer as t } from "@i18n/locales/en";
 import PageLayout from "@layouts/PageLayout.astro";
 import DashboardNav from "@/components/common/DashboardNav";
 import Footer from "@/components/common/Footer.astro";
@@ -17,12 +17,12 @@ import { getRelativeLocaleUrl } from "astro:i18n";
 const supabase = serverClient(Astro);
 const profile = Astro.locals.user;
 if (!profile) {
-  return Astro.redirect(getRelativeLocaleUrl("it", "/login"));
+  return Astro.redirect(getRelativeLocaleUrl("en", "/login"));
 }
 const team = await getTeamByUserId(supabase, profile.id);
 
 if (!team) {
-  return Astro.redirect(getRelativeLocaleUrl("it", "/setup"));
+  return Astro.redirect(getRelativeLocaleUrl("en", "/setup"));
 }
 
 // Check if the team has already made a final submission
@@ -30,12 +30,12 @@ const submissions = await getTeamSubmissions(supabase, team.id);
 const finalSubmissionDone = submissions?.some((s) => !s.playground) ?? false;
 
 const navMenu = [
-  { title: "Home", url: getRelativeLocaleUrl("it", "/home") },
-  { title: "Dashboard", url: getRelativeLocaleUrl("it", "/dashboard") },
+  { title: "Home", url: getRelativeLocaleUrl("en", "/home") },
+  { title: "Dashboard", url: getRelativeLocaleUrl("en", "/dashboard") },
 ];
 ---
 
-<PageLayout title="Invio Finale | The Safety Game" lang="it">
+<PageLayout title="Final Submission | The Safety Game" lang="en">
   <DashboardNav client:load profile={profile} menu={navMenu} />
   <main class="flex min-h-0 w-full flex-1 flex-col my-12 gap-8 px-4 py-6 sm:px-8 sm:py-10" aria-label="Final submission">
     <div class="mx-auto w-full lg:container">

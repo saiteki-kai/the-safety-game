@@ -12,7 +12,7 @@ export const participation: ParticipationContent = {
   privacy: {
     label: "Privacy",
     description:
-      'Participation in the challenge implies full acceptance of the <a href="/privacy" class="text-blue-600 hover:underline">rules and operational guidelines.</a>',
+      'Participation in the challenge implies full acceptance of the <a href="/en/privacy" class="text-blue-600 hover:underline">rules and operational guidelines.</a>',
   },
   submission: {
     label: "Submission",

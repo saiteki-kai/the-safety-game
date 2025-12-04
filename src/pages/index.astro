@@ -1,49 +1,12 @@
 ---
+import { getRelativeLocaleUrl } from "astro:i18n";
+
 export const prerender = false;
+console.log(Astro.preferredLocale);
+console.log(Astro.request.headers.get("accept-language"));
+console.log(Astro.preferredLocaleList);
+console.log(Astro.currentLocale);
 
-import Footer from "@components/common/Footer.astro";
-import LandingNavigation from "@components/common/LandingNavigation";
-import {
-  ChallengeSection,
-  FaqSection,
-  HeroSection,
-  InstructionsSection,
-  LeaderboardSection,
-  LogosSection,
-  ParticipationSection,
-  TeamSection,
-  TimelineSection,
-} from "@components/sections";
-import {
-  challenge,
-  dates,
-  faq,
-  home,
-  instructions,
-  leaderboard,
-  participation,
-  footer as t,
-  team,
-} from "@i18n/locales/it";
-import PageLayout from "@layouts/PageLayout.astro";
-import { footerQuickLinks } from "@/content/site-config";
-
-const profile = Astro.locals.user;
+const url = getRelativeLocaleUrl(Astro.currentLocale, "/home");
+return Astro.redirect(url);
 ---
-
-<PageLayout title="The Safety Game">
-  <LandingNavigation slot="navigation" client:load profile={profile} />
-  <HeroSection home={home} />
-  <!-- Invisible spacer so nav de-highlights when scrolling above the first real section -->
-  <div id="top-spacer" aria-hidden="true" class="h-px -mt-px"></div>
-  <ChallengeSection challenge={challenge} />
-  <InstructionsSection instructions={instructions} />
-  <ParticipationSection participation={participation} />
-  <TimelineSection dates={dates} />
-  <LeaderboardSection leaderboard={leaderboard} />
-  <!-- <PlaygroundSection playground={content.playground} /> -->
-  <TeamSection team={team} />
-  <FaqSection faqs={faq} />
-  <LogosSection slot="prefooter" />
-  <Footer slot="footer" t={t} quickLinks={footerQuickLinks} />
-</PageLayout>

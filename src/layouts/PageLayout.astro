@@ -11,13 +11,17 @@ import SpeedInsights from "@vercel/speed-insights/astro";
 interface Props {
   title: string;
   description?: string;
+  lang?: string;
 }
 
-const { title, description = "The Safety Game - Hackathon organized by MIND, University of Milan Bicocca" } =
-  Astro.props as Props;
+const {
+  title,
+  description = "The Safety Game - Hackathon organized by MIND, University of Milan Bicocca",
+  lang = "it",
+} = Astro.props as Props;
 ---
 
-<html lang="it">
+<html lang={lang}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />

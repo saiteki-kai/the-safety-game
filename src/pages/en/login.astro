@@ -10,14 +10,14 @@ const supabase = serverClient(Astro);
 const { data } = await supabase.auth.getClaims();
 
 if (data?.claims) {
-  return Astro.redirect(getRelativeLocaleUrl("it", "/dashboard"));
+  return Astro.redirect(getRelativeLocaleUrl("en", "/dashboard"));
 }
 ---
 
 <PageLayout
-  title="Accedi | The Safety Game"
-  description="Accedi a The Safety Game"
-  lang="it"
+  title="Sign In | The Safety Game"
+  description="Sign in to The Safety Game"
+  lang="en"
 >
   <div
     class="hero-section hero-gradient hero-theme-cosmic relative min-h-screen"
@@ -30,10 +30,10 @@ if (data?.claims) {
         >
           <div class="text-center mb-6">
             <h1 class="text-xl md:text-2xl font-bold text-neutral-900 mb-2">
-              Accedi per partecipare
+              Sign in to participate
             </h1>
             <p class="text-sm text-neutral-600">
-              Usa il tuo account universitario (@campus.unimib.it)
+              Use your university account (@campus.unimib.it)
             </p>
           </div>
 
@@ -50,7 +50,7 @@ if (data?.claims) {
             >
               <Google class="h-5 w-5" />
 
-              <span>Continua con Google</span>
+              <span>Continue with Google</span>
             </button>
           </form>
         </div>
@@ -58,9 +58,9 @@ if (data?.claims) {
         <div class="bottom-8 pt-4 left-0 right-0 z-10">
           <p class="text-center">
             <a
-              href={getRelativeLocaleUrl("it", "/home")}
+              href={getRelativeLocaleUrl("en", "/home")}
               class="text-sm text-white/80 hover:text-white transition-colors"
-              >← Torna alla home</a
+              >← Back to home</a
             >
           </p>
         </div>
