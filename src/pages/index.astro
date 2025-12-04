@@ -34,6 +34,8 @@ const profile = Astro.locals.user;
 <PageLayout title="The Safety Game">
   <LandingNavigation slot="navigation" client:load profile={profile} />
   <HeroSection home={home} />
+  <!-- Invisible spacer so nav de-highlights when scrolling above the first real section -->
+  <div id="top-spacer" aria-hidden="true" class="h-px -mt-px"></div>
   <ChallengeSection challenge={challenge} />
   <InstructionsSection instructions={instructions} />
   <ParticipationSection participation={participation} />

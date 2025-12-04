@@ -76,9 +76,7 @@ export default function LeaderboardTable({ emptyMessage, labels }: { emptyMessag
         },
         async (_payload) => fetchData(),
       )
-      .subscribe((status) => {
-        console.log("Subscription status:", status);
-      });
+      .subscribe();
 
     return () => {
       supabase.removeChannel(channel);

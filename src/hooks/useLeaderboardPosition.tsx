@@ -42,10 +42,13 @@ export function useLeaderboardPosition(supabase: SupabaseClient, teamId: string)
     // Listen for changes in the submissions table to refresh leaderboard position
     const channel = supabase
       .channel(`leaderboard-channel-${teamId}`)
-      .on("postgres_changes", { event: "*", schema: "public", table: "submissions" }, async () => {
-        console.log("Re-fetching leaderboard position due to submission change...");
-        await fetchPosition();
-      })
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "submissions", filter: `team_id=eq.${teamId}` },
+        async () => {
+          await fetchPosition();
+        },
+      )
       .subscribe();
 
     return () => {

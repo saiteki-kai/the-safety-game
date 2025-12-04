@@ -77,6 +77,17 @@ export function useHomeActiveSection(links?: NavigationLink[]) {
 
           const center = (window.innerHeight || 0) / 2;
           let best: { id: string; dist: number } | null = null;
+
+          // Include an invisible spacer element that, when closest, clears the active section.
+          // This ensures nav items de-highlight when scrolling above the first real section.
+          const topSpacer = document.getElementById("top-spacer");
+          if (topSpacer) {
+            const rect = topSpacer.getBoundingClientRect();
+            const sectionCenter = rect.top + rect.height / 2;
+            const dist = Math.abs(sectionCenter - center);
+            best = { id: "__spacer__", dist };
+          }
+
           for (const l of source) {
             const id = l.href.replace("#", "");
             const el = document.getElementById(id);
@@ -86,7 +97,12 @@ export function useHomeActiveSection(links?: NavigationLink[]) {
             const dist = Math.abs(sectionCenter - center);
             if (!best || dist < best.dist) best = { id, dist };
           }
-          if (best) setActiveSection(best.id);
+
+          // If the spacer wins, clear active section; otherwise set the winning section.
+          if (best) {
+            if (best.id === "__spacer__") setActiveSection(null);
+            else setActiveSection(best.id);
+          }
         } finally {
           ticking = false;
         }

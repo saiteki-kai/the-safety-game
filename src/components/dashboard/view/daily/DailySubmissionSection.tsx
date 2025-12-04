@@ -18,7 +18,6 @@ export function DailySubmissionSection({ teamId, disabled = false }: DailySubmis
     setIsLoading(true);
     try {
       const result = await actions.submissions.uploadDailyPrompts({ teamId, prompts });
-      console.log(result);
       const returned = result?.data?.data ?? null;
 
       if (result.data.success && Array.isArray(returned) && returned.length > 0) {

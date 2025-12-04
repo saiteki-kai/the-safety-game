@@ -24,7 +24,6 @@ export function useTeamSubmissions(supabase: SupabaseClient, teamId: string) {
         "postgres_changes",
         { event: "*", schema: "public", table: "submissions", filter: `team_id=eq.${teamId}` },
         async () => {
-          console.log("Re-fetching team submissions due to change...");
           await fetchSubmissions();
         },
       )
