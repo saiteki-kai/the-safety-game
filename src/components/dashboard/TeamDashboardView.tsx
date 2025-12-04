@@ -60,7 +60,7 @@ export default function TeamDashboardView({ team }: TeamDashboardViewProps) {
         </section>
 
         <section aria-label="Area di invio giornaliera" className="space-y-4">
-          <DailySubmissionSection teamId={team.id} disabled={false} />
+          <DailySubmissionSection teamId={team.id} disabled={dailySubmissionsDone} />
         </section>
 
         <section aria-label="Area submission" className="space-y-4">
