@@ -2,6 +2,7 @@ export const prerender = false;
 
 import type { Provider } from "@supabase/supabase-js";
 import type { APIContext, APIRoute } from "astro";
+import { getRelativeLocaleUrl } from "astro:i18n";
 
 export const POST: APIRoute = async (context: APIContext) => {
   const formData = await context.request.formData();
@@ -25,6 +26,7 @@ export const POST: APIRoute = async (context: APIContext) => {
     }
 
     const target = data?.url;
+    console.log("Redirecting to OAuth provider:", target);
 
     if (!target) {
       return new Response("Unable to initiate OAuth flow", { status: 500 });
@@ -46,5 +48,5 @@ export const POST: APIRoute = async (context: APIContext) => {
     return new Response(error?.message, { status: 500 });
   }
 
-  return context.redirect("/dashboard");
+  return context.redirect(getRelativeLocaleUrl(context.currentLocale, "/dashboard"));
 };

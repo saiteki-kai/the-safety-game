@@ -1,6 +1,7 @@
 export const prerender = false;
 
 import type { APIContext, APIRoute } from "astro";
+import { getRelativeLocaleUrl } from "astro:i18n";
 
 export const POST: APIRoute = async (context: APIContext) => {
   const formData = await context.request.formData();
@@ -20,5 +21,5 @@ export const POST: APIRoute = async (context: APIContext) => {
     return new Response(error.message, { status: 500 });
   }
 
-  return context.redirect("/login");
+  return context.redirect(getRelativeLocaleUrl(context.currentLocale, "/login"));
 };

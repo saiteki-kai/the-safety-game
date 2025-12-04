@@ -3,6 +3,7 @@ import type { APIContext, MiddlewareNext } from "astro";
 import micromatch from "micromatch";
 import { getUserInfo } from "@/db/users";
 import { serverClient } from "@/lib/supabase";
+import { getRelativeLocaleUrl } from "astro:i18n";
 
 const protectedRoutes = ["/dashboard", "/admin"];
 const protectedAPIRoutes = ["/api/submissions", "_actions/**"];
@@ -24,7 +25,7 @@ export const onRequest = defineMiddleware(async (context: APIContext, next: Midd
   // If there's an error fetching claims, redirect to login
   if (claimsError) {
     console.error("Error fetching auth claims:", claimsError);
-    return context.redirect("/");
+    return context.redirect(getRelativeLocaleUrl(context.currentLocale, "/home"));
   }
 
   context.locals.user_id = claimsData?.claims?.sub || null;
@@ -43,7 +44,7 @@ export const onRequest = defineMiddleware(async (context: APIContext, next: Midd
   // Protect routes that require authentication
   if (micromatch.isMatch(context.url.pathname, protectedRoutes)) {
     if (!claimsData?.claims) {
-      return context.redirect("/login");
+      return context.redirect(getRelativeLocaleUrl(context.currentLocale, "/login"));
     }
 
     // Admin route protection
