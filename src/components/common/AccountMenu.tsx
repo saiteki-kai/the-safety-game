@@ -13,6 +13,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { localizeUrl } from "@/i18n/utils";
 import type { Profile } from "@/lib/supabase.types";
 
 const LOGOUT_TOAST_ID = "logout-error";
@@ -27,9 +28,9 @@ function showSignOutErrorToast() {
 }
 
 const accountButtonClasses =
-  "rounded-full border-white bg-black/50 py-1.5 pl-3 font-semibold text-sm text-white shadow-sm hover:bg-violet-800/40 hover:text-violet-200";
+  "rounded-full border-white bg-black/50 py-1.5 pl-3 font-semibold text-sm text-white shadow-sm hover:bg-violet-800/40 hover:text-violet-200 cursor-pointer";
 const loginButtonClasses =
-  "rounded-full border-white bg-black/50 px-4 py-2 font-semibold text-base text-white shadow-sm hover:bg-violet-800/40 hover:text-violet-200 focus-visible:ring-2 focus-visible:ring-violet-800";
+  "rounded-full border-white bg-black/50 px-4 py-2 font-semibold text-base text-white shadow-sm hover:bg-violet-800/40 hover:text-violet-200 focus-visible:ring-2 focus-visible:ring-violet-800 cursor-pointer";
 
 export type MenuListItemProps = {
   label: string;
@@ -59,7 +60,7 @@ export function MenuListItem({
           e.preventDefault();
           navigate(href);
         }}
-        className={`${classes} rounded-sm px-2 py-1 hover:bg-accent hover:text-accent-foreground`}
+        className={`${classes} cursor-pointer rounded-sm px-2 py-1 hover:bg-accent hover:text-accent-foreground`}
         role="menuitem"
       >
         <span>{label}</span>
@@ -72,7 +73,7 @@ export function MenuListItem({
     <button
       type="button"
       onClick={onClick}
-      className={`${classes} rounded-sm px-2 py-1 hover:bg-accent hover:text-accent-foreground ${destructive ? "text-destructive hover:bg-destructive/10 hover:text-destructive" : ""}`.trim()}
+      className={`${classes} cursor-pointer rounded-sm px-2 py-1 hover:bg-accent hover:text-accent-foreground ${destructive ? "text-destructive hover:bg-destructive/10 hover:text-destructive" : ""}`.trim()}
       role="menuitem"
     >
       <span>{label}</span>
@@ -93,7 +94,7 @@ const signOut: MouseEventHandler<HTMLButtonElement | HTMLAnchorElement> = async 
       return;
     }
 
-    navigate("/");
+    navigate(localizeUrl("/home"));
   } catch (err) {
     // Catch any network errors and display a toast
     showSignOutErrorToast();
@@ -156,7 +157,7 @@ export default function AccountMenu({ profile, items }: AccountMenuProps): React
     return (
       <div className="flex gap-2">
         <Button asChild variant="outline" className={loginButtonClasses}>
-          <a href="/login" className="flex items-center gap-2">
+          <a href={localizeUrl("/login")} className="flex cursor-pointer items-center gap-2">
             <LogIn className="h-4 w-4" aria-hidden="true" />
             <span>Accedi</span>
           </a>
@@ -185,11 +186,11 @@ export default function AccountMenu({ profile, items }: AccountMenuProps): React
             <UserLabel profile={profile} />
           </DropdownMenuLabel>
           {items?.map((item: MenuListItemProps) => (
-            <DropdownMenuItem asChild className="w-full px-3 py-2" key={item.label}>
+            <DropdownMenuItem asChild className="w-full cursor-pointer px-3 py-2" key={item.label}>
               <MenuListItem {...item} className={["w-full", item.className].filter(Boolean).join(" ")} />
             </DropdownMenuItem>
           ))}
-          <DropdownMenuItem asChild className="w-full px-3 py-2">
+          <DropdownMenuItem asChild className="w-full cursor-pointer px-3 py-2">
             {logoutItem("w-full")}
           </DropdownMenuItem>
         </DropdownMenuContent>
@@ -201,7 +202,7 @@ export default function AccountMenu({ profile, items }: AccountMenuProps): React
 export function AccountMenuMobile({ profile, items }: AccountMenuProps): ReactElement | null {
   if (!profile)
     return (
-      <a href="/login" className="flex w-full items-center justify-between py-1.5">
+      <a href={localizeUrl("/login")} className="flex w-full cursor-pointer items-center justify-between py-1.5">
         <span>Accedi</span>
         <LogIn className="h-4 w-4" />
       </a>

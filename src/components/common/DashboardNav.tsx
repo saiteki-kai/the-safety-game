@@ -1,5 +1,6 @@
 "use client";
 
+import { localizeUrl } from "@/i18n/utils";
 import type { Profile } from "@/lib/supabase.types";
 import AccountMenu, { AccountMenuMobile } from "./AccountMenu";
 import Navigation from "./Navigation";
@@ -10,10 +11,10 @@ type DashboardNavProps = {
   menu?: MenuItem[];
 };
 
-const defaultMenu: MenuItem[] = [{ title: "Home", url: "/" }];
+const defaultMenu: MenuItem[] = [{ title: "Home", url: localizeUrl("/home") }];
 
 export default function DashboardNav({ profile, menu = defaultMenu }: DashboardNavProps) {
-  const logo = { url: "/", alt: "Logo", title: "The Safety Game" };
+  const logo = { url: localizeUrl("/home"), alt: "Logo", title: "The Safety Game" };
 
   const actions = <AccountMenu profile={profile} />;
   const actionsMobile = <AccountMenuMobile profile={profile} />;

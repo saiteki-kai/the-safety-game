@@ -2,22 +2,22 @@
 export const prerender = false;
 
 import Google from "@assets/google.svg";
-import { serverClient } from "@/lib/supabase";
 import PageLayout from "@layouts/PageLayout.astro";
-import { getRelativeLocaleUrl } from "astro:i18n";
+import { localizeUrl } from "@/i18n/utils";
+import { serverClient } from "@/lib/supabase";
 
 const supabase = serverClient(Astro);
 const { data } = await supabase.auth.getClaims();
 
 if (data?.claims) {
-  return Astro.redirect(getRelativeLocaleUrl("it", "/dashboard"));
+  return Astro.redirect(localizeUrl("/dashboard"));
 }
 ---
 
 <PageLayout
   title="Accedi | The Safety Game"
   description="Accedi a The Safety Game"
-  lang="it"
+  
 >
   <div
     class="hero-section hero-gradient hero-theme-cosmic relative min-h-screen"
@@ -58,7 +58,7 @@ if (data?.claims) {
         <div class="bottom-8 pt-4 left-0 right-0 z-10">
           <p class="text-center">
             <a
-              href={getRelativeLocaleUrl("it", "/home")}
+              href={localizeUrl("/home")}
               class="text-sm text-white/80 hover:text-white transition-colors"
               >← Torna alla home</a
             >

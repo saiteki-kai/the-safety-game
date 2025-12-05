@@ -1,4 +1,7 @@
 ---
+export const prerender = false;
+
+import { loadRenderers } from "astro:container";
 import GithubIcon from "@assets/github.svg";
 import HuggingFaceIcon from "@assets/huggingface.svg";
 import { footer as t } from "@i18n/locales/it";
@@ -8,6 +11,7 @@ import Copyright from "@/components/common/Copyright.astro";
 import { Separator } from "@/components/ui/separator";
 import type { FooterQuickLink } from "@/content/site-config";
 import { footerQuickLinks } from "@/content/site-config";
+import { localizeUrl } from "@/i18n/utils";
 
 const quickLinks: FooterQuickLink[] = footerQuickLinks;
 ---
@@ -38,7 +42,7 @@ const quickLinks: FooterQuickLink[] = footerQuickLinks;
           {
             quickLinks.map((link) => (
               <li>
-                <a href={link.href} class="hover:text-white transition-colors">
+                <a href={localizeUrl(link.href)} class="hover:text-white transition-colors">
                   {link.label}
                 </a>
               </li>
@@ -84,7 +88,7 @@ const quickLinks: FooterQuickLink[] = footerQuickLinks;
       class="flex flex-col gap-3 text-xs text-neutral-500 md:flex-row md:items-center md:justify-between"
     >
       <Copyright />
-      <a href={FOOTER_LINKS.privacy} class="hover:text-white transition-colors">
+      <a href={localizeUrl(FOOTER_LINKS.privacy)} class="hover:text-white transition-colors">
         {t?.privacy ?? "Privacy Policy"}
       </a>
     </div>

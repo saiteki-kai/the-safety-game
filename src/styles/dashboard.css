@@ -48,7 +48,7 @@
 
 .dashboard-tabs {
   @apply flex w-full rounded-full border border-white/70 bg-white/80 p-1 backdrop-blur;
-  box-shadow: 0px 12px 40px rgba(15, 23, 42, 0.08);
+  box-shadow: 0px 12px 32px rgba(15, 23, 42, 0.08);
 }
 
 .dashboard-tab {
@@ -69,7 +69,7 @@
 }
 
 .dashboard-card-header {
-  @apply space-y-3 px-8 pt-8;
+  @apply space-y-3 px-8 py-10;
 }
 
 .dashboard-card-title {
@@ -81,12 +81,12 @@
 }
 
 .dashboard-card-content {
-  @apply px-8 pb-10;
+  @apply px-8 pb-8;
 }
 
 /* Dashboard forms */
 .dashboard-form {
-  @apply space-y-6 py-6;
+  @apply space-y-6;
 }
 
 .dashboard-field {
@@ -130,7 +130,7 @@
 }
 
 .dashboard-submit {
-  @apply flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-neutral-900 font-semibold text-base text-white transition hover:bg-neutral-800 focus-visible:ring-neutral-900/40;
+  @apply flex h-12 mt-8 w-full items-center justify-center gap-2 rounded-xl bg-neutral-900 font-semibold text-base text-white transition hover:bg-neutral-800 focus-visible:ring-neutral-900/40;
 }
 
 /* Auth register/sign-in form */

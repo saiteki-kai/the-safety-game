@@ -7,6 +7,7 @@ import { Label } from "@components/ui/label";
 import { KeyRound, OctagonAlert, Puzzle } from "lucide-react";
 import { useActionState, useEffect } from "react";
 import { toast } from "sonner";
+import { localizeUrl } from "@/i18n/utils";
 
 const JOIN_CODE_HINT = "Inserisci il codice di 6 caratteri condiviso dal tuo team leader.";
 
@@ -30,7 +31,7 @@ export default function JoinTeamForm() {
     }
 
     if (state?.data?.team) {
-      navigate("/dashboard");
+      navigate(localizeUrl("/dashboard"));
     }
   }, [state]);
 

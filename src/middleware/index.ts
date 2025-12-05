@@ -2,10 +2,11 @@ import { defineMiddleware } from "astro:middleware";
 import type { APIContext, MiddlewareNext } from "astro";
 import micromatch from "micromatch";
 import { getUserInfo } from "@/db/users";
+import { localizeUrl } from "@/i18n/utils";
 import { serverClient } from "@/lib/supabase";
-import { getRelativeLocaleUrl } from "astro:i18n";
 
-const protectedRoutes = ["/dashboard", "/admin"];
+// Protected routes - support both root and localized paths
+const protectedRoutes = ["/dashboard", "/admin", "**/dashboard", "**/admin"];
 const protectedAPIRoutes = ["/api/submissions", "_actions/**"];
 
 export const onRequest = defineMiddleware(async (context: APIContext, next: MiddlewareNext) => {
@@ -25,7 +26,7 @@ export const onRequest = defineMiddleware(async (context: APIContext, next: Midd
   // If there's an error fetching claims, redirect to login
   if (claimsError) {
     console.error("Error fetching auth claims:", claimsError);
-    return context.redirect(getRelativeLocaleUrl(context.currentLocale, "/home"));
+    return context.redirect(localizeUrl("/home"));
   }
 
   context.locals.user_id = claimsData?.claims?.sub || null;
@@ -44,11 +45,12 @@ export const onRequest = defineMiddleware(async (context: APIContext, next: Midd
   // Protect routes that require authentication
   if (micromatch.isMatch(context.url.pathname, protectedRoutes)) {
     if (!claimsData?.claims) {
-      return context.redirect(getRelativeLocaleUrl(context.currentLocale, "/login"));
+      return context.redirect(localizeUrl("/login"));
     }
 
-    // Admin route protection
-    if (context.url.pathname.startsWith("/admin")) {
+    // Admin route protection - check for /admin or /[locale]/admin
+    const isAdminRoute = context.url.pathname.startsWith("/admin") || context.url.pathname.match(/^\/[a-z]{2}\/admin/);
+    if (isAdminRoute) {
       const isAdmin = claimsData?.claims?.role === "admin";
 
       if (!isAdmin) {

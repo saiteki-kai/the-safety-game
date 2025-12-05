@@ -10,22 +10,22 @@ import Footer from "@/components/common/Footer.astro";
 import TeamDashboardView from "@/components/dashboard/TeamDashboardView";
 import { footerQuickLinks } from "@/content/site-config";
 import { getTeamByUserId } from "@/db/teams";
+import { localizeUrl } from "@/i18n/utils";
 import { serverClient } from "@/lib/supabase";
-import { getRelativeLocaleUrl } from "astro:i18n";
 
 const supabase = serverClient(Astro);
 const profile = Astro.locals.user;
 if (!profile) {
-  return Astro.redirect(getRelativeLocaleUrl("en", "/login"));
+  return Astro.redirect(localizeUrl("/login"));
 }
 const team = await getTeamByUserId(supabase, profile.id);
 
 if (!team) {
-  return Astro.redirect(getRelativeLocaleUrl("en", "/setup"));
+  return Astro.redirect(localizeUrl("/setup"));
 }
 ---
 
-<PageLayout title="Dashboard | The Safety Game" lang="en">
+<PageLayout title="Dashboard | The Safety Game">
   <DashboardNav client:load profile={profile} />
   <TeamDashboardView client:load team={team} />
   <Footer slot="footer" t={t} quickLinks={footerQuickLinks} />

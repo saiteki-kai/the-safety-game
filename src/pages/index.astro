@@ -1,5 +1,5 @@
 ---
-import { getRelativeLocaleUrl } from "astro:i18n";
+import { localizeUrl } from "@/i18n/utils";
 
 export const prerender = false;
 console.log(Astro.preferredLocale);
@@ -7,5 +7,5 @@ console.log(Astro.request.headers.get("accept-language"));
 console.log(Astro.preferredLocaleList);
 console.log(Astro.currentLocale);
 
-return Astro.redirect(getRelativeLocaleUrl(Astro.currentLocale, "/home"));
+return Astro.redirect(localizeUrl("/home"));
 ---

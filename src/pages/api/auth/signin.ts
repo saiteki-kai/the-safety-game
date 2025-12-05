@@ -2,7 +2,7 @@ export const prerender = false;
 
 import type { Provider } from "@supabase/supabase-js";
 import type { APIContext, APIRoute } from "astro";
-import { getRelativeLocaleUrl } from "astro:i18n";
+import { localizeUrl } from "@/i18n/utils";
 
 export const POST: APIRoute = async (context: APIContext) => {
   const formData = await context.request.formData();
@@ -48,5 +48,5 @@ export const POST: APIRoute = async (context: APIContext) => {
     return new Response(error?.message, { status: 500 });
   }
 
-  return context.redirect(getRelativeLocaleUrl(context.currentLocale, "/dashboard"));
+  return context.redirect(localizeUrl("/dashboard"));
 };

@@ -1,5 +1,6 @@
 export const prerender = false;
 
+import { useTranslation } from "react-i18next";
 import { useLeaderboardPosition } from "@/hooks/useLeaderboardPosition.tsx";
 import { useTeamMembers } from "@/hooks/useTeamMembers.tsx";
 import { useTeamSubmissions } from "@/hooks/useTeamSubmissions.tsx";
@@ -37,7 +38,10 @@ export default function TeamDashboardView({ team }: TeamDashboardViewProps) {
       ? Math.ceil((CHALLENGE_END_DATE.getTime() - Date.now()) / (1000 * 60 * 60 * 24))
       : 0;
   const finalSubmissionDone = submissions?.some((s) => !s.playground) ?? false;
-  const dailySubmissionsDone = submissions?.some((s) => isToday(s.date) && !!s.playground && !!s.score) ?? false;
+  const dailySubmissionsSent = submissions?.filter((s) => isToday(s.date) && !!s.playground) ?? [];
+  const dailySubmissionsDone = dailySubmissionsSent.some((s) => !!s.score) ?? false;
+
+  // TODO: block submissions if dailySubmissionsSent.length > 0 for other members
 
   const progress = {
     promptsSubmitted,
@@ -49,6 +53,8 @@ export default function TeamDashboardView({ team }: TeamDashboardViewProps) {
     leaderboardPosition,
     dailySubmissionsDone,
   };
+
+  const { t } = useTranslation();
 
   return (
     <main className="flex min-h-0 w-full flex-1 flex-col gap-8 px-4 py-6 sm:px-2 sm:py-10" aria-label="Team dashboard">

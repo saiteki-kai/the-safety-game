@@ -11,18 +11,18 @@ import { FinalSubmissionSection } from "@/components/dashboard/final/FinalSubmis
 import { footerQuickLinks } from "@/content/site-config";
 import { getTeamSubmissions } from "@/db/submissions";
 import { getTeamByUserId } from "@/db/teams";
+import { localizeUrl } from "@/i18n/utils";
 import { serverClient } from "@/lib/supabase";
-import { getRelativeLocaleUrl } from "astro:i18n";
 
 const supabase = serverClient(Astro);
 const profile = Astro.locals.user;
 if (!profile) {
-  return Astro.redirect(getRelativeLocaleUrl("en", "/login"));
+  return Astro.redirect(localizeUrl("/login"));
 }
 const team = await getTeamByUserId(supabase, profile.id);
 
 if (!team) {
-  return Astro.redirect(getRelativeLocaleUrl("en", "/setup"));
+  return Astro.redirect(localizeUrl("/setup"));
 }
 
 // Check if the team has already made a final submission
@@ -30,12 +30,12 @@ const submissions = await getTeamSubmissions(supabase, team.id);
 const finalSubmissionDone = submissions?.some((s) => !s.playground) ?? false;
 
 const navMenu = [
-  { title: "Home", url: getRelativeLocaleUrl("en", "/home") },
-  { title: "Dashboard", url: getRelativeLocaleUrl("en", "/dashboard") },
+  { title: "Home", url: localizeUrl("/home") },
+  { title: "Dashboard", url: localizeUrl("/dashboard") },
 ];
 ---
 
-<PageLayout title="Final Submission | The Safety Game" lang="en">
+<PageLayout title="Final Submission | The Safety Game">
   <DashboardNav client:load profile={profile} menu={navMenu} />
   <main class="flex min-h-0 w-full flex-1 flex-col my-12 gap-8 px-4 py-6 sm:px-8 sm:py-10" aria-label="Final submission">
     <div class="mx-auto w-full lg:container">

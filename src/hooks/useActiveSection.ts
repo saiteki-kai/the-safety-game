@@ -18,7 +18,8 @@ export function useHomeActiveSection(links?: NavigationLink[]) {
     const getProgress = () => {
       if (typeof window === "undefined") return 1;
       const pathname = window.location?.pathname ?? "/";
-      const isHomePath = pathname === "/" || pathname.endsWith("/index.html") || pathname.endsWith("/index");
+      // Check if this is a home/index path for any locale (/home, /en/home, /it/home, etc.)
+      const isHomePath = pathname.endsWith("/home");
       const heroSection = document.getElementById("home");
       const heroKicker = document.querySelector(".hero-kicker") as HTMLElement | null;
       const nav = document.querySelector('nav[role="navigation"]') as HTMLElement | null;

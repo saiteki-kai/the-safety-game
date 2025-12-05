@@ -1,5 +1,6 @@
 import { Calendar, FileText, Flag, Target, Trophy, Upload, Zap } from "lucide-react";
 import { useMemo } from "react";
+import { localizeUrl } from "@/i18n/utils";
 import { MAX_DAILY_PROMPTS, MAX_TEAM_SIZE } from "@/lib/consts";
 import type { Profile } from "@/lib/supabase.types";
 import ProgressMetricRow from "./progress/ProgressMetricRow";
@@ -134,7 +135,7 @@ export default function TeamOverviewCard({ teamName, teamJoinCode, members, prog
                     Icon={Flag}
                     label="Invio Finale"
                     subtitle={finalSubmissionDone ? "Già inviato" : "In attesa di consegna"}
-                    href="/final-submission"
+                    href={localizeUrl("/final-submission")}
                   />
                 </div>
 
@@ -147,7 +148,7 @@ export default function TeamOverviewCard({ teamName, teamJoinCode, members, prog
 
                   <div className="flex w-full flex-col items-center justify-center rounded-lg border border-amber-100 bg-amber-50 p-4 text-center transition-colors hover:bg-amber-100">
                     <Trophy className="mb-2 h-6 w-6 text-amber-600" />
-                    <div className="font-bold text-amber-700 text-xl">#{leaderboardPosition ?? '?'}</div>
+                    <div className="font-bold text-amber-700 text-xl">#{leaderboardPosition ?? "?"}</div>
                     <div className="mt-1 font-medium text-amber-600 text-xs">Posto in Classifica</div>
                   </div>
 

@@ -12,24 +12,24 @@ import { serverClient } from "@/lib/supabase";
 const supabase = serverClient(Astro);
 const profile = Astro.locals.user;
 if (!profile) {
-  return Astro.redirect(getRelativeLocaleUrl("it", "/login"));
+  return Astro.redirect(localizeUrl("/login"));
 }
 const team = await getTeamByUserId(supabase, profile.id);
 
 if (team) {
-  return Astro.redirect(getRelativeLocaleUrl("it", "/dashboard"));
+  return Astro.redirect(localizeUrl("/dashboard"));
 }
 ---
 
 <PageLayout title="Team Setup | The Safety Game">
   <div
-    class="flex flex-1 min-h-0 flex-col bg-linear-to-br from-[#f3f6ff] via-white to-[#f9f3ff]"
+    class="flex h-screen flex-col bg-linear-to-br from-[#f3f6ff] via-white to-[#f9f3ff]"
   >
-  <DashboardNav client:load profile={profile} />
-    <main class="flex min-h-0 flex-1 flex-col overflow-hidden px-4 py-3 sm:px-7 sm:py-6">
-      <div class="flex min-h-0 flex-1 flex-col overflow-auto">
-        <TeamSetupPanel client:load />
-      </div>
+    <DashboardNav client:load profile={profile} />
+    <main
+      class="flex h-screen flex-1 flex-col px-4 py-3 sm:px-7 sm:py-6"
+    >
+      <TeamSetupPanel client:load />
     </main>
   </div>
 </PageLayout>

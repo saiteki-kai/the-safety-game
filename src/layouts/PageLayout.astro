@@ -7,21 +7,18 @@ import { ScrollArea } from "@components/ui/scroll-area";
 import { Toaster } from "@components/ui/sonner";
 import WebsiteAnalytics from "@vercel/analytics/astro";
 import SpeedInsights from "@vercel/speed-insights/astro";
+import i18n from "i18next";
 
 interface Props {
   title: string;
   description?: string;
-  lang?: string;
 }
 
-const {
-  title,
-  description = "The Safety Game - Hackathon organized by MIND, University of Milan Bicocca",
-  lang = "it",
-} = Astro.props as Props;
+const { title, description = "The Safety Game - Hackathon organized by MIND, University of Milan Bicocca" } =
+  Astro.props as Props;
 ---
 
-<html lang={lang}>
+<html lang={i18n.language}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />

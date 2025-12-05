@@ -30,7 +30,7 @@ export const navigationLinks = [
   sections.faq,
 ].map((section) => toAnchorLink(section));
 
-export const footerQuickLinks = [toRouteLink("/", "Home"), toRouteLink("/dashboard", "Dashboard")];
+export const footerQuickLinks = [toRouteLink("/home", "Home"), toRouteLink("/dashboard", "Dashboard")];
 
 export type NavigationLink = (typeof navigationLinks)[number];
 export type FooterQuickLink = (typeof footerQuickLinks)[number];

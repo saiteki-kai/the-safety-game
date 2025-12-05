@@ -30,7 +30,7 @@ export default function TeamSetupPanel() {
   const copy = TAB_COPY[tab];
 
   return (
-    <div className="dashboard-empty-state">
+    <div className="dashboard-empty-state h-screen">
       <div className="dashboard-empty-heading">
         <h1 className="dashboard-empty-title">Gestisci il tuo team</h1>
         <p className="dashboard-empty-description">
@@ -48,7 +48,7 @@ export default function TeamSetupPanel() {
                 key={key}
                 type="button"
                 onClick={() => setTab(key)}
-                className={`dashboard-tab ${isActive ? "dashboard-tab--active" : "dashboard-tab--inactive"}`}
+                className={`dashboard-tab cursor-pointer ${isActive ? "dashboard-tab--active" : "dashboard-tab--inactive"}`}
                 aria-pressed={isActive}
               >
                 {TAB_COPY[key].tab}

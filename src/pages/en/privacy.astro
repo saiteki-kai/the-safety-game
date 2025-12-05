@@ -14,7 +14,7 @@ const lastModified = "November 30, 2025";
 const profile = Astro.locals.user;
 ---
 
-<PageLayout title={`Privacy Policy | The Safety Game`} lang="en">
+<PageLayout title={`Privacy Policy | The Safety Game`}>
   <SimpleNavigation slot="navigation" client:load profile={profile} />
 
   <div
@@ -73,18 +73,18 @@ const profile = Astro.locals.user;
           </h2>
           <Separator className="mt-2 mb-4" />
           <p>
-            Participation in the challenge is <b
-              >voluntary and non-binding.</b
+            Participation in the challenge is <b>voluntary and non-binding.</b
             ><br />
             Participants may withdraw or discontinue their participation at any time,
-            without obligation to provide reasons and without any penalty.
-            In case of withdrawal, any materials already submitted may be:
+            without obligation to provide reasons and without any penalty. In case
+            of withdrawal, any materials already submitted may be:
           </p>
 
           <ul class="list-disc pl-6 text-neutral-800">
             <li>deleted upon explicit request from the participant, or</li>
             <li>
-              retained only if already included in aggregated and anonymized analyses.
+              retained only if already included in aggregated and anonymized
+              analyses.
             </li>
           </ul>
         </section>
@@ -102,28 +102,28 @@ const profile = Astro.locals.user;
             ><br />
             The organizers acknowledge that producing prompts that may lead to the
             generation of potentially harmful content can have consequences on individuals,
-            contexts, or communities, and therefore <b
-              >discourage their use</b
-            > outside of a controlled environment such as the challenge (participants
-            are not exposed to such content). The choice to include such elements
-            is not a participation requirement, nor does it affect eligibility for
-            the challenge.<br /><br />
+            contexts, or communities, and therefore <b>discourage their use</b> outside
+            of a controlled environment such as the challenge (participants are not
+            exposed to such content). The choice to include such elements is not a
+            participation requirement, nor does it affect eligibility for the challenge.<br
+            /><br />
             <b>
-              Any effects, interpretations, or consequences arising from
-              the voluntary inclusion of sensitive or problematic content
-              fall exclusively and entirely on the participant.
-              <br /><br />If a participant deliberately chooses to
-              use or propose content that, by form or context, may
-              be considered unethical, they do so under their sole responsibility,
-              in compliance with applicable laws and these rules.
+              Any effects, interpretations, or consequences arising from the
+              voluntary inclusion of sensitive or problematic content fall
+              exclusively and entirely on the participant.
+              <br /><br />If a participant deliberately chooses to use or
+              propose content that, by form or context, may be considered
+              unethical, they do so under their sole responsibility, in
+              compliance with applicable laws and these rules.
             </b>
-            <br /><br />The organizers reserve the absolute right
-            to reject, suspend, or exclude non-compliant content, including:
+            <br /><br />The organizers reserve the absolute right to reject,
+            suspend, or exclude non-compliant content, including:
           </p>
 
           <ul class="list-disc pl-6 text-neutral-800">
             <li>
-              defamatory, discriminatory, violent, offensive, or illegal content;
+              defamatory, discriminatory, violent, offensive, or illegal
+              content;
             </li>
             <li>content aimed at promoting illicit or harmful activities;</li>
             <li>
@@ -139,17 +139,17 @@ const profile = Astro.locals.user;
             Originality of content
           </h2>
           <Separator className="mt-2 mb-4" />
-          <p>
-            Participants declare and warrant that submitted prompts:
-          </p>
+          <p>Participants declare and warrant that submitted prompts:</p>
           <ul class="list-disc pl-6 text-neutral-800">
             <li>are <b>of their own creation;</b></li>
             <li>
-              have <b>not</b> been generated, assisted, or reworked using <b>artificial intelligence</b> tools, language models, or automated systems;
+              have <b>not</b> been generated, assisted, or reworked using <b
+                >artificial intelligence</b
+              > tools, language models, or automated systems;
             </li>
             <li>
-              do not violate third-party rights, including copyrights, trademarks,
-              patents, or personality rights.
+              do not violate third-party rights, including copyrights,
+              trademarks, patents, or personality rights.
             </li>
           </ul>
         </section>
@@ -163,11 +163,11 @@ const profile = Astro.locals.user;
           <Separator className="mt-2 mb-4" />
           <p>
             <b
-              >Submitted prompts may be used, analyzed,
-              archived, published, reproduced, and redistributed</b
+              >Submitted prompts may be used, analyzed, archived, published,
+              reproduced, and redistributed</b
             > by the organizers, in whole or in part, <b
-              >for research, study, comparative analysis, and
-              scientific dissemination purposes.</b
+              >for research, study, comparative analysis, and scientific
+              dissemination purposes.</b
             > Any distribution will be in <b>anonymous form</b>: they will not
             be associated with names or identifiers of participants or teams.
           </p>
@@ -182,18 +182,21 @@ const profile = Astro.locals.user;
           <Separator className="mt-2 mb-4" />
           <p>
             <b
-              >No personal data of participants will be collected, disseminated, or
-              publicly shared.</b
-            > Any personal data provided (e.g., email or nickname) will be used
-            exclusively to:
+              >No personal data of participants will be collected, disseminated,
+              or publicly shared.</b
+            > Any personal data provided (e.g., email or nickname) will be used exclusively
+            to:
           </p>
           <ul class="list-disc pl-6 text-neutral-800">
             <li>verify participation eligibility;</li>
-            <li>communicate results and information related to the challenge;</li>
+            <li>
+              communicate results and information related to the challenge;
+            </li>
             <li>certify delivery of materials.</li>
           </ul>
           <p>
-            Data will not be used for other purposes, nor shared with third parties.
+            Data will not be used for other purposes, nor shared with third
+            parties.
           </p>
         </section>
 
@@ -205,8 +208,8 @@ const profile = Astro.locals.user;
           </h2>
           <Separator className="mt-2 mb-4" />
           <p>
-            No additional material will be provided to participants beyond
-            the rules and guidelines. Prompt evaluation will be <b
+            No additional material will be provided to participants beyond the
+            rules and guidelines. Prompt evaluation will be <b
               >fully automated</b
             > through a dedicated system. Participants will receive <b
               >only the final score</b
@@ -214,12 +217,12 @@ const profile = Astro.locals.user;
             evaluation phase, in order to <b
               >prevent access to potentially unsafe or unethical content.</b
             >
-            The entire evaluation pipeline will be described transparently and
-            completely.<br />However, <b
-              >any reproduction, modification, or improper use of the
-              pipeline outside the context of the challenge, as well as
-              any consequences or improper uses, fall entirely under
-              the participant's responsibility.</b
+            The entire evaluation pipeline will be described transparently and completely.<br
+            />However, <b
+              >any reproduction, modification, or improper use of the pipeline
+              outside the context of the challenge, as well as any consequences
+              or improper uses, fall entirely under the participant's
+              responsibility.</b
             >
           </p>
         </section>
@@ -232,9 +235,9 @@ const profile = Astro.locals.user;
           </h2>
           <Separator className="mt-2 mb-4" />
           <p>
-            The organizers reserve the right to modify or supplement
-            these rules at any time, communicating updates through
-            the official challenge channels.
+            The organizers reserve the right to modify or supplement these rules
+            at any time, communicating updates through the official challenge
+            channels.
           </p>
         </section>
 

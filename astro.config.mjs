@@ -2,6 +2,7 @@ import react from "@astrojs/react";
 import vercel from "@astrojs/vercel";
 import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "astro/config";
+import reactI18next from "astro-react-i18next";
 
 export default defineConfig({
   output: "static",
@@ -15,18 +16,19 @@ export default defineConfig({
     driver: "redis",
   },
 
-  i18n: {
-    locales: ["it", "en"],
-    defaultLocale: "it"
-  },
-
   vite: {
     plugins: [tailwindcss()],
   },
 
-  integrations: [react()],
+  integrations: [
+    react(),
+    reactI18next({
+      defaultLocale: "it",
+      locales: ["it", "en"],
+    }),
+  ],
 
   experimental: {
     svgo: true,
-  }
+  },
 });

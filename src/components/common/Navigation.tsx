@@ -7,7 +7,9 @@ import { Accordion } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import { NavigationMenu, NavigationMenuList } from "@/components/ui/navigation-menu";
 import { Separator } from "@/components/ui/separator";
+import { localizeUrl } from "@/i18n/utils";
 import { cn } from "@/lib/utils";
+import LanguageSwitcher, { LanguageSwitcherMobile } from "./LanguageSwitcher";
 import type { MenuItem } from "./NavigationParts";
 import { renderMenuItem, renderMobileMenuItem } from "./NavigationParts";
 import NavLogo from "./NavLogo";
@@ -34,7 +36,7 @@ const defaultMenu: MenuItem[] = navigationLinks.map((link) => ({
 
 export default function Navigation({
   logo = {
-    url: "/",
+    url: localizeUrl("/home"),
     alt: "Logo",
     title: "The Safety Game",
   },
@@ -67,7 +69,7 @@ export default function Navigation({
         )}
         data-nav-opacity={navOpacity}
       >
-        <div className="px-4 md:container md:mx-auto">
+        <div className="mx-auto w-full max-w-screen-2xl px-4 lg:px-8">
           {typeof navOpacity === "number" && <div style={{ display: "none" }} data-nav-hidden="" />}
           {/* isOpaque is true when navOpacity >= 0.5 */}
           {/* Desktop Menu */}
@@ -83,7 +85,7 @@ export default function Navigation({
                 </NavigationMenu>
               </div>
             </div>
-            <div className="flex items-center gap-2">{actions ?? null}</div>
+            <div className="flex items-center gap-4">{actions ?? null}</div>
           </nav>
 
           {/* Mobile Menu */}
@@ -123,12 +125,25 @@ export default function Navigation({
                     )}
                   </Accordion>
                   {/* subtle separator matching site border color and mobile padding */}
-                  <Separator className="mx-0 my-2 bg-white/80" aria-hidden="true" />
-                  <div className="pt-2">{actionsMobile ?? actions ?? null}</div>
+                  <Separator className="mx-0 my-2 bg-white/20" aria-hidden="true" />
+                  <div className="flex flex-col gap-3 pt-2">
+                    <LanguageSwitcherMobile />
+                    {(actionsMobile ?? actions) && (
+                      <>
+                        <Separator className="mx-0 my-1 bg-white/20" aria-hidden="true" />
+                        {actionsMobile ?? actions}
+                      </>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
           )}
+        </div>
+
+        {/* Language switcher placed outside the centered container, aligned to the right edge */}
+        <div className="pointer-events-auto absolute inset-y-0 right-2 hidden items-center md:flex lg:right-4">
+          <LanguageSwitcher />
         </div>
       </section>
     </>

@@ -7,6 +7,7 @@ import { Label } from "@components/ui/label";
 import { OctagonAlert, Rocket, Users } from "lucide-react";
 import { useActionState, useEffect } from "react";
 import { toast } from "sonner";
+import { localizeUrl } from "@/i18n/utils";
 
 const TEAM_NAME_HINT = "Scegli un nome riconoscibile così i compagni ti trovano più facilmente.";
 
@@ -33,7 +34,7 @@ export default function CreateTeamForm() {
     }
 
     if (state?.data?.team) {
-      navigate("/dashboard");
+      navigate(localizeUrl("/dashboard"));
     }
   }, [state]);
 

@@ -31,7 +31,7 @@ import { footerQuickLinks } from "@/content/site-config";
 const profile = Astro.locals.user;
 ---
 
-<PageLayout title="The Safety Game" lang="en">
+<PageLayout title="The Safety Game" >
   <LandingNavigation slot="navigation" client:load profile={profile} />
   <HeroSection home={home} />
   <!-- Invisible spacer so nav de-highlights when scrolling above the first real section -->

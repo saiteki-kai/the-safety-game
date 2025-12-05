@@ -1,5 +1,7 @@
 "use client";
 
+import { localizeUrl } from "@/i18n/utils";
+
 export interface NavLogoProps {
   logo?: {
     url: string;
@@ -11,7 +13,7 @@ export interface NavLogoProps {
 }
 
 export default function NavLogo({ logo, isOpaque = true }: NavLogoProps & { isOpaque?: boolean }) {
-  const finalLogo = logo ?? { url: "/", title: "The Safety Game", alt: "Logo" };
+  const finalLogo = logo ?? { url: localizeUrl("/home"), title: "The Safety Game", alt: "Logo" };
   const textClass = isOpaque ? "text-violet-200" : "text-white drop-shadow-sm";
   return (
     <a href={finalLogo.url} aria-label={finalLogo.ariaLabel ?? finalLogo.title} className="flex items-center gap-2">
