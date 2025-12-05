@@ -42,7 +42,7 @@ export default function TeamOverviewCard({ teamName, teamJoinCode, members, prog
     scoreTotal,
     chatgptBaseline,
   } = progress;
-  const baseline = chatgptBaseline ?? 9.0;
+  const baseline = chatgptBaseline ?? 0;
   const baselineBeaten = highestScore >= baseline;
 
   return (
@@ -147,14 +147,14 @@ export default function TeamOverviewCard({ teamName, teamJoinCode, members, prog
 
                   <div className="flex w-full flex-col items-center justify-center rounded-lg border border-amber-100 bg-amber-50 p-4 text-center transition-colors hover:bg-amber-100">
                     <Trophy className="mb-2 h-6 w-6 text-amber-600" />
-                    <div className="font-bold text-amber-700 text-xl">#{leaderboardPosition}</div>
+                    <div className="font-bold text-amber-700 text-xl">#{leaderboardPosition ?? '?'}</div>
                     <div className="mt-1 font-medium text-amber-600 text-xs">Posto in Classifica</div>
                   </div>
 
                   <div className="flex w-full flex-col items-center justify-center rounded-lg border border-neutral-200 bg-white p-4 text-center">
                     <Zap className={`mb-2 h-6 w-6 ${baselineBeaten ? "text-green-600" : "text-neutral-600"}`} />
                     <div className={`font-bold ${baselineBeaten ? "text-green-700" : "text-neutral-900"} text-xl`}>
-                      {baseline}
+                      {leaderboardPosition - baseline}
                     </div>
                     <div
                       className={`mt-1 font-medium ${baselineBeaten ? "text-green-600" : "text-neutral-700"} text-xs`}
