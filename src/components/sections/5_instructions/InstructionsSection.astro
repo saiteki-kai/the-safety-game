@@ -3,9 +3,33 @@ import Card from "@components/common/Card.astro";
 import IconLabel from "@components/common/IconLabel";
 import ExampleGroup from "@components/sections/5_instructions/ExampleGroup.astro";
 import SectionLayout from "@layouts/SectionLayout.astro";
-import type { InstructionCardVariant, InstructionExampleVariant, InstructionsContent } from "@/i18n/locales/types";
+import i18n from "i18next";
 
-const { instructions } = Astro.props as { instructions: InstructionsContent };
+type InstructionCardVariant = "objective" | "positive" | "negative" | "warning";
+type InstructionExampleVariant = "valid" | "invalid" | "mixed";
+
+interface InstructionCard {
+  variant: InstructionCardVariant;
+  title: string;
+  description?: string;
+  items?: readonly string[];
+}
+
+interface InstructionExamplePrompt {
+  label: string;
+  prompt: string;
+  note?: string;
+}
+
+interface InstructionExampleGroup {
+  variant: InstructionExampleVariant;
+  title: string;
+  description?: string;
+  prompts: readonly InstructionExamplePrompt[];
+}
+
+const cards = i18n.t("instructions:cards", { returnObjects: true }) as InstructionCard[];
+const exampleGroups = i18n.t("instructions:exampleGroups", { returnObjects: true }) as InstructionExampleGroup[];
 
 const cardStyleMap: Record<
   InstructionCardVariant,
@@ -96,13 +120,13 @@ const exampleStyleMap: Record<
 
 <SectionLayout
   id="instructions"
-  title={instructions.title}
-  description={instructions.intro}
+  title={i18n.t("instructions:title")}
+  description={i18n.t("instructions:intro")}
   sectionClass="bg-white"
 >
   <div class="instructions-grid">
 		{
-			instructions.cards.map((card, idx) => {
+			cards.map((card, idx) => {
 				const style = cardStyleMap[card.variant] ?? cardStyleMap.warning;
 				const textClass = style.contentTextClass ?? "text-neutral-700";
 				const thicknessClass = idx < 2 ? "border-2" : "border";
@@ -178,7 +202,7 @@ const exampleStyleMap: Record<
     </IconLabel>
 
     {
-      instructions.exampleGroups.map((group) => (
+      exampleGroups.map((group) => (
         <ExampleGroup
           group={group}
           style={exampleStyleMap[group.variant] ?? exampleStyleMap.mixed}

@@ -1,41 +1,36 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@components/ui/card";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import CreateTeamForm from "./CreateTeamForm";
 import JoinTeamForm from "./JoinTeamForm";
 
 type TabKey = "create" | "join";
 
-type TabCopy = {
-  tab: string;
-  title: string;
-  description: string;
-};
-
-const TAB_COPY: Record<TabKey, TabCopy> = {
-  create: {
-    tab: "Crea team",
-    title: "Crea il tuo team",
-    description: "Avvia un nuovo team e invita i tuoi compagni.",
-  },
-  join: {
-    tab: "Unisciti al team",
-    title: "Unisciti a un team",
-    description: "Inserisci il codice condiviso dai tuoi compagni per entrare nel loro gruppo.",
-  },
-};
-
 export default function TeamSetupPanel() {
   const [tab, setTab] = useState<TabKey>("create");
-  const copy = TAB_COPY[tab];
+  const { t } = useTranslation("setup");
+
+  const tabCopy = {
+    create: {
+      tab: t("createTab"),
+      title: t("createTitle"),
+      description: t("createDescription"),
+    },
+    join: {
+      tab: t("joinTab"),
+      title: t("joinTitle"),
+      description: t("joinDescription"),
+    },
+  };
+
+  const copy = tabCopy[tab];
 
   return (
     <div className="dashboard-empty-state h-screen">
       <div className="dashboard-empty-heading">
-        <h1 className="dashboard-empty-title">Gestisci il tuo team</h1>
-        <p className="dashboard-empty-description">
-          Crea un nuovo gruppo o unisciti a un team già esistente utilizzando il codice di invito.
-        </p>
+        <h1 className="dashboard-empty-title">{t("setup.title")}</h1>
+        <p className="dashboard-empty-description">{t("setup.description")}</p>
       </div>
 
       <div className="dashboard-tabs-shell">
@@ -51,7 +46,7 @@ export default function TeamSetupPanel() {
                 className={`dashboard-tab cursor-pointer ${isActive ? "dashboard-tab--active" : "dashboard-tab--inactive"}`}
                 aria-pressed={isActive}
               >
-                {TAB_COPY[key].tab}
+                {tabCopy[key].tab}
               </button>
             );
           })}

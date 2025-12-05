@@ -1,0 +1,10 @@
+{
+  "title": "Manage your team",
+  "description": "Create a new group or join an existing team using the invite code.",
+  "createTab": "Create team",
+  "joinTab": "Join team",
+  "createTitle": "Create your team",
+  "createDescription": "Start a new team and invite your teammates.",
+  "joinTitle": "Join a team",
+  "joinDescription": "Enter the code shared by your teammates to join their group."
+}

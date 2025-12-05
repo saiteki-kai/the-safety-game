@@ -1,20 +1,29 @@
 ---
 import MemberCard from "@components/common/MemberCard.astro";
 import SectionLayout from "@layouts/SectionLayout.astro";
-import type { TeamContent } from "@/i18n/locales/types";
+import i18n from "i18next";
+import TEAM_MEMBERS from "@/content/team";
 
-const { team } = Astro.props as { team: TeamContent };
+const translationMembers = i18n.t("team:members", { returnObjects: true });
+const members = TEAM_MEMBERS.map((member) => {
+  const translation = translationMembers[member.name] || {};
+
+  return {
+    ...member,
+    ...translation,
+  };
+});
 ---
 
 <SectionLayout
   id="team"
-  title={team.title}
-  description={team.description}
+  title={i18n.t("team:title")}
+  description={i18n.t("team:description")}
   sectionClass="section-gradient"
 >
   <div class="team-grid">
     {
-      team.members.map((member) => (
+      members.map((member) => (
         <MemberCard member={member} size="md" showEmail class="h-full" />
       ))
     }

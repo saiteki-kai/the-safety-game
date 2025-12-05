@@ -2,51 +2,75 @@
 import Card from "@components/common/Card.astro";
 import Icon from "@components/common/Icon";
 import SectionLayout from "@layouts/SectionLayout.astro";
-import type { ParticipationContent } from "@/i18n/locales/types";
+import i18n from "i18next";
 
-const { participation } = Astro.props as {
-  participation: ParticipationContent;
-};
+interface RegistrationContent {
+  label: string;
+  description: string;
+  afterLogin: string;
+}
+
+interface PrivacyContent {
+  label: string;
+  description: string;
+}
+
+interface SubmissionContent {
+  label: string;
+  howItWorks: string;
+  warning?: string;
+}
+
+interface EvaluationContent {
+  label: string;
+  overview: string;
+  scoring: string;
+}
+
+const registration = i18n.t("participation:registration", { returnObjects: true }) as RegistrationContent;
+const privacy = i18n.t("participation:privacy", { returnObjects: true }) as PrivacyContent;
+const submission = i18n.t("participation:submission", { returnObjects: true }) as SubmissionContent | undefined;
+const evaluation = i18n.t("participation:evaluation", { returnObjects: true }) as EvaluationContent | undefined;
 ---
 
 <SectionLayout
   id="participate"
-  title={participation.title}
-  description={participation.intro}
+  title={i18n.t("participation:title")}
+  description={i18n.t("participation:intro")}
   sectionClass="bg-white"
 >
 
   <div class="grid grid-cols-1 gap-6">
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-  <Card class="p-5 registration-card md:col-span-2 h-full" innerClass="h-full flex flex-col justify-between" label={participation.registration.label} icon="form" iconClass="text-blue-600 shrink-0">
+  <Card class="p-5 registration-card md:col-span-2 h-full" innerClass="h-full flex flex-col justify-between" label={registration.label} icon="form" iconClass="text-blue-600 shrink-0">
         <p class="text-neutral-700 mb-2">
-          {participation.registration.description}
+          {registration.description}
         </p>
         <p class="text-neutral-700 mb-3">
-          {participation.registration.afterLogin}
+          {registration.afterLogin}
         </p>
       </Card>
 
-      <Card class="p-5 md:col-span-1 h-full" innerClass="h-full flex flex-col" label={participation.privacy.label} icon="eye-off" iconClass="text-neutral-600 shrink-0">
-        <p class="text-neutral-700 mb-2" set:html={participation.privacy.description}></p>
+      <Card class="p-5 md:col-span-1 h-full" innerClass="h-full flex flex-col" label={privacy.label} icon="eye-off" iconClass="text-neutral-600 shrink-0">
+        <p class="text-neutral-700 mb-2" set:html={privacy.description}></p>
       </Card>
     </div>
 
     {
-      participation.submission && (
-  <Card class="p-5" label={participation.submission.label} icon="upload" iconClass="text-blue-600 shrink-0">
+      submission && (
+  <Card class="p-5" label={submission.label} icon="upload" iconClass="text-blue-600 shrink-0">
           <p
             class="text-neutral-700 mb-3"
-            set:html={participation.submission.howItWorks}
+            set:html={submission.howItWorks}
           />
 
-          {participation.submission.warning && (
+          {submission.warning && (
             <div class="code-snippet bg-yellow-50 border-yellow-200 text-yellow-800 px-4 py-3 rounded mt-3">
               <div class="flex items-start gap-3">
                 <span class="shrink-0">
                   <Icon name="triangle-alert" size={20} className="text-yellow-700" />
                 </span>
-                <span class="text-sm">{participation.submission.warning}</span>
+                <span class="text-sm">{submission.warning}</span>
               </div>
             </div>
           )}
@@ -55,12 +79,12 @@ const { participation } = Astro.props as {
     }
 
     {
-      participation.evaluation && (
-  <Card class="p-5" label={participation.evaluation.label} icon="star" iconClass="text-yellow-600 shrink-0">
+      evaluation && (
+  <Card class="p-5" label={evaluation.label} icon="star" iconClass="text-yellow-600 shrink-0">
           <p class="text-neutral-700 mb-2">
-            {participation.evaluation.overview}
+            {evaluation.overview}
           </p>
-          <p class="text-neutral-700">{participation.evaluation.scoring}</p>
+          <p class="text-neutral-700">{evaluation.scoring}</p>
         </Card>
       )
     }

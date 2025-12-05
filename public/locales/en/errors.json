@@ -1,0 +1,8 @@
+{
+  "generic": "Something went wrong. Please try again.",
+  "notFound": "Page not found",
+  "notFoundMessage": "Sorry, we couldn't find the page you were looking for.",
+  "backToHome": "Back to home",
+  "unauthorized": "You are not authorized to view this page",
+  "networkError": "Network error. Check your connection."
+}

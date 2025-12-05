@@ -1,0 +1,10 @@
+{
+  "title": "Gestisci il tuo team",
+  "description": "Crea un nuovo gruppo o unisciti a un team già esistente utilizzando il codice di invito.",
+  "createTab": "Crea team",
+  "joinTab": "Unisciti al team",
+  "createTitle": "Crea il tuo team",
+  "createDescription": "Avvia un nuovo team e invita i tuoi compagni.",
+  "joinTitle": "Unisciti a un team",
+  "joinDescription": "Inserisci il codice condiviso dai tuoi compagni per entrare nel loro gruppo."
+}

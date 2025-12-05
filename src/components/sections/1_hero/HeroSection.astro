@@ -1,16 +1,14 @@
 ---
-import type { HomeContent } from "@/i18n/locales/types";
-
-const { home } = Astro.props as { home: HomeContent };
+import i18n from "i18next";
 ---
 
 <section id="home" class="hero-section hero-gradient hero-theme-cosmic">
   <div class="hero-content">
     <div class="hero-main">
       <div class="hero-main-top">
-        <p class="hero-kicker">{home.kicker}</p>
+        <p class="hero-kicker">{i18n.t("home:kicker")}</p>
         <p class="hero-description">
-          {home.description}
+          {i18n.t("home:description")}
         </p>
       </div>
       <div class="hero-title hero-title-block">
@@ -21,13 +19,13 @@ const { home } = Astro.props as { home: HomeContent };
         </span>
       </div>
       <div class="hero-main-bottom">
-        <span class="hero-dates">{home.eventDates}</span>
-        <p class="hero-cta-text">{home.cta}</p>
+        <span class="hero-dates">{i18n.t("home:eventDates")}</span>
+        <p class="hero-cta-text">{i18n.t("home:cta")}</p>
       </div>
     </div>
   </div>
   <a href="#challenge" class="hero-indicator focus-ring">
-    {home.learnMore}
+    {i18n.t("home:learnMore")}
     <span aria-hidden="true">↓</span>
   </a>
 </section>

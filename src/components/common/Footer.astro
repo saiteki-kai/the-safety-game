@@ -1,11 +1,10 @@
 ---
 export const prerender = false;
 
-import { loadRenderers } from "astro:container";
 import GithubIcon from "@assets/github.svg";
 import HuggingFaceIcon from "@assets/huggingface.svg";
-import { footer as t } from "@i18n/locales/it";
 import { FOOTER_LINKS } from "@lib/consts";
+import i18n from "i18next";
 import { Mail } from "lucide-react";
 import Copyright from "@/components/common/Copyright.astro";
 import { Separator } from "@/components/ui/separator";
@@ -31,12 +30,12 @@ const quickLinks: FooterQuickLink[] = footerQuickLinks;
       <div class="space-y-4">
         <p class="text-lg font-semibold text-white">The Safety Game</p>
         <p class="max-w-xl text-sm text-neutral-400">
-          {t?.tagline ?? "An ethical prompt engineering competition."}
+          {i18n.t("footer:tagline")}
         </p>
       </div>
       <div>
         <p class="text-xs font-semibold uppercase tracking-wider text-neutral-500">
-          {t?.quickLinks ?? "Quick Links"}
+          {i18n.t("footer:quickLinks")}
         </p>
         <ul class="mt-3 space-y-2 text-sm text-neutral-200">
           {
@@ -52,7 +51,7 @@ const quickLinks: FooterQuickLink[] = footerQuickLinks;
       </div>
       <div>
         <p class="text-xs font-semibold uppercase tracking-wider text-neutral-500">
-          {t?.contacts ?? "Contacts"}
+          {i18n.t("footer:contacts")}
         </p>
         <div class="mt-3 flex flex-col gap-3 text-xs md:text-sm">
           <a
@@ -89,7 +88,7 @@ const quickLinks: FooterQuickLink[] = footerQuickLinks;
     >
       <Copyright />
       <a href={localizeUrl(FOOTER_LINKS.privacy)} class="hover:text-white transition-colors">
-        {t?.privacy ?? "Privacy Policy"}
+        {i18n.t("footer:privacy")}
       </a>
     </div>
   </div>

@@ -1,3 +1,11 @@
 {
-  "hello_world": "Ciao, Mondo!"
+  "loading": "Caricamento...",
+  "error": "Si è verificato un errore",
+  "retry": "Riprova",
+  "save": "Salva",
+  "cancel": "Annulla",
+  "confirm": "Conferma",
+  "back": "Indietro",
+  "next": "Avanti",
+  "submit": "Invia"
 }

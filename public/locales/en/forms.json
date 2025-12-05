@@ -1,0 +1,10 @@
+{
+  "teamName": "Team Name",
+  "teamCode": "Team Code",
+  "email": "Email",
+  "password": "Password",
+  "required": "This field is required",
+  "invalidEmail": "Invalid email address",
+  "minLength": "Minimum {{min}} characters",
+  "maxLength": "Maximum {{max}} characters"
+}

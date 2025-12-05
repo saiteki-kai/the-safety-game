@@ -14,36 +14,24 @@ import {
   TeamSection,
   TimelineSection,
 } from "@components/sections";
-import {
-  challenge,
-  dates,
-  faq,
-  home,
-  instructions,
-  leaderboard,
-  participation,
-  footer as t,
-  team,
-} from "@i18n/locales/it";
 import PageLayout from "@layouts/PageLayout.astro";
-import { footerQuickLinks } from "@/content/site-config";
+import i18n from "i18next";
 
 const profile = Astro.locals.user;
 ---
 
-<PageLayout title="The Safety Game" >
+<PageLayout title={i18n.t("meta:siteTitle")} description={i18n.t("meta:siteDescription")}>
   <LandingNavigation slot="navigation" client:load profile={profile} />
-  <HeroSection home={home} />
+  <HeroSection />
   <!-- Invisible spacer so nav de-highlights when scrolling above the first real section -->
   <div id="top-spacer" aria-hidden="true" class="h-px -mt-px"></div>
-  <ChallengeSection challenge={challenge} />
-  <InstructionsSection instructions={instructions} />
-  <ParticipationSection participation={participation} />
-  <TimelineSection dates={dates} />
-  <LeaderboardSection leaderboard={leaderboard} />
-  <!-- <PlaygroundSection playground={content.playground} /> -->
-  <TeamSection team={team} />
-  <FaqSection faqs={faq} />
+  <ChallengeSection />
+  <InstructionsSection />
+  <ParticipationSection />
+  <TimelineSection />
+  <LeaderboardSection />
+  <TeamSection />
+  <FaqSection />
   <LogosSection slot="prefooter" />
-  <Footer slot="footer" t={t} quickLinks={footerQuickLinks} />
+  <Footer slot="footer" />
 </PageLayout>

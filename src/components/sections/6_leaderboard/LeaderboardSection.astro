@@ -1,24 +1,14 @@
 ---
 import IconLabel from "@components/common/IconLabel";
 import SectionLayout from "@layouts/SectionLayout.astro";
-import type { LeaderboardContent } from "@/i18n/locales/types";
+import i18n from "i18next";
 import LeaderboardTable from "./Leaderboard";
-
-const { leaderboard } = Astro.props as { leaderboard: LeaderboardContent };
-const { title, description, emptyMessage, scoreNote } = leaderboard;
-const labels = {
-  rank: leaderboard.rank,
-  score: leaderboard.score,
-  teamName: leaderboard.teamName,
-  lastSubmission: leaderboard.lastSubmission,
-  loadError: leaderboard.loadError,
-};
 ---
 
 <SectionLayout
   id="leaderboard"
-  title={title}
-  description={description}
+  title={i18n.t("leaderboard:title")}
+  description={i18n.t("leaderboard:description")}
   sectionClass="bg-white"
 >
   <div class="playground-card">
@@ -31,14 +21,14 @@ const labels = {
           as="span"
           className="text-base font-medium"
         >
-          {title}
+          {i18n.t("leaderboard:title")}
         </IconLabel>
       </div>
 
       <div class="flex items-center gap-4">
         <div class="text-right text-sm text-white hidden sm:block">
           <div class="text-sm text-white font-medium">
-            {scoreNote}
+            {i18n.t("leaderboard:scoreNote")}
           </div>
         </div>
       </div>
@@ -50,7 +40,7 @@ const labels = {
         role="region"
         aria-label="Leaderboard"
       >
-  <LeaderboardTable emptyMessage={emptyMessage} labels={labels} client:visible />
+  <LeaderboardTable emptyMessage={i18n.t("leaderboard:emptyMessage")} client:visible />
       </div>
     </div>
   </div>

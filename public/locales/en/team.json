@@ -1,0 +1,30 @@
+{
+  "title": "The Team",
+  "description": "The Safety Game is organized by the <b>Models in Decision Making and Data Analysis</b> (MIND) research lab of the Department of Informatics, Systems, and Communication at the University of Milano-Bicocca.",
+  "members": {
+    "Elisabetta Fersini": {
+      "role": "Associate Professor",
+      "bio": "Her research focuses primarily on machine learning and natural language processing, with specific interests in hate speech detection, information extraction and topic modelling."
+    },
+    "Giulia Rizzi": {
+      "role": "Postdoc Researcher",
+      "bio": "Giulia Rizzi is a postdoc researcher. She obtained a Ph.D. in Computer Science at Università degli Studi di Milano - Bicocca (UniMiB) and at Universitat Politècnica de València (UPV). Her research interests are centered in the field of Natural Language Processing and machine learning."
+    },
+    "Giuseppe Magazzù": {
+      "role": "PhD Student",
+      "bio": "Giuseppe Magazzù is a 2nd year PhD student. His research focuses on developing an ethical framework and implementing safety strategies to ensure that large language models generate safe, useful, and high-quality outputs."
+    },
+    "Daniel Scalena": {
+      "role": "PhD Student",
+      "bio": "Daniel Scalena is a 3rd year PhD student in a cotutelle agreement with University of Groningen. His research focuses mainly on the interpretability of language models."
+    },
+    "Alberto Sormani": {
+      "role": "Master's Student",
+      "bio": ""
+    },
+    "Andrea Muscio": {
+      "role": "Master's Student",
+      "bio": ""
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "teamName": "Nome del Team",
+  "teamCode": "Codice Team",
+  "email": "Email",
+  "password": "Password",
+  "required": "Questo campo è obbligatorio",
+  "invalidEmail": "Indirizzo email non valido",
+  "minLength": "Minimo {{min}} caratteri",
+  "maxLength": "Massimo {{max}} caratteri"
+}

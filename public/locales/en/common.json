@@ -1,3 +1,11 @@
 {
-  "hello_world": "Hello, World!"
+  "loading": "Loading...",
+  "error": "An error occurred",
+  "retry": "Retry",
+  "save": "Save",
+  "cancel": "Cancel",
+  "confirm": "Confirm",
+  "back": "Back",
+  "next": "Next",
+  "submit": "Submit"
 }

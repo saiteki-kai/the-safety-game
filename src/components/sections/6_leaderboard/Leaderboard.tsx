@@ -1,9 +1,10 @@
 import Icon from "@components/common/Icon";
 import IconLabel from "@components/common/IconLabel";
 import { PostgrestError } from "@supabase/supabase-js";
+import i18next from "i18next";
 import { useEffect, useEffectEvent, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { getLeaderboard } from "@/db/submissions";
-import { formatDateTime } from "@/lib/formatters";
 import type { IconName } from "@/lib/icons";
 import { browserClient } from "@/lib/supabase";
 import type { Leaderboard } from "@/lib/supabase.types";
@@ -17,14 +18,14 @@ const formatPercent = (v: number) => {
 
 const formatDateShortNoYear = (value: string) => {
   try {
-    return new Intl.DateTimeFormat("it-IT", {
+    return new Intl.DateTimeFormat(i18next.language, {
       day: "2-digit",
       month: "short",
       hour: "2-digit",
       minute: "2-digit",
     }).format(new Date(value));
   } catch (_e) {
-    return formatDateTime(value);
+    return value;
   }
 };
 
@@ -35,15 +36,8 @@ const highlightConfig: Record<number, { row: string; icon?: { name: string; clas
   3: { row: "highlight-3", icon: { name: "award", class: "text-amber-600" } },
 };
 
-type Labels = {
-  rank: string;
-  score: string;
-  teamName: string;
-  lastSubmission: string;
-  loadError: string;
-};
-
-export default function LeaderboardTable({ emptyMessage, labels }: { emptyMessage: string; labels: Labels }) {
+export default function LeaderboardTable({ emptyMessage }: { emptyMessage: string }) {
+  const { t } = useTranslation("leaderboard");
   const [leaderboard, setLeaderboard] = useState<Leaderboard[] | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<Error | null>(null);
@@ -98,10 +92,10 @@ export default function LeaderboardTable({ emptyMessage, labels }: { emptyMessag
           </colgroup>
           <thead>
             <tr>
-              <th className="text-center">{labels.rank}</th>
-              <th className="text-center">{labels.score}</th>
-              <th className="text-left">{labels.teamName}</th>
-              <th className="text-right">{labels.lastSubmission}</th>
+              <th className="text-center">{t("rank")}</th>
+              <th className="text-center">{t("score")}</th>
+              <th className="text-left">{t("teamName")}</th>
+              <th className="text-right">{t("lastSubmission")}</th>
             </tr>
           </thead>
           <tbody>
@@ -130,7 +124,7 @@ export default function LeaderboardTable({ emptyMessage, labels }: { emptyMessag
         <div className="flex h-full items-center justify-center py-6">
           <div className="leaderboard-empty flex-col justify-center text-center">
             <Icon name="triangle-alert" size={28} className="mx-auto text-red-500" />
-            <p className="mt-3 text-red-600 text-sm">{labels.loadError}</p>
+            <p className="mt-3 text-red-600 text-sm">{t("loadError")}</p>
           </div>
         </div>
       ) : isEmpty ? (
@@ -156,16 +150,16 @@ export default function LeaderboardTable({ emptyMessage, labels }: { emptyMessag
           <thead>
             <tr>
               <th scope="col" className="text-center">
-                {labels.rank}
+                {t("rank")}
               </th>
               <th scope="col" className="text-center">
-                {labels.score}
+                {t("score")}
               </th>
               <th scope="col" className="text-left">
-                {labels.teamName}
+                {t("teamName")}
               </th>
               <th scope="col" className="text-right">
-                {labels.lastSubmission}
+                {t("lastSubmission")}
               </th>
             </tr>
           </thead>

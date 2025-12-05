@@ -1,36 +1,33 @@
 ---
 import Card from "@components/common/Card.astro";
 import SectionLayout from "@layouts/SectionLayout.astro";
-import type { ChallengeContent } from "@/i18n/locales/types";
-
-const { challenge } = Astro.props as { challenge: ChallengeContent };
+import i18n from "i18next";
 ---
 
 <SectionLayout
   id="challenge"
-  title={challenge.title}
-  description={challenge.description}
+  title={i18n.t("challenge:title")}
+  description={i18n.t("challenge:description")}
   sectionClass="bg-white"
 >
   <div class="space-y-8">
     <div class="py-8">
-      <p class="gradient-text text-center text-3xl sm:text-4xl font-semibold mb-0">{challenge.tagline}</p>
+      <p class="gradient-text text-center text-3xl sm:text-4xl font-semibold mb-0">{i18n.t("challenge:tagline")}</p>
     </div>
 
     <Card
       class="p-6"
-      label={challenge.objectiveLabel}
+      label={i18n.t("challenge:objectiveLabel")}
       icon="lightbulb"
       iconClass="text-rose-600 shrink-0"
     >
       <div class="space-y-2">
         {
-          challenge.what
+          i18n.t("challenge:what")
             .split(/(?<=[.!?])\s+/)
-            .map((sentence) => {
-              const isHighlight = sentence.includes("Crea prompt basati sul contesto culturale italiano");
+            .map((sentence: string) => {
               return (
-                <p class={"text-neutral-700 leading-relaxed " + (isHighlight ? "text-rose-400 font-semibold text-lg" : "")}>{isHighlight ? <span>{sentence}</span> : sentence}</p>
+                <p class="text-neutral-700 leading-relaxed">{sentence}</p>
               );
             })
         }
@@ -40,45 +37,45 @@ const { challenge } = Astro.props as { challenge: ChallengeContent };
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
       <Card
         class="p-6"
-        label={challenge.challengeLabel}
+        label={i18n.t("challenge:challengeLabel")}
         icon="star"
         iconClass="text-yellow-400 shrink-0"
       >
         <p class="text-neutral-700 leading-relaxed mb-4">
-          {challenge.challengeText}
+          {i18n.t("challenge:challengeText")}
         </p>
       </Card>
 
       <Card
         class="p-6"
-        label={challenge.participationLabel}
+        label={i18n.t("challenge:participationLabel")}
         icon="users"
         iconClass="text-green-600 shrink-0"
       >
         <p class="text-neutral-700 leading-relaxed">
-          {challenge.participation}
+          {i18n.t("challenge:participation")}
         </p>
       </Card>
       
       <Card
         class="p-6"
-        label={challenge.prizesLabel}
+        label={i18n.t("challenge:prizesLabel")}
         icon="trophy"
         iconClass="text-amber-600 shrink-0"
       >
-        <p class="text-neutral-700 leading-relaxed" set:html={challenge.prizesDescription}></p>
+        <p class="text-neutral-700 leading-relaxed" set:html={i18n.t("challenge:prizesDescription")}></p>
       </Card>
     </div>
     
     <Card
       class="p-6"
-      label={challenge.llmLabel}
+      label={i18n.t("challenge:aiLabel")}
       icon="ai"
       iconClass="text-blue-600 shrink-0"
     >
       <div class="space-y-4">
         {
-          challenge.introduction.map((paragraph) => (
+          (i18n.t("challenge:introduction", { returnObjects: true }) as { content: string; }[]).map((paragraph) => (
             <p class="text-neutral-700 leading-relaxed">{paragraph.content}</p>
           ))
         }
