@@ -2,11 +2,16 @@
 import MemberCard from "@components/common/MemberCard.astro";
 import SectionLayout from "@layouts/SectionLayout.astro";
 import i18n from "i18next";
-import TEAM_MEMBERS from "@/content/team";
+import TEAM_MEMBERS, { type Member } from "@/content/team";
 
-const translationMembers = i18n.t("team:members", { returnObjects: true });
-const members = TEAM_MEMBERS.map((member) => {
-  const translation = translationMembers[member.name] || {};
+const translationMembers = i18n.t("team:members", {
+  returnObjects: true,
+}) as Record<string, Member>;
+
+type LocalizedMember = Member & { role?: string; bio?: string };
+
+const members: LocalizedMember[] = TEAM_MEMBERS.map((member) => {
+  const translation = translationMembers[member.name] ?? {};
 
   return {
     ...member,

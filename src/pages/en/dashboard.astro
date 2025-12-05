@@ -3,7 +3,6 @@ export const prerender = false;
 
 import "@styles/dashboard.css";
 
-import { footer as t } from "@i18n/locales/en";
 import PageLayout from "@layouts/PageLayout.astro";
 import DashboardNav from "@/components/common/DashboardNav";
 import Footer from "@/components/common/Footer.astro";
@@ -28,5 +27,5 @@ if (!team) {
 <PageLayout title="Dashboard | The Safety Game">
   <DashboardNav client:load profile={profile} />
   <TeamDashboardView client:load team={team} />
-  <Footer slot="footer" t={t} quickLinks={footerQuickLinks} />
+  <Footer slot="footer" quickLinks={footerQuickLinks} />
 </PageLayout>

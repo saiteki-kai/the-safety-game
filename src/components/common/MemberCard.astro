@@ -28,22 +28,30 @@ const sizeMap = {
 
 const chosen = sizeMap[size as keyof typeof sizeMap] ?? sizeMap.md;
 
-const initial = member?.name ? member.name.charAt(0) : "?";
-const imageSrc = member?.image?.src;
+const initial = member?.name?.trim()?.charAt(0) ?? "?";
+const imageData = member?.image ?? null;
 const intrinsic = chosen.px;
+const headingId = `member-${(member?.name ?? "")
+  .toLowerCase()
+  .replace(/[^a-z0-9]+/g, "-")
+  .replace(/(^-|-$)/g, "")}-name`;
 ---
 
-<div class={`member-card ${className}`} role="group">
+<div
+  class={`member-card ${className}`}
+  role="group"
+  aria-labelledby={headingId}
+>
   <div class="member-card-inner">
     <div class="shrink-0">
       <div class={`${chosen.wrapper} avatar-base`}>
         {
-          imageSrc ? (
+          imageData ? (
             <>
               <Image
                 class="avatar-img"
-                src={imageSrc}
-                alt={`Foto di ${member.name}`}
+                src={imageData}
+                alt={`Photo of ${member.name}`}
                 onerror={
                   "this.style.display='none'; this.closest('.avatar-base').querySelector('.avatar-fallback').classList.remove('hidden'); this.closest('.avatar-base').querySelector('.avatar-fallback').classList.add('flex');"
                 }
@@ -67,7 +75,7 @@ const intrinsic = chosen.px;
     </div>
 
     <div class="flex-1 min-w-0">
-      <h3 class="member-name">
+      <h3 id={headingId} class="member-name">
         {member.name}
       </h3>
       {member.role && <p class="member-role">{member.role}</p>}
@@ -75,7 +83,11 @@ const intrinsic = chosen.px;
       {
         showEmail && member.email && (
           <p class="member-email">
-            <a class="member-link" href={`mailto:${member.email}`}>
+            <a
+              class="member-link"
+              href={`mailto:${member.email}`}
+              title={`Email ${member.name}`}
+            >
               {member.email}
             </a>
           </p>
