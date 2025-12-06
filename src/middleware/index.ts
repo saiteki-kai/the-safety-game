@@ -11,6 +11,10 @@ const protectedRoutes = ["/dashboard", "/admin", "**/dashboard", "**/admin"];
 const protectedAPIRoutes = ["/api/submissions", "_actions/**"];
 
 export const onRequest = defineMiddleware(async (context: APIContext, next: MiddlewareNext) => {
+  if (!(context.currentLocale in i18n?.languages)) {
+    i18n.changeLanguage(context.currentLocale);
+  }
+
   console.log(context.preferredLocale);
   console.log(context.request.headers.get("accept-language"));
   console.log(context.preferredLocaleList);

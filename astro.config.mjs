@@ -27,6 +27,8 @@ const namespaces = [
 ];
 
 export default defineConfig({
+  site: "https://thesafetygame.vercel.app/",
+
   output: "server",
 
   adapter: vercel({
@@ -54,6 +56,7 @@ export default defineConfig({
   i18n: {
     defaultLocale: "it",
     locales: ["it", "en"],
+    fallback: "en",
   },
 
   experimental: {
