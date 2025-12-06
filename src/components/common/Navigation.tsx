@@ -7,7 +7,6 @@ import { Accordion } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import { NavigationMenu, NavigationMenuList } from "@/components/ui/navigation-menu";
 import { Separator } from "@/components/ui/separator";
-import { localizeUrl } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 import LanguageSwitcher, { LanguageSwitcherMobile } from "./LanguageSwitcher";
 import type { MenuItem } from "./NavigationParts";
@@ -33,11 +32,7 @@ export interface NavbarProps {
 }
 
 export default function Navigation({
-  logo = {
-    url: localizeUrl("/home"),
-    alt: "Logo",
-    title: "The Safety Game",
-  },
+  logo,
   menu,
   actions = undefined,
   actionsMobile = undefined,
