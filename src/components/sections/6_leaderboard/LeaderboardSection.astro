@@ -40,7 +40,10 @@ import LeaderboardTable from "./Leaderboard";
         role="region"
         aria-label={i18n.t("leaderboard:ariaLabel")}
       >
-  <LeaderboardTable emptyMessage={i18n.t("leaderboard:emptyMessage")} client:visible />
+        <LeaderboardTable
+          emptyMessage={i18n.t("leaderboard:emptyMessage")}
+          client:load
+        />
       </div>
     </div>
   </div>
