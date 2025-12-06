@@ -6,7 +6,6 @@ import i18n from "i18next";
 import DashboardNav from "@/components/common/DashboardNav";
 import Footer from "@/components/common/Footer.astro";
 import { FinalSubmissionSection } from "@/components/dashboard/final/FinalSubmissionSection";
-import { footerQuickLinks } from "@/content/site-config";
 import { getTeamSubmissions } from "@/db/submissions";
 import { getTeamByUserId } from "@/db/teams";
 import { localizeUrl } from "@/lib/i18n";
@@ -40,5 +39,5 @@ const navMenu = [
       <FinalSubmissionSection client:load teamId={team.id} disabled={finalSubmissionDone} />
     </div>
   </main>
-  <Footer slot="footer" quickLinks={footerQuickLinks} />
+  <Footer slot="footer" />
 </PageLayout>

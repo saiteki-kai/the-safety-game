@@ -47,16 +47,12 @@ export default defineConfig({
   integrations: [
     react(),
     reactI18next({
-      defaultLocale: "en",
+      defaultLocale: "it",
       locales: ["it", "en"],
       namespaces,
+      //prefixDefaultLocale: true,
     }),
   ],
-
-  i18n: {
-    defaultLocale: "en",
-    locales: ["it", "en"],
-  },
 
   experimental: {
     svgo: true,

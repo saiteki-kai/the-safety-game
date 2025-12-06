@@ -6,10 +6,20 @@ import { Mail } from "lucide-react";
 import Copyright from "@/components/common/Copyright.astro";
 import { Separator } from "@/components/ui/separator";
 import type { FooterQuickLink } from "@/content/site-config";
-import { FOOTER_LINKS, footerQuickLinks } from "@/content/site-config";
+import { FOOTER_CONTACT_LINKS } from "@/content/site-config";
 import { localizeUrl } from "@/lib/i18n";
 
-const quickLinks: FooterQuickLink[] = footerQuickLinks;
+const quickLinks: FooterQuickLink[] = [
+  { href: "/home", label: "Home" },
+  { href: "/dashboard", label: "Dashboard" },
+];
+
+// Local footer links with i18n-dependent URLs evaluated in component
+const footerLinks = {
+  github: FOOTER_CONTACT_LINKS.github,
+  hug: FOOTER_CONTACT_LINKS.hug,
+  email: FOOTER_CONTACT_LINKS.email,
+} as const;
 ---
 
 <footer
@@ -52,14 +62,14 @@ const quickLinks: FooterQuickLink[] = footerQuickLinks;
         </p>
         <div class="mt-3 flex flex-col gap-3 text-xs md:text-sm">
           <a
-            href={`mailto:${FOOTER_LINKS.email}`}
+            href={`mailto:${footerLinks.email}`}
             class="flex items-center gap-2 text-neutral-200 hover:text-white transition-colors"
           >
             <Mail className="h-4 w-4" aria-hidden="true" />
             <span>Email</span>
           </a>
           <a
-            href={FOOTER_LINKS.hug}
+            href={footerLinks.hug}
             class="flex items-center gap-2 text-neutral-200 hover:text-white transition-colors"
             target="_blank"
             rel="noopener noreferrer"
@@ -68,7 +78,7 @@ const quickLinks: FooterQuickLink[] = footerQuickLinks;
             <span>Hugging Face</span>
           </a>
           <a
-            href={FOOTER_LINKS.github}
+            href={footerLinks.github}
             class="flex items-center gap-2 text-neutral-200 hover:text-white transition-colors"
             target="_blank"
             rel="noopener noreferrer"
@@ -84,7 +94,7 @@ const quickLinks: FooterQuickLink[] = footerQuickLinks;
       class="flex flex-col gap-3 text-xs text-neutral-500 md:flex-row md:items-center md:justify-between"
     >
       <Copyright />
-      <a href={localizeUrl(FOOTER_LINKS.privacy)} class="hover:text-white transition-colors">
+      <a href={localizeUrl("/privacy")} class="hover:text-white transition-colors">
         {i18n.t("footer:privacy")}
       </a>
     </div>

@@ -6,7 +6,6 @@ import i18n from "i18next";
 import DashboardNav from "@/components/common/DashboardNav";
 import Footer from "@/components/common/Footer.astro";
 import TeamDashboardView from "@/components/dashboard/TeamDashboardView";
-import { footerQuickLinks } from "@/content/site-config";
 import { getTeamByUserId } from "@/db/teams";
 import { localizeUrl } from "@/lib/i18n";
 import { serverClient } from "@/lib/supabase";
@@ -26,5 +25,5 @@ if (!team) {
 <PageLayout title={i18n.t("meta:dashboardTitle")}>
   <DashboardNav client:load profile={profile} />
   <TeamDashboardView client:load team={team} />
-  <Footer slot="footer" quickLinks={footerQuickLinks} />
+  <Footer slot="footer" />
 </PageLayout>

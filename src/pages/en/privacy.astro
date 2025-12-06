@@ -5,7 +5,7 @@ import SimpleNavigation from "@components/common/SimpleNavigation";
 import PageLayout from "@layouts/PageLayout.astro";
 import { Separator } from "@/components/ui/separator";
 import { LAST_EDIT_DATE_PRIVACY } from "@/content/consts";
-import { FOOTER_LINKS, footerQuickLinks } from "@/content/site-config";
+import { FOOTER_CONTACT_LINKS } from "@/content/site-config";
 
 const lastModified = LAST_EDIT_DATE_PRIVACY.toLocaleDateString("en-UK", {
   year: "numeric",
@@ -251,8 +251,8 @@ const profile = Astro.locals.user;
           <Separator className="mt-2 mb-4" />
           <p>
             For privacy-related questions, contact us at <a
-              href=`mailto:${FOOTER_LINKS.email}`
-              class="text-blue-700">{FOOTER_LINKS.email}</a
+              href={`mailto:${FOOTER_CONTACT_LINKS.email}`}
+              class="text-blue-700">{FOOTER_CONTACT_LINKS.email}</a
             >.
           </p>
         </section>
@@ -260,5 +260,5 @@ const profile = Astro.locals.user;
     </main>
   </div>
 
-  <Footer slot="footer" quickLinks={footerQuickLinks} />
+  <Footer slot="footer" />
 </PageLayout>
