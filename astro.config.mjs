@@ -47,18 +47,15 @@ export default defineConfig({
   integrations: [
     react(),
     reactI18next({
-      defaultLocale: "it",
+      defaultLocale: "en",
       locales: ["it", "en"],
       namespaces,
     }),
   ],
 
   i18n: {
-    defaultLocale: "it",
+    defaultLocale: "en",
     locales: ["it", "en"],
-    fallback: {
-      it: "en",
-    },
   },
 
   experimental: {
