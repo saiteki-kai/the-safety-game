@@ -6,5 +6,11 @@
   "required": "Questo campo è obbligatorio",
   "invalidEmail": "Indirizzo email non valido",
   "minLength": "Minimo {{min}} caratteri",
-  "maxLength": "Massimo {{max}} caratteri"
+  "maxLength": "Massimo {{max}} caratteri",
+  "validation": {
+    "teamNameMin": "Il nome del team deve contenere almeno 3 caratteri.",
+    "teamNameMax": "Il nome del team è troppo lungo.",
+    "joinCodeError": "Il codice deve essere esattamente di 6 caratteri alfanumerici.",
+    "promptEmpty": "Il prompt non può essere vuoto."
+  }
 }

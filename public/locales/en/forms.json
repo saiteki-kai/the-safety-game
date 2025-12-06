@@ -6,5 +6,11 @@
   "required": "This field is required",
   "invalidEmail": "Invalid email address",
   "minLength": "Minimum {{min}} characters",
-  "maxLength": "Maximum {{max}} characters"
+  "maxLength": "Maximum {{max}} characters",
+  "validation": {
+    "teamNameMin": "Team name must contain at least 3 characters.",
+    "teamNameMax": "Team name is too long.",
+    "joinCodeError": "The code must be exactly 6 alphanumeric characters.",
+    "promptEmpty": "The prompt cannot be empty."
+  }
 }

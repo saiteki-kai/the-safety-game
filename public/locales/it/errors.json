@@ -4,5 +4,10 @@
   "notFoundMessage": "La pagina che stai cercando non esiste o è stata spostata.",
   "backToHome": "Torna alla home",
   "unauthorized": "Non sei autorizzato a visualizzare questa pagina",
-  "networkError": "Errore di rete. Controlla la connessione."
+  "networkError": "Errore di rete. Controlla la connessione.",
+  "teamNotFound": "Codice team non valido.",
+  "teamNameExists": "Esiste già un team con questo nome.",
+  "teamFull": "Il team ha raggiunto il numero massimo di membri.",
+  "teamCreation": "Si è verificato un errore durante la creazione del team.",
+  "teamJoin": "Si è verificato un errore durante l'accesso al team."
 }

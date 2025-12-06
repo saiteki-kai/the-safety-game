@@ -1,41 +1,53 @@
+import i18n from "i18next";
+
+// Helper to get translated error messages
+const getErrorMessages = () => ({
+  teamNotFound: i18n.t("errors.teamNotFound", { ns: "errors" }),
+  teamNameExists: i18n.t("errors.teamNameExists", { ns: "errors" }),
+  teamFull: i18n.t("errors.teamFull", { ns: "errors" }),
+  teamCreation: i18n.t("errors.teamCreation", { ns: "errors" }),
+  teamJoin: i18n.t("errors.teamJoin", { ns: "errors" }),
+  unauthorized: i18n.t("errors.unauthorized", { ns: "errors" }),
+});
+
 export class TeamNotFoundError extends Error {
-  constructor(message = "Codice team non valido.") {
-    super(message);
+  constructor(message?: string) {
+    super(message ?? getErrorMessages().teamNotFound);
     this.name = "TeamNotFoundError";
   }
 }
 
 export class TeamNameExistsError extends Error {
-  constructor(message = "Esiste già un team con questo nome.") {
-    super(message);
+  constructor(message?: string) {
+    super(message ?? getErrorMessages().teamNameExists);
     this.name = "TeamNameExistsError";
   }
 }
 
 export class TeamFullError extends Error {
-  constructor(message = "Il team ha raggiunto il numero massimo di membri.") {
-    super(message);
+  constructor(message?: string) {
+    super(message ?? getErrorMessages().teamFull);
     this.name = "TeamFullError";
   }
 }
 
 export class TeamCreationError extends Error {
-  constructor(message = "Si è verificato un errore durante la creazione del team.") {
-    super(message);
+  constructor(message?: string) {
+    super(message ?? getErrorMessages().teamCreation);
     this.name = "TeamCreationError";
   }
 }
 
 export class TeamJoinError extends Error {
-  constructor(message = "Si è verificato un errore durante l'accesso al team.") {
-    super(message);
+  constructor(message?: string) {
+    super(message ?? getErrorMessages().teamJoin);
     this.name = "TeamJoinError";
   }
 }
 
 export class UnauthorizedError extends Error {
-  constructor(message = "Utente non autorizzato.") {
-    super(message);
+  constructor(message?: string) {
+    super(message ?? getErrorMessages().unauthorized);
     this.name = "UnauthorizedError";
   }
 }

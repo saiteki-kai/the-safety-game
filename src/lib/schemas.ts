@@ -1,37 +1,41 @@
 import { z } from "astro:schema";
+import i18n from "i18next";
 
-// Validation error messages
-const TEAM_NAME_MIN_ERROR = "Il nome del team deve contenere almeno 3 caratteri.";
-const TEAM_NAME_MAX_ERROR = "Il nome del team è troppo lungo.";
-const JOIN_CODE_ERROR = "Il codice deve essere esattamente di 6 caratteri alfanumerici.";
+// Helper to get translated validation messages
+const getValidationMessages = () => ({
+  teamNameMin: i18n.t("validation.teamNameMin", { ns: "forms" }),
+  teamNameMax: i18n.t("validation.teamNameMax", { ns: "forms" }),
+  joinCodeError: i18n.t("validation.joinCodeError", { ns: "forms" }),
+  promptEmpty: i18n.t("validation.promptEmpty", { ns: "forms" }),
+});
 
 export const teamNameSchema = z.object({
   teamName: z
     .string()
     .trim()
-    .min(3, TEAM_NAME_MIN_ERROR)
-    .max(20, TEAM_NAME_MAX_ERROR)
-    .nonempty({ message: TEAM_NAME_MIN_ERROR }),
+    .min(3, getValidationMessages().teamNameMin)
+    .max(20, getValidationMessages().teamNameMax)
+    .nonempty({ message: getValidationMessages().teamNameMin }),
 });
 
 export const joinCodeSchema = z.object({
   joinCode: z
     .string()
     .trim()
-    .nonempty({ message: JOIN_CODE_ERROR })
-    .length(6, { message: JOIN_CODE_ERROR })
-    .regex(/^[A-Za-z0-9]+$/, { message: JOIN_CODE_ERROR })
+    .nonempty({ message: getValidationMessages().joinCodeError })
+    .length(6, { message: getValidationMessages().joinCodeError })
+    .regex(/^[A-Za-z0-9]+$/, { message: getValidationMessages().joinCodeError })
     .transform((value) => value.toUpperCase()),
 });
 
 export const dailyPromptsSchema = z.object({
   teamId: z.string().uuid().nonempty(),
-  prompts: z.array(z.string().min(1, "Il prompt non può essere vuoto.")),
+  prompts: z.array(z.string().min(1, getValidationMessages().promptEmpty)),
 });
 
 export const finalPromptsSchema = z.object({
   teamId: z.string().uuid().nonempty(),
-  prompts: z.array(z.string().min(1, "Il prompt non può essere vuoto.")),
+  prompts: z.array(z.string().min(1, getValidationMessages().promptEmpty)),
 });
 
 export type CreateTeamInput = z.infer<typeof teamNameSchema>;

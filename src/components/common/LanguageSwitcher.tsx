@@ -5,6 +5,7 @@ import type { ImageMetadata } from "astro";
 import i18next from "i18next";
 import { ChevronDown } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import gbFlag from "@/assets/gb.svg";
 import itFlag from "@/assets/it.svg";
 import { Button } from "@/components/ui/button";
@@ -30,6 +31,7 @@ export interface LanguageSwitcherProps {
 }
 
 export default function LanguageSwitcher({ className }: LanguageSwitcherProps) {
+  const { t } = useTranslation("common");
   const [currentLocale, setCurrentLocale] = useState<string | null>(null);
   const [supported, setSupported] = useState<typeof LANGUAGES>([]);
 
@@ -70,7 +72,7 @@ export default function LanguageSwitcher({ className }: LanguageSwitcherProps) {
   return (
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className={cn(triggerClasses, className)} aria-label="Select language">
+        <Button variant="ghost" className={cn(triggerClasses, className)} aria-label={t("selectLanguage")}>
           <img src={current.flagSrc.src} alt={current.label} className="size-5 rounded-sm" />
           <span>{current.label}</span>
           <ChevronDown className="size-3 transition duration-300 data-[state=open]:rotate-180" />

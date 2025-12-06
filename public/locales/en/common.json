@@ -7,5 +7,17 @@
   "confirm": "Confirm",
   "back": "Back",
   "next": "Next",
-  "submit": "Submit"
+  "submit": "Submit",
+  "close": "Close",
+  "scrollToTop": "Scroll to top",
+  "selectLanguage": "Select language",
+  "pagination": {
+    "pageSize": "Page size",
+    "range": "{{from}} - {{to}} of {{total}}",
+    "pageOf": "Page {{page}} of {{total}}",
+    "first": "First",
+    "previous": "Previous",
+    "next": "Next",
+    "last": "Last"
+  }
 }

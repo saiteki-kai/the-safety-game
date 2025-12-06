@@ -38,6 +38,7 @@ const highlightConfig: Record<number, { row: string; icon?: { name: string; clas
 
 export default function LeaderboardTable({ emptyMessage }: { emptyMessage: string }) {
   const { t } = useTranslation("leaderboard");
+  const { t: tCommon } = useTranslation("common");
   const [leaderboard, setLeaderboard] = useState<Leaderboard[] | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<Error | null>(null);
@@ -49,7 +50,7 @@ export default function LeaderboardTable({ emptyMessage }: { emptyMessage: strin
       const data = await getLeaderboard(supabase);
       setLeaderboard(data);
     } catch (err: unknown) {
-      setError(err instanceof PostgrestError ? err : new Error("Unknown error"));
+      setError(err instanceof PostgrestError ? err : new Error(tCommon("error")));
       setLeaderboard([]);
     } finally {
       setLoading(false);

@@ -1,8 +1,8 @@
 "use client";
 
-import { navigationLinks } from "@/content/site-config";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Accordion } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import { NavigationMenu, NavigationMenuList } from "@/components/ui/navigation-menu";
@@ -13,6 +13,9 @@ import LanguageSwitcher, { LanguageSwitcherMobile } from "./LanguageSwitcher";
 import type { MenuItem } from "./NavigationParts";
 import { renderMenuItem, renderMobileMenuItem } from "./NavigationParts";
 import NavLogo from "./NavLogo";
+
+// Section IDs that map to translation keys in sections.json
+const sectionIds = ["challenge", "instructions", "participate", "dates", "leaderboard", "team", "faq"] as const;
 
 export interface NavbarProps {
   logo?: {
@@ -29,31 +32,35 @@ export interface NavbarProps {
   isIndexPage?: boolean;
 }
 
-const defaultMenu: MenuItem[] = navigationLinks.map((link) => ({
-  title: link.label,
-  url: link.href,
-}));
-
 export default function Navigation({
   logo = {
     url: localizeUrl("/home"),
     alt: "Logo",
     title: "The Safety Game",
   },
-  menu = defaultMenu,
+  menu,
   actions = undefined,
   actionsMobile = undefined,
   activeSection = null,
   navOpacity = 0,
   isIndexPage = false,
 }: NavbarProps) {
+  const { t } = useTranslation("nav");
+  const { t: tSections } = useTranslation("sections");
   const [open, setOpen] = useState(false);
   const isOpaque = navOpacity >= 0.5;
+
+  // Build default menu with translated labels
+  const defaultMenu: MenuItem[] = sectionIds.map((id) => ({
+    title: tSections(id),
+    url: `#${id}`,
+  }));
+  const menuItems = menu ?? defaultMenu;
 
   return (
     <>
       <a href="#main-content" className="sr-only focus:not-sr-only focus:inline-block">
-        Salta al contenuto principale
+        {t("skipToContent")}
       </a>
       <section
         className={cn(
@@ -80,7 +87,7 @@ export default function Navigation({
               <div className="flex items-center">
                 <NavigationMenu>
                   <NavigationMenuList>
-                    {menu.map((item) => renderMenuItem(item, activeSection ?? undefined, isOpaque))}
+                    {menuItems.map((item) => renderMenuItem(item, activeSection ?? undefined, isOpaque))}
                   </NavigationMenuList>
                 </NavigationMenu>
               </div>
@@ -100,7 +107,7 @@ export default function Navigation({
                 "rounded-full border-0 text-violet-200 shadow-sm transition-all duration-200 hover:bg-violet-800/40 hover:text-violet-200",
                 navOpacity > 0 ? "bg-black/50" : "bg-transparent",
               )}
-              aria-label={open ? "Chiudi il menu" : "Apri il menu"}
+              aria-label={open ? t("closeMenu") : t("openMenu")}
               aria-expanded={open}
             >
               <Menu className={open ? "hidden" : "size-4"} />
@@ -114,7 +121,7 @@ export default function Navigation({
               <div className="px-4 md:container md:mx-auto">
                 <div className="flex flex-col">
                   <Accordion type="single" collapsible className="mb-3 w-full">
-                    {menu.map((item) =>
+                    {menuItems.map((item) =>
                       renderMobileMenuItem(
                         item,
                         () => setOpen(false),
