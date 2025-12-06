@@ -32,6 +32,7 @@ export default function LanguageSwitcher({ className }: LanguageSwitcherProps) {
   const { t } = useTranslation("common");
   const [currentLocale, setCurrentLocale] = useState<string | null>(null);
   const [supported, setSupported] = useState<typeof LANGUAGES>([]);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     const supportedLngs = (i18next.options?.supportedLngs as string[] | undefined) || [];
@@ -41,6 +42,7 @@ export default function LanguageSwitcher({ className }: LanguageSwitcherProps) {
     if (available.length > 0) {
       setCurrentLocale(i18next.language || available[0].code);
     }
+    setMounted(true);
   }, []);
 
   const handleLanguageChange = async (locale: string) => {
@@ -59,8 +61,8 @@ export default function LanguageSwitcher({ className }: LanguageSwitcherProps) {
     }
   };
 
-  // Don't render if no supported languages or locale not initialized
-  if (supported.length === 0 || !currentLocale) {
+  // Don't render if no supported languages or locale not initialized (prevents hydration mismatch)
+  if (!mounted || supported.length === 0 || !currentLocale) {
     return null;
   }
 
@@ -104,6 +106,7 @@ export default function LanguageSwitcher({ className }: LanguageSwitcherProps) {
 export function LanguageSwitcherMobile({ className }: LanguageSwitcherProps) {
   const [currentLocale, setCurrentLocale] = useState<string | null>(null);
   const [supported, setSupported] = useState<typeof LANGUAGES>([]);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     const supportedLngs = (i18next.options?.supportedLngs as string[] | undefined) || [];
@@ -113,6 +116,7 @@ export function LanguageSwitcherMobile({ className }: LanguageSwitcherProps) {
     if (available.length > 0) {
       setCurrentLocale(i18next.language || available[0].code);
     }
+    setMounted(true);
   }, []);
 
   const handleLanguageChange = async (locale: string) => {
@@ -131,7 +135,8 @@ export function LanguageSwitcherMobile({ className }: LanguageSwitcherProps) {
     }
   };
 
-  if (supported.length === 0 || !currentLocale) {
+  // Don't render if no supported languages or locale not initialized (prevents hydration mismatch)
+  if (!mounted || supported.length === 0 || !currentLocale) {
     return null;
   }
 

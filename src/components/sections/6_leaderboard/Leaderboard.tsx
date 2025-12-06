@@ -2,7 +2,7 @@ import Icon from "@components/common/Icon";
 import IconLabel from "@components/common/IconLabel";
 import { PostgrestError } from "@supabase/supabase-js";
 import i18next from "i18next";
-import { useEffect, useEffectEvent, useState } from "react";
+import { useMemo, useEffect, useEffectEvent, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { getLeaderboard } from "@/db/submissions";
 import type { IconName } from "@/lib/icons";
@@ -39,6 +39,9 @@ const highlightConfig: Record<number, { row: string; icon?: { name: string; clas
 export default function LeaderboardTable({ emptyMessage }: { emptyMessage: string }) {
   const { t } = useTranslation("leaderboard");
   const { t: tCommon } = useTranslation("common");
+  
+  const supabaseClient = useMemo(() => browserClient(), []);
+  
   const [leaderboard, setLeaderboard] = useState<Leaderboard[] | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<Error | null>(null);
@@ -47,7 +50,7 @@ export default function LeaderboardTable({ emptyMessage }: { emptyMessage: strin
     setLoading(true);
     setError(null);
     try {
-      const data = await getLeaderboard(supabase);
+      const data = await getLeaderboard(supabaseClient);
       setLeaderboard(data);
     } catch (err: unknown) {
       setError(err instanceof PostgrestError ? err : new Error(tCommon("error")));
@@ -60,7 +63,7 @@ export default function LeaderboardTable({ emptyMessage }: { emptyMessage: strin
   useEffect(() => {
     fetchData();
 
-    const channel = supabase
+    const channel = supabaseClient
       .channel("submission_channel")
       .on(
         "postgres_changes",
@@ -74,9 +77,9 @@ export default function LeaderboardTable({ emptyMessage }: { emptyMessage: strin
       .subscribe();
 
     return () => {
-      supabase.removeChannel(channel);
+      supabaseClient.removeChannel(channel);
     };
-  }, []);
+  }, [supabaseClient, fetchData]);
 
   const isEmpty = !loading && (!leaderboard || leaderboard.length === 0) && !error;
 
