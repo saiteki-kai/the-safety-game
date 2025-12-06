@@ -1,13 +1,15 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@components/ui/avatar";
 import type { Profile } from "@/lib/supabase.types";
+import { useTranslation } from "react-i18next";
 
 type MemberItemProps = {
   member: Profile | null;
 };
 
 export default function MemberItem({ member }: MemberItemProps) {
+  const { t } = useTranslation("dashboard");
   const isPlaceholder = member === null;
-  const displayName = isPlaceholder ? "Slot disponibile" : member?.full_name?.trim?.() || "?";
+  const displayName = isPlaceholder ? t("team.availableSlot") : member?.full_name?.trim?.() || "?";
   const initials = isPlaceholder ? " " : (displayName.charAt(0) ?? "").toUpperCase();
 
   return (

@@ -1,5 +1,6 @@
 import { Check, Copy } from "lucide-react";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 
 type JoinCodeButtonProps = {
@@ -7,13 +8,14 @@ type JoinCodeButtonProps = {
 };
 
 export default function JoinCodeButton({ teamJoinCode }: JoinCodeButtonProps) {
+  const { t } = useTranslation("dashboard");
   const [isJoinCodeCopied, setJoinCodeCopied] = useState(false);
 
   const onClick = async () => {
     try {
       await navigator.clipboard.writeText(teamJoinCode);
       setJoinCodeCopied(true);
-      toast.success("Codice copiato negli appunti", {
+      toast.success(t("team.codeCopied"), {
         duration: 2000,
         position: "top-center",
         id: "copy-join-code-success",
@@ -21,7 +23,7 @@ export default function JoinCodeButton({ teamJoinCode }: JoinCodeButtonProps) {
       setTimeout(() => setJoinCodeCopied(false), 2000);
     } catch (err) {
       console.error("Failed to copy join code to clipboard", err);
-      toast.error("Impossibile copiare il codice negli appunti", {
+      toast.error(t("team.codeCopyFailed"), {
         duration: 2000,
         position: "top-center",
         id: "copy-join-code-failure",
@@ -33,7 +35,7 @@ export default function JoinCodeButton({ teamJoinCode }: JoinCodeButtonProps) {
     <button
       type="button"
       onClick={onClick}
-      aria-label="Copia codice invito"
+      aria-label={t("team.copyInviteCode")}
       className="group flex w-full items-center justify-center gap-2 rounded-md bg-sky-50 px-4 py-2 font-mono font-semibold text-base text-sky-900 ring-1 ring-sky-200 transition-all hover:bg-sky-100 hover:shadow-sm hover:ring-sky-300"
     >
       <span className="tracking-widest">{teamJoinCode}</span>
@@ -42,7 +44,7 @@ export default function JoinCodeButton({ teamJoinCode }: JoinCodeButtonProps) {
       ) : (
         <Copy className="h-4 w-4 text-sky-600 transition-transform group-hover:scale-110" aria-hidden="true" />
       )}
-      <span className="sr-only">Copia il codice invito</span>
+      <span className="sr-only">{t("team.copyInviteCode")}</span>
     </button>
   );
 }

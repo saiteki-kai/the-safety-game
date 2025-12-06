@@ -40,6 +40,16 @@
   "leaderboardRank": "Posto in Classifica",
   "chatgptBeaten": "ChatGPT Superato",
   "chatgptToBeat": "ChatGPT da superare",
+  "team": {
+    "availableSlot": "Slot disponibile",
+    "codeCopied": "Codice copiato negli appunti",
+    "codeCopyFailed": "Impossibile copiare il codice negli appunti",
+    "copyInviteCode": "Copia codice invito"
+  },
+  "status": {
+    "goTo": "Vai →",
+    "goToLabel": "Vai a {{label}}"
+  },
   "final": {
     "title": "Consegna Finale",
     "description": "Carica i tuoi {{count}} prompt finali per la valutazione ufficiale. Questa submission sarà usata per la classifica finale della competizione.",
@@ -118,6 +128,7 @@
     "zeroPromptsMessage": "Attenzione: nessun prompt nel file. Carica almeno un prompt",
     "duplicatesBlockMessage": "Duplicati trovati. Rimuovili prima di inviare.",
     "duplicatesWarnMessage": "Duplicati trovati. Saranno scartati durante l'invio.",
+    "errorLabel": "Errore:",
     "errors": {
       "fileTooLarge": "File troppo grande. Max 20 MB",
       "readError": "Errore durante la lettura del file.",

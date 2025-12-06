@@ -7,6 +7,7 @@ import { AlertTriangle, FileSpreadsheet, Info as InfoIcon, Trash2 } from "lucide
 import type React from "react";
 import type { ChangeEvent, DragEvent } from "react";
 import { useRef, useState } from "react";
+import i18n from "i18next";
 import { useTranslation } from "react-i18next";
 
 import { hasDuplicates, isTextFile, MAX_FILE_BYTES, parseFile, getUploadErrors } from "./upload-utils";
@@ -229,13 +230,15 @@ interface ErrorBannerProps {
 }
 
 function ErrorBanner({ message }: ErrorBannerProps) {
+  const { t } = useTranslation("dashboard");
+
   return (
     <output
       aria-live="polite"
       className="-translate-x-1/2 absolute bottom-3 left-1/2 z-10 inline-flex items-center gap-2 rounded-full bg-red-600 px-3 py-1 text-sm text-white shadow"
     >
       <AlertTriangle className="h-4 w-4 shrink-0 text-white" />
-      <span className="sr-only">Errore: </span>
+      <span className="sr-only">{t("upload.errorLabel")} </span>
       <span>{message}</span>
     </output>
   );
@@ -492,9 +495,9 @@ export function UploadCard({
       if (mapped.length > 0 && hasDuplicates(mapped)) {
         setHasDuplicatesInFile(true);
         if (blockOnDuplicates) {
-          setWarning("Duplicati trovati. Rimuovili prima di inviare.");
+          setWarning(i18n.t("upload.duplicatesBlockMessage", { ns: "dashboard" }));
         } else {
-          setWarning("Duplicati trovati. Saranno scartati durante l'invio.");
+          setWarning(i18n.t("upload.duplicatesWarnMessage", { ns: "dashboard" }));
         }
       }
     } catch (err) {

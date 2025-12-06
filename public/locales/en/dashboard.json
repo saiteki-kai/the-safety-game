@@ -40,6 +40,16 @@
   "leaderboardRank": "Leaderboard Rank",
   "chatgptBeaten": "ChatGPT Beaten",
   "chatgptToBeat": "ChatGPT to beat",
+  "team": {
+    "availableSlot": "Available slot",
+    "codeCopied": "Code copied to clipboard",
+    "codeCopyFailed": "Failed to copy code to clipboard",
+    "copyInviteCode": "Copy invite code"
+  },
+  "status": {
+    "goTo": "Go →",
+    "goToLabel": "Go to {{label}}"
+  },
   "final": {
     "title": "Final Submission",
     "description": "Upload your {{count}} final prompts for official evaluation. This submission will be used for the final competition ranking.",
@@ -118,6 +128,7 @@
     "zeroPromptsMessage": "Warning: no prompts in the file. Upload at least one prompt",
     "duplicatesBlockMessage": "Duplicates found. Remove them before submitting.",
     "duplicatesWarnMessage": "Duplicates found. They will be discarded during submission.",
+    "errorLabel": "Error:",
     "errors": {
       "fileTooLarge": "File too large. Max 20 MB",
       "readError": "Error reading the file.",
