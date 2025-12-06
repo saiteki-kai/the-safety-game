@@ -7,6 +7,7 @@ import PageLayout from "@layouts/PageLayout.astro";
 import DashboardNav from "@/components/common/DashboardNav";
 import TeamSetupPanel from "@/components/setup/TeamSetupPanel";
 import { getTeamByUserId } from "@/db/teams";
+import { localizeUrl } from "@/lib/i18n";
 import { serverClient } from "@/lib/supabase";
 
 const supabase = serverClient(Astro);

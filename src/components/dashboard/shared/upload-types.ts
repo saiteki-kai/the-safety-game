@@ -1,4 +1,4 @@
-import { MAX_DAILY_PROMPTS, MAX_FINAL_PROMPTS } from "@/lib/consts";
+import { MAX_DAILY_PROMPTS, MAX_FINAL_PROMPTS } from "@/content/consts";
 
 import type { UploadCardConfig, UploadCardLabels } from "./UploadCard";
 

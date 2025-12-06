@@ -1,7 +1,7 @@
 import { actions } from "astro:actions";
 import { AlertTriangle, CheckCircle, Trophy } from "lucide-react";
 import { useState } from "react";
-import { MAX_FINAL_PROMPTS } from "@/lib/consts";
+import { MAX_FINAL_PROMPTS } from "@/content/consts";
 import { finalUploadConfig, UploadCard } from "../../shared";
 
 interface FinalSubmissionSectionProps {
