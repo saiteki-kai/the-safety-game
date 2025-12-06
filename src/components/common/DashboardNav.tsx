@@ -11,9 +11,9 @@ type DashboardNavProps = {
   menu?: MenuItem[];
 };
 
-const defaultMenu: MenuItem[] = [{ title: "Home", url: localizeUrl("/home") }];
 
-export default function DashboardNav({ profile, menu = defaultMenu }: DashboardNavProps) {
+export default function DashboardNav({ profile, menu }: DashboardNavProps) {
+  const defaultMenu: MenuItem[] = [{ title: "Home", url: localizeUrl("/home") }];
   const logo = { url: localizeUrl("/home"), alt: "Logo", title: "The Safety Game" };
 
   const actions = <AccountMenu profile={profile} />;
@@ -22,7 +22,7 @@ export default function DashboardNav({ profile, menu = defaultMenu }: DashboardN
   return (
     <Navigation
       logo={logo}
-      menu={menu}
+      menu={menu ?? defaultMenu}
       actions={actions}
       actionsMobile={actionsMobile}
       activeSection={null}
