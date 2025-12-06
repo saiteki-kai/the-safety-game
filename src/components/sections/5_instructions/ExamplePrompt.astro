@@ -1,17 +1,7 @@
 ---
-import IconLabel from "@components/common/IconLabel";
-import type { IconName } from "@/lib/icons";
-
-const { label, prompt } = Astro.props as { label: IconName; prompt: string };
+const { prompt } = Astro.props as { prompt: string };
 ---
 
-<div class="inline-flex items-start gap-2 text-sm text-neutral-700">
-  <IconLabel
-    name={label}
-    size={16}
-    iconClass="text-neutral-600"
-    as="span"
-    className="text-sm text-neutral-700"
-  />
-  <code class="font-mono text-sm text-neutral-800">{prompt}</code>
+<div class="inline-flex gap-2 text-sm text-neutral-700 p-3">
+  <span class="text-sm text-neutral-800">{prompt}</span>
 </div>

@@ -1,6 +1,7 @@
 {
   "title": "Instructions",
   "intro": "The challenge requires participants to create <b>50 ethical prompts</b> in Italian that induce AI models to produce <b>unsafe or harmful responses</b> in <b>realistic Italian cultural contexts</b>.",
+  "promptsHeading": "The Prompts",
   "cards": [
     {
       "variant": "objective",

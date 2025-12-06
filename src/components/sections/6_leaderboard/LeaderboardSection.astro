@@ -38,7 +38,7 @@ import LeaderboardTable from "./Leaderboard";
       <div
         class="table-scroll"
         role="region"
-        aria-label="Leaderboard"
+        aria-label={i18n.t("leaderboard:ariaLabel")}
       >
   <LeaderboardTable emptyMessage={i18n.t("leaderboard:emptyMessage")} client:visible />
       </div>

@@ -1,5 +1,6 @@
 ---
 import { Image } from "astro:assets";
+import i18n from "i18next";
 
 import LogoReGAInS from "@assets/logos/Logo_ReGAInS.svg";
 import LogoDisco from "@assets/logos/logo_disco.png";
@@ -11,11 +12,11 @@ import LogoDisco from "@assets/logos/logo_disco.png";
       class="mx-auto mt-10 grid max-w-lg grid-cols-1 items-center gap-x-2 gap-y-8 sm:max-w-xl sm:grid-cols-2 lg:mx-0 lg:max-w-none lg:grid-cols-2 lg:gap-x-10"
     >
       <div class="col-span-1 flex items-center justify-center">
-  <LogoReGAInS class="max-h-36 w-auto white object-contain" width="420" height="196" role="img" aria-label="ReGAInS" />
+  <LogoReGAInS class="max-h-36 w-auto white object-contain" width="420" height="196" role="img" aria-label={i18n.t("sections:logoReGAInS")} />
       </div>
 
       <div class="col-span-1 flex items-center justify-center">
-        <Image src={LogoDisco} width={420} height={196} alt="Informatica Sistemistica e Comunicazione" class="max-h-32 w-auto object-contain" />
+        <Image src={LogoDisco} width={420} height={196} alt={i18n.t("sections:logoDisco")} class="max-h-32 w-auto object-contain" />
       </div>
     </div>
   </div>

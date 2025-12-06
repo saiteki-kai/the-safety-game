@@ -1,5 +1,8 @@
 {
   "title": "The Safety Game",
+  "titleThe": "The",
+  "titleSafety": "Safety",
+  "titleGame": "Game",
   "description": "Metti alla prova la tua creatività, la tua logica e la tua conoscenza dell'IA in una competizione di prompt engineering etico.",
   "kicker": "AI Safety Challenge",
   "cta": "Riuscirai a battere ChatGPT?",

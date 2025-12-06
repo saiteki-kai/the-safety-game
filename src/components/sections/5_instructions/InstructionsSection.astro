@@ -28,8 +28,12 @@ interface InstructionExampleGroup {
   prompts: readonly InstructionExamplePrompt[];
 }
 
-const cards = i18n.t("instructions:cards", { returnObjects: true }) as InstructionCard[];
-const exampleGroups = i18n.t("instructions:exampleGroups", { returnObjects: true }) as InstructionExampleGroup[];
+const cards = i18n.t("instructions:cards", {
+  returnObjects: true,
+}) as InstructionCard[];
+const exampleGroups = i18n.t("instructions:exampleGroups", {
+  returnObjects: true,
+}) as InstructionExampleGroup[];
 
 const cardStyleMap: Record<
   InstructionCardVariant,
@@ -37,9 +41,23 @@ const cardStyleMap: Record<
     borderClass: string;
     borderColor?: string;
     backgroundColor: string;
-    headingIcon: "lightbulb" | "circle-check" | "circle-x" | "triangle-alert" | "star" | "dot" | "form";
+    headingIcon:
+      | "lightbulb"
+      | "circle-check"
+      | "circle-x"
+      | "triangle-alert"
+      | "star"
+      | "dot"
+      | "form";
     headingIconClass: string;
-    itemIcon?: "lightbulb" | "circle-check" | "circle-x" | "triangle-alert" | "star" | "dot" | "form";
+    itemIcon?:
+      | "lightbulb"
+      | "circle-check"
+      | "circle-x"
+      | "triangle-alert"
+      | "star"
+      | "dot"
+      | "form";
     itemIconClass?: string;
     contentTextClass?: string;
   }
@@ -125,69 +143,63 @@ const exampleStyleMap: Record<
   sectionClass="bg-white"
 >
   <div class="instructions-grid">
-		{
-			cards.map((card, idx) => {
-				const style = cardStyleMap[card.variant] ?? cardStyleMap.warning;
-				const textClass = style.contentTextClass ?? "text-neutral-700";
-				const thicknessClass = idx < 2 ? "border-2" : "border";
-				const colorClass = style.borderClass ?? "border-neutral-300";
-				const borderClass = `${colorClass} ${thicknessClass}`.trim();
+    {
+      cards.map((card, idx) => {
+        const style = cardStyleMap[card.variant] ?? cardStyleMap.warning;
+        const textClass = style.contentTextClass ?? "text-neutral-700";
+        const thicknessClass = idx < 2 ? "border-2" : "border";
+        const colorClass = style.borderClass ?? "border-neutral-300";
+        const borderClass = `${colorClass} ${thicknessClass}`.trim();
 
-				let inlineStyle = `background-color: ${style.backgroundColor};`;
-				if (idx < 2) {
-					const cssBorderColor = style.borderColor ?? "var(--surface-300)";
-					inlineStyle += ` border: 2px solid ${cssBorderColor};`;
-				}
+        let inlineStyle = `background-color: ${style.backgroundColor};`;
+        if (idx < 2) {
+          const cssBorderColor = style.borderColor ?? "var(--surface-300)";
+          inlineStyle += ` border: 2px solid ${cssBorderColor};`;
+        }
 
         // allow per-card icon override (e.g. card.icon = "form")
         let headingIcon = (card as any).icon ?? style.headingIcon;
         // special-case: use a checklist/form icon for the Requisiti card
-        if (typeof card.title === "string" && card.title.toLowerCase().includes("requisit")) {
+        if (
+          typeof card.title === "string" &&
+          card.title.toLowerCase().includes("requisit")
+        ) {
           headingIcon = "form";
         }
 
-				return (
-					<Card
-						class=""
-						innerClass="p-6"
-						borderClass={borderClass}
-						label={card.title}
+        return (
+          <Card
+            class=""
+            innerClass="p-6"
+            borderClass={borderClass}
+            label={card.title}
             icon={headingIcon}
-						iconClass={style.headingIconClass}
-						labelClass="text-lg font-semibold"
-						style={inlineStyle}
-					>
-              {card.description ? (
-                <p class={`text-sm leading-relaxed ${textClass}`} set:html={card.description} />
-              ) : null}
+            iconClass={style.headingIconClass}
+            labelClass="text-lg font-semibold"
+            style={inlineStyle}
+          >
+            {card.description ? (
+              <p
+                class={`text-sm leading-relaxed ${textClass}`}
+                set:html={card.description}
+              />
+            ) : null}
 
-							{card.items && card.items.length > 0 ? (
-								<ul class="space-y-3">
-									{card.items.map((item) => (
-										<li
-											class={`icon-list-item ${style.itemIcon ? "" : textClass}`}
-										>
-											{style.itemIcon ? (
-                        <IconLabel
-                          name={style.itemIcon}
-                          size={20}
-                          iconClass={`${style.itemIconClass} shrink-0`}
-                          as="span"
-                          className={textClass}
-                        >
-                          {item}
-                        </IconLabel>
-											) : (
-												item
-											)}
-										</li>
-									))}
-								</ul>
-							) : null}
-					</Card>
-				);
-			})
-		}
+            {card.items && card.items.length > 0 ? (
+              <ul class="space-y-3">
+                {card.items.map((item) => (
+                  <li
+                    class={`icon-list-item ${style.itemIcon ? "" : textClass}`}
+                  >
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            ) : null}
+          </Card>
+        );
+      })
+    }
   </div>
 
   <div class="mx-auto space-y-6">
@@ -198,7 +210,7 @@ const exampleStyleMap: Record<
       as="h3"
       className="examples-heading"
     >
-      I Prompt
+      {i18n.t("instructions:promptsHeading")}
     </IconLabel>
 
     {

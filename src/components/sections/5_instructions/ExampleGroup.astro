@@ -29,8 +29,8 @@ const { group, style } = Astro.props as {
 
     <div class="w-full space-y-3">
       {group.prompts.map((p) => (
-        <div class="code-snippet">
-          <ExamplePrompt label={p.label} prompt={p.prompt} />
+        <div class="rounded-md bg-white border border-neutral-200">
+          <ExamplePrompt prompt={p.prompt} />
         </div>
       ))}
     </div>
