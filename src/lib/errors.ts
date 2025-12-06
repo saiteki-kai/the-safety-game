@@ -1,5 +1,3 @@
-import i18n from "i18next";
-
 export class TeamNotFoundError extends Error {
   constructor(message = "Team not found") {
     super(message);

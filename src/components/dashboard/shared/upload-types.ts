@@ -1,5 +1,4 @@
 import i18n from "i18next";
-import i18next from "node_modules/i18next";
 import { MAX_DAILY_PROMPTS, MAX_FINAL_PROMPTS } from "@/content/consts";
 import type { UploadCardConfig, UploadCardLabels } from "./UploadCard";
 
