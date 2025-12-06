@@ -1,5 +1,3 @@
-"use client";
-
 import { LayoutDashboard } from "lucide-react";
 import type { ReactElement } from "react";
 import useHomeActiveSection from "@/hooks/useActiveSection";

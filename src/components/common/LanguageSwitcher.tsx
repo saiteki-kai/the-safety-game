@@ -1,5 +1,3 @@
-"use client";
-
 import { navigate } from "astro:transitions/client";
 import type { ImageMetadata } from "astro";
 import i18next from "i18next";

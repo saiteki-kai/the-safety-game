@@ -1,5 +1,3 @@
-"use client";
-
 import { localizeUrl } from "@/lib/i18n";
 import type { Profile } from "@/lib/supabase.types";
 import AccountMenu, { AccountMenuMobile } from "./AccountMenu";

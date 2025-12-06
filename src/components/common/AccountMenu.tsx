@@ -1,5 +1,3 @@
-"use client";
-
 import { navigate } from "astro:transitions/client";
 import { ChevronDown, LogIn, LogOut } from "lucide-react";
 import type { MouseEventHandler, ReactElement } from "react";
