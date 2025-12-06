@@ -12,7 +12,11 @@ import i18n from "i18next";
 >
   <div class="space-y-8">
     <div class="py-8">
-      <p class="gradient-text text-center text-3xl sm:text-4xl font-semibold mb-0">{i18n.t("challenge:tagline")}</p>
+      <p
+        class="gradient-text text-center text-3xl sm:text-4xl font-semibold mb-0"
+      >
+        {i18n.t("challenge:tagline")}
+      </p>
     </div>
 
     <Card
@@ -23,17 +27,16 @@ import i18n from "i18next";
     >
       <div class="space-y-2">
         {
-          i18n.t("challenge:what")
+          i18n
+            .t("challenge:what")
             .split(/(?<=[.!?])\s+/)
             .map((sentence: string) => {
-              return (
-                <p class="text-neutral-700 leading-relaxed">{sentence}</p>
-              );
+              return <p class="text-neutral-700 leading-relaxed">{sentence}</p>;
             })
         }
       </div>
     </Card>
-    
+
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
       <Card
         class="p-6"
@@ -56,26 +59,33 @@ import i18n from "i18next";
           {i18n.t("challenge:participation")}
         </p>
       </Card>
-      
+
       <Card
         class="p-6"
         label={i18n.t("challenge:prizesLabel")}
         icon="trophy"
         iconClass="text-amber-600 shrink-0"
       >
-        <p class="text-neutral-700 leading-relaxed" set:html={i18n.t("challenge:prizesDescription")}></p>
+        <p
+          class="text-neutral-700 leading-relaxed"
+          set:html={i18n.t("challenge:prizesDescription")}
+        />
       </Card>
     </div>
-    
+
     <Card
       class="p-6"
-      label={i18n.t("challenge:aiLabel")}
+      label={i18n.t("challenge:llmLabel")}
       icon="ai"
       iconClass="text-blue-600 shrink-0"
     >
       <div class="space-y-4">
         {
-          (i18n.t("challenge:introduction", { returnObjects: true }) as { content: string; }[]).map((paragraph) => (
+          (
+            i18n.t("challenge:introduction", { returnObjects: true }) as {
+              content: string;
+            }[]
+          ).map((paragraph) => (
             <p class="text-neutral-700 leading-relaxed">{paragraph.content}</p>
           ))
         }

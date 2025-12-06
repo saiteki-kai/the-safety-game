@@ -1,36 +1,26 @@
 {
   "title": "Important Dates",
   "emptyMessage": "More updates coming soon.",
-  "timeline": [
-    {
-      "date": "November 1, 2025",
+  "events": {
+    "registrationOpens": {
       "title": "Registration Opens",
-      "description": "The registration phase for participating teams begins.",
-      "status": "completed"
+      "description": "The registration phase for participating teams begins."
     },
-    {
-      "date": "November 18, 2025",
+    "introductoryWebinar": {
       "title": "Introductory Webinar",
-      "description": "Online session introducing the rules and platform.",
-      "status": "upcoming"
+      "description": "Online session introducing the rules and platform."
     },
-    {
-      "date": "November 20, 2025",
+    "challengeStarts": {
       "title": "Challenge Starts",
-      "description": "The competition officially begins! The playground is activated.",
-      "status": "upcoming"
+      "description": "The competition officially begins! The playground is activated."
     },
-    {
-      "date": "November 30, 2025",
+    "challengeEnds": {
       "title": "Challenge Ends",
-      "description": "Last day to submit prompts. Closes at 11:59 PM.",
-      "status": "upcoming"
+      "description": "Last day to submit prompts. Closes at 11:59 PM."
     },
-    {
-      "date": "December 5, 2025",
+    "winnerAnnouncement": {
       "title": "Winner Announcement",
-      "description": "Final event with leaderboard presentation and awards.",
-      "status": "upcoming"
+      "description": "Final event with leaderboard presentation and awards."
     }
-  ]
+  }
 }

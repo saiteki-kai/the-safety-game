@@ -1,36 +1,26 @@
 {
   "title": "Date Importanti",
   "emptyMessage": "Altre date in arrivo.",
-  "timeline": [
-    {
-      "date": "1 Novembre 2025",
+  "events": {
+    "registrationOpens": {
       "title": "Apertura Registrazioni",
-      "description": "Inizia la fase di registrazione per i team partecipanti.",
-      "status": "completed"
+      "description": "Inizia la fase di registrazione per i team partecipanti."
     },
-    {
-      "date": "18 Novembre 2025",
+    "introductoryWebinar": {
       "title": "Webinar Introduttivo",
-      "description": "Sessione online di introduzione alle regole e alla piattaforma.",
-      "status": "upcoming"
+      "description": "Sessione online di introduzione alle regole e alla piattaforma."
     },
-    {
-      "date": "20 Novembre 2025",
+    "challengeStarts": {
       "title": "Inizio Challenge",
-      "description": "Parte ufficialmente la competizione! Il playground si attiva.",
-      "status": "upcoming"
+      "description": "Parte ufficialmente la competizione! Il playground si attiva."
     },
-    {
-      "date": "30 Novembre 2025",
+    "challengeEnds": {
       "title": "Fine Challenge",
-      "description": "Ultimo giorno per sottomettere i prompt. Chiusura alle 23:59.",
-      "status": "upcoming"
+      "description": "Ultimo giorno per sottomettere i prompt. Chiusura alle 23:59."
     },
-    {
-      "date": "5 Dicembre 2025",
+    "winnerAnnouncement": {
       "title": "Premiazione Vincitori",
-      "description": "Evento finale con presentazione della classifica e premiazione.",
-      "status": "upcoming"
+      "description": "Evento finale con presentazione della classifica e premiazione."
     }
-  ]
+  }
 }

@@ -1,19 +1,44 @@
 ---
 import SectionLayout from "@layouts/SectionLayout.astro";
 import i18n from "i18next";
+import {
+  TIMELINE_EVENTS,
+  type TimelineEntry,
+  type TimelineStatus,
+} from "@/content/timeline";
 import TimelineItem from "./TimelineItem.astro";
 
-type TimelineStatus = "completed" | "upcoming";
+const now = new Date();
+const computeStatus = (eventDate: Date): TimelineStatus => {
+  return eventDate <= now ? "completed" : "upcoming";
+};
 
-interface TimelineEntry {
-  date: string;
-  time?: string;
-  title: string;
-  description: string;
-  status: TimelineStatus;
-}
+// Format date using Intl API
+const formatDate = (date: Date): string => {
+  try {
+    return new Intl.DateTimeFormat(i18n.language, {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    }).format(date);
+  } catch {
+    return date.toISOString().split("T")[0];
+  }
+};
 
-const timeline = i18n.t("dates:timeline", { returnObjects: true }) as TimelineEntry[];
+const eventContent = i18n.t("dates:events", { returnObjects: true });
+
+const timeline: TimelineEntry[] = TIMELINE_EVENTS.map((event) => {
+  const content = eventContent[event.key] || { title: "", description: "" };
+
+  return {
+    date: formatDate(event.date),
+    time: event.time,
+    title: content.title,
+    description: content.description,
+    status: computeStatus(event.date),
+  };
+});
 
 // Status configuration
 const STATUS_CONFIG: Record<
@@ -45,12 +70,18 @@ const getEntryConfig = (status: TimelineStatus) => ({
 });
 ---
 
-<SectionLayout id="dates" title={i18n.t("dates:title")} sectionClass="section-gradient">
+<SectionLayout
+  id="dates"
+  title={i18n.t("dates:title")}
+  sectionClass="section-gradient"
+>
   <div class="relative mx-auto max-w-3xl">
     <ol class="relative pl-6 sm:pl-10" role="list">
       {
         timeline.length === 0 ? (
-          <li class="text-sm text-neutral-500">{i18n.t("dates:emptyMessage")}</li>
+          <li class="text-sm text-neutral-500">
+            {i18n.t("dates:emptyMessage")}
+          </li>
         ) : (
           timeline.map((entry, index) => {
             const config = getEntryConfig(entry.status);
