@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { STOP_SUBMISSIONS_DATE } from "@/content/consts.ts";
 import { useLeaderboardPosition } from "@/hooks/useLeaderboardPosition.tsx";
@@ -19,6 +20,25 @@ export default function TeamDashboardView({ team }: TeamDashboardViewProps) {
   const { members } = useTeamMembers(supabase, team.id);
   const { submissions } = useTeamSubmissions(supabase, team.id);
   const { position: leaderboardPosition } = useLeaderboardPosition(supabase, team.id);
+  const { t } = useTranslation("dashboard");
+
+  // State for time-based values to prevent hydration mismatch
+  const [challengeDaysRemaining, setChallengeDaysRemaining] = useState<number>(0);
+  const [dailySubmissionsDone, setDailySubmissionsDone] = useState<boolean>(false);
+
+  // Update time-dependent values on client-side only
+  useEffect(() => {
+    const remaining =
+      Date.now() < STOP_SUBMISSIONS_DATE.getTime()
+        ? Math.ceil((STOP_SUBMISSIONS_DATE.getTime() - Date.now()) / (1000 * 60 * 60 * 24))
+        : 0;
+    setChallengeDaysRemaining(remaining);
+
+    // Recalculate daily submissions done based on current time
+    const dailySubmissionsSent = submissions?.filter((s) => isToday(s.date) && !!s.playground) ?? [];
+    const isDone = dailySubmissionsSent.some((s) => !!s.score) ?? false;
+    setDailySubmissionsDone(isDone);
+  }, [submissions]);
 
   const teamName = team?.name ?? "Team";
   const teamJoinCode = team?.join_code?.toUpperCase() ?? "------";
@@ -31,13 +51,7 @@ export default function TeamDashboardView({ team }: TeamDashboardViewProps) {
 
   const averageScore = scores.length > 0 ? round2(scores.reduce((sum, score) => sum + score, 0) / scores.length) : 0;
   const highestScore = scores.length > 0 ? round2(Math.max(...scores)) : 0;
-  const challengeDaysRemaining =
-    Date.now() < STOP_SUBMISSIONS_DATE.getTime()
-      ? Math.ceil((STOP_SUBMISSIONS_DATE.getTime() - Date.now()) / (1000 * 60 * 60 * 24))
-      : 0;
   const finalSubmissionDone = submissions?.some((s) => !s.playground) ?? false;
-  const dailySubmissionsSent = submissions?.filter((s) => isToday(s.date) && !!s.playground) ?? [];
-  const dailySubmissionsDone = dailySubmissionsSent.some((s) => !!s.score) ?? false;
 
   // TODO: block submissions if dailySubmissionsSent.length > 0 for other members
 
@@ -51,8 +65,6 @@ export default function TeamDashboardView({ team }: TeamDashboardViewProps) {
     leaderboardPosition,
     dailySubmissionsDone,
   };
-
-  const { t } = useTranslation("dashboard");
 
   return (
     <main className="flex min-h-0 w-full flex-1 flex-col gap-8 px-4 py-6 sm:px-2 sm:py-10" aria-label={t("title")}>

@@ -9,8 +9,6 @@ import type { IconName } from "@/lib/icons";
 import { browserClient } from "@/lib/supabase";
 import type { Leaderboard } from "@/lib/supabase.types";
 
-const supabase = browserClient();
-
 const formatPercent = (v: number) => {
   if (typeof v !== "number" || !Number.isFinite(v)) return "0.00";
   return (v * 100).toFixed(2);
