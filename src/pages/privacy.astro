@@ -8,12 +8,17 @@ import PageLayout from "@layouts/PageLayout.astro";
 import { Separator } from "@/components/ui/separator";
 import { footerQuickLinks } from "@/content/site-config";
 import { FOOTER_LINKS } from "@/content/site-config";
+import { LAST_EDIT_DATE_PRIVACY } from "@/content/consts";
 
-const lastModified = "30 novembre 2025";
+const lastModified = LAST_EDIT_DATE_PRIVACY.toLocaleDateString("it-IT", {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+});
 const profile = Astro.locals.user;
 ---
 
-<PageLayout title={`Informativa sulla Privacy | The Safety Game`} >
+<PageLayout title={`Informativa sulla Privacy | The Safety Game`}>
   <SimpleNavigation slot="navigation" client:load profile={profile} />
 
   <div
