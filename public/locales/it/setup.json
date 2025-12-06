@@ -6,5 +6,17 @@
   "createTitle": "Crea il tuo team",
   "createDescription": "Avvia un nuovo team e invita i tuoi compagni.",
   "joinTitle": "Unisciti a un team",
-  "joinDescription": "Inserisci il codice condiviso dai tuoi compagni per entrare nel loro gruppo."
+  "joinDescription": "Inserisci il codice condiviso dai tuoi compagni per entrare nel loro gruppo.",
+  "teamNameLabel": "Nome Team",
+  "teamNameHint": "Scegli un nome riconoscibile così i compagni ti trovano più facilmente.",
+  "teamNamePlaceholder": "Safety Guardians",
+  "createButton": "Crea",
+  "creatingButton": "Creazione...",
+  "createError": "Errore durante la creazione del team.",
+  "teamCodeLabel": "Codice Team",
+  "teamCodeHint": "Inserisci il codice di 6 caratteri condiviso dal tuo team leader.",
+  "teamCodePlaceholder": "S 5 G 7 K 2",
+  "joinButton": "Unisciti",
+  "joiningButton": "Attendere...",
+  "joinError": "Si è verificato un errore durante l'accesso al team."
 }

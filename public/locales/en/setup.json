@@ -6,5 +6,17 @@
   "createTitle": "Create your team",
   "createDescription": "Start a new team and invite your teammates.",
   "joinTitle": "Join a team",
-  "joinDescription": "Enter the code shared by your teammates to join their group."
+  "joinDescription": "Enter the code shared by your teammates to join their group.",
+  "teamNameLabel": "Team Name",
+  "teamNameHint": "Choose a recognizable name so teammates can find you more easily.",
+  "teamNamePlaceholder": "Safety Guardians",
+  "createButton": "Create",
+  "creatingButton": "Creating...",
+  "createError": "Error creating the team.",
+  "teamCodeLabel": "Team Code",
+  "teamCodeHint": "Enter the 6-character code shared by your team leader.",
+  "teamCodePlaceholder": "S 5 G 7 K 2",
+  "joinButton": "Join",
+  "joiningButton": "Joining...",
+  "joinError": "An error occurred while joining the team."
 }

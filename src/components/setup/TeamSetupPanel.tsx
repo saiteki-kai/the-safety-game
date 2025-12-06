@@ -29,8 +29,8 @@ export default function TeamSetupPanel() {
   return (
     <div className="dashboard-empty-state h-screen">
       <div className="dashboard-empty-heading">
-        <h1 className="dashboard-empty-title">{t("setup.title")}</h1>
-        <p className="dashboard-empty-description">{t("setup.description")}</p>
+        <h1 className="dashboard-empty-title">{t("title")}</h1>
+        <p className="dashboard-empty-description">{t("description")}</p>
       </div>
 
       <div className="dashboard-tabs-shell">

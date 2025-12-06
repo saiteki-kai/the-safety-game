@@ -12,6 +12,7 @@ import { getTeamSubmissions } from "@/db/submissions";
 import { getTeamByUserId } from "@/db/teams";
 import { localizeUrl } from "@/lib/i18n";
 import { serverClient } from "@/lib/supabase";
+import i18n from "i18next";
 
 const supabase = serverClient(Astro);
 const profile = Astro.locals.user;
@@ -29,14 +30,14 @@ const submissions = await getTeamSubmissions(supabase, team.id);
 const finalSubmissionDone = submissions?.some((s) => !s.playground) ?? false;
 
 const navMenu = [
-  { title: "Home", url: localizeUrl("/home") },
-  { title: "Dashboard", url: localizeUrl("/dashboard") },
+  { title: i18n.t("nav:home"), url: localizeUrl("/home") },
+  { title: i18n.t("nav:dashboard"), url: localizeUrl("/dashboard") },
 ];
 ---
 
-<PageLayout title="Final Submission | The Safety Game">
+<PageLayout title={i18n.t("meta:finalSubmissionTitle")}>
   <DashboardNav client:load profile={profile} menu={navMenu} />
-  <main class="flex min-h-0 w-full flex-1 flex-col my-12 gap-8 px-4 py-6 sm:px-8 sm:py-10" aria-label="Final submission">
+  <main class="flex min-h-0 w-full flex-1 flex-col my-12 gap-8 px-4 py-6 sm:px-8 sm:py-10" aria-label={i18n.t("nav:finalSubmission")}>
     <div class="mx-auto w-full lg:container">
       <FinalSubmissionSection client:load teamId={team.id} disabled={finalSubmissionDone} />
     </div>

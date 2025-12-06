@@ -7,8 +7,9 @@ import { AlertTriangle, FileSpreadsheet, Info as InfoIcon, Trash2 } from "lucide
 import type React from "react";
 import type { ChangeEvent, DragEvent } from "react";
 import { useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 
-import { hasDuplicates, isTextFile, MAX_FILE_BYTES, parseFile, UPLOAD_ERRORS } from "./upload-utils";
+import { hasDuplicates, isTextFile, MAX_FILE_BYTES, parseFile, getUploadErrors } from "./upload-utils";
 
 // ============================================================================
 // Types
@@ -147,6 +148,7 @@ function ErrorState({ title, subtitle, retryLabel, onRetry }: ErrorStateProps) {
 interface UploadDropzoneProps {
   inputId: string;
   labels: UploadCardLabels;
+  dragHint: string;
   disabled: boolean;
   isDragActive: boolean;
   error: string | null;
@@ -158,6 +160,7 @@ interface UploadDropzoneProps {
 function UploadDropzone({
   inputId,
   labels,
+  dragHint,
   disabled,
   isDragActive,
   error,
@@ -186,7 +189,7 @@ function UploadDropzone({
             <label htmlFor={inputId} className="cursor-pointer font-semibold text-violet-700 hover:underline">
               {labels.uploadLabel}
             </label>
-            <span className="text-neutral-500">o trascina qui il file</span>
+            <span className="text-neutral-500">{dragHint}</span>
           </div>
           <div className="mt-2 text-neutral-500 text-xs">{labels.uploadHint}</div>
         </div>
@@ -265,9 +268,12 @@ interface PromptCountBadgeProps {
   maxPrompts: number;
   requireExactCount: boolean;
   labels: UploadCardLabels;
+  zeroMessage: string;
+  exactCountMessage: string;
+  promptLabel: string;
 }
 
-function PromptCountBadge({ count, maxPrompts, requireExactCount, labels }: PromptCountBadgeProps) {
+function PromptCountBadge({ count, maxPrompts, requireExactCount, labels, zeroMessage, exactCountMessage, promptLabel }: PromptCountBadgeProps) {
   const isZero = count === 0;
   const isTooLarge = count > maxPrompts;
   const isCountMismatch = requireExactCount && count !== maxPrompts && count > 0;
@@ -280,9 +286,9 @@ function PromptCountBadge({ count, maxPrompts, requireExactCount, labels }: Prom
   };
 
   const getTooltipContent = () => {
-    if (isZero) return "Attenzione: nessun prompt nel file. Carica almeno un prompt";
+    if (isZero) return zeroMessage;
     if (isTooLarge) return labels.overMaxMessage(count, maxPrompts);
-    if (isCountMismatch) return `Servono esattamente ${maxPrompts} prompt. Trovati: ${count}`;
+    if (isCountMismatch) return exactCountMessage;
     if (isBelowMax) return labels.belowMaxMessage(maxPrompts - count, maxPrompts);
     return "";
   };
@@ -292,7 +298,7 @@ function PromptCountBadge({ count, maxPrompts, requireExactCount, labels }: Prom
   const promptCountLabel = (
     <>
       <span className="block sm:hidden">{count}</span>
-      <span className="hidden sm:inline">{count} prompt</span>
+      <span className="hidden sm:inline">{count} {promptLabel}</span>
     </>
   );
 
@@ -329,6 +335,10 @@ interface FileInfoBarProps {
   labels: UploadCardLabels;
   hasSelection: boolean;
   onClear: () => void;
+  zeroMessage: string;
+  exactCountMessage: string;
+  promptLabel: string;
+  clearFileLabel: string;
 }
 
 function FileInfoBar({
@@ -339,8 +349,12 @@ function FileInfoBar({
   labels,
   hasSelection,
   onClear,
+  zeroMessage,
+  exactCountMessage,
+  promptLabel,
+  clearFileLabel,
 }: FileInfoBarProps) {
-  const fileSummaryText = fileName ? fileName : promptCount > 0 ? `${promptCount} prompt` : labels.filePlaceholder;
+  const fileSummaryText = fileName ? fileName : promptCount > 0 ? `${promptCount} ${promptLabel}` : labels.filePlaceholder;
 
   return (
     <div className="flex h-9 items-center rounded-md border border-neutral-200 bg-white px-2 sm:flex-1">
@@ -354,11 +368,14 @@ function FileInfoBar({
           maxPrompts={maxPrompts}
           requireExactCount={requireExactCount}
           labels={labels}
+          zeroMessage={zeroMessage}
+          exactCountMessage={exactCountMessage}
+          promptLabel={promptLabel}
         />
         <div aria-hidden className="h-5 w-px bg-neutral-200" />
         <button
           type="button"
-          aria-label="Cancella file"
+          aria-label={clearFileLabel}
           onClick={hasSelection ? onClear : undefined}
           className={`rounded-md p-1.5 ${hasSelection ? "text-neutral-500 hover:text-neutral-700" : "cursor-not-allowed text-neutral-300"}`}
           disabled={!hasSelection}
@@ -415,7 +432,9 @@ export function UploadCard({
   isError = false,
   onRetry,
 }: UploadCardProps): React.ReactElement {
+  const { t } = useTranslation("dashboard");
   const { maxPrompts, requireExactCount, labels, inputId, blockOnDuplicates = false } = config;
+  const UPLOAD_ERRORS = getUploadErrors();
 
   const [isDragActive, setIsDragActive] = useState(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -590,6 +609,7 @@ export function UploadCard({
         <UploadDropzone
           inputId={inputId}
           labels={labels}
+          dragHint={t("upload.dragHint")}
           disabled={disabled}
           isDragActive={isDragActive}
           error={error}
@@ -619,6 +639,10 @@ export function UploadCard({
             labels={labels}
             hasSelection={hasSelection}
             onClear={handleClear}
+            zeroMessage={t("upload.zeroPromptsMessage")}
+            exactCountMessage={t("upload.exactCountMessage", { max: maxPrompts, count: promptCount })}
+            promptLabel={t("upload.promptCount", { count: 1 }).replace("1 ", "")}
+            clearFileLabel={t("upload.clearFile")}
           />
         )}
 

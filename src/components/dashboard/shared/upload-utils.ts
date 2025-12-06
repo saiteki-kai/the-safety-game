@@ -2,14 +2,26 @@
  * Shared utilities for file upload and prompt parsing.
  */
 
+import i18n from "i18next";
+
 export const MAX_FILE_BYTES = 20_000_000; // 20 MB
 
-/** Centralized error messages */
+/** Get localized error messages */
+export const getUploadErrors = () => {
+  return {
+    FILE_TOO_LARGE: i18n.t("upload.errors.fileTooLarge", { ns: "dashboard" }),
+    READ_ERROR: i18n.t("upload.errors.readError", { ns: "dashboard" }),
+    SERVER_ERROR: i18n.t("upload.errors.serverError", { ns: "dashboard" }),
+    INVALID_TYPE: i18n.t("upload.errors.invalidType", { ns: "dashboard" }),
+  };
+};
+
+/** Fallback error messages (for non-React contexts where i18n may not be initialized) */
 export const UPLOAD_ERRORS = {
-  FILE_TOO_LARGE: "File troppo grande. Max 20 MB",
-  READ_ERROR: "Errore durante la lettura del file.",
-  SERVER_ERROR: "Errore dal server durante l'upload.",
-  INVALID_TYPE: "Formato file non supportato. Usa file di testo (.txt).",
+  FILE_TOO_LARGE: "File too large. Max 20 MB",
+  READ_ERROR: "Error reading the file.",
+  SERVER_ERROR: "Server error during upload.",
+  INVALID_TYPE: "Unsupported file format. Use text files (.txt).",
 } as const;
 
 /** Safe trim to string */

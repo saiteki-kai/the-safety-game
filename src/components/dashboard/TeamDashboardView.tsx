@@ -54,22 +54,22 @@ export default function TeamDashboardView({ team }: TeamDashboardViewProps) {
     dailySubmissionsDone,
   };
 
-  const { t } = useTranslation();
+  const { t } = useTranslation("dashboard");
 
   return (
-    <main className="flex min-h-0 w-full flex-1 flex-col gap-8 px-4 py-6 sm:px-2 sm:py-10" aria-label="Team dashboard">
+    <main className="flex min-h-0 w-full flex-1 flex-col gap-8 px-4 py-6 sm:px-2 sm:py-10" aria-label={t("title")}>
       <div className="mx-auto w-full lg:container">
-        <section className="grid gap-4 lg:grid-cols-3" aria-label="Sintesi del team">
+        <section className="grid gap-4 lg:grid-cols-3" aria-label={t("teamOverview")}>
           <div className="lg:col-span-3">
             <TeamOverviewCard teamName={teamName} members={members} teamJoinCode={teamJoinCode} progress={progress} />
           </div>
         </section>
 
-        <section aria-label="Area di invio giornaliera" className="space-y-4">
+        <section aria-label={t("dailySubmission")} className="space-y-4">
           <DailySubmissionSection teamId={team.id} disabled={dailySubmissionsDone} />
         </section>
 
-        <section aria-label="Area submission" className="space-y-4">
+        <section aria-label={t("submissionHistory")} className="space-y-4">
           <SubmissionHistorySection teamId={team.id} submissions={submissions} />
         </section>
       </div>
