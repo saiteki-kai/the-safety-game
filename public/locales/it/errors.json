@@ -9,5 +9,8 @@
   "teamNameExists": "Esiste già un team con questo nome.",
   "teamFull": "Il team ha raggiunto il numero massimo di membri.",
   "teamCreation": "Si è verificato un errore durante la creazione del team.",
-  "teamJoin": "Si è verificato un errore durante l'accesso al team."
+  "teamJoin": "Si è verificato un errore durante l'accesso al team.",
+  "teamCreationUnknown": "Si è verificato un errore imprevisto durante la creazione del team.",
+  "teamJoinUnknown": "Si è verificato un errore imprevisto durante l'accesso al team.",
+  "teamMemberFetch": "Si è verificato un errore durante il recupero dei membri del team."
 }

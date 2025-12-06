@@ -8,6 +8,10 @@
   "minLength": "Minimo {{min}} caratteri",
   "maxLength": "Massimo {{max}} caratteri",
   "validation": {
+    "required": "Questo campo è obbligatorio.",
+    "minLength": "Deve contenere almeno {{min}} caratteri.",
+    "maxLength": "Deve contenere al massimo {{max}} caratteri.",
+    "invalidFormat": "Formato non valido.",
     "teamNameMin": "Il nome del team deve contenere almeno 3 caratteri.",
     "teamNameMax": "Il nome del team è troppo lungo.",
     "joinCodeError": "Il codice deve essere esattamente di 6 caratteri alfanumerici.",
