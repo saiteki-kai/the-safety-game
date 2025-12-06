@@ -3,14 +3,14 @@ export const prerender = false;
 
 import GithubIcon from "@assets/icons/github.svg";
 import HuggingFaceIcon from "@assets/icons/huggingface.svg";
-import { FOOTER_LINKS } from "@lib/consts";
+import { FOOTER_LINKS } from "@/content/site-config";
 import i18n from "i18next";
 import { Mail } from "lucide-react";
 import Copyright from "@/components/common/Copyright.astro";
 import { Separator } from "@/components/ui/separator";
 import type { FooterQuickLink } from "@/content/site-config";
 import { footerQuickLinks } from "@/content/site-config";
-import { localizeUrl } from "@/i18n/utils";
+import { localizeUrl } from "@/lib/i18n";
 
 const quickLinks: FooterQuickLink[] = footerQuickLinks;
 ---

@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { useLeaderboardPosition } from "@/hooks/useLeaderboardPosition.tsx";
 import { useTeamMembers } from "@/hooks/useTeamMembers.tsx";
 import { useTeamSubmissions } from "@/hooks/useTeamSubmissions.tsx";
-import { CHALLENGE_END_DATE } from "@/lib/consts.ts";
+import { STOP_SUBMISSIONS_DATE } from "@/content/consts.ts";
 import { isToday } from "@/lib/formatters.ts";
 import { browserClient } from "@/lib/supabase";
 import type { Team } from "@/lib/supabase.types";
@@ -34,8 +34,8 @@ export default function TeamDashboardView({ team }: TeamDashboardViewProps) {
   const averageScore = scores.length > 0 ? round2(scores.reduce((sum, score) => sum + score, 0) / scores.length) : 0;
   const highestScore = scores.length > 0 ? round2(Math.max(...scores)) : 0;
   const challengeDaysRemaining =
-    Date.now() < CHALLENGE_END_DATE.getTime()
-      ? Math.ceil((CHALLENGE_END_DATE.getTime() - Date.now()) / (1000 * 60 * 60 * 24))
+    Date.now() < STOP_SUBMISSIONS_DATE.getTime()
+      ? Math.ceil((STOP_SUBMISSIONS_DATE.getTime() - Date.now()) / (1000 * 60 * 60 * 24))
       : 0;
   const finalSubmissionDone = submissions?.some((s) => !s.playground) ?? false;
   const dailySubmissionsSent = submissions?.filter((s) => isToday(s.date) && !!s.playground) ?? [];

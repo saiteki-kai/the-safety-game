@@ -7,7 +7,7 @@ import {
   getTeamByUserId,
   getTeamMembers,
 } from "@/db/teams";
-import { MAX_TEAM_SIZE } from "@/lib/consts";
+import { MAX_TEAM_SIZE } from "@/content/consts";
 import { TeamCreationError, TeamFullError, TeamJoinError, TeamNameExistsError, TeamNotFoundError } from "@/lib/errors";
 import type { Database, Profile, Team } from "@/lib/supabase.types";
 

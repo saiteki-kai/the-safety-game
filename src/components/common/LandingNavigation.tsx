@@ -3,7 +3,7 @@
 import { LayoutDashboard } from "lucide-react";
 import type { ReactElement } from "react";
 import useHomeActiveSection from "@/hooks/useActiveSection";
-import { localizeUrl } from "@/i18n/utils";
+import { localizeUrl } from "@/lib/i18n";
 import type { Profile } from "@/lib/supabase.types";
 import AccountMenu, { AccountMenuMobile } from "./AccountMenu";
 import Navigation from "./Navigation";

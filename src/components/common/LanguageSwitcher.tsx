@@ -14,7 +14,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { localizeUrl } from "@/i18n/utils";
+import { localizeUrl } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
 const LANGUAGES: Array<{ code: string; label: string; flagSrc: ImageMetadata }> = [

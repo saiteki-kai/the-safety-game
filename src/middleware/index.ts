@@ -2,7 +2,7 @@ import { defineMiddleware } from "astro:middleware";
 import type { APIContext, MiddlewareNext } from "astro";
 import micromatch from "micromatch";
 import { getUserInfo } from "@/db/users";
-import { localizeUrl } from "@/i18n/utils";
+import { localizeUrl } from "@/lib/i18n";
 import { serverClient } from "@/lib/supabase";
 
 // Protected routes - support both root and localized paths

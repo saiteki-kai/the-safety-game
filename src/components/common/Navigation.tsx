@@ -1,13 +1,13 @@
 "use client";
 
-import { navigationLinks } from "@content/site-config";
+import { navigationLinks } from "@/content/site-config";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
 import { Accordion } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import { NavigationMenu, NavigationMenuList } from "@/components/ui/navigation-menu";
 import { Separator } from "@/components/ui/separator";
-import { localizeUrl } from "@/i18n/utils";
+import { localizeUrl } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 import LanguageSwitcher, { LanguageSwitcherMobile } from "./LanguageSwitcher";
 import type { MenuItem } from "./NavigationParts";

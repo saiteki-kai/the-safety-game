@@ -2,7 +2,7 @@ export const prerender = false;
 
 import type { Provider } from "@supabase/supabase-js";
 import type { APIContext, APIRoute } from "astro";
-import { localizeUrl } from "@/i18n/utils";
+import { localizeUrl } from "@/lib/i18n";
 
 export const POST: APIRoute = async (context: APIContext) => {
   const formData = await context.request.formData();

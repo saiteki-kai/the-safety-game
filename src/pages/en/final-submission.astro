@@ -10,7 +10,7 @@ import { FinalSubmissionSection } from "@/components/dashboard/final/FinalSubmis
 import { footerQuickLinks } from "@/content/site-config";
 import { getTeamSubmissions } from "@/db/submissions";
 import { getTeamByUserId } from "@/db/teams";
-import { localizeUrl } from "@/i18n/utils";
+import { localizeUrl } from "@/lib/i18n";
 import { serverClient } from "@/lib/supabase";
 
 const supabase = serverClient(Astro);

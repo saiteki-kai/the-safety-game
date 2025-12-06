@@ -1,7 +1,7 @@
 export const prerender = false;
 
 import type { APIContext, APIRoute } from "astro";
-import { localizeUrl } from "@/i18n/utils";
+import { localizeUrl } from "@/lib/i18n";
 
 export const GET: APIRoute = async (context: APIContext) => {
   await context.locals.db.auth.signOut();

@@ -1,3 +1,5 @@
+import { localizeUrl } from "@/lib/i18n";
+
 type Section = {
   id: string;
   label: string;
@@ -34,3 +36,12 @@ export const footerQuickLinks = [toRouteLink("/home", "Home"), toRouteLink("/das
 
 export type NavigationLink = (typeof navigationLinks)[number];
 export type FooterQuickLink = (typeof footerQuickLinks)[number];
+
+export const FOOTER_LINKS = {
+  github: "https://github.com/MIND-Lab",
+  hug: "https://huggingface.co/MIND-Lab",
+  email: "lab.mind.unimib@gmail.com",
+  privacy: localizeUrl("/privacy"),
+  home: localizeUrl("/home"),
+  dashboard: localizeUrl("/dashboard"),
+} as const;

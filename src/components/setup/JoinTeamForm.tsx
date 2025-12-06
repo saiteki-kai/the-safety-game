@@ -7,7 +7,7 @@ import { Label } from "@components/ui/label";
 import { KeyRound, OctagonAlert, Puzzle } from "lucide-react";
 import { useActionState, useEffect } from "react";
 import { toast } from "sonner";
-import { localizeUrl } from "@/i18n/utils";
+import { localizeUrl } from "@/lib/i18n";
 
 const JOIN_CODE_HINT = "Inserisci il codice di 6 caratteri condiviso dal tuo team leader.";
 

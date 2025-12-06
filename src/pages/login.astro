@@ -3,7 +3,7 @@ export const prerender = false;
 
 import Google from "@assets/icons/google.svg";
 import PageLayout from "@layouts/PageLayout.astro";
-import { localizeUrl } from "@/i18n/utils";
+import { localizeUrl } from "@/lib/i18n";
 import { serverClient } from "@/lib/supabase";
 
 const supabase = serverClient(Astro);

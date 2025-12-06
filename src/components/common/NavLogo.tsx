@@ -1,6 +1,6 @@
 "use client";
 
-import { localizeUrl } from "@/i18n/utils";
+import { localizeUrl } from "@/lib/i18n";
 
 export interface NavLogoProps {
   logo?: {

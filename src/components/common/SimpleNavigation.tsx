@@ -2,7 +2,7 @@
 
 import { LayoutDashboard } from "lucide-react";
 import type { ReactElement } from "react";
-import { localizeUrl } from "@/i18n/utils";
+import { localizeUrl } from "@/lib/i18n";
 import type { Profile } from "@/lib/supabase.types";
 import AccountMenu from "./AccountMenu";
 import Navigation from "./Navigation";

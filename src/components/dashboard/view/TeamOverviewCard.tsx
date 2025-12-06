@@ -1,7 +1,7 @@
 import { Calendar, FileText, Flag, Target, Trophy, Upload, Zap } from "lucide-react";
 import { useMemo } from "react";
-import { localizeUrl } from "@/i18n/utils";
-import { MAX_DAILY_PROMPTS, MAX_TEAM_SIZE } from "@/lib/consts";
+import { localizeUrl } from "@/lib/i18n";
+import { MAX_DAILY_PROMPTS, MAX_TEAM_SIZE } from "@/content/consts";
 import type { Profile } from "@/lib/supabase.types";
 import ProgressMetricRow from "./progress/ProgressMetricRow";
 import StatusActionRow from "./progress/StatusActionRow";

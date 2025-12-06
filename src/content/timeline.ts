@@ -1,3 +1,5 @@
+import { STOP_SUBMISSIONS_DATE } from "./consts";
+
 export interface TimelineEvent {
     date: Date;
     time?: string;
@@ -17,23 +19,23 @@ export interface TimelineEntry {
 export const TIMELINE_EVENTS: TimelineEvent[] = [
     {
         key: "registrationOpens",
-        date: new Date("2025-11-01"),
+        date: new Date("2025-12-09"),
     },
     {
         key: "introductoryWebinar",
-        date: new Date("2025-11-18"),
+        date: new Date("2025-12-12"),
     },
     {
         key: "challengeStarts",
-        date: new Date("2025-11-20"),
+        date: new Date("2025-12-12"),
     },
     {
         key: "challengeEnds",
-        date: new Date("2025-11-30"),
+        date: STOP_SUBMISSIONS_DATE,
     },
     {
         key: "winnerAnnouncement",
-        date: new Date("2025-12-05"),
+        date: new Date("2026-01-21"),
     },
 ];
 
