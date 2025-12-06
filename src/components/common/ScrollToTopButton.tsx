@@ -7,8 +7,18 @@ import { Button } from "@/components/ui/button";
 export function ScrollToTopButton() {
   const { t } = useTranslation("common");
   const [isVisible, setIsVisible] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
 
   useEffect(() => {
+    setIsMounted(true);
+
     const toggleVisibility = () => {
       if (window.scrollY > window.innerHeight) {
         setIsVisible(true);
@@ -21,12 +31,10 @@ export function ScrollToTopButton() {
     return () => window.removeEventListener("scroll", toggleVisibility);
   }, []);
 
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-  };
+  // Only render after mount to prevent hydration mismatch
+  if (!isMounted) {
+    return null;
+  }
 
   if (!isVisible) {
     return null;

@@ -30,19 +30,15 @@ export interface LanguageSwitcherProps {
 
 export default function LanguageSwitcher({ className }: LanguageSwitcherProps) {
   const { t } = useTranslation("common");
-  const [currentLocale, setCurrentLocale] = useState<string | null>(null);
-  const [supported, setSupported] = useState<typeof LANGUAGES>([]);
-  const [mounted, setMounted] = useState(false);
+  const [currentLocale, setCurrentLocale] = useState<string>(() => {
+    // Initialize with current language from i18next on first render
+    return i18next.language || LANGUAGES[0].code;
+  });
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
-    const supportedLngs = (i18next.options?.supportedLngs as string[] | undefined) || [];
-    const available = LANGUAGES.filter((lang) => supportedLngs.includes(lang.code) && lang.code !== "cimode");
-
-    setSupported(available);
-    if (available.length > 0) {
-      setCurrentLocale(i18next.language || available[0].code);
-    }
-    setMounted(true);
+    // Only update client flag after hydration
+    setIsClient(true);
   }, []);
 
   const handleLanguageChange = async (locale: string) => {
@@ -61,8 +57,10 @@ export default function LanguageSwitcher({ className }: LanguageSwitcherProps) {
     }
   };
 
-  // Don't render if no supported languages or locale not initialized (prevents hydration mismatch)
-  if (!mounted || supported.length === 0 || !currentLocale) {
+  const supportedLngs = (i18next.options?.supportedLngs as string[] | undefined) || [];
+  const supported = LANGUAGES.filter((lang) => supportedLngs.includes(lang.code) && lang.code !== "cimode");
+  
+  if (supported.length === 0) {
     return null;
   }
 
@@ -104,19 +102,21 @@ export default function LanguageSwitcher({ className }: LanguageSwitcherProps) {
 }
 
 export function LanguageSwitcherMobile({ className }: LanguageSwitcherProps) {
-  const [currentLocale, setCurrentLocale] = useState<string | null>(null);
-  const [supported, setSupported] = useState<typeof LANGUAGES>([]);
-  const [mounted, setMounted] = useState(false);
+  const [currentLocale, setCurrentLocale] = useState<string>(() => {
+    // Initialize with current language from i18next on first render
+    return i18next.language || LANGUAGES[0].code;
+  });
 
   useEffect(() => {
-    const supportedLngs = (i18next.options?.supportedLngs as string[] | undefined) || [];
-    const available = LANGUAGES.filter((lang) => supportedLngs.includes(lang.code) && lang.code !== "cimode");
+    // Sync with i18next language changes if needed
+    const handleLanguageChanged = () => {
+      setCurrentLocale(i18next.language || LANGUAGES[0].code);
+    };
 
-    setSupported(available);
-    if (available.length > 0) {
-      setCurrentLocale(i18next.language || available[0].code);
-    }
-    setMounted(true);
+    i18next.on("languageChanged", handleLanguageChanged);
+    return () => {
+      i18next.off("languageChanged", handleLanguageChanged);
+    };
   }, []);
 
   const handleLanguageChange = async (locale: string) => {
@@ -135,8 +135,10 @@ export function LanguageSwitcherMobile({ className }: LanguageSwitcherProps) {
     }
   };
 
-  // Don't render if no supported languages or locale not initialized (prevents hydration mismatch)
-  if (!mounted || supported.length === 0 || !currentLocale) {
+  const supportedLngs = (i18next.options?.supportedLngs as string[] | undefined) || [];
+  const supported = LANGUAGES.filter((lang) => supportedLngs.includes(lang.code) && lang.code !== "cimode");
+
+  if (supported.length === 0) {
     return null;
   }
 
