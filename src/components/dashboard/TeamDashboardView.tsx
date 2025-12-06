@@ -1,5 +1,3 @@
-export const prerender = false;
-
 import { useTranslation } from "react-i18next";
 import { STOP_SUBMISSIONS_DATE } from "@/content/consts.ts";
 import { useLeaderboardPosition } from "@/hooks/useLeaderboardPosition.tsx";

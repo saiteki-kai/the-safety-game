@@ -1,5 +1,3 @@
-export const prerender = false;
-
 import type { APIContext, APIRoute } from "astro";
 import { localizeUrl } from "@/lib/i18n";
 

@@ -12,11 +12,6 @@ const protectedAPIRoutes = ["/api/submissions", "_actions/**"];
 export const onRequest = defineMiddleware(async (context: APIContext, next: MiddlewareNext) => {
   console.log(`Middleware processing request for: ${context.url.pathname}`);
 
-  if (context.isPrerendered) {
-    console.log("Request is prerendered");
-    return next();
-  }
-
   // Set up Supabase client in locals
   context.locals.db = serverClient(context);
 
