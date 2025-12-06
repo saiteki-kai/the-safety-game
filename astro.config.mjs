@@ -51,6 +51,11 @@ export default defineConfig({
     }),
   ],
 
+  i18n: {
+    defaultLocale: "it",
+    locales: ["it", "en"],
+  },
+
   experimental: {
     svgo: true,
   },

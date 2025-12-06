@@ -3,6 +3,7 @@ import type { APIContext, MiddlewareNext } from "astro";
 import micromatch from "micromatch";
 import { getUserInfo } from "@/db/users";
 import { localizeUrl } from "@/lib/i18n";
+import i18n from "i18next";
 import { serverClient } from "@/lib/supabase";
 
 // Protected routes - support both root and localized paths
@@ -10,6 +11,12 @@ const protectedRoutes = ["/dashboard", "/admin", "**/dashboard", "**/admin"];
 const protectedAPIRoutes = ["/api/submissions", "_actions/**"];
 
 export const onRequest = defineMiddleware(async (context: APIContext, next: MiddlewareNext) => {
+  console.log(context.preferredLocale);
+  console.log(context.request.headers.get("accept-language"));
+  console.log(context.preferredLocaleList);
+  console.log(context.currentLocale);
+  console.log(i18n?.languages);
+
   console.log(`Middleware processing request for: ${context.url.pathname}`);
 
   // Set up Supabase client in locals
