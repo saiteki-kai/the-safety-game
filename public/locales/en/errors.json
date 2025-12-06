@@ -5,12 +5,14 @@
   "backToHome": "Back to home",
   "unauthorized": "You are not authorized to view this page",
   "networkError": "Network error. Check your connection.",
-  "teamNotFound": "Invalid team code.",
-  "teamNameExists": "A team with this name already exists.",
-  "teamFull": "The team has reached the maximum number of members.",
-  "teamCreation": "An error occurred while creating the team.",
-  "teamJoin": "An error occurred while joining the team.",
-  "teamCreationUnknown": "An unexpected error occurred while creating the team.",
-  "teamJoinUnknown": "An unexpected error occurred while joining the team.",
-  "teamMemberFetch": "An error occurred while fetching team members."
+  "teams": {
+    "teamNotFound": "Invalid team code.",
+    "teamNameExists": "A team with this name already exists.",
+    "teamFull": "The team has reached the maximum number of members.",
+    "teamCreation": "An error occurred while creating the team.",
+    "teamJoin": "An error occurred while joining the team.",
+    "teamCreationUnknown": "An unexpected error occurred while creating the team.",
+    "teamJoinUnknown": "An unexpected error occurred while joining the team.",
+    "teamMemberFetch": "An error occurred while fetching team members."
+  }
 }

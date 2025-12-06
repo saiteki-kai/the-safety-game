@@ -1,42 +1,78 @@
 import { z } from "astro:schema";
 import i18n from "i18next";
 
-// Helper to get translated validation messages
-const getValidationMessages = () => ({
-  teamNameMin: i18n.t("validation.teamNameMin", { ns: "forms" }),
-  teamNameMax: i18n.t("validation.teamNameMax", { ns: "forms" }),
-  joinCodeError: i18n.t("validation.joinCodeError", { ns: "forms" }),
-  promptEmpty: i18n.t("validation.promptEmpty", { ns: "forms" }),
-});
+/**
+ * Validation error keys - these are used as message placeholders in Zod schemas
+ * and mapped to localized messages at runtime using localizeValidationErrors()
+ */
+export const ValidationErrorKey = {
+  TEAM_NAME_MIN: "validation.teamNameMin",
+  TEAM_NAME_MAX: "validation.teamNameMax",
+  JOIN_CODE_ERROR: "validation.joinCodeError",
+  PROMPT_EMPTY: "validation.promptEmpty",
+} as const;
 
 export const teamNameSchema = z.object({
   teamName: z
     .string()
     .trim()
-    .min(3, getValidationMessages().teamNameMin)
-    .max(20, getValidationMessages().teamNameMax)
-    .nonempty({ message: getValidationMessages().teamNameMin }),
+    .min(3, ValidationErrorKey.TEAM_NAME_MIN)
+    .max(20, ValidationErrorKey.TEAM_NAME_MAX)
+    .nonempty({ message: ValidationErrorKey.TEAM_NAME_MIN }),
 });
 
 export const joinCodeSchema = z.object({
   joinCode: z
     .string()
     .trim()
-    .nonempty({ message: getValidationMessages().joinCodeError })
-    .length(6, { message: getValidationMessages().joinCodeError })
-    .regex(/^[A-Za-z0-9]+$/, { message: getValidationMessages().joinCodeError })
+    .nonempty({ message: ValidationErrorKey.JOIN_CODE_ERROR })
+    .length(6, { message: ValidationErrorKey.JOIN_CODE_ERROR })
+    .regex(/^[A-Za-z0-9]+$/, { message: ValidationErrorKey.JOIN_CODE_ERROR })
     .transform((value) => value.toUpperCase()),
 });
 
 export const dailyPromptsSchema = z.object({
   teamId: z.string().uuid().nonempty(),
-  prompts: z.array(z.string().min(1, getValidationMessages().promptEmpty)),
+  prompts: z.array(z.string().min(1, ValidationErrorKey.PROMPT_EMPTY)),
 });
 
 export const finalPromptsSchema = z.object({
   teamId: z.string().uuid().nonempty(),
-  prompts: z.array(z.string().min(1, getValidationMessages().promptEmpty)),
+  prompts: z.array(z.string().min(1, ValidationErrorKey.PROMPT_EMPTY)),
 });
+
+/**
+ * Localizes validation error messages at runtime.
+ * Call this function to convert error keys to localized messages.
+ * @param errors - Record of field names to error keys (e.g., { teamName: "validation.teamNameMin" })
+ * @returns Record of field names to localized error messages
+ */
+export function localizeValidationErrors(errors: Record<string, string[]>): Record<string, string> {
+  const localized: Record<string, string> = {};
+  for (const [field, messages] of Object.entries(errors)) {
+    // Take the first error message and localize it
+    const key = messages[0];
+    if (key?.startsWith("validation.")) {
+      localized[field] = i18n.t(key, { ns: "forms" });
+    } else {
+      // Fallback: use the message as-is if it's not a known key
+      localized[field] = key ?? i18n.t("validation.required", { ns: "forms" });
+    }
+  }
+  return localized;
+}
+
+/**
+ * Localizes a single validation error message.
+ * @param errorKey - The error key (e.g., "validation.teamNameMin")
+ * @returns The localized error message
+ */
+export function localizeValidationError(errorKey: string): string {
+  if (errorKey.startsWith("validation.")) {
+    return i18n.t(errorKey, { ns: "forms" });
+  }
+  return errorKey;
+}
 
 export type CreateTeamInput = z.infer<typeof teamNameSchema>;
 export type JoinTeamInput = z.infer<typeof joinCodeSchema>;

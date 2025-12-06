@@ -1,20 +1,13 @@
 import { type ActionAPIContext, ActionError, defineAction } from "astro:actions";
 import { z } from "astro:schema";
-import i18n from "i18next";
 import { createTeamHandler, getTeamMembersHandler, joinTeamHandler } from "@/handlers/teams";
-import {
-  getLocalizedErrorMessage,
-  TeamCreationError,
-  TeamFullError,
-  TeamNameExistsError,
-  TeamNotFoundError,
-} from "@/lib/errors";
+import { TeamCreationError, TeamFullError, TeamNameExistsError, TeamNotFoundError } from "@/lib/errors";
 import { type CreateTeamInput, type JoinTeamInput, joinCodeSchema, teamNameSchema } from "@/lib/schemas";
 import type { Profile, Team } from "@/lib/supabase.types";
 
 type TeamResponse = {
   team: Team | null;
-  message: string | null;
+  errorCode: string | null;
 };
 
 // The database and userId are available in context.locals and guaranteed to be present by the authentication middleware
@@ -27,16 +20,19 @@ export const teams = {
       const database = context.locals.db;
 
       try {
-        return { team: await createTeamHandler(database, input.teamName, userId), message: null };
+        return { team: await createTeamHandler(database, input.teamName, userId), errorCode: null };
       } catch (error) {
-        if (error instanceof TeamNameExistsError || error instanceof TeamCreationError) {
-          return { team: null, message: getLocalizedErrorMessage(error) };
+        if (error instanceof TeamNameExistsError) {
+          return { team: null, errorCode: "errors:teams.teamNameExists" };
+        }
+        if (error instanceof TeamCreationError) {
+          return { team: null, errorCode: "errors:teams.teamCreation" };
         }
 
         console.error("Error in createTeam action:", error);
         throw new ActionError({
           code: "INTERNAL_SERVER_ERROR",
-          message: i18n.t("teamCreationUnknown", { ns: "errors" }),
+          message: "errors:teams.teamCreationUnknown",
         });
       }
     },
@@ -51,17 +47,20 @@ export const teams = {
       try {
         return {
           team: await joinTeamHandler(database, input.joinCode, userId),
-          message: null,
+          errorCode: null,
         };
       } catch (error) {
-        if (error instanceof TeamNotFoundError || error instanceof TeamFullError) {
-          return { team: null, message: getLocalizedErrorMessage(error) };
+        if (error instanceof TeamNotFoundError) {
+          return { team: null, errorCode: "errors:teams.teamNotFound" };
+        }
+        if (error instanceof TeamFullError) {
+          return { team: null, errorCode: "errors:teams.teamFull" };
         }
 
         console.error("Error in joinTeam action:", error);
         throw new ActionError({
           code: "INTERNAL_SERVER_ERROR",
-          message: i18n.t("teamJoinUnknown", { ns: "errors" }),
+          message: "errors:teams.teamJoinUnknown",
         });
       }
     },
@@ -78,7 +77,7 @@ export const teams = {
         console.error("Error in getMembers action:", error);
         throw new ActionError({
           code: "INTERNAL_SERVER_ERROR",
-          message: i18n.t("teamMemberFetch", { ns: "errors" }),
+          message: "errors:teams.teamMemberFetch",
         });
       }
     },

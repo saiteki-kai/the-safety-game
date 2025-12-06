@@ -56,7 +56,7 @@ export const findTeamByJoinCode = async (
     throw error;
   }
 
-  return { ...data, members: data.members[0].count };
+  return { ...data, members: data?.members?.[0]?.count ?? 0 };
 };
 
 /**

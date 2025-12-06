@@ -42,9 +42,7 @@ export function DailySubmissionSection({ teamId, disabled = false }: DailySubmis
       {/* Hero Section */}
       <div className="space-y-4 text-center">
         <h2 className="font-bold text-2xl text-neutral-900">{t("playground.title")}</h2>
-        <p className="mx-auto max-w-2xl text-lg text-neutral-600">
-          {t("playground.description")}
-        </p>
+        <p className="mx-auto max-w-2xl text-lg text-neutral-600">{t("playground.description")}</p>
       </div>
 
       {/* Main Content Grid */}
@@ -53,9 +51,15 @@ export function DailySubmissionSection({ teamId, disabled = false }: DailySubmis
           <div className="rounded-lg border border-neutral-200 bg-white p-6">
             <h3 className="mb-4 font-semibold text-lg text-neutral-800">{t("playground.howItWorks")}</h3>
             <div className="space-y-3 text-neutral-600 text-sm">
-              <p><Trans i18nKey="dashboard:playground.howItWorksDesc1" /></p>
-              <p><Trans i18nKey="dashboard:playground.howItWorksDesc2" /></p>
-              <p><Trans i18nKey="dashboard:playground.howItWorksDesc3" /></p>
+              <p>
+                <Trans i18nKey="dashboard:playground.howItWorksDesc1" />
+              </p>
+              <p>
+                <Trans i18nKey="dashboard:playground.howItWorksDesc2" />
+              </p>
+              <p>
+                <Trans i18nKey="dashboard:playground.howItWorksDesc3" />
+              </p>
             </div>
           </div>
 

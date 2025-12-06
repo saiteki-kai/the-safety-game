@@ -1,10 +1,10 @@
 export const prerender = false;
 
 import { useTranslation } from "react-i18next";
+import { STOP_SUBMISSIONS_DATE } from "@/content/consts.ts";
 import { useLeaderboardPosition } from "@/hooks/useLeaderboardPosition.tsx";
 import { useTeamMembers } from "@/hooks/useTeamMembers.tsx";
 import { useTeamSubmissions } from "@/hooks/useTeamSubmissions.tsx";
-import { STOP_SUBMISSIONS_DATE } from "@/content/consts.ts";
 import { isToday } from "@/lib/formatters.ts";
 import { browserClient } from "@/lib/supabase";
 import type { Team } from "@/lib/supabase.types";

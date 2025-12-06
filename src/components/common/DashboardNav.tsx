@@ -11,7 +11,6 @@ type DashboardNavProps = {
   menu?: MenuItem[];
 };
 
-
 export default function DashboardNav({ profile, menu }: DashboardNavProps) {
   const defaultMenu: MenuItem[] = [{ title: "Home", url: localizeUrl("/home") }];
   const logo = { url: localizeUrl("/home"), alt: "Logo", title: "The Safety Game" };

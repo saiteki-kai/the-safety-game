@@ -1,4 +1,5 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
+import { MAX_TEAM_SIZE } from "@/content/consts";
 import {
   addUserToTeam,
   checkTeamName,
@@ -7,7 +8,6 @@ import {
   getTeamByUserId,
   getTeamMembers,
 } from "@/db/teams";
-import { MAX_TEAM_SIZE } from "@/content/consts";
 import { TeamCreationError, TeamFullError, TeamJoinError, TeamNameExistsError, TeamNotFoundError } from "@/lib/errors";
 import type { Database, Profile, Team } from "@/lib/supabase.types";
 
@@ -56,7 +56,7 @@ export const joinTeamHandler = async (
   // Find team by join code
   const team = await findTeamByJoinCode(db, joinCode);
 
-  if (!team) {
+  if (!team || team.members === 0) {
     throw new TeamNotFoundError();
   }
 

@@ -1,8 +1,8 @@
 import { Calendar, FileText, Flag, Target, Trophy, Upload, Zap } from "lucide-react";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { localizeUrl } from "@/lib/i18n";
 import { MAX_DAILY_PROMPTS, MAX_TEAM_SIZE } from "@/content/consts";
+import { localizeUrl } from "@/lib/i18n";
 import type { Profile } from "@/lib/supabase.types";
 import ProgressMetricRow from "./progress/ProgressMetricRow";
 import StatusActionRow from "./progress/StatusActionRow";
@@ -53,9 +53,7 @@ export default function TeamOverviewCard({ teamName, teamJoinCode, members, prog
       {/* Hero Section */}
       <div className="space-y-3 pt-6 text-center">
         <h1 className="font-extrabold text-3xl text-neutral-900 sm:text-4xl">{teamName}</h1>
-        <p className="mx-auto max-w-2xl text-lg text-neutral-600">
-          {t("teamDescription")}
-        </p>
+        <p className="mx-auto max-w-2xl text-lg text-neutral-600">{t("teamDescription")}</p>
       </div>
 
       {/* Main Content */}

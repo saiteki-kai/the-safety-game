@@ -1,6 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@components/ui/avatar";
-import type { Profile } from "@/lib/supabase.types";
 import { useTranslation } from "react-i18next";
+import type { Profile } from "@/lib/supabase.types";
 
 type MemberItemProps = {
   member: Profile | null;

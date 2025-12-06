@@ -51,9 +51,15 @@ export function FinalSubmissionSection({ teamId, disabled = false }: FinalSubmis
           <div className="rounded-lg border border-indigo-200 bg-white p-6">
             <h3 className="mb-4 font-semibold text-indigo-800 text-lg">{t("final.howItWorks")}</h3>
             <div className="space-y-3 text-neutral-600 text-sm">
-              <p><Trans i18nKey="dashboard:final.howItWorksDesc1" count={MAX_FINAL_PROMPTS} /></p>
-              <p><Trans i18nKey="dashboard:final.howItWorksDesc2" /></p>
-              <p><Trans i18nKey="dashboard:final.howItWorksDesc3" /></p>
+              <p>
+                <Trans i18nKey="dashboard:final.howItWorksDesc1" count={MAX_FINAL_PROMPTS} />
+              </p>
+              <p>
+                <Trans i18nKey="dashboard:final.howItWorksDesc2" />
+              </p>
+              <p>
+                <Trans i18nKey="dashboard:final.howItWorksDesc3" />
+              </p>
             </div>
           </div>
 
@@ -63,7 +69,8 @@ export function FinalSubmissionSection({ teamId, disabled = false }: FinalSubmis
               <li className="flex items-start gap-2 align-middle">
                 <CheckCircle size={16} className="text-indigo-600" />
                 <span>
-                  <Trans i18nKey="dashboard:final.checklistPromptCount" count={MAX_FINAL_PROMPTS} /></span>
+                  <Trans i18nKey="dashboard:final.checklistPromptCount" count={MAX_FINAL_PROMPTS} />
+                </span>
               </li>
               <li className="flex items-start gap-2 align-middle">
                 <CheckCircle size={16} className="text-indigo-600" />
@@ -85,15 +92,21 @@ export function FinalSubmissionSection({ teamId, disabled = false }: FinalSubmis
             <ul className="space-y-3 text-red-700 text-sm">
               <li className="flex items-start gap-2 align-middle">
                 <AlertTriangle size={16} className="text-red-600" />
-                <span><Trans i18nKey="dashboard:final.warningOnce" /></span>
+                <span>
+                  <Trans i18nKey="dashboard:final.warningOnce" />
+                </span>
               </li>
               <li className="flex items-start gap-2 align-middle">
                 <AlertTriangle size={16} className="text-red-600" />
-                <span><Trans i18nKey="dashboard:final.warningNoEdit" /></span>
+                <span>
+                  <Trans i18nKey="dashboard:final.warningNoEdit" />
+                </span>
               </li>
               <li className="flex items-start gap-2 align-middle">
                 <AlertTriangle size={16} className="text-red-600" />
-                <span><Trans i18nKey="dashboard:final.warningTeamAgree" /></span>
+                <span>
+                  <Trans i18nKey="dashboard:final.warningTeamAgree" />
+                </span>
               </li>
             </ul>
           </div>

@@ -3,14 +3,14 @@ import { Button } from "@components/ui/button";
 import { ScrollArea } from "@components/ui/scroll-area";
 import { Spinner } from "@components/ui/spinner";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@components/ui/tooltip";
+import i18n from "i18next";
 import { AlertTriangle, FileSpreadsheet, Info as InfoIcon, Trash2 } from "lucide-react";
 import type React from "react";
 import type { ChangeEvent, DragEvent } from "react";
 import { useRef, useState } from "react";
-import i18n from "i18next";
 import { useTranslation } from "react-i18next";
 
-import { hasDuplicates, isTextFile, MAX_FILE_BYTES, parseFile, getUploadErrors } from "./upload-utils";
+import { getUploadErrors, hasDuplicates, isTextFile, MAX_FILE_BYTES, parseFile } from "./upload-utils";
 
 // ============================================================================
 // Types
@@ -276,7 +276,15 @@ interface PromptCountBadgeProps {
   promptLabel: string;
 }
 
-function PromptCountBadge({ count, maxPrompts, requireExactCount, labels, zeroMessage, exactCountMessage, promptLabel }: PromptCountBadgeProps) {
+function PromptCountBadge({
+  count,
+  maxPrompts,
+  requireExactCount,
+  labels,
+  zeroMessage,
+  exactCountMessage,
+  promptLabel,
+}: PromptCountBadgeProps) {
   const isZero = count === 0;
   const isTooLarge = count > maxPrompts;
   const isCountMismatch = requireExactCount && count !== maxPrompts && count > 0;
@@ -301,7 +309,9 @@ function PromptCountBadge({ count, maxPrompts, requireExactCount, labels, zeroMe
   const promptCountLabel = (
     <>
       <span className="block sm:hidden">{count}</span>
-      <span className="hidden sm:inline">{count} {promptLabel}</span>
+      <span className="hidden sm:inline">
+        {count} {promptLabel}
+      </span>
     </>
   );
 
@@ -357,7 +367,11 @@ function FileInfoBar({
   promptLabel,
   clearFileLabel,
 }: FileInfoBarProps) {
-  const fileSummaryText = fileName ? fileName : promptCount > 0 ? `${promptCount} ${promptLabel}` : labels.filePlaceholder;
+  const fileSummaryText = fileName
+    ? fileName
+    : promptCount > 0
+      ? `${promptCount} ${promptLabel}`
+      : labels.filePlaceholder;
 
   return (
     <div className="flex h-9 items-center rounded-md border border-neutral-200 bg-white px-2 sm:flex-1">

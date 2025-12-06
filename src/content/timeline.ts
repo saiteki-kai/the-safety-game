@@ -1,42 +1,42 @@
 import { STOP_SUBMISSIONS_DATE } from "./consts";
 
 export interface TimelineEvent {
-    date: Date;
-    time?: string;
-    key: string;
+  date: Date;
+  time?: string;
+  key: string;
 }
 
 export type TimelineStatus = "completed" | "upcoming";
 
 export interface TimelineEntry {
-    date: string;
-    time?: string;
-    title: string;
-    description: string;
-    status: TimelineStatus;
+  date: string;
+  time?: string;
+  title: string;
+  description: string;
+  status: TimelineStatus;
 }
 
 export const TIMELINE_EVENTS: TimelineEvent[] = [
-    {
-        key: "registrationOpens",
-        date: new Date("2025-12-09"),
-    },
-    {
-        key: "introductoryWebinar",
-        date: new Date("2025-12-12"),
-    },
-    {
-        key: "challengeStarts",
-        date: new Date("2025-12-12"),
-    },
-    {
-        key: "challengeEnds",
-        date: STOP_SUBMISSIONS_DATE,
-    },
-    {
-        key: "winnerAnnouncement",
-        date: new Date("2026-01-21"),
-    },
+  {
+    key: "registrationOpens",
+    date: new Date("2025-12-09"),
+  },
+  {
+    key: "introductoryWebinar",
+    date: new Date("2025-12-12"),
+  },
+  {
+    key: "challengeStarts",
+    date: new Date("2025-12-12"),
+  },
+  {
+    key: "challengeEnds",
+    date: STOP_SUBMISSIONS_DATE,
+  },
+  {
+    key: "winnerAnnouncement",
+    date: new Date("2026-01-21"),
+  },
 ];
 
 export default TIMELINE_EVENTS;

@@ -4,6 +4,7 @@ export const prerender = false;
 import "@styles/dashboard.css";
 
 import PageLayout from "@layouts/PageLayout.astro";
+import i18n from "i18next";
 import DashboardNav from "@/components/common/DashboardNav";
 import Footer from "@/components/common/Footer.astro";
 import TeamDashboardView from "@/components/dashboard/TeamDashboardView";
@@ -11,7 +12,6 @@ import { footerQuickLinks } from "@/content/site-config";
 import { getTeamByUserId } from "@/db/teams";
 import { localizeUrl } from "@/lib/i18n";
 import { serverClient } from "@/lib/supabase";
-import i18n from "i18next";
 
 const supabase = serverClient(Astro);
 const profile = Astro.locals.user;

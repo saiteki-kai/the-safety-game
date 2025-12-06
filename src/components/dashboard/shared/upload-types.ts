@@ -1,8 +1,7 @@
 import i18n from "i18next";
-import { MAX_DAILY_PROMPTS, MAX_FINAL_PROMPTS } from "@/content/consts";
-
-import type { UploadCardConfig, UploadCardLabels } from "./UploadCard";
 import i18next from "node_modules/i18next";
+import { MAX_DAILY_PROMPTS, MAX_FINAL_PROMPTS } from "@/content/consts";
+import type { UploadCardConfig, UploadCardLabels } from "./UploadCard";
 
 /** Get localized labels for upload cards */
 export function getUploadCardLabels(type: "final" | "daily"): UploadCardLabels {
@@ -20,7 +19,8 @@ export function getUploadCardLabels(type: "final" | "daily"): UploadCardLabels {
       filePlaceholder: i18n.t("upload.final.filePlaceholder", { ns: "dashboard" }),
       submitButton: i18n.t("upload.final.submitButton", { ns: "dashboard" }),
       loadingText: i18n.t("upload.final.loadingText", { ns: "dashboard" }),
-      belowMaxMessage: (remaining, max) => i18n.t("upload.exactCountMessage", { ns: "dashboard", count: remaining + max, max }),
+      belowMaxMessage: (remaining, max) =>
+        i18n.t("upload.exactCountMessage", { ns: "dashboard", count: remaining + max, max }),
       overMaxMessage: (count, max) => i18n.t("upload.overMaxMessage", { ns: "dashboard", count, max }),
     };
   }

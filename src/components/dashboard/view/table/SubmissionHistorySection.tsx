@@ -59,9 +59,7 @@ export function SubmissionHistorySection({ submissions }: SubmissionHistorySecti
     <div className="space-y-8 px-4 py-8 sm:px-8">
       <div className="space-y-4 text-center">
         <h2 className="font-bold text-2xl text-neutral-900">{t("history.title")}</h2>
-        <p className="mx-auto max-w-2xl text-lg text-neutral-600">
-          {t("history.description")}
-        </p>
+        <p className="mx-auto max-w-2xl text-lg text-neutral-600">{t("history.description")}</p>
       </div>
 
       <StatefulDataTable
