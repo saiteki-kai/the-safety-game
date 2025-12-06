@@ -74,11 +74,11 @@ function CompletedState({ title, subtitle }: CompletedStateProps) {
             {subtitle.split("\n").map((line, i, arr) => {
               const parts = line.split(/(\*\*.*?\*\*)/g);
               return (
-                <span key={i}>
+                <span key={line}>
                   {parts.map((part, j) => {
                     if (part.startsWith("**") && part.endsWith("**")) {
                       return (
-                        <span key={j} className="font-medium">
+                        <span key={part} className="font-medium">
                           {part.slice(2, -2)}
                         </span>
                       );
@@ -116,11 +116,11 @@ function ErrorState({ title, subtitle, retryLabel, onRetry }: ErrorStateProps) {
             {subtitle.split("\n").map((line, i, arr) => {
               const parts = line.split(/(\*\*.*?\*\*)/g);
               return (
-                <span key={i}>
+                <span key={line}>
                   {parts.map((part, j) => {
                     if (part.startsWith("**") && part.endsWith("**")) {
                       return (
-                        <span key={j} className="font-medium">
+                        <span key={part} className="font-medium">
                           {part.slice(2, -2)}
                         </span>
                       );

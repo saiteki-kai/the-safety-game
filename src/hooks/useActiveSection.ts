@@ -1,8 +1,5 @@
 import { useEffect, useState } from "react";
 import type { NavigationLink } from "@/content/site-config";
-// This hook is tailored for the home page ('/'). It reads the hero element (#home and .hero-kicker)
-// and computes the active section + nav opacity as the user scrolls. It intentionally returns
-// a fully-opaque nav on non-home pages to keep a consistent look on secondary pages.
 import { navigationLinks } from "@/content/site-config";
 
 export function useHomeActiveSection(links?: NavigationLink[]) {
@@ -123,7 +120,7 @@ export function useHomeActiveSection(links?: NavigationLink[]) {
       if (scrollViewport) scrollViewport.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onResize);
     };
-  }, [links]);
+  }, [source]);
 
   return { activeSection, navOpacity, scrolled };
 }

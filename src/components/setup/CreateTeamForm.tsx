@@ -51,7 +51,7 @@ export default function CreateTeamForm() {
     if (state?.data?.team) {
       navigate(localizeUrl("/dashboard"));
     }
-  }, [state]);
+  }, [state, t]);
 
   return (
     <form className="dashboard-form" data-astro-reload action={action}>
