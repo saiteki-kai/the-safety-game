@@ -19,7 +19,7 @@ const profile = Astro.locals.user;
 ---
 
 <PageLayout title={i18n.t("meta:siteTitle")} description={i18n.t("meta:siteDescription")}>
-  <LandingNavigation slot="navigation" client:load profile={profile} />
+  <LandingNavigation slot="navigation" client:only="react" profile={profile} />
   <HeroSection />
   <!-- Invisible spacer so nav de-highlights when scrolling above the first real section -->
   <div id="top-spacer" aria-hidden="true" class="h-px -mt-px"></div>

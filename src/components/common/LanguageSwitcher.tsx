@@ -34,12 +34,6 @@ export default function LanguageSwitcher({ className }: LanguageSwitcherProps) {
     // Initialize with current language from i18next on first render
     return i18next.language || LANGUAGES[0].code;
   });
-  const [isClient, setIsClient] = useState(false);
-
-  useEffect(() => {
-    // Only update client flag after hydration
-    setIsClient(true);
-  }, []);
 
   const handleLanguageChange = async (locale: string) => {
     if (locale === currentLocale) return;

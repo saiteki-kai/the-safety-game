@@ -24,11 +24,11 @@ if (team) {
   <div
     class="flex h-screen flex-col bg-linear-to-br from-[#f3f6ff] via-white to-[#f9f3ff]"
   >
-    <DashboardNav client:load profile={profile} />
+    <DashboardNav client:only="react" profile={profile} />
     <main
       class="flex h-screen flex-1 flex-col px-4 py-3 sm:px-7 sm:py-6"
     >
-      <TeamSetupPanel client:load />
+      <TeamSetupPanel client:only="react" />
     </main>
   </div>
 </PageLayout>

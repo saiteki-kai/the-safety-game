@@ -23,7 +23,7 @@ if (!team) {
 ---
 
 <PageLayout title={i18n.t("meta:dashboardTitle")}>
-  <DashboardNav client:load profile={profile} />
-  <TeamDashboardView client:load team={team} />
+  <DashboardNav client:only="react" profile={profile} />
+  <TeamDashboardView client:only="react" team={team} />
   <Footer slot="footer" />
 </PageLayout>

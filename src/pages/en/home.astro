@@ -18,7 +18,7 @@ const profile = Astro.locals.user;
 ---
 
 <PageLayout title="The Safety Game" >
-  <LandingNavigation slot="navigation" client:load profile={profile} />
+  <LandingNavigation slot="navigation" client:only="react" profile={profile} />
   <HeroSection />
   <!-- Invisible spacer so nav de-highlights when scrolling above the first real section -->
   <div id="top-spacer" aria-hidden="true" class="h-px -mt-px"></div>
