@@ -1,16 +1,16 @@
 {
   "title": "La Sfida",
-  "description": "Una challenge di prompt engineering etico che ti invita a testare i confini della sicurezza dei modelli linguistici nel contesto culturale italiano.",
+  "description": "Una challenge di prompt engineering etico che ti invita a misurare la sicurezza dei modelli linguistici italiani.",
   "tagline": "Crea prompt basati sul contesto culturale italiano, capaci di spingere l'IA a generare contenuti non sicuri o inappropriati.",
   "introduction": [
     {
-      "content": "I Large Language Model sono modelli di intelligenza artificiale in grado di comprendere e generare testo in linguaggio naturale simile a quello umano. Il loro utilizzo è in costante crescita, soprattutto come chatbot e assistenti conversazionali come ChatGPT, Gemini e Claude. Tuttavia, questi modelli possono talvolta produrre risposte pericolose, eticamente inappropriate, o addirittura incorrette."
+      "content": "I Large Language Model sono modelli di intelligenza artificiale in grado di comprendere e generare testo in linguaggio naturale simile a quello umano. Il loro utilizzo è in costante crescita, soprattutto come chatbot e assistenti conversazionali come ChatGPT, Gemini e Claude. Tuttavia, questi modelli possono talvolta produrre risposte pericolose, eticamente inappropriate."
     },
     {
       "content": "L'obiettivo della challenge è aiutare a rendere i Large Language Model più sicuri identificando potenziali vulnerabilità specifiche per il pubblico italiano, e scoprire casi in cui il modello non è adeguato o produce risposte problematiche."
     }
   ],
-  "what": "Analizzare come i modelli linguistici italiani reagiscono a stimoli in grado di elicitare comportamenti unsafe, per comprendere i loro limiti etici e di sicurezza in contesti culturali italiani realistici.",
+  "what": "Analizzare come i modelli linguistici italiani reagiscono a stimoli in grado di elicitare comportamenti non etici, per comprendere i loro limiti etici in contesti culturali italiani realistici.",
   "challengeText": "Abbiamo chiesto a ChatGPT di generare alcuni esempi di prompt che potrebbero indurre i modelli di linguaggio a produrre risposte problematiche. In questa sfida, competerai con ChatGPT per trovare prompt ancora più efficaci.",
   "participation": "Non è necessaria nessuna conoscenza dell'intelligenza artificiale. L'unico requisito è la conoscenza della lingua e della cultura italiana.",
   "objectiveLabel": "Obiettivo",
@@ -18,5 +18,5 @@
   "participationLabel": "Partecipazione",
   "prizesLabel": "Premi",
   "prizesDescription": "Il team che produrrà i migliori prompt verrà premiato davanti al Collegio Docenti del dipartimento di Informatica di Milano-Bicocca. <br/> A tutti i partecipanti verrà rilasciato un certificato di partecipazione.",
-  "llmLabel": "LLM"
+  "llmLabel": "Cos'è un Large Language Model?"
 }

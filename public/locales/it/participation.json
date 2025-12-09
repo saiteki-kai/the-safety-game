@@ -12,7 +12,7 @@
   },
   "submission": {
     "label": "Submission",
-    "description": "Durante la challenge ogni team può caricare i propri prompt nel Playground. Ogni submission rappresenta un singolo prompt che il sistema esegue su vari modelli di linguaggio e valuta in base alle risposte prodotte, assegnando un punteggio in base all'efficacia del prompt nel generare risposte non sicure.",
+    "description": "Quando il team avrà definito l'insieme dei 50 prompt che desidera inviare in via definitiva, potrà effettuare la sua submission.",
     "warning": "Se i prompt sono troppo simili verranno scartati automaticamente, quindi assicurati di variare i tuoi approcci e di esplorare diversi scenari."
   },
   "evaluation": {
