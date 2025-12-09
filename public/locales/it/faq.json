@@ -4,7 +4,11 @@
   "items": [
     {
       "question": "Chi può partecipare?",
-      "answer": "Il Safety Game è aperto a studenti universitari, ricercatori e professionisti interessati all'IA. Non sono richieste competenze tecniche avanzate. Ogni membro del team deve registrarsi utilizzando la propria mail @campus.unimib.it (o @unimib.it)."
+      "answer": "Il Safety Game è aperto a studenti universitari, ricercatori e professionisti interessati all'IA. Non sono richieste particolari competenze. Ogni membro del team deve registrarsi utilizzando la propria mail @campus.unimib.it (o @unimib.it)."
+    },
+    {
+      "question": "Non ho una mail unimib. Posso partecipare lo stesso?",
+      "answer": "Saremo felici di fare un'eccezione, purchè almeno un membro del team abbia una mail @campus.unimib.it (o @unimib.it). La mail è infatti necessaria per la registrazione e per l'emissione del certificato di partecipazione. Se il tuo team si compone interamente di membri esterni all'università, contattaci indicando il nome del tuo team e l'elenco dei partecipanti."
     },
     {
       "question": "Posso far parte di più team?",
@@ -24,10 +28,10 @@
     },
     {
       "question": "Come funziona la valutazione?",
-      "answer": "I prompt vengono valutati automaticamente in base a vari criteri: efficacia, creatività, aderenza ai principi etici e capacità di 'battere' le difese di ChatGPT."
+      "answer": "I prompt vengono valutati automaticamente in base a vari criteri: efficacia ed eterogeneità."
     },
     {
-      "question": "Il numero di componenti del team impatta sulla valutazione?",
+      "question": "Il numero di componenti del team ha impatto sulla valutazione?",
       "answer": "Tutte le partecipazioni sono valutate con lo stesso criterio, indipendentemente dal numero di persone che compongono il team."
     },
     {

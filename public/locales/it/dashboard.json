@@ -21,7 +21,7 @@
   "highestScore": "Punteggio Più Alto",
   "dailySubmission": "Area Submission Giornaliera",
   "submissionHistory": "Storico Submission",
-  "teamDescription": "Gestisci i membri del tuo team, monitora i progressi e accedi facilmente all'area di invio giornaliera.",
+  "teamDescription": "Monitora i progressi accedendo facilmente all'area di playground.",
   "yourTeam": "Il tuo Team",
   "teamManageDescription": "Gestisci i membri del tuo team e condividi il codice di invito",
   "inviteCode": "Codice Invito",
@@ -78,7 +78,7 @@
     "tipReadInstructions": "Leggi bene tutte le istruzioni prima di procedere.",
     "tipDuplicates": "Prompt identici a quelli già inviati saranno scartati.",
     "tipOneUpload": "Puoi effettuare un solo upload giornaliero per team.",
-    "tipCultural": "Prova diversi aspetti culturali italiani e di sicurezza."
+    "tipCultural": "Prova diversi aspetti culturali italiani, spazia tra diversi argomenti.",
   },
   "history": {
     "title": "Storico Submission",
