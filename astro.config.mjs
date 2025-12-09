@@ -3,6 +3,7 @@ import vercel from "@astrojs/vercel";
 import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "astro/config";
 import reactI18next from "astro-react-i18next";
+import node from '@astrojs/node';
 
 // Define namespaces for i18next
 const namespaces = [
@@ -35,6 +36,9 @@ export default defineConfig({
     webAnalytics: true,
     imageService: true,
   }),
+  // adapter: node({
+  //   mode: "standalone",
+  // }),
 
   session: {
     driver: "redis",
@@ -50,7 +54,7 @@ export default defineConfig({
       defaultLocale: "it",
       locales: ["it", "en"],
       namespaces,
-      //prefixDefaultLocale: true,
+      prefixDefaultLocale: true,
     }),
   ],
 
