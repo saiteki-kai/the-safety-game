@@ -16,9 +16,11 @@ interface Props {
 
 const { title, description = "The Safety Game - Hackathon organized by MIND, University of Milan Bicocca" } =
   Astro.props as Props;
+
+const locale = i18n.language;
 ---
 
-<html lang={i18n.language}>
+<html lang={locale || "it"}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
