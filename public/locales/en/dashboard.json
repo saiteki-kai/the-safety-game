@@ -51,7 +51,7 @@
     "goToLabel": "Go to {{label}}"
   },
   "final": {
-    "title": "Final Submission",
+    "title": "Official Submission",
     "description": "Upload your {{count}} final prompts for official evaluation. This submission will be used for the final competition ranking.",
     "howItWorks": "How Final Submission Works",
     "howItWorksDesc1": "The final submission is the last phase of the competition. You must upload exactly <strong>{{count}} prompts</strong> that will be evaluated to determine the final ranking.",
