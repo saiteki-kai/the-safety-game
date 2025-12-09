@@ -35,7 +35,7 @@ export default function JoinCodeButton({ teamJoinCode }: JoinCodeButtonProps) {
     <button
       type="button"
       onClick={onClick}
-      aria-label={t("team.copyInviteCode")}
+      aria-label={"Copy invite code"}
       className="group flex w-full items-center justify-center gap-2 rounded-md bg-sky-50 px-4 py-2 font-mono font-semibold text-base text-sky-900 ring-1 ring-sky-200 transition-all hover:bg-sky-100 hover:shadow-sm hover:ring-sky-300"
     >
       <span className="tracking-widest">{teamJoinCode}</span>
@@ -44,7 +44,7 @@ export default function JoinCodeButton({ teamJoinCode }: JoinCodeButtonProps) {
       ) : (
         <Copy className="h-4 w-4 text-sky-600 transition-transform group-hover:scale-110" aria-hidden="true" />
       )}
-      <span className="sr-only">{t("team.copyInviteCode")}</span>
+      <span className="sr-only">{"Copy invite code"}</span>
     </button>
   );
 }

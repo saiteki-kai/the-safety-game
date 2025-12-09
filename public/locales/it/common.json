@@ -1,5 +1,4 @@
 {
-  "loading": "Caricamento...",
   "error": "Si è verificato un errore",
   "retry": "Riprova",
   "save": "Salva",
@@ -9,8 +8,7 @@
   "next": "Avanti",
   "submit": "Invia",
   "close": "Chiudi",
-  "scrollToTop": "Torna su",
-  "selectLanguage": "Seleziona lingua",
+  
   "pagination": {
     "pageSize": "Dimensione pagina",
     "range": "{{from}} - {{to}} di {{total}}",

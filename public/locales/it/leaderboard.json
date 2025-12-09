@@ -2,7 +2,6 @@
   "title": "Leaderboard Temporanea",
   "description": "La Leaderboard temporanea riporta i risultati provvisori raccolti dal Playground.<br/>La classifica è aggiornata in tempo reale.<br/>I punteggi finali verranno annunciati al termine della challenge.",
   "emptyMessage": "Nessun team è presente in classifica al momento. Riprova più tardi.",
-  "ariaLabel": "Classifica",
   "rank": "Posizione",
   "teamName": "Team",
   "score": "Punteggio",

@@ -64,7 +64,7 @@ export default function LanguageSwitcher({ className }: LanguageSwitcherProps) {
   return (
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className={cn(triggerClasses, className)} aria-label={t("selectLanguage")}>
+        <Button variant="ghost" className={cn(triggerClasses, className)} aria-label={"Select language"}>
           <img src={current.flagSrc.src} alt={current.label} className="size-5 rounded-sm" />
           <span>{current.label}</span>
           <ChevronDown className="size-3 transition duration-300 data-[state=open]:rotate-180" />

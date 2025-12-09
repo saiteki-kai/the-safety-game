@@ -100,7 +100,7 @@ export default function Navigation({
                 "rounded-full border-0 text-violet-200 shadow-sm transition-all duration-200 hover:bg-violet-800/40 hover:text-violet-200",
                 navOpacity > 0 ? "bg-black/50" : "bg-transparent",
               )}
-              aria-label={open ? t("closeMenu") : t("openMenu")}
+              aria-label={open ? "Close menu" : "Open menu"}
               aria-expanded={open}
             >
               <Menu className={open ? "hidden" : "size-4"} />

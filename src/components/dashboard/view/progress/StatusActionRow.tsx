@@ -25,7 +25,7 @@ export default function StatusActionRow({ Icon, label, subtitle, href }: StatusA
       <a
         href={href}
         className="font-medium text-blue-600 text-sm transition-colors hover:text-blue-700"
-        aria-label={t("status.goToLabel", { label })}
+        aria-label={`Go to ${label}`}
       >
         {t("status.goTo")}
       </a>

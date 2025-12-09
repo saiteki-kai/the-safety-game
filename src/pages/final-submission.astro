@@ -34,7 +34,7 @@ const navMenu = [
 
 <PageLayout title={i18n.t("meta:finalSubmissionTitle")}>
   <DashboardNav client:only="react" profile={profile} menu={navMenu} />
-  <main class="flex min-h-0 w-full flex-1 flex-col my-12 gap-8 px-4 py-6 sm:px-8 sm:py-10" aria-label={i18n.t("nav:finalSubmission")}>
+  <main class="flex min-h-0 w-full flex-1 flex-col my-12 gap-8 px-4 py-6 sm:px-8 sm:py-10" aria-label={"Final Submission"}>
     <div class="mx-auto w-full lg:container">
       <FinalSubmissionSection client:only="react" teamId={team.id} disabled={finalSubmissionDone} />
     </div>

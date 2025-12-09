@@ -44,11 +44,11 @@
     "availableSlot": "Available slot",
     "codeCopied": "Code copied to clipboard",
     "codeCopyFailed": "Failed to copy code to clipboard",
-    "copyInviteCode": "Copy invite code"
+    
   },
   "status": {
     "goTo": "Go →",
-    "goToLabel": "Go to {{label}}"
+    
   },
   "final": {
     "title": "Final Submission",
@@ -119,7 +119,7 @@
       "loadingText": "Evaluation in progress — this may take a few minutes."
     },
     "dragHint": "or drag the file here",
-    "clearFile": "Clear file",
+    
     "promptCount": "{{count}} prompt",
     "promptCount_other": "{{count}} prompts",
     "belowMaxMessage": "You can upload {{remaining}} more prompts",

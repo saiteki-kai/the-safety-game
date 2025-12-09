@@ -659,7 +659,7 @@ export function UploadCard({
             zeroMessage={t("upload.zeroPromptsMessage")}
             exactCountMessage={t("upload.exactCountMessage", { max: maxPrompts, count: promptCount })}
             promptLabel={t("upload.promptCount", { count: 1 }).replace("1 ", "")}
-            clearFileLabel={t("upload.clearFile")}
+            clearFileLabel={"Clear file"}
           />
         )}
 

@@ -44,11 +44,11 @@
     "availableSlot": "Slot disponibile",
     "codeCopied": "Codice copiato negli appunti",
     "codeCopyFailed": "Impossibile copiare il codice negli appunti",
-    "copyInviteCode": "Copia codice invito"
+    
   },
   "status": {
     "goTo": "Vai →",
-    "goToLabel": "Vai a {{label}}"
+    
   },
   "final": {
     "title": "Consegna Finale",
@@ -119,7 +119,7 @@
       "loadingText": "Valutazione in corso — potrebbe richiedere qualche minuto."
     },
     "dragHint": "o trascina qui il file",
-    "clearFile": "Cancella file",
+    
     "promptCount": "{{count}} prompt",
     "promptCount_other": "{{count}} prompt",
     "belowMaxMessage": "Puoi caricare altri {{remaining}} prompt",

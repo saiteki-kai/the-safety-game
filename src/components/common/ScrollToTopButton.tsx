@@ -46,7 +46,7 @@ export function ScrollToTopButton() {
       size="icon"
       variant="outline"
       className="fixed right-4 bottom-4 z-50 rounded-full shadow-lg"
-      aria-label={t("scrollToTop")}
+      aria-label={"Scroll to top"}
     >
       <ArrowUp className="h-4 w-4" />
     </Button>
