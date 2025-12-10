@@ -4,6 +4,9 @@ import i18n from "i18next";
 import { TIMELINE_EVENTS, type TimelineEntry, type TimelineStatus } from "@/content/timeline";
 import TimelineItem from "./TimelineItem.astro";
 
+// TEMPORARY: Force Italian locale
+const FORCED_LOCALE = "it";
+
 const now = new Date();
 const computeStatus = (eventDate: Date): TimelineStatus => {
   return eventDate <= now ? "completed" : "upcoming";
@@ -12,7 +15,7 @@ const computeStatus = (eventDate: Date): TimelineStatus => {
 // Format date using Intl API
 const formatDate = (date: Date): string => {
   try {
-    return new Intl.DateTimeFormat(i18n.language, {
+    return new Intl.DateTimeFormat(FORCED_LOCALE, {
       year: "numeric",
       month: "long",
       day: "numeric",

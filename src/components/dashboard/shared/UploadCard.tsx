@@ -3,14 +3,29 @@ import { Button } from "@components/ui/button";
 import { ScrollArea } from "@components/ui/scroll-area";
 import { Spinner } from "@components/ui/spinner";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@components/ui/tooltip";
-import i18n from "i18next";
 import { AlertTriangle, FileSpreadsheet, Info as InfoIcon, Trash2 } from "lucide-react";
 import type React from "react";
 import type { ChangeEvent, DragEvent } from "react";
 import { useRef, useState } from "react";
-import { useTranslation } from "react-i18next";
 
 import { getUploadErrors, hasDuplicates, isTextFile, MAX_FILE_BYTES, parseFile } from "./upload-utils";
+
+// TEMPORARY: Hardcoded Italian translations
+const IT_UPLOAD = {
+  errorLabel: "Errore:",
+  dragHint: "o trascina qui il file",
+  zeroPromptsMessage: "Attenzione: nessun prompt nel file. Carica almeno un prompt",
+  exactCountMessage: (max: number, count: number) => `Servono esattamente ${max} prompt. Trovati: ${count}`,
+  promptCount: "prompt",
+  duplicatesBlockMessage: "Duplicati trovati. Rimuovili prima di inviare.",
+  duplicatesWarnMessage: "Duplicati trovati. Saranno scartati durante l'invio.",
+  belowMaxMessage: (remaining: number) => `Puoi caricare altri ${remaining} prompt`,
+  overMaxMessage: (count: number, max: number) => `Attenzione: il file contiene ${count} prompt. E' possibile caricare al massimo ${max} prompt.`,
+  fileTooLarge: "File troppo grande. Max 20 MB",
+  readError: "Errore durante la lettura del file.",
+  serverError: "Errore dal server durante l'upload.",
+  invalidType: "Formato file non supportato. Usa file di testo (.txt).",
+};
 
 // ============================================================================
 // Types
@@ -230,7 +245,7 @@ interface ErrorBannerProps {
 }
 
 function ErrorBanner({ message }: ErrorBannerProps) {
-  const { t } = useTranslation("dashboard");
+  // TEMPORARY: Using hardcoded Italian
 
   return (
     <output
@@ -238,7 +253,7 @@ function ErrorBanner({ message }: ErrorBannerProps) {
       className="-translate-x-1/2 absolute bottom-3 left-1/2 z-10 inline-flex items-center gap-2 rounded-full bg-red-600 px-3 py-1 text-sm text-white shadow"
     >
       <AlertTriangle className="h-4 w-4 shrink-0 text-white" />
-      <span className="sr-only">{t("upload.errorLabel")} </span>
+      <span className="sr-only">{IT_UPLOAD.errorLabel} </span>
       <span>{message}</span>
     </output>
   );
@@ -449,7 +464,7 @@ export function UploadCard({
   isError = false,
   onRetry,
 }: UploadCardProps): React.ReactElement {
-  const { t } = useTranslation("dashboard");
+  // TEMPORARY: Using hardcoded Italian
   const { maxPrompts, requireExactCount, labels, inputId, blockOnDuplicates = false } = config;
   const UPLOAD_ERRORS = getUploadErrors();
 
@@ -509,9 +524,9 @@ export function UploadCard({
       if (mapped.length > 0 && hasDuplicates(mapped)) {
         setHasDuplicatesInFile(true);
         if (blockOnDuplicates) {
-          setWarning(i18n.t("upload.duplicatesBlockMessage", { ns: "dashboard" }));
+          setWarning(IT_UPLOAD.duplicatesBlockMessage);
         } else {
-          setWarning(i18n.t("upload.duplicatesWarnMessage", { ns: "dashboard" }));
+          setWarning(IT_UPLOAD.duplicatesWarnMessage);
         }
       }
     } catch (err) {
@@ -626,7 +641,7 @@ export function UploadCard({
         <UploadDropzone
           inputId={inputId}
           labels={labels}
-          dragHint={t("upload.dragHint")}
+          dragHint={IT_UPLOAD.dragHint}
           disabled={disabled}
           isDragActive={isDragActive}
           error={error}
@@ -656,9 +671,9 @@ export function UploadCard({
             labels={labels}
             hasSelection={hasSelection}
             onClear={handleClear}
-            zeroMessage={t("upload.zeroPromptsMessage")}
-            exactCountMessage={t("upload.exactCountMessage", { max: maxPrompts, count: promptCount })}
-            promptLabel={t("upload.promptCount", { count: 1 }).replace("1 ", "")}
+            zeroMessage={IT_UPLOAD.zeroPromptsMessage}
+            exactCountMessage={IT_UPLOAD.exactCountMessage(maxPrompts, promptCount)}
+            promptLabel={IT_UPLOAD.promptCount}
             clearFileLabel={"Clear file"}
           />
         )}

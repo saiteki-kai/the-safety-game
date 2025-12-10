@@ -1,21 +1,28 @@
 import { Check, Copy } from "lucide-react";
 import { useState } from "react";
-import { useTranslation } from "@providers/I18nContext";
 import { toast } from "sonner";
+
+// TEMPORARY: Hardcoded Italian translations
+const IT_DASHBOARD = {
+  team: {
+    codeCopied: "Codice copiato negli appunti",
+    codeCopyFailed: "Impossibile copiare il codice negli appunti",
+  },
+};
 
 type JoinCodeButtonProps = {
   teamJoinCode: string;
 };
 
 export default function JoinCodeButton({ teamJoinCode }: JoinCodeButtonProps) {
-  const { t } = useTranslation("dashboard");
+  // TEMPORARY: Using hardcoded Italian
   const [isJoinCodeCopied, setJoinCodeCopied] = useState(false);
 
   const onClick = async () => {
     try {
       await navigator.clipboard.writeText(teamJoinCode);
       setJoinCodeCopied(true);
-      toast.success(t("team.codeCopied"), {
+      toast.success(IT_DASHBOARD.team.codeCopied, {
         duration: 2000,
         position: "top-center",
         id: "copy-join-code-success",
@@ -23,7 +30,7 @@ export default function JoinCodeButton({ teamJoinCode }: JoinCodeButtonProps) {
       setTimeout(() => setJoinCodeCopied(false), 2000);
     } catch (err) {
       console.error("Failed to copy join code to clipboard", err);
-      toast.error(t("team.codeCopyFailed"), {
+      toast.error(IT_DASHBOARD.team.codeCopyFailed, {
         duration: 2000,
         position: "top-center",
         id: "copy-join-code-failure",

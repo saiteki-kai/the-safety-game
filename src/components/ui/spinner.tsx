@@ -1,11 +1,11 @@
 import { Loader2Icon } from "lucide-react";
-import { useTranslation } from "@providers/I18nContext";
 
 import { cn } from "@/lib/utils";
 
 function Spinner({ className, ...props }: React.ComponentProps<"svg">) {
+  // TEMPORARY: Using hardcoded Italian
   return (
-    <Loader2Icon role="status" aria-label={"Loading..."} className={cn("size-4 animate-spin", className)} {...props} />
+    <Loader2Icon role="status" aria-label={"Caricamento..."} className={cn("size-4 animate-spin", className)} {...props} />
   );
 }
 

@@ -7,7 +7,9 @@ import { ScrollArea } from "@components/ui/scroll-area";
 import { Toaster } from "@components/ui/sonner";
 import WebsiteAnalytics from "@vercel/analytics/astro";
 import SpeedInsights from "@vercel/speed-insights/astro";
-import i18n from "i18next";
+
+// TEMPORARY: Force Italian locale
+const FORCED_LOCALE = "it";
 
 interface Props {
   title: string;
@@ -17,7 +19,7 @@ interface Props {
 const { title, description = "The Safety Game - Hackathon organized by MIND, University of Milan Bicocca" } =
   Astro.props as Props;
 
-const locale = i18n.language;
+const locale = FORCED_LOCALE;
 ---
 
 <html lang={locale || "it"}>

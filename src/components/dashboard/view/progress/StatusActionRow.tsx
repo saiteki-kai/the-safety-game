@@ -1,5 +1,11 @@
 import type { LucideIcon } from "lucide-react";
-import { useTranslation } from "@providers/I18nContext";
+
+// TEMPORARY: Hardcoded Italian translations
+const IT_DASHBOARD = {
+  status: {
+    goTo: "Vai →",
+  },
+};
 
 type ColorVariant = "blue" | "green" | "amber" | "neutral" | "emerald" | "rose";
 
@@ -69,7 +75,7 @@ const colorStyles: Record<ColorVariant, { bg: string; border: string; hoverBg: s
 };
 
 export default function StatusActionRow({ Icon, label, subtitle, href, variant = "neutral" }: StatusActionRowProps) {
-  const { t } = useTranslation("dashboard");
+  // TEMPORARY: Using hardcoded Italian
   const colors = colorStyles[variant];
 
   return (
@@ -88,7 +94,7 @@ export default function StatusActionRow({ Icon, label, subtitle, href, variant =
         className="font-medium text-blue-600 text-sm transition-colors hover:text-blue-700"
         aria-label={`Go to ${label}`}
       >
-        {t("status.goTo")}
+        {IT_DASHBOARD.status.goTo}
       </a>
     </div>
   );

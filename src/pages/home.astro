@@ -26,9 +26,9 @@ const footerTranslations = {
 ---
 
 <PageLayout title="The Safety Game" description="The Safety Game - Hackathon organizzato da MIND, Università di Milano Bicocca">
-  <I18nContextProvider client:load locale="it">
+  <!--<I18nContextProvider client:load locale="it">-->
     <LandingNavigation slot="navigation" client:load profile={profile} />
-  </I18nContextProvider>
+  <!-- </I18nContextProvider>-->
   <HeroSection />
   <!-- Invisible spacer so nav de-highlights when scrolling above the first real section -->
   <div id="top-spacer" aria-hidden="true" class="h-px -mt-px"></div>
@@ -36,7 +36,7 @@ const footerTranslations = {
   <InstructionsSection />
   <ParticipationSection />
   <TimelineSection />
-  <!--<LeaderboardSection />-->
+  <LeaderboardSection />
   <TeamSection />
   <FaqSection />
   <LogosSection slot="prefooter" />

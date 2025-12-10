@@ -4,6 +4,9 @@ import { useTranslation as useTranslationI18n } from "react-i18next";
 import i18next from "i18next";
 import { useEffect } from "react";
 
+// TEMPORARY: Force Italian locale
+const FORCED_LOCALE = "it";
+
 export const I18nContextStore = map();
 
 interface I18nContextType {
@@ -11,7 +14,7 @@ interface I18nContextType {
 }
 
 const defaultContext: I18nContextType = {
-    locale: "it",
+    locale: FORCED_LOCALE,
 };
 
 export const I18nContext = createContext<I18nContextType>(
@@ -19,11 +22,18 @@ export const I18nContext = createContext<I18nContextType>(
 );
 
 export const I18nContextProvider = ({
-    locale,
+    locale: _locale, // ignore passed locale
     children,
 }: I18nContextType & { children: React.ReactNode }) => {
+    // TEMPORARY: Force Italian on mount
+    useEffect(() => {
+        if (i18next.language !== FORCED_LOCALE) {
+            i18next.changeLanguage(FORCED_LOCALE);
+        }
+    }, []);
+
     return (
-        <I18nContext.Provider value={{ locale }}>{children}</I18nContext.Provider>
+        <I18nContext.Provider value={{ locale: FORCED_LOCALE }}>{children}</I18nContext.Provider>
     );
 };
 
@@ -35,11 +45,10 @@ type Namespace = string | string[];
 
 /**
  * Hook to get translation function using react-i18next.
- * The language is synced via I18nContextProvider.
+ * TEMPORARY: Always uses Italian locale.
  */
 export const useTranslation = (ns?: Namespace, options?: { keyPrefix?: string }) => {
-    const { locale } = useI18n();
-    const { t } = useTranslationI18n(ns, { keyPrefix: options?.keyPrefix, lng: locale });
-    return { t, locale };
+    const { t } = useTranslationI18n(ns, { keyPrefix: options?.keyPrefix, lng: FORCED_LOCALE });
+    return { t, locale: FORCED_LOCALE };
 };
 

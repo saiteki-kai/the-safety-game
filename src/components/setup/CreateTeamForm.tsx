@@ -6,23 +6,36 @@ import { Input } from "@components/ui/input";
 import { Label } from "@components/ui/label";
 import { OctagonAlert, Rocket, Users } from "lucide-react";
 import { useActionState, useEffect } from "react";
-import { useTranslation } from "@providers/I18nContext";
 import { toast } from "sonner";
-import { localizeUrl } from "@/lib/i18n";
 import { localizeValidationError } from "@/lib/schemas";
 
+// TEMPORARY: Hardcoded Italian translations
+const IT_SETUP = {
+  teamNameLabel: "Nome Team",
+  teamNameHint: "Scegli un nome riconoscibile così i compagni ti trovano più facilmente.",
+  teamNamePlaceholder: "Safety Guardians",
+  createButton: "Crea",
+  creatingButton: "Creazione...",
+  createError: "Errore durante la creazione del team.",
+};
+
+const IT_ERRORS: Record<string, string> = {
+  // Add error codes as needed
+  default: "Si è verificato un errore",
+};
+
 export default function CreateTeamForm() {
-  const { t } = useTranslation();
+  // TEMPORARY: Using hardcoded Italian
   const [state, action, isPending] = useActionState(withState(actions.teams.createTeam), undefined);
 
   const inputErrors = isInputError(state?.error) ? state.error.fields : {};
 
   // Handle errorCode from data (expected errors with error codes)
   const errorCode = state?.data?.errorCode;
-  const expectedError = errorCode ? t(errorCode, { ns: "errors" }) : null;
+  const expectedError = errorCode ? (IT_ERRORS[errorCode] || IT_ERRORS.default) : null;
 
   // Handle ActionError message (unexpected server errors)
-  const unexpectedError = isActionError(state?.error) ? t(state.error.message, { ns: "errors" }) : null;
+  const unexpectedError = isActionError(state?.error) ? (IT_ERRORS[state.error.message] || IT_ERRORS.default) : null;
   const actionError = unexpectedError || expectedError;
 
   const inputFieldCount = inputErrors ? Object.keys(inputErrors).length : 0;
@@ -40,7 +53,7 @@ export default function CreateTeamForm() {
 
   useEffect(() => {
     if (isActionError(state?.error)) {
-      toast.error(t("createError", { ns: "setup" }), {
+      toast.error(IT_SETUP.createError, {
         duration: 2000,
         position: "bottom-center",
         id: "create-team-error",
@@ -49,35 +62,35 @@ export default function CreateTeamForm() {
     }
 
     if (state?.data?.team) {
-      navigate(localizeUrl("/dashboard"));
+      navigate("/dashboard");
     }
-  }, [state, t]);
+  }, [state]);
 
   return (
     <form className="dashboard-form" data-astro-reload action={action}>
       <div className="dashboard-field">
         <Label htmlFor="team-name" className="dashboard-field-label">
-          {t("teamNameLabel", { ns: "setup" })}
+          {IT_SETUP.teamNameLabel}
         </Label>
         <div className="dashboard-input-wrapper">
           <Users className="dashboard-input-icon" aria-hidden="true" />
           <Input
             id="team-name"
             name="teamName"
-            placeholder={t("teamNamePlaceholder", { ns: "setup" })}
+            placeholder={IT_SETUP.teamNamePlaceholder}
             required
             className={`dashboard-input ${inputStateClass}`}
             disabled={isPending}
           />
         </div>
         <p aria-live="polite" className={helperTextClass}>
-          {error ?? t("teamNameHint", { ns: "setup" })}
+          {error ?? IT_SETUP.teamNameHint}
         </p>
       </div>
 
       <Button type="submit" disabled={isPending} className="dashboard-submit">
         <Rocket className="h-4 w-4" aria-hidden="true" />
-        {isPending ? t("creatingButton", { ns: "setup" }) : t("createButton", { ns: "setup" })}
+        {isPending ? IT_SETUP.creatingButton : IT_SETUP.createButton}
       </Button>
     </form>
   );

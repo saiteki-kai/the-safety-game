@@ -1,6 +1,5 @@
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
-import { useTranslation } from "@providers/I18nContext";
 import { Accordion } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import { NavigationMenu, NavigationMenuList } from "@/components/ui/navigation-menu";
@@ -10,6 +9,21 @@ import LanguageSwitcher, { LanguageSwitcherMobile } from "./LanguageSwitcher";
 import type { MenuItem } from "./NavigationParts";
 import { renderMenuItem, renderMobileMenuItem } from "./NavigationParts";
 import NavLogo from "./NavLogo";
+
+// TEMPORARY: Hardcoded Italian translations
+const IT_NAV = {
+  skipToContent: "Salta al contenuto principale",
+};
+
+const IT_SECTIONS: Record<string, string> = {
+  challenge: "La Sfida",
+  instructions: "Istruzioni",
+  participate: "Partecipa",
+  dates: "Date Importanti",
+  leaderboard: "Leaderboard",
+  team: "Il Team",
+  faq: "FAQ",
+};
 
 // Section IDs that map to translation keys in sections.json
 const sectionIds = ["challenge", "instructions", "participate", "dates", "leaderboard", "team", "faq"] as const;
@@ -38,14 +52,13 @@ export default function Navigation({
   navOpacity = 0,
   isIndexPage = false,
 }: NavbarProps) {
-  const { t } = useTranslation("nav");
-  const { t: tSections } = useTranslation("sections");
+  // TEMPORARY: Using hardcoded Italian
   const [open, setOpen] = useState(false);
   const isOpaque = navOpacity >= 0.5;
 
   // Build default menu with translated labels
   const defaultMenu: MenuItem[] = sectionIds.map((id) => ({
-    title: tSections(id),
+    title: IT_SECTIONS[id] || id,
     url: `#${id}`,
   }));
   const menuItems = menu ?? defaultMenu;
@@ -53,7 +66,7 @@ export default function Navigation({
   return (
     <>
       <a href="#main-content" className="sr-only focus:not-sr-only focus:inline-block">
-        {t("skipToContent")}
+        {IT_NAV.skipToContent}
       </a>
       <section
         className={cn(
@@ -127,7 +140,8 @@ export default function Navigation({
                   {/* subtle separator matching site border color and mobile padding */}
                   <Separator className="mx-0 my-2 bg-white/20" aria-hidden="true" />
                   <div className="flex flex-col gap-3 pt-2">
-                    <LanguageSwitcherMobile />
+                    {/* TEMPORARY: Language switcher hidden */}
+                    {/* <LanguageSwitcherMobile /> */}
                     {(actionsMobile ?? actions) && (
                       <>
                         <Separator className="mx-0 my-1 bg-white/20" aria-hidden="true" />
@@ -141,10 +155,10 @@ export default function Navigation({
           )}
         </div>
 
-        {/* Language switcher placed outside the centered container, aligned to the right edge */}
-        <div className="pointer-events-auto absolute inset-y-0 right-2 hidden items-center md:flex lg:right-4">
+        {/* TEMPORARY: Language switcher hidden */}
+        {/* <div className="pointer-events-auto absolute inset-y-0 right-2 hidden items-center md:flex lg:right-4">
           <LanguageSwitcher />
-        </div>
+        </div> */}
       </section>
     </>
   );

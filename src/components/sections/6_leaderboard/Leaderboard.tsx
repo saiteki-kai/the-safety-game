@@ -1,13 +1,27 @@
 import Icon from "@components/common/Icon";
 import IconLabel from "@components/common/IconLabel";
 import { PostgrestError } from "@supabase/supabase-js";
-import i18next from "i18next";
 import { useMemo, useEffect, useEffectEvent, useState } from "react";
-import { useTranslation } from "@providers/I18nContext";
 import { getLeaderboard } from "@/db/submissions";
 import type { IconName } from "@/lib/icons";
 import { browserClient } from "@/lib/supabase";
 import type { Leaderboard } from "@/lib/supabase.types";
+
+// TEMPORARY: Force Italian locale
+const FORCED_LOCALE = "it";
+
+// TEMPORARY: Hardcoded Italian translations
+const IT_LEADERBOARD = {
+  rank: "Posizione",
+  teamName: "Team",
+  score: "Punteggio",
+  lastSubmission: "Ultima Consegna",
+  loadError: "Impossibile caricare la classifica. Riprova più tardi.",
+};
+
+const IT_COMMON = {
+  error: "Si è verificato un errore",
+};
 
 const formatPercent = (v: number) => {
   if (typeof v !== "number" || !Number.isFinite(v)) return "0.00";
@@ -16,7 +30,7 @@ const formatPercent = (v: number) => {
 
 const formatDateShortNoYear = (value: string) => {
   try {
-    return new Intl.DateTimeFormat(i18next.language, {
+    return new Intl.DateTimeFormat(FORCED_LOCALE, {
       day: "2-digit",
       month: "short",
       hour: "2-digit",
@@ -35,8 +49,7 @@ const highlightConfig: Record<number, { row: string; icon?: { name: string; clas
 };
 
 export default function LeaderboardTable({ emptyMessage }: { emptyMessage: string }) {
-  const { t } = useTranslation("leaderboard");
-  const { t: tCommon } = useTranslation("common");
+  // TEMPORARY: Using hardcoded Italian
   
   const supabaseClient = useMemo(() => browserClient(), []);
   
@@ -51,7 +64,7 @@ export default function LeaderboardTable({ emptyMessage }: { emptyMessage: strin
       const data = await getLeaderboard(supabaseClient);
       setLeaderboard(data);
     } catch (err: unknown) {
-      setError(err instanceof PostgrestError ? err : new Error(tCommon("error")));
+      setError(err instanceof PostgrestError ? err : new Error(IT_COMMON.error));
       setLeaderboard([]);
     } finally {
       setLoading(false);
@@ -94,10 +107,10 @@ export default function LeaderboardTable({ emptyMessage }: { emptyMessage: strin
           </colgroup>
           <thead>
             <tr>
-              <th className="text-center">{t("rank")}</th>
-              <th className="text-center">{t("score")}</th>
-              <th className="text-left">{t("teamName")}</th>
-              <th className="text-right">{t("lastSubmission")}</th>
+              <th className="text-center">{IT_LEADERBOARD.rank}</th>
+              <th className="text-center">{IT_LEADERBOARD.score}</th>
+              <th className="text-left">{IT_LEADERBOARD.teamName}</th>
+              <th className="text-right">{IT_LEADERBOARD.lastSubmission}</th>
             </tr>
           </thead>
           <tbody>
@@ -126,7 +139,7 @@ export default function LeaderboardTable({ emptyMessage }: { emptyMessage: strin
         <div className="flex h-full items-center justify-center py-6">
           <div className="leaderboard-empty flex-col justify-center text-center">
             <Icon name="triangle-alert" size={28} className="mx-auto text-red-500" />
-            <p className="mt-3 text-red-600 text-sm">{t("loadError")}</p>
+            <p className="mt-3 text-red-600 text-sm">{IT_LEADERBOARD.loadError}</p>
           </div>
         </div>
       ) : isEmpty ? (
@@ -152,16 +165,16 @@ export default function LeaderboardTable({ emptyMessage }: { emptyMessage: strin
           <thead>
             <tr>
               <th scope="col" className="text-center">
-                {t("rank")}
+                {IT_LEADERBOARD.rank}
               </th>
               <th scope="col" className="text-center">
-                {t("score")}
+                {IT_LEADERBOARD.score}
               </th>
               <th scope="col" className="text-left">
-                {t("teamName")}
+                {IT_LEADERBOARD.teamName}
               </th>
               <th scope="col" className="text-right">
-                {t("lastSubmission")}
+                {IT_LEADERBOARD.lastSubmission}
               </th>
             </tr>
           </thead>

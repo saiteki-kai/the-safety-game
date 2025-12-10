@@ -1,8 +1,22 @@
 import { actions } from "astro:actions";
 import { AlertTriangle } from "lucide-react";
 import { useState } from "react";
-import { Trans, useTranslation } from "react-i18next";
 import { dailyUploadConfig, UploadCard } from "../../shared";
+
+// TEMPORARY: Hardcoded Italian translations
+const IT_PLAYGROUND = {
+  title: "Playground",
+  description: "Carica i tuoi prompt ogni giorno per testare e migliorare prima dell'invio finale. Ottieni valutazioni preliminari e scopri prompt più efficaci.",
+  howItWorks: "Come Funziona",
+  howItWorksDesc1: "Puoi caricare fino a 25 prompt al giorno per ottenere delle valutazioni preliminari che ti aiutano a testare strategie diverse prima dell'invio ufficiale.",
+  howItWorksDesc2: "Ogni prompt riceve un punteggio provvisorio da un singolo modello di linguaggio. Nella consegna finale, i prompt verranno valutati da diversi modelli e combinati per una valutazione più accurata.",
+  howItWorksDesc3: "<strong>Formato del file:</strong> Carica un file di testo semplice dove ogni riga contiene un singolo prompt.",
+  tips: "Consigli Importanti",
+  tipReadInstructions: "Leggi bene tutte le istruzioni prima di procedere.",
+  tipDuplicates: "Prompt identici a quelli già inviati saranno scartati.",
+  tipOneUpload: "Puoi effettuare un solo upload giornaliero per team.",
+  tipCultural: "Prova diversi aspetti culturali italiani, spazia tra diversi argomenti.",
+};
 
 interface DailySubmissionSectionProps {
   teamId: string;
@@ -10,7 +24,7 @@ interface DailySubmissionSectionProps {
 }
 
 export function DailySubmissionSection({ teamId, disabled = false }: DailySubmissionSectionProps) {
-  const { t } = useTranslation("dashboard");
+  // TEMPORARY: Using hardcoded Italian
   const [isLoading, setIsLoading] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isError, setIsError] = useState(false);
@@ -41,46 +55,40 @@ export function DailySubmissionSection({ teamId, disabled = false }: DailySubmis
     <div className="scroll-mt-16 space-y-8 px-4 py-8 sm:px-8" id="playground">
       {/* Hero Section */}
       <div className="space-y-4 text-center">
-        <h2 className="font-bold text-2xl text-neutral-900">{t("playground.title")}</h2>
-        <p className="mx-auto max-w-2xl text-lg text-neutral-600">{t("playground.description")}</p>
+        <h2 className="font-bold text-2xl text-neutral-900">{IT_PLAYGROUND.title}</h2>
+        <p className="mx-auto max-w-2xl text-lg text-neutral-600">{IT_PLAYGROUND.description}</p>
       </div>
 
       {/* Main Content Grid */}
       <div className="flex flex-col items-stretch gap-8 lg:flex-row">
         <div className="h-full space-y-6 lg:flex-1">
           <div className="rounded-lg border border-blue-100 bg-blue-50 p-6">
-            <h3 className="mb-4 font-semibold text-lg text-blue-800">{t("playground.howItWorks")}</h3>
+            <h3 className="mb-4 font-semibold text-lg text-blue-800">{IT_PLAYGROUND.howItWorks}</h3>
             <div className="space-y-3 text-blue-700 text-sm">
-              <p>
-                <Trans i18nKey="dashboard:playground.howItWorksDesc1" />
-              </p>
-              <p>
-                <Trans i18nKey="dashboard:playground.howItWorksDesc2" />
-              </p>
-              <p>
-                <Trans i18nKey="dashboard:playground.howItWorksDesc3" />
-              </p>
+              <p>{IT_PLAYGROUND.howItWorksDesc1}</p>
+              <p>{IT_PLAYGROUND.howItWorksDesc2}</p>
+              <p dangerouslySetInnerHTML={{ __html: IT_PLAYGROUND.howItWorksDesc3 }} />
             </div>
           </div>
 
           <div className="rounded-lg border border-indigo-100 bg-indigo-50 p-6">
-            <h3 className="mb-4 font-semibold text-lg text-indigo-800">{t("playground.tips")}</h3>
+            <h3 className="mb-4 font-semibold text-lg text-indigo-800">{IT_PLAYGROUND.tips}</h3>
             <ul className="space-y-3 text-sm text-indigo-700">
               <li className="flex items-start gap-2 align-middle">
                 <AlertTriangle size={16} className="text-violet-600" />
-                <span>{t("playground.tipReadInstructions")}</span>
+                <span>{IT_PLAYGROUND.tipReadInstructions}</span>
               </li>
               <li className="flex items-start gap-2 align-middle">
                 <AlertTriangle size={16} className="text-violet-600" />
-                <span>{t("playground.tipDuplicates")}</span>
+                <span>{IT_PLAYGROUND.tipDuplicates}</span>
               </li>
               <li className="flex items-start gap-2 align-middle">
                 <AlertTriangle size={16} className="text-violet-600" />
-                <span>{t("playground.tipOneUpload")}</span>
+                <span>{IT_PLAYGROUND.tipOneUpload}</span>
               </li>
               <li className="flex items-start gap-2 align-middle">
                 <AlertTriangle size={16} className="text-violet-600" />
-                <span>{t("playground.tipCultural")}</span>
+                <span>{IT_PLAYGROUND.tipCultural}</span>
               </li>
             </ul>
           </div>

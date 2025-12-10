@@ -1,17 +1,27 @@
 import type { Table } from "@tanstack/react-table";
 import { ChevronFirst, ChevronLast, ChevronLeft, ChevronRight } from "lucide-react";
 import { useId } from "react";
-import { useTranslation } from "@providers/I18nContext";
 
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+
+// TEMPORARY: Hardcoded Italian translations
+const IT_PAGINATION = {
+  pageSize: "Dimensione pagina",
+  range: (from: number, to: number, total: number) => `${from} - ${to} di ${total}`,
+  pageOf: (page: number, total: number) => `Pagina ${page} di ${total}`,
+  first: "Primo",
+  previous: "Precedente",
+  next: "Successivo",
+  last: "Ultimo",
+};
 
 interface DataTablePaginationProps<TData> {
   table: Table<TData>;
 }
 
 export function DataTablePagination<TData>({ table }: DataTablePaginationProps<TData>) {
-  const { t } = useTranslation("common");
+  // TEMPORARY: Using hardcoded Italian
   const pageIndex = table.getState().pagination.pageIndex;
   const pageSize = table.getState().pagination.pageSize;
   const pageCount = table.getPageCount();
@@ -26,7 +36,7 @@ export function DataTablePagination<TData>({ table }: DataTablePaginationProps<T
       <div className="flex items-center space-x-4">
         <div className="flex items-center space-x-2">
           <label htmlFor={pageSizeSelectId} className="font-light text-neutral-800 text-sm">
-            {t("pagination.pageSize")}
+            {IT_PAGINATION.pageSize}
           </label>
           <Select value={String(pageSize)} onValueChange={(val) => table.setPageSize(Number(val))}>
             <SelectTrigger
@@ -46,7 +56,7 @@ export function DataTablePagination<TData>({ table }: DataTablePaginationProps<T
         </div>
 
         <div className="font-light text-neutral-800 text-sm">
-          {t("pagination.range", { from, to, total: rowCount })}
+          {IT_PAGINATION.range(from, to, rowCount)}
         </div>
       </div>
 
@@ -59,8 +69,8 @@ export function DataTablePagination<TData>({ table }: DataTablePaginationProps<T
             className="hidden rounded-full bg-transparent text-neutral-800 hover:bg-neutral-100 lg:flex"
             onClick={() => table.setPageIndex(0)}
             disabled={!table.getCanPreviousPage()}
-            aria-label={t("pagination.first")}
-            title={t("pagination.first")}
+            aria-label={IT_PAGINATION.first}
+            title={IT_PAGINATION.first}
           >
             <ChevronFirst />
           </Button>
@@ -70,15 +80,15 @@ export function DataTablePagination<TData>({ table }: DataTablePaginationProps<T
             className="rounded-full bg-transparent text-neutral-800 hover:bg-neutral-100"
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
-            aria-label={t("pagination.previous")}
-            title={t("pagination.previous")}
+            aria-label={IT_PAGINATION.previous}
+            title={IT_PAGINATION.previous}
           >
             <ChevronLeft />
           </Button>
         </div>
 
         <div className="hidden items-center px-3 font-light text-neutral-800 text-sm sm:flex">
-          {t("pagination.pageOf", { page: pageIndex + 1, total: pageCount })}
+          {IT_PAGINATION.pageOf(pageIndex + 1, pageCount)}
         </div>
 
         <div className="flex items-center gap-1">
@@ -88,8 +98,8 @@ export function DataTablePagination<TData>({ table }: DataTablePaginationProps<T
             className="rounded-full bg-transparent text-neutral-800 hover:bg-neutral-100"
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
-            aria-label={t("pagination.next")}
-            title={t("pagination.next")}
+            aria-label={IT_PAGINATION.next}
+            title={IT_PAGINATION.next}
           >
             <ChevronRight />
           </Button>
@@ -99,8 +109,8 @@ export function DataTablePagination<TData>({ table }: DataTablePaginationProps<T
             className="hidden rounded-full bg-transparent text-neutral-800 hover:bg-neutral-100 lg:flex"
             onClick={() => table.setPageIndex(pageCount - 1)}
             disabled={!table.getCanNextPage()}
-            aria-label={t("pagination.last")}
-            title={t("pagination.last")}
+            aria-label={IT_PAGINATION.last}
+            title={IT_PAGINATION.last}
           >
             <ChevronLast />
           </Button>

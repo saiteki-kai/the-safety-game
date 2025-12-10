@@ -1,26 +1,37 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@components/ui/card";
 import { useState } from "react";
-import { useTranslation } from "@providers/I18nContext";
 
 import CreateTeamForm from "./CreateTeamForm";
 import JoinTeamForm from "./JoinTeamForm";
+
+// TEMPORARY: Hardcoded Italian translations
+const IT_SETUP = {
+  title: "Gestisci il tuo team",
+  description: "Crea un nuovo gruppo o unisciti a un team già esistente utilizzando il codice di invito.",
+  createTab: "Crea team",
+  joinTab: "Unisciti al team",
+  createTitle: "Crea il tuo team",
+  createDescription: "Avvia un nuovo team e invita i tuoi compagni.",
+  joinTitle: "Unisciti a un team",
+  joinDescription: "Inserisci il codice condiviso dai tuoi compagni per entrare nel loro gruppo.",
+};
 
 type TabKey = "create" | "join";
 
 export default function TeamSetupPanel() {
   const [tab, setTab] = useState<TabKey>("create");
-  const { t } = useTranslation("setup");
+  // TEMPORARY: Using hardcoded Italian
 
   const tabCopy = {
     create: {
-      tab: t("createTab"),
-      title: t("createTitle"),
-      description: t("createDescription"),
+      tab: IT_SETUP.createTab,
+      title: IT_SETUP.createTitle,
+      description: IT_SETUP.createDescription,
     },
     join: {
-      tab: t("joinTab"),
-      title: t("joinTitle"),
-      description: t("joinDescription"),
+      tab: IT_SETUP.joinTab,
+      title: IT_SETUP.joinTitle,
+      description: IT_SETUP.joinDescription,
     },
   };
 
@@ -29,8 +40,8 @@ export default function TeamSetupPanel() {
   return (
     <div className="dashboard-empty-state h-screen">
       <div className="dashboard-empty-heading">
-        <h1 className="dashboard-empty-title">{t("title")}</h1>
-        <p className="dashboard-empty-description">{t("description")}</p>
+        <h1 className="dashboard-empty-title">{IT_SETUP.title}</h1>
+        <p className="dashboard-empty-description">{IT_SETUP.description}</p>
       </div>
 
       <div className="dashboard-tabs-shell">

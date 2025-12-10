@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useTranslation } from "@providers/I18nContext";
 import { STOP_SUBMISSIONS_DATE } from "@/content/consts.ts";
 import { useLeaderboardPosition } from "@/hooks/useLeaderboardPosition.tsx";
 import { useTeamMembers } from "@/hooks/useTeamMembers.tsx";
@@ -20,7 +19,7 @@ export default function TeamDashboardView({ team }: TeamDashboardViewProps) {
   const { members } = useTeamMembers(supabase, team.id);
   const { submissions } = useTeamSubmissions(supabase, team.id);
   const { position: leaderboardPosition } = useLeaderboardPosition(supabase, team.id);
-  const { t } = useTranslation("dashboard");
+  // TEMPORARY: Not using translations
 
   // State for time-based values to prevent hydration mismatch
   const [challengeDaysRemaining, setChallengeDaysRemaining] = useState<number>(0);
@@ -70,20 +69,28 @@ export default function TeamDashboardView({ team }: TeamDashboardViewProps) {
     promptsBeatingChatGPT,
   };
 
+  // TEMPORARY: Hardcoded Italian translations
+  const IT_DASHBOARD = {
+    title: "Dashboard",
+    teamOverview: "Panoramica Team",
+    dailySubmission: "Area Submission Giornaliera",
+    submissionHistory: "Storico Submission",
+  };
+
   return (
-    <main className="flex min-h-0 w-full flex-1 flex-col gap-8 px-4 py-6 sm:px-2 sm:py-10" aria-label={t("title")}>
+    <main className="flex min-h-0 w-full flex-1 flex-col gap-8 px-4 py-6 sm:px-2 sm:py-10" aria-label={IT_DASHBOARD.title}>
       <div className="mx-auto w-full lg:container">
-        <section className="grid gap-4 lg:grid-cols-3" aria-label={t("teamOverview")}>
+        <section className="grid gap-4 lg:grid-cols-3" aria-label={IT_DASHBOARD.teamOverview}>
           <div className="lg:col-span-3">
             <TeamOverviewCard teamName={teamName} members={members} teamJoinCode={teamJoinCode} progress={progress} />
           </div>
         </section>
 
-        <section aria-label={t("dailySubmission")} className="space-y-4">
+        <section aria-label={IT_DASHBOARD.dailySubmission} className="space-y-4">
           <DailySubmissionSection teamId={team.id} disabled={dailySubmissionsDone} />
         </section>
 
-        <section aria-label={t("submissionHistory")} className="space-y-4">
+        <section aria-label={IT_DASHBOARD.submissionHistory} className="space-y-4">
           <SubmissionHistorySection teamId={team.id} submissions={submissions} />
         </section>
       </div>

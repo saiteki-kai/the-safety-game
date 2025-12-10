@@ -2,18 +2,19 @@
  * Shared utilities for file upload and prompt parsing.
  */
 
-import i18n from "i18next";
-
 export const MAX_FILE_BYTES = 20_000_000; // 20 MB
+
+// TEMPORARY: Hardcoded Italian error messages
+const UPLOAD_ERRORS_IT = {
+  FILE_TOO_LARGE: "File troppo grande. Max 20 MB",
+  READ_ERROR: "Errore durante la lettura del file.",
+  SERVER_ERROR: "Errore dal server durante l'upload.",
+  INVALID_TYPE: "Formato file non supportato. Usa file di testo (.txt).",
+} as const;
 
 /** Get localized error messages */
 export const getUploadErrors = () => {
-  return {
-    FILE_TOO_LARGE: i18n.t("upload.errors.fileTooLarge", { ns: "dashboard" }),
-    READ_ERROR: i18n.t("upload.errors.readError", { ns: "dashboard" }),
-    SERVER_ERROR: i18n.t("upload.errors.serverError", { ns: "dashboard" }),
-    INVALID_TYPE: i18n.t("upload.errors.invalidType", { ns: "dashboard" }),
-  };
+  return UPLOAD_ERRORS_IT;
 };
 
 /** Fallback error messages (for non-React contexts where i18n may not be initialized) */

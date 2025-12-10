@@ -1,9 +1,19 @@
 import { DataTableColumnHeader } from "@components/ui/data-table-column-header";
 import type { ColumnDef } from "@tanstack/react-table";
-import { useTranslation } from "@providers/I18nContext";
 import { formatDateTimeOrNull, formatDecimal, toISOStringIfValid } from "@/lib/formatters";
 import type { TeamSubmissions } from "@/lib/supabase.types";
 import { StatefulDataTable } from "./StatefulDataTable";
+
+// TEMPORARY: Hardcoded Italian translations
+const IT_HISTORY = {
+  title: "Storico Submission",
+  description: "Consulta i punteggi assegnati ad ogni prompt inviato dal tuo team.",
+  columnPrompt: "Prompt",
+  columnDate: "Ultimo invio",
+  columnScore: "Punteggio",
+  emptyTitle: "Nessun risultato",
+  emptyDescription: "Non ci sono dati da mostrare.",
+};
 
 type SubmissionHistorySectionProps = {
   teamId?: string;
@@ -11,13 +21,13 @@ type SubmissionHistorySectionProps = {
 };
 
 export function SubmissionHistorySection({ submissions }: SubmissionHistorySectionProps) {
-  const { t } = useTranslation("dashboard");
+  // TEMPORARY: Using hardcoded Italian
   const isLoading = submissions === null;
 
   const submissionColumns: ColumnDef<TeamSubmissions>[] = [
     {
       accessorKey: "prompt",
-      header: ({ column }) => <DataTableColumnHeader column={column} title={t("history.columnPrompt")} />,
+      header: ({ column }) => <DataTableColumnHeader column={column} title={IT_HISTORY.columnPrompt} />,
       cell: ({ row }) => {
         const prompt = row.getValue("prompt") as string | null;
         return <span className="text-neutral-700 text-sm">{prompt ?? "—"}</span>;
@@ -27,7 +37,7 @@ export function SubmissionHistorySection({ submissions }: SubmissionHistorySecti
     },
     {
       accessorKey: "date",
-      header: ({ column }) => <DataTableColumnHeader column={column} title={t("history.columnDate")} />,
+      header: ({ column }) => <DataTableColumnHeader column={column} title={IT_HISTORY.columnDate} />,
       cell: ({ row }) => {
         const rawDate = row.getValue("date");
         const formatted = formatDateTimeOrNull(rawDate);
@@ -44,7 +54,7 @@ export function SubmissionHistorySection({ submissions }: SubmissionHistorySecti
     },
     {
       accessorKey: "score",
-      header: ({ column }) => <DataTableColumnHeader column={column} title={t("history.columnScore")} />,
+      header: ({ column }) => <DataTableColumnHeader column={column} title={IT_HISTORY.columnScore} />,
       cell: ({ row }) => {
         const rawScore = row.getValue("score");
         const score = formatDecimal(rawScore, 1);
@@ -58,16 +68,16 @@ export function SubmissionHistorySection({ submissions }: SubmissionHistorySecti
   return (
     <div className="space-y-8 px-4 py-8 sm:px-8">
       <div className="space-y-4 text-center">
-        <h2 className="font-bold text-2xl text-neutral-900">{t("history.title")}</h2>
-        <p className="mx-auto max-w-2xl text-lg text-neutral-600">{t("history.description")}</p>
+        <h2 className="font-bold text-2xl text-neutral-900">{IT_HISTORY.title}</h2>
+        <p className="mx-auto max-w-2xl text-lg text-neutral-600">{IT_HISTORY.description}</p>
       </div>
 
       <StatefulDataTable
         data={submissions}
         isLoading={isLoading}
         columns={submissionColumns}
-        emptyTitle={t("history.emptyTitle")}
-        emptyDescription={t("history.emptyDescription")}
+        emptyTitle={IT_HISTORY.emptyTitle}
+        emptyDescription={IT_HISTORY.emptyDescription}
       />
     </div>
   );
