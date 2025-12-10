@@ -145,15 +145,10 @@ export default function LeaderboardTable({ emptyMessage }: { emptyMessage: strin
         </div>
       ) : isEmpty ? (
         <div className="flex h-full items-center justify-center py-6">
-          <IconLabel
-            name="info"
-            size={28}
-            iconClass="text-neutral-400"
-            as="div"
-            className="leaderboard-empty flex-col justify-center"
-          >
-            {emptyMessage}
-          </IconLabel>
+          <div className="leaderboard-empty flex-col justify-center text-center">
+            <InfoIcon size={28} className="mx-auto text-neutral-400" />
+            <p className="mt-3 text-neutral-500 text-sm">{emptyMessage}</p>
+          </div>
         </div>
       ) : (
         <table className="table-base">

@@ -54,7 +54,7 @@ export default defineConfig({
       defaultLocale: "it",
       locales: ["it", "en"],
       namespaces,
-      prefixDefaultLocale: false,
+      prefixDefaultLocale: true,
     }),
   ],
 
