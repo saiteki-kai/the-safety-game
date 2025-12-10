@@ -1,11 +1,11 @@
 import { ArrowUp } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
+// import { useTranslation } from "@providers/I18nContext";
 
 import { Button } from "@/components/ui/button";
 
 export function ScrollToTopButton() {
-  const { t } = useTranslation("common");
+  // const { t } = useTranslation("common");
   const [isVisible, setIsVisible] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
 

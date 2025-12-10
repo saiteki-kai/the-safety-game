@@ -1,5 +1,5 @@
 ---
-import Footer from "@components/common/Footer.astro";
+import FooterWithProps from "@components/common/FooterWithProps.astro";
 import LandingNavigation from "@components/common/LandingNavigation";
 import {
   ChallengeSection,
@@ -13,12 +13,22 @@ import {
   TimelineSection,
 } from "@components/sections";
 import PageLayout from "@layouts/PageLayout.astro";
+import { I18nContextProvider } from "@/components/providers/I18nContext";
 
 const profile = Astro.locals.user;
+
+const footerTranslations = {
+  tagline: "An ethical prompt engineering competition organized by the AI Safety research laboratory.",
+  quickLinks: "Quick Links",
+  contacts: "Contacts",
+  privacy: "Privacy Policy",
+};
 ---
 
-<PageLayout title="The Safety Game" >
-  <LandingNavigation slot="navigation" client:only="react" profile={profile} />
+<PageLayout title="The Safety Game" description="The Safety Game - Hackathon organized by MIND, University of Milan Bicocca">
+  <I18nContextProvider client:load locale="en">
+    <LandingNavigation slot="navigation" client:load profile={profile} />
+  </I18nContextProvider>
   <HeroSection />
   <!-- Invisible spacer so nav de-highlights when scrolling above the first real section -->
   <div id="top-spacer" aria-hidden="true" class="h-px -mt-px"></div>
@@ -30,5 +40,11 @@ const profile = Astro.locals.user;
   <TeamSection />
   <FaqSection />
   <LogosSection slot="prefooter" />
-  <Footer slot="footer" />
+  <FooterWithProps 
+    slot="footer" 
+    translations={footerTranslations}
+    privacyUrl="/en/privacy"
+    homeUrl="/en/home"
+    dashboardUrl="/en/dashboard"
+  />
 </PageLayout>

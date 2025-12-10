@@ -3,7 +3,7 @@ import type { ImageMetadata } from "astro";
 import i18next from "i18next";
 import { ChevronDown } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@providers/I18nContext";
 import gbFlag from "@/assets/gb.svg";
 import itFlag from "@/assets/it.svg";
 import { Button } from "@/components/ui/button";
@@ -45,7 +45,7 @@ export default function LanguageSwitcher({ className }: LanguageSwitcherProps) {
       const pathname = window.location.pathname;
       const withoutLocale = pathname.replace(/^\/(en|it)(\/|$)/, "/");
       const basePath = withoutLocale === "" || withoutLocale === "/" ? "/home" : withoutLocale;
-      navigate(localizeUrl(basePath));
+      //navigate(localizeUrl(basePath));
     } catch (err) {
       console.error("Failed to change language:", err);
     }

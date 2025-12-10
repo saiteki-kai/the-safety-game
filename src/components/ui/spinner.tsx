@@ -1,5 +1,5 @@
 import { Loader2Icon } from "lucide-react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@providers/I18nContext";
 
 import { cn } from "@/lib/utils";
 

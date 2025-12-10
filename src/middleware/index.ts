@@ -3,7 +3,6 @@ import type { APIContext, MiddlewareNext } from "astro";
 import micromatch from "micromatch";
 import { getUserInfo } from "@/db/users";
 import { localizeUrl } from "@/lib/i18n";
-import i18n from "i18next";
 import { serverClient } from "@/lib/supabase";
 
 // Protected routes - support both root and localized paths

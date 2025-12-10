@@ -6,7 +6,7 @@ import { Input } from "@components/ui/input";
 import { Label } from "@components/ui/label";
 import { KeyRound, OctagonAlert, Puzzle } from "lucide-react";
 import { useActionState, useEffect } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@providers/I18nContext";
 import { toast } from "sonner";
 import { localizeUrl } from "@/lib/i18n";
 import { localizeValidationError } from "@/lib/schemas";

@@ -1,11 +1,12 @@
 ---
 import "@styles/globals.css";
-import Footer from "@components/common/Footer.astro";
+import FooterWithProps from "@components/common/FooterWithProps.astro";
 import SimpleNavigation from "@components/common/SimpleNavigation";
 import PageLayout from "@layouts/PageLayout.astro";
 import { Separator } from "@/components/ui/separator";
 import { LAST_EDIT_DATE_PRIVACY } from "@/content/consts";
 import { FOOTER_CONTACT_LINKS } from "@/content/site-config";
+import { I18nContextProvider } from "@/components/providers/I18nContext";
 
 const lastModified = LAST_EDIT_DATE_PRIVACY.toLocaleDateString("en-UK", {
   year: "numeric",
@@ -13,10 +14,19 @@ const lastModified = LAST_EDIT_DATE_PRIVACY.toLocaleDateString("en-UK", {
   day: "numeric",
 });
 const profile = Astro.locals.user;
+
+const footerTranslations = {
+  tagline: "An ethical prompt engineering competition organized by the AI Safety research laboratory.",
+  quickLinks: "Quick Links",
+  contacts: "Contacts",
+  privacy: "Privacy Policy",
+};
 ---
 
 <PageLayout title={`Privacy Policy | The Safety Game`}>
-  <SimpleNavigation slot="navigation" client:only="react" profile={profile} />
+  <I18nContextProvider client:load locale="en">
+    <SimpleNavigation slot="navigation" client:load profile={profile} />
+  </I18nContextProvider>
 
   <div
     class="relative isolate flex-1 min-h-0 flex flex-col pt-20 pb-12 px-8 sm:pt-24 sm:px-12"
@@ -260,5 +270,11 @@ const profile = Astro.locals.user;
     </main>
   </div>
 
-  <Footer slot="footer" />
+  <FooterWithProps 
+    slot="footer" 
+    translations={footerTranslations}
+    privacyUrl="/en/privacy"
+    homeUrl="/en/home"
+    dashboardUrl="/en/dashboard"
+  />
 </PageLayout>

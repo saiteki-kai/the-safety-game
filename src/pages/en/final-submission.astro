@@ -2,24 +2,23 @@
 import "@styles/dashboard.css";
 
 import PageLayout from "@layouts/PageLayout.astro";
-import i18n from "i18next";
 import DashboardNav from "@/components/common/DashboardNav";
-import Footer from "@/components/common/Footer.astro";
+import FooterWithProps from "@/components/common/FooterWithProps.astro";
 import { FinalSubmissionSection } from "@/components/dashboard/final/FinalSubmissionSection";
+import { I18nContextProvider } from "@/components/providers/I18nContext";
 import { getTeamSubmissions } from "@/db/submissions";
 import { getTeamByUserId } from "@/db/teams";
-import { localizeUrl } from "@/lib/i18n";
 import { serverClient } from "@/lib/supabase";
 
 const supabase = serverClient(Astro);
 const profile = Astro.locals.user;
 if (!profile) {
-  return Astro.redirect(localizeUrl("/login"));
+  return Astro.redirect("/en/login");
 }
 const team = await getTeamByUserId(supabase, profile.id);
 
 if (!team) {
-  return Astro.redirect(localizeUrl("/setup"));
+  return Astro.redirect("/en/setup");
 }
 
 // Check if the team has already made a final submission
@@ -27,17 +26,32 @@ const submissions = await getTeamSubmissions(supabase, team.id);
 const finalSubmissionDone = submissions?.some((s) => !s.playground) ?? false;
 
 const navMenu = [
-  { title: i18n.t("nav:home"), url: localizeUrl("/home") },
-  { title: i18n.t("nav:dashboard"), url: localizeUrl("/dashboard") },
+  { title: "Home", url: "/en/home" },
+  { title: "Dashboard", url: "/en/dashboard" },
 ];
+
+const footerTranslations = {
+  tagline: "An ethical prompt engineering competition organized by the AI Safety research laboratory.",
+  quickLinks: "Quick Links",
+  contacts: "Contacts",
+  privacy: "Privacy Policy",
+};
 ---
 
-<PageLayout title={i18n.t("meta:finalSubmissionTitle")}>
-  <DashboardNav client:only="react" profile={profile} menu={navMenu} />
-  <main class="flex min-h-0 w-full flex-1 flex-col my-12 gap-8 px-4 py-6 sm:px-8 sm:py-10" aria-label={"Final Submission"}>
-    <div class="mx-auto w-full lg:container">
-      <FinalSubmissionSection client:only="react" teamId={team.id} disabled={finalSubmissionDone} />
-    </div>
-  </main>
-  <Footer slot="footer" />
+<PageLayout title="Final Submission | The Safety Game">
+  <I18nContextProvider client:load locale="en">
+    <DashboardNav client:load profile={profile} menu={navMenu} />
+    <main class="flex min-h-0 w-full flex-1 flex-col my-12 gap-8 px-4 py-6 sm:px-8 sm:py-10" aria-label="Final Submission">
+      <div class="mx-auto w-full lg:container">
+        <FinalSubmissionSection client:load teamId={team.id} disabled={finalSubmissionDone} />
+      </div>
+    </main>
+  </I18nContextProvider>
+  <FooterWithProps 
+    slot="footer" 
+    translations={footerTranslations}
+    privacyUrl="/en/privacy"
+    homeUrl="/en/home"
+    dashboardUrl="/en/dashboard"
+  />
 </PageLayout>

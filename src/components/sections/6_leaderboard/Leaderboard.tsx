@@ -3,7 +3,7 @@ import IconLabel from "@components/common/IconLabel";
 import { PostgrestError } from "@supabase/supabase-js";
 import i18next from "i18next";
 import { useMemo, useEffect, useEffectEvent, useState } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@providers/I18nContext";
 import { getLeaderboard } from "@/db/submissions";
 import type { IconName } from "@/lib/icons";
 import { browserClient } from "@/lib/supabase";

@@ -29,10 +29,13 @@ function makeContextProvider<T = any>(store: MapStore) {
     value: T;
     children: React.ReactNode;
   }) {
+    store.set(value);
+
     useEffect(() => {
       console.log("setting store initial value", value);
       store.set(value);
     }, []);
+
     return <>{children}</>;
   };
 }

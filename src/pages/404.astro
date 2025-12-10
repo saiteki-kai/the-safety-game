@@ -1,7 +1,6 @@
 ---
 import "@styles/globals.css";
 import PageLayout from "@layouts/PageLayout.astro";
-import { localizeUrl } from "@/lib/i18n";
 
 const currentYear = new Date().getFullYear();
 ---
@@ -10,7 +9,7 @@ const currentYear = new Date().getFullYear();
   <div slot="navigation">
     <header class="flex items-center justify-between px-6 py-6 sm:px-10">
       <a
-        href={localizeUrl("/home")}
+        href="/home"
         class="text-sm font-semibold tracking-tight text-neutral-900 transition hover:text-primary"
       >
         The Safety Game
@@ -46,7 +45,7 @@ const currentYear = new Date().getFullYear();
         <div
           class="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4"
         >
-          <a href={localizeUrl("/home")} class="hero-button">Torna alla home</a>
+          <a href="/home" class="hero-button">Torna alla home</a>
         </div>
       </div>
     </main>

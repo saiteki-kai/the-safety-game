@@ -2,28 +2,42 @@
 import "@styles/dashboard.css";
 
 import PageLayout from "@layouts/PageLayout.astro";
-import i18n from "i18next";
 import DashboardNav from "@/components/common/DashboardNav";
-import Footer from "@/components/common/Footer.astro";
+import FooterWithProps from "@/components/common/FooterWithProps.astro";
 import TeamDashboardView from "@/components/dashboard/TeamDashboardView";
+import { I18nContextProvider } from "@/components/providers/I18nContext";
 import { getTeamByUserId } from "@/db/teams";
-import { localizeUrl } from "@/lib/i18n";
 import { serverClient } from "@/lib/supabase";
 
 const supabase = serverClient(Astro);
 const profile = Astro.locals.user;
 if (!profile) {
-  return Astro.redirect(localizeUrl("/login"));
+  return Astro.redirect("/login");
 }
 const team = await getTeamByUserId(supabase, profile.id);
 
 if (!team) {
-  return Astro.redirect(localizeUrl("/setup"));
+  return Astro.redirect("/setup");
 }
+
+const footerTranslations = {
+  tagline: "Una competizione di prompt engineering etico organizzata dal laboratorio di ricerca in AI Safety.",
+  quickLinks: "Link Rapidi",
+  contacts: "Contatti",
+  privacy: "Privacy Policy",
+};
 ---
 
-<PageLayout title={i18n.t("meta:dashboardTitle")}>
-  <DashboardNav client:only="react" profile={profile} />
-  <TeamDashboardView client:only="react" team={team} />
-  <Footer slot="footer" />
+<PageLayout title="Dashboard | The Safety Game">
+  <I18nContextProvider client:load locale="it">
+    <DashboardNav client:load profile={profile} />
+    <TeamDashboardView client:load team={team} />
+  </I18nContextProvider>
+  <FooterWithProps 
+    slot="footer" 
+    translations={footerTranslations}
+    privacyUrl="/privacy"
+    homeUrl="/home"
+    dashboardUrl="/dashboard"
+  />
 </PageLayout>

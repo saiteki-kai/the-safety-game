@@ -1,6 +1,6 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@components/ui/card";
 import { useState } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@providers/I18nContext";
 
 import CreateTeamForm from "./CreateTeamForm";
 import JoinTeamForm from "./JoinTeamForm";

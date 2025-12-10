@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
-import { useI18n } from "./providers/I18nContext";
-import i18next from "i18next";
+import { useTranslation } from "@providers/I18nContext";
 
 
 export function RenderLocale() {
-    const { locale } = useI18n();
+    const { t, locale } = useTranslation("challenge");
     const [isMounted, setIsMounted] = useState(false);
     
     useEffect(() => {
@@ -15,6 +14,6 @@ export function RenderLocale() {
         return <div>Loading...</div>;
     }
 
-    return <div>{locale} - "{i18next.getFixedT(locale)("challenge:title")}"</div>;
+    return <div>{locale} - "{t("title")}"</div>;
 
 }

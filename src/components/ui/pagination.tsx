@@ -1,7 +1,7 @@
 import type { Table } from "@tanstack/react-table";
 import { ChevronFirst, ChevronLast, ChevronLeft, ChevronRight } from "lucide-react";
 import { useId } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@providers/I18nContext";
 
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";

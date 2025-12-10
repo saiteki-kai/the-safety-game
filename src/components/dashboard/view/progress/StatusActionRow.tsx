@@ -1,5 +1,5 @@
 import type { LucideIcon } from "lucide-react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@providers/I18nContext";
 
 type StatusActionRowProps = {
   Icon: LucideIcon;

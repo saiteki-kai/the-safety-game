@@ -1,14 +1,13 @@
 ---
 import Google from "@assets/icons/google.svg";
 import PageLayout from "@layouts/PageLayout.astro";
-import { localizeUrl } from "@/lib/i18n";
 import { serverClient } from "@/lib/supabase";
 
 const supabase = serverClient(Astro);
 const { data } = await supabase.auth.getClaims();
 
 if (data?.claims) {
-  return Astro.redirect(localizeUrl("/dashboard"));
+  return Astro.redirect("/en/dashboard");
 }
 ---
 
@@ -56,7 +55,7 @@ if (data?.claims) {
         <div class="bottom-8 pt-4 left-0 right-0 z-10">
           <p class="text-center">
             <a
-              href={localizeUrl("/home")}
+              href="/en/home"
               class="text-sm text-white/80 hover:text-white transition-colors"
               >← Back to home</a
             >

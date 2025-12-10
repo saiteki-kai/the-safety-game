@@ -1,6 +1,6 @@
 import { DataTableColumnHeader } from "@components/ui/data-table-column-header";
 import type { ColumnDef } from "@tanstack/react-table";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@providers/I18nContext";
 import { formatDateTimeOrNull, formatDecimal, toISOStringIfValid } from "@/lib/formatters";
 import type { TeamSubmissions } from "@/lib/supabase.types";
 import { StatefulDataTable } from "./StatefulDataTable";
