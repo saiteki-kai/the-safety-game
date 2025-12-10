@@ -36,8 +36,8 @@ export function FinalSubmissionSection({ teamId, disabled = false }: FinalSubmis
     <div className="scroll-mt-16 space-y-8 px-4 py-8 sm:px-8" id="final-submission">
       {/* Hero Section */}
       <div className="space-y-4 text-center">
-        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-indigo-100">
-          <Trophy className="h-8 w-8 text-indigo-600" />
+        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-pink-100">
+          <Trophy className="h-8 w-8 text-pink-600" />
         </div>
         <h2 className="font-bold text-2xl text-neutral-900">{t("final.title")}</h2>
         <p className="mx-auto max-w-2xl text-lg text-neutral-600">
@@ -48,8 +48,8 @@ export function FinalSubmissionSection({ teamId, disabled = false }: FinalSubmis
       {/* Main Content Grid */}
       <div className="flex flex-col items-stretch gap-8 lg:flex-row">
         <div className="h-full space-y-6 lg:flex-1">
-          <div className="rounded-lg border border-indigo-200 bg-white p-6">
-            <h3 className="mb-4 font-semibold text-indigo-800 text-lg">{t("final.howItWorks")}</h3>
+          <div className="rounded-lg border border-rose-200 bg-white p-6">
+            <h3 className="mb-4 font-semibold text-rose-800 text-lg">{t("final.howItWorks")}</h3>
             <div className="space-y-3 text-neutral-600 text-sm">
               <p>
                 <Trans i18nKey="dashboard:final.howItWorksDesc1" count={MAX_FINAL_PROMPTS} />
@@ -63,25 +63,25 @@ export function FinalSubmissionSection({ teamId, disabled = false }: FinalSubmis
             </div>
           </div>
 
-          <div className="rounded-lg border border-indigo-200 bg-indigo-50 p-6">
-            <h3 className="mb-4 font-semibold text-indigo-800 text-lg">{t("final.checklist")}</h3>
-            <ul className="space-y-3 text-indigo-700 text-sm">
+          <div className="rounded-lg border border-amber-200 bg-amber-50 p-6">
+            <h3 className="mb-4 font-semibold text-amber-800 text-lg">{t("final.checklist")}</h3>
+            <ul className="space-y-3 text-amber-700 text-sm">
               <li className="flex items-start gap-2 align-middle">
-                <CheckCircle size={16} className="text-indigo-600" />
+                <CheckCircle size={16} className="text-amber-600" />
                 <span>
                   <Trans i18nKey="dashboard:final.checklistPromptCount" count={MAX_FINAL_PROMPTS} />
                 </span>
               </li>
               <li className="flex items-start gap-2 align-middle">
-                <CheckCircle size={16} className="text-indigo-600" />
+                <CheckCircle size={16} className="text-amber-600" />
                 <span>{t("final.checklistLanguage")}</span>
               </li>
               <li className="flex items-start gap-2 align-middle">
-                <CheckCircle size={16} className="text-indigo-600" />
+                <CheckCircle size={16} className="text-amber-600" />
                 <span>{t("final.checklistDuplicates")}</span>
               </li>
               <li className="flex items-start gap-2 align-middle">
-                <CheckCircle size={16} className="text-indigo-600" />
+                <CheckCircle size={16} className="text-amber-600" />
                 <span>{t("final.checklistReview")}</span>
               </li>
             </ul>
