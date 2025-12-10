@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useI18n } from "./providers/I18nContext";
+import i18next from "i18next";
 
 
 export function RenderLocale() {
@@ -14,6 +15,6 @@ export function RenderLocale() {
         return <div>Loading...</div>;
     }
 
-    return <div>Current locale is "{locale}"</div>;
+    return <div>{locale} - "{i18next.getFixedT(locale)("challenge:title")}"</div>;
 
 }
