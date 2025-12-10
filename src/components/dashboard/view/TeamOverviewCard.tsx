@@ -8,6 +8,7 @@ import ProgressMetricRow from "./progress/ProgressMetricRow";
 import StatusActionRow from "./progress/StatusActionRow";
 import JoinCodeButton from "./team/JoinCodeButton";
 import MemberItem from "./team/MemberItem";
+import i18next from "i18next";
 
 type ProgressState = {
   challengeDaysRemaining: number;
@@ -22,6 +23,8 @@ type ProgressState = {
   scoreTotal?: number;
   // optional ChatGPT baseline to compare against
   chatgptBaseline?: number;
+  // number of prompts that beat ChatGPT
+  promptsBeatingChatGPT?: number;
 };
 
 type TeamOverviewCardProps = {
@@ -44,9 +47,8 @@ export default function TeamOverviewCard({ teamName, teamJoinCode, members, prog
     highestScore,
     scoreTotal,
     chatgptBaseline,
+    promptsBeatingChatGPT,
   } = progress;
-  const baseline = chatgptBaseline ?? 0;
-  const baselineBeaten = highestScore >= baseline;
 
   return (
     <div className="space-y-8 px-4 py-8 sm:px-8">
@@ -59,7 +61,7 @@ export default function TeamOverviewCard({ teamName, teamJoinCode, members, prog
       {/* Main Content */}
       <div className="grid grid-cols-1 items-stretch gap-8 md:grid md:grid-cols-4 md:gap-8">
         <div className="flex min-h-0 min-w-0 flex-col space-y-6 md:col-span-1">
-          <div className="flex h-full flex-col rounded-lg border border-neutral-200 bg-white p-6">
+          <div className="flex h-full flex-col rounded-xl border border-neutral-200 bg-white p-6 shadow-sm">
             <div className="mb-4 flex flex-col justify-between">
               <h3 className="font-semibold text-lg text-neutral-800">{t("yourTeam")}</h3>
               <p className="text-neutral-500 text-sm">{t("teamManageDescription")}</p>
@@ -78,93 +80,84 @@ export default function TeamOverviewCard({ teamName, teamJoinCode, members, prog
         </div>
 
         <div className="flex min-h-0 min-w-0 flex-col space-y-6 md:col-span-3">
-          <div className="flex h-full flex-col rounded-lg border border-neutral-200 bg-white p-6">
-            <div className="mb-4 flex flex-col justify-between">
+          {/* Challenge Status Card */}
+          <div className="rounded-xl border border-neutral-200 bg-white p-6 shadow-sm">
+            <h3 className="mb-4 font-semibold text-lg text-neutral-800">{t("challengeStatus")}</h3>
+
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-stretch">
+              {/* Action Rows */}
+              <div className="flex flex-1 flex-col gap-3">
+                <StatusActionRow
+                  Icon={Upload}
+                  label={t("dailySubmissions")}
+                  subtitle={
+                    dailySubmissionsDone
+                      ? t("dailySubmissionDone")
+                      : t("dailySubmissionRemaining", { count: MAX_DAILY_PROMPTS })
+                  }
+                  href="#playground"
+                  variant="blue"
+                />
+
+                <StatusActionRow
+                  Icon={Flag}
+                  label={t("finalSubmission")}
+                  subtitle={finalSubmissionDone ? t("alreadySubmitted") : t("waitingSubmission")}
+                  href={localizeUrl("/final-submission")}
+                  variant="rose"
+                />
+              </div>
+
+              {/* Days Remaining */}
+              <div className="flex items-center justify-center rounded-xl border border-neutral-100 bg-neutral-50 px-6 py-4 sm:min-w-[140px]">
+                <div className="flex flex-col items-center text-center">
+                  <Calendar className="mb-1 h-5 w-5 text-neutral-400" />
+                  <span className="font-bold text-2xl text-neutral-800">{challengeDaysRemaining}</span>
+                  <span className="text-xs text-neutral-500">{t("daysRemainingLabel")}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Progress Card */}
+          <div className="rounded-xl border border-neutral-200 bg-white p-6 shadow-sm">
+            <div className="mb-5">
               <h3 className="font-semibold text-lg text-neutral-800">{t("challengeProgress")}</h3>
               <p className="text-neutral-500 text-sm">{t("progressDescription")}</p>
             </div>
 
-            {/* Performance Metrics */}
-            <div className="mb-6 min-h-0 flex-1 space-y-3">
-              <h4 className="mb-3 font-medium text-neutral-700 text-sm">{t("performance")}</h4>
+            {/* KPI Grid */}
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+              <div className="flex flex-col items-center rounded-lg border border-blue-100 bg-blue-50 p-4 text-center">
+                <FileText className="mb-2 h-5 w-5 text-blue-500" />
+                <span className="font-bold text-2xl text-blue-500">{promptsSubmitted}</span>
+                <span className="text-xs text-blue-500">{t("promptsSubmitted")}</span>
+              </div>
 
-              <div className="space-y-2">
-                <ProgressMetricRow
-                  icon={<FileText className="h-4 w-4 text-neutral-600" />}
-                  value={promptsSubmitted}
-                  label={t("promptsSubmitted")}
-                />
+              <div className="flex flex-col items-center rounded-lg border border-indigo-100 bg-indigo-50 p-4 text-center">
+                <Target className="mb-2 h-5 w-5 text-indigo-500" />
+                <span className="font-bold text-2xl text-indigo-500">
+                  {averageScore}{scoreTotal ? `/${scoreTotal}` : ""}
+                </span>
+                <span className="text-xs text-indigo-500">{t("averageScore")}</span>
+              </div>
 
-                <div className="grid grid-cols-2 gap-3">
-                  <ProgressMetricRow
-                    icon={<Target className="h-4 w-4 text-amber-600" />}
-                    value={averageScore}
-                    total={scoreTotal}
-                    label={t("averageScore")}
-                  />
-
-                  <ProgressMetricRow
-                    icon={<Trophy className="h-4 w-4 text-purple-600" />}
-                    value={highestScore}
-                    total={scoreTotal}
-                    label={t("highestScore")}
-                  />
-                </div>
+              <div className="flex flex-col items-center rounded-lg border border-violet-100 bg-violet-50 p-4 text-center">
+                <Trophy className="mb-2 h-5 w-5 text-violet-500" />
+                <span className="font-bold text-2xl text-violet-500">
+                  {highestScore}{scoreTotal ? `/${scoreTotal}` : ""}
+                </span>
+                <span className="text-xs text-violet-500">{t("highestScore")}</span>
               </div>
             </div>
 
-            {/* Challenge Status */}
-            <div className="border-neutral-100 border-t pt-4">
-              <h4 className="mb-3 font-medium text-neutral-700 text-sm">{t("challengeStatus")}</h4>
-
-              {/* Status Grid: action rows on top, small summary cards (days & position) below */}
-              <div className="grid grid-cols-1 gap-4">
-                <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
-                  <StatusActionRow
-                    Icon={Upload}
-                    label={t("dailySubmissions")}
-                    subtitle={
-                      dailySubmissionsDone
-                        ? t("dailySubmissionDone")
-                        : t("dailySubmissionRemaining", { count: MAX_DAILY_PROMPTS })
-                    }
-                    href="#playground"
-                  />
-
-                  <StatusActionRow
-                    Icon={Flag}
-                    label={t("finalSubmission")}
-                    subtitle={finalSubmissionDone ? t("alreadySubmitted") : t("waitingSubmission")}
-                    href={localizeUrl("/final-submission")}
-                  />
-                </div>
-
-                <div className="grid grid-cols-1 items-stretch gap-3 sm:grid-cols-3">
-                  <div className="flex w-full flex-col items-center justify-center rounded-lg border border-blue-100 bg-blue-50 p-4 text-center transition-colors hover:bg-blue-100">
-                    <Calendar className="mb-2 h-6 w-6 text-blue-600" />
-                    <div className="font-bold text-blue-700 text-xl">{challengeDaysRemaining}</div>
-                    <div className="mt-1 font-medium text-blue-600 text-xs">{t("daysRemainingLabel")}</div>
-                  </div>
-
-                  <div className="flex w-full flex-col items-center justify-center rounded-lg border border-amber-100 bg-amber-50 p-4 text-center transition-colors hover:bg-amber-100">
-                    <Trophy className="mb-2 h-6 w-6 text-amber-600" />
-                    <div className="font-bold text-amber-700 text-xl">#{leaderboardPosition ?? "?"}</div>
-                    <div className="mt-1 font-medium text-amber-600 text-xs">{t("leaderboardRank")}</div>
-                  </div>
-
-                  <div className="flex w-full flex-col items-center justify-center rounded-lg border border-neutral-200 bg-white p-4 text-center">
-                    <Zap className={`mb-2 h-6 w-6 ${baselineBeaten ? "text-green-600" : "text-neutral-600"}`} />
-                    <div className={`font-bold ${baselineBeaten ? "text-green-700" : "text-neutral-900"} text-xl`}>
-                      {leaderboardPosition - baseline}
-                    </div>
-                    <div
-                      className={`mt-1 font-medium ${baselineBeaten ? "text-green-600" : "text-neutral-700"} text-xs`}
-                    >
-                      {baselineBeaten ? t("chatgptBeaten") : t("chatgptToBeat")}
-                    </div>
-                  </div>
-                </div>
-              </div>
+            {/* Gradient Hint */}
+            <div className="mt-6 border-t border-neutral-100 pt-4">
+              <p className="gradient-text text-center font-semibold text-sm sm:text-base">
+                {promptsBeatingChatGPT && promptsBeatingChatGPT > 0
+                  ? t("promptsBeatingChatGPT", { count: promptsBeatingChatGPT })
+                  : t("playgroundGradientHint")}
+              </p>
             </div>
           </div>
         </div>

@@ -27,10 +27,13 @@
   "inviteCode": "Invite Code",
   "challengeProgress": "Challenge Progress",
   "progressDescription": "Monitor your progress and results",
+  "playgroundGradientHint": "Consider different cultural aspects and make your prompts creative!",
+  "promptsBeatingChatGPT_one": "{{count}} of your prompts achieved a Safety Score higher than ChatGPT's",
+  "promptsBeatingChatGPT_other": "{{count}} of your prompts achieved a Safety Score higher than ChatGPT's",
   "performance": "Performance",
   "promptsSubmitted": "Prompts Submitted",
   "challengeStatus": "Challenge Status",
-  "dailySubmissions": "Daily Submissions",
+  "dailySubmissions": "Playground Submissions",
   "dailySubmissionDone": "You have already submitted today.",
   "dailySubmissionRemaining": "You can still submit {{count}} prompts today",
   "finalSubmission": "Final Submission",
@@ -51,7 +54,7 @@
     
   },
   "final": {
-    "title": "Final Submission",
+    "title": "Official Submission",
     "description": "Upload your {{count}} final prompts for official evaluation. This submission will be used for the final competition ranking.",
     "howItWorks": "How Final Submission Works",
     "howItWorksDesc1": "The final submission is the last phase of the competition. You must upload exactly <strong>{{count}} prompts</strong> that will be evaluated to determine the final ranking.",

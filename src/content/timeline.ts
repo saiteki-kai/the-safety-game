@@ -19,15 +19,15 @@ export interface TimelineEntry {
 export const TIMELINE_EVENTS: TimelineEvent[] = [
   {
     key: "registrationOpens",
-    date: new Date("2025-12-09"),
+    date: new Date("2025-12-17"),
   },
   {
     key: "introductoryWebinar",
-    date: new Date("2025-12-12"),
+    date: new Date("2025-12-17"),
   },
   {
     key: "challengeStarts",
-    date: new Date("2025-12-12"),
+    date: new Date("2025-12-17"),
   },
   {
     key: "challengeEnds",
@@ -35,7 +35,7 @@ export const TIMELINE_EVENTS: TimelineEvent[] = [
   },
   {
     key: "winnerAnnouncement",
-    date: new Date("2026-01-21"),
+    date: new Date("2026-01-16"),
   },
 ];
 

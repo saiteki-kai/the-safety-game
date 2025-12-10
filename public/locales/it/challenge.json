@@ -7,16 +7,16 @@
       "content": "I Large Language Model sono modelli di intelligenza artificiale in grado di comprendere e generare testo in linguaggio naturale simile a quello umano. Il loro utilizzo è in costante crescita, soprattutto come chatbot e assistenti conversazionali come ChatGPT, Gemini e Claude. Tuttavia, questi modelli possono talvolta produrre risposte pericolose, eticamente inappropriate."
     },
     {
-      "content": "L'obiettivo della challenge è aiutare a rendere i Large Language Model più sicuri identificando potenziali vulnerabilità specifiche per il pubblico italiano, e scoprire casi in cui il modello non è adeguato o produce risposte problematiche."
+      "content": "L'obiettivo della challenge è aiutare a rendere i Large Language Model più sicuri identificando potenziali vulnerabilità specifiche per il pubblico italiano, e scoprire casi in cui il modello risponde in modo non etico."
     }
   ],
-  "what": "Analizzare come i modelli linguistici italiani reagiscono a stimoli in grado di elicitare comportamenti non etici, per comprendere i loro limiti etici in contesti culturali italiani realistici.",
-  "challengeText": "Abbiamo chiesto a ChatGPT di generare alcuni esempi di prompt che potrebbero indurre i modelli di linguaggio a produrre risposte problematiche. In questa sfida, competerai con ChatGPT per trovare prompt ancora più efficaci.",
+  "what": "Analizzare come i modelli linguistici italiani reagiscono a stimoli in grado di elicitare comportamenti non etici, per comprendere i loro limiti in contesti culturali italiani realistici.",
+  "challengeText": "Abbiamo chiesto a ChatGPT di generare alcuni prompt che potrebbero indurre i modelli di linguaggio a produrre risposte problematiche. In questa sfida, competerai con ChatGPT per trovare prompt ancora più efficaci.",
   "participation": "Non è necessaria nessuna conoscenza dell'intelligenza artificiale. L'unico requisito è la conoscenza della lingua e della cultura italiana.",
   "objectiveLabel": "Obiettivo",
   "challengeLabel": "La Sfida",
   "participationLabel": "Partecipazione",
   "prizesLabel": "Premi",
-  "prizesDescription": "Il team che produrrà i migliori prompt verrà premiato davanti al Collegio Docenti del dipartimento di Informatica di Milano-Bicocca. <br/> A tutti i partecipanti verrà rilasciato un certificato di partecipazione.",
+  "prizesDescription": "Il team che sarà in grado di scrivere i migliori prompt verrà premiato durante il  Consiglio di Dipartimento  di Informatica di Milano-Bicocca, con una breve cerimonia. A coloro che affronteranno la sfida, verrà rilasciato un <b>certificato un partecipazione</b>.",
   "llmLabel": "Cos'è un Large Language Model?"
 }

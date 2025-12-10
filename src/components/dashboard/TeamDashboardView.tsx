@@ -53,6 +53,9 @@ export default function TeamDashboardView({ team }: TeamDashboardViewProps) {
   const highestScore = scores.length > 0 ? round2(Math.max(...scores)) : 0;
   const finalSubmissionDone = submissions?.some((s) => !s.playground) ?? false;
 
+  // Count how many submissions beat ChatGPT baseline (0.5)
+  const promptsBeatingChatGPT = scores.filter((score) => score > 0.5).length;
+
   // TODO: block submissions if dailySubmissionsSent.length > 0 for other members
 
   const progress = {
@@ -64,6 +67,7 @@ export default function TeamDashboardView({ team }: TeamDashboardViewProps) {
     finalSubmissionDone,
     leaderboardPosition,
     dailySubmissionsDone,
+    promptsBeatingChatGPT,
   };
 
   return (
