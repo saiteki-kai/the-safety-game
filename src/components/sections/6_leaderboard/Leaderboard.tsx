@@ -1,5 +1,6 @@
 import Icon from "@components/common/Icon";
 import IconLabel from "@components/common/IconLabel";
+import { Info as InfoIcon } from "lucide-react";
 import { PostgrestError } from "@supabase/supabase-js";
 import { useMemo, useEffect, useEffectEvent, useState } from "react";
 import { getLeaderboard } from "@/db/submissions";
@@ -54,21 +55,21 @@ export default function LeaderboardTable({ emptyMessage }: { emptyMessage: strin
   const supabaseClient = useMemo(() => browserClient(), []);
   
   const [leaderboard, setLeaderboard] = useState<Leaderboard[] | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<Error | null>(null);
 
   const fetchData = useEffectEvent(async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const data = await getLeaderboard(supabaseClient);
-      setLeaderboard(data);
-    } catch (err: unknown) {
-      setError(err instanceof PostgrestError ? err : new Error(IT_COMMON.error));
-      setLeaderboard([]);
-    } finally {
-      setLoading(false);
-    }
+    // setLoading(true);
+    // setError(null);
+    // try {
+    //   const data = await getLeaderboard(supabaseClient);
+    //   setLeaderboard(data);
+    // } catch (err: unknown) {
+    //   setError(err instanceof PostgrestError ? err : new Error(IT_COMMON.error));
+    //   setLeaderboard([]);
+    // } finally {
+    //   setLoading(false);
+    // }
   });
 
   useEffect(() => {
@@ -145,7 +146,7 @@ export default function LeaderboardTable({ emptyMessage }: { emptyMessage: strin
       ) : isEmpty ? (
         <div className="flex h-full items-center justify-center py-6">
           <IconLabel
-            name="triangle-alert"
+            name="info"
             size={28}
             iconClass="text-neutral-400"
             as="div"

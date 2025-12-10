@@ -3,12 +3,19 @@ import IconLabel from "@components/common/IconLabel";
 import SectionLayout from "@layouts/SectionLayout.astro";
 import i18n from "i18next";
 import LeaderboardTable from "./Leaderboard";
+
+const IT_LEADERBOARD = {
+  title: "Classifica",
+  description: "Consulta la classifica delle squadre partecipanti in base ai punteggi ottenuti.",
+  scoreNote: "I punteggi riportati corrispondono all'unsafety score medio dei prompt inviati.",
+  emptyMessage: "La classifica sarà disponibile alla fine della competizione.",
+};
 ---
 
 <SectionLayout
   id="leaderboard"
-  title={i18n.t("leaderboard:title")}
-  description={i18n.t("leaderboard:description")}
+  title={IT_LEADERBOARD.title}
+  description={IT_LEADERBOARD.description}
   sectionClass="bg-white"
 >
   <div class="playground-card">
@@ -21,14 +28,14 @@ import LeaderboardTable from "./Leaderboard";
           as="span"
           className="text-base font-medium"
         >
-          {i18n.t("leaderboard:title")}
+          {IT_LEADERBOARD.title}
         </IconLabel>
       </div>
 
       <div class="flex items-center gap-4">
         <div class="text-right text-sm text-white hidden sm:block">
           <div class="text-sm text-white font-medium">
-            {i18n.t("leaderboard:scoreNote")}
+            {IT_LEADERBOARD.scoreNote}
           </div>
         </div>
       </div>
@@ -41,8 +48,8 @@ import LeaderboardTable from "./Leaderboard";
         aria-label={"Leaderboard"}
       >
         <LeaderboardTable
-          emptyMessage={i18n.t("leaderboard:emptyMessage")}
-          client:load
+          emptyMessage={IT_LEADERBOARD.emptyMessage}
+          client:idle
         />
       </div>
     </div>
