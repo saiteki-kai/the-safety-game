@@ -1,30 +1,91 @@
 import type { LucideIcon } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
+type ColorVariant = "blue" | "green" | "amber" | "neutral" | "emerald" | "rose";
+
 type StatusActionRowProps = {
   Icon: LucideIcon;
   label: string;
   subtitle: string;
   href: string;
+  variant?: ColorVariant;
 };
 
-export default function StatusActionRow({ Icon, label, subtitle, href }: StatusActionRowProps) {
+const colorStyles: Record<ColorVariant, { bg: string; border: string; hoverBg: string; hoverBorder: string; icon: string; link: string; linkHover: string }> = {
+  blue: {
+    bg: "bg-blue-50",
+    border: "border-blue-200",
+    hoverBg: "hover:bg-blue-100",
+    hoverBorder: "hover:border-blue-300",
+    icon: "text-blue-500",
+    link: "text-blue-500",
+    linkHover: "hover:text-blue-700"
+  },
+  green: {
+    bg: "bg-green-50",
+    border: "border-green-200",
+    hoverBg: "hover:bg-green-100",
+    hoverBorder: "hover:border-green-300",
+    icon: "text-green-600",
+    link: "text-green-600",
+    linkHover: "hover:text-green-700"
+  },
+  amber: {
+    bg: "bg-amber-50",
+    border: "border-amber-200",
+    hoverBg: "hover:bg-amber-100",
+    hoverBorder: "hover:border-amber-300",
+    icon: "text-amber-600",
+    link: "text-amber-600",
+    linkHover: "hover:text-amber-700"
+  },
+  neutral: {
+    bg: "bg-neutral-50",
+    border: "border-neutral-100",
+    hoverBg: "hover:bg-neutral-100",
+    hoverBorder: "hover:border-neutral-200",
+    icon: "text-neutral-600",
+    link: "text-blue-600",
+    linkHover: "hover:text-blue-700"
+  },
+  emerald: {
+    bg: "bg-teal-50",
+    border: "border-teal-200",
+    hoverBg: "hover:bg-teal-100",
+    hoverBorder: "hover:border-teal-300",
+    icon: "text-teal-600",
+    link: "text-teal-600",
+    linkHover: "hover:text-teal-700"
+  },
+  rose: {
+    bg: "bg-rose-50",
+    border: "border-rose-200",
+    hoverBg: "hover:bg-rose-100",
+    hoverBorder: "hover:border-rose-300",
+    icon: "text-rose-600",
+    link: "text-rose-600",
+    linkHover: "hover:text-rose-700"
+  }
+};
+
+export default function StatusActionRow({ Icon, label, subtitle, href, variant = "neutral" }: StatusActionRowProps) {
   const { t } = useTranslation("dashboard");
+  const colors = colorStyles[variant];
 
   return (
     <div
-      className={`flex items-center justify-between rounded-lg border border-neutral-100 bg-neutral-50 px-4 py-3 transition-colors hover:border-neutral-200 hover:bg-neutral-100`}
+      className={`flex items-center justify-between rounded-lg border px-4 py-3 transition-colors ${colors.bg} ${colors.border} ${colors.hoverBg} ${colors.hoverBorder}`}
     >
       <div className="flex items-center gap-3">
-        <Icon className="h-5 w-5 text-neutral-600" />
+        <Icon className={`h-5 w-5 ${colors.icon}`} />
         <div className="min-w-0 flex-1">
           <div className="font-medium text-neutral-800 text-sm">{label}</div>
-          <div className="text-neutral-500 text-xs">{subtitle}</div>
+          <div className="text-neutral-600 text-xs">{subtitle}</div>
         </div>
       </div>
       <a
         href={href}
-        className="font-medium text-blue-600 text-sm transition-colors hover:text-blue-700"
+        className={`font-medium text-sm transition-colors ${colors.link} ${colors.linkHover}`}
         aria-label={t("status.goToLabel", { label })}
       >
         {t("status.goTo")}

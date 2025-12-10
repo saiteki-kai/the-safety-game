@@ -8,7 +8,7 @@
     },
     {
       "question": "Non ho una mail unimib. Posso partecipare lo stesso?",
-      "answer": "Saremo felici di fare un'eccezione, purchè almeno un membro del team abbia una mail @campus.unimib.it (o @unimib.it). La mail è infatti necessaria per la registrazione e per l'emissione del certificato di partecipazione. Se il tuo team si compone interamente di membri esterni all'università, contattaci indicando il nome del tuo team e l'elenco dei partecipanti."
+      "answer": "Saremo felici di fare un'eccezione, purchè almeno un membro del team abbia una mail @campus.unimib.it (o @unimib.it). La mail è infatti necessaria per la registrazione e per l'emissione del certificato di partecipazione. Se il tuo team include membri esterni all'università, contattaci indicando il nome del tuo team e l'elenco dei partecipanti."
     },
     {
       "question": "Posso far parte di più team?",
@@ -28,7 +28,7 @@
     },
     {
       "question": "Come funziona la valutazione?",
-      "answer": "I prompt vengono valutati automaticamente in base a vari criteri: efficacia ed eterogeneità."
+      "answer": "I prompt vengono valutati automaticamente in base a vari criteri: efficacia ed eterogeneità. In caso di parità tra team, i giudici valuteranno l'originalità complessiva dei prompt sottomessi per determinare il vincitore."
     },
     {
       "question": "Il numero di componenti del team ha impatto sulla valutazione?",

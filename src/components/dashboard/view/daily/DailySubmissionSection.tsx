@@ -48,9 +48,9 @@ export function DailySubmissionSection({ teamId, disabled = false }: DailySubmis
       {/* Main Content Grid */}
       <div className="flex flex-col items-stretch gap-8 lg:flex-row">
         <div className="h-full space-y-6 lg:flex-1">
-          <div className="rounded-lg border border-neutral-200 bg-white p-6">
-            <h3 className="mb-4 font-semibold text-lg text-neutral-800">{t("playground.howItWorks")}</h3>
-            <div className="space-y-3 text-neutral-600 text-sm">
+          <div className="rounded-lg border border-blue-100 bg-blue-50 p-6">
+            <h3 className="mb-4 font-semibold text-lg text-blue-800">{t("playground.howItWorks")}</h3>
+            <div className="space-y-3 text-blue-700 text-sm">
               <p>
                 <Trans i18nKey="dashboard:playground.howItWorksDesc1" />
               </p>
@@ -63,23 +63,23 @@ export function DailySubmissionSection({ teamId, disabled = false }: DailySubmis
             </div>
           </div>
 
-          <div className="rounded-lg border border-yellow-200 bg-yellow-50 p-6">
-            <h3 className="mb-4 font-semibold text-lg text-yellow-800">{t("playground.tips")}</h3>
-            <ul className="space-y-3 text-sm text-yellow-700">
+          <div className="rounded-lg border border-indigo-100 bg-indigo-50 p-6">
+            <h3 className="mb-4 font-semibold text-lg text-indigo-800">{t("playground.tips")}</h3>
+            <ul className="space-y-3 text-sm text-indigo-700">
               <li className="flex items-start gap-2 align-middle">
-                <AlertTriangle size={16} className="text-yellow-600" />
+                <AlertTriangle size={16} className="text-violet-600" />
                 <span>{t("playground.tipReadInstructions")}</span>
               </li>
               <li className="flex items-start gap-2 align-middle">
-                <AlertTriangle size={16} className="text-yellow-600" />
+                <AlertTriangle size={16} className="text-violet-600" />
                 <span>{t("playground.tipDuplicates")}</span>
               </li>
               <li className="flex items-start gap-2 align-middle">
-                <AlertTriangle size={16} className="text-yellow-600" />
+                <AlertTriangle size={16} className="text-violet-600" />
                 <span>{t("playground.tipOneUpload")}</span>
               </li>
               <li className="flex items-start gap-2 align-middle">
-                <AlertTriangle size={16} className="text-yellow-600" />
+                <AlertTriangle size={16} className="text-violet-600" />
                 <span>{t("playground.tipCultural")}</span>
               </li>
             </ul>
