@@ -8,18 +8,18 @@ import { Toaster } from "@components/ui/sonner";
 import WebsiteAnalytics from "@vercel/analytics/astro";
 import SpeedInsights from "@vercel/speed-insights/astro";
 
-// TEMPORARY: Force Italian locale
-const FORCED_LOCALE = "it";
+import { type Locale, DEFAULT_LOCALE } from "@/lib/translations";
 
 interface Props {
   title: string;
   description?: string;
+  lang?: Locale;
 }
 
-const { title, description = "The Safety Game - Hackathon organized by MIND, University of Milan Bicocca" } =
+const { title, description = "The Safety Game - Hackathon organized by MIND, University of Milan Bicocca", lang } =
   Astro.props as Props;
 
-const locale = FORCED_LOCALE;
+const locale = lang ?? DEFAULT_LOCALE;
 ---
 
 <html lang={locale || "it"}>

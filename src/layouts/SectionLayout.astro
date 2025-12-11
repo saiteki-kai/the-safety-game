@@ -2,7 +2,7 @@
 interface SectionLayoutProps {
   id: string;
   title: string;
-  description: string;
+  description?: string;
   sectionClass?: string;
 }
 
@@ -13,7 +13,7 @@ const { id, title, description, sectionClass = "" } = Astro.props as SectionLayo
   <div class="section-container">
     <header class="section-header text-center">
       <h2 class="section-title">{title}</h2>
-      <p class={"section-description"} set:html={description} />
+      {description && <p class={"section-description"} set:html={description} />}
       <slot name="header" />
     </header>
     <slot />

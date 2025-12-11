@@ -3,16 +3,18 @@ import Google from "@assets/icons/google.svg";
 import PageLayout from "@layouts/PageLayout.astro";
 import { serverClient } from "@/lib/supabase";
 
+const locale = "it";
 const supabase = serverClient(Astro);
 const { data } = await supabase.auth.getClaims();
 
 if (data?.claims) {
-  return Astro.redirect("/dashboard");
+  return Astro.redirect("/it/dashboard");
 }
 ---
 
 <PageLayout
   title="Accedi | The Safety Game"
+  lang={locale}
   description="Accedi a The Safety Game"
   
 >

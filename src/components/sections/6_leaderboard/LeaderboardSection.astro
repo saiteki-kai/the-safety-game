@@ -1,21 +1,28 @@
 ---
 import IconLabel from "@components/common/IconLabel";
 import SectionLayout from "@layouts/SectionLayout.astro";
-import i18n from "i18next";
 import LeaderboardTable from "./Leaderboard";
+import type { Locale } from "@/lib/translations";
 
-const IT_LEADERBOARD = {
-  title: "Classifica",
-  description: "Consulta la classifica delle squadre partecipanti in base ai punteggi ottenuti.",
-  scoreNote: "I punteggi riportati corrispondono all'unsafety score medio dei prompt inviati.",
-  emptyMessage: "La classifica sarà disponibile alla fine della competizione.",
-};
+interface LeaderboardTranslations {
+  title: string;
+  description: string;
+  emptyMessage: string;
+  scoreNote: string;
+}
+
+interface Props {
+  translations: LeaderboardTranslations;
+  locale: Locale;
+}
+
+const { translations: t, locale } = Astro.props;
 ---
 
 <SectionLayout
   id="leaderboard"
-  title={IT_LEADERBOARD.title}
-  description={IT_LEADERBOARD.description}
+  title={t.title}
+  description={t.description}
   sectionClass="bg-white"
 >
   <div class="playground-card">
@@ -28,14 +35,14 @@ const IT_LEADERBOARD = {
           as="span"
           className="text-base font-medium"
         >
-          {IT_LEADERBOARD.title}
+          {t.title}
         </IconLabel>
       </div>
 
       <div class="flex items-center gap-4">
         <div class="text-right text-sm text-white hidden sm:block">
           <div class="text-sm text-white font-medium">
-            {IT_LEADERBOARD.scoreNote}
+            {t.scoreNote}
           </div>
         </div>
       </div>
@@ -48,8 +55,9 @@ const IT_LEADERBOARD = {
         aria-label={"Leaderboard"}
       >
         <LeaderboardTable
-          emptyMessage={IT_LEADERBOARD.emptyMessage}
-          client:idle
+          emptyMessage={t.emptyMessage}
+          locale={locale}
+          client:load
         />
       </div>
     </div>

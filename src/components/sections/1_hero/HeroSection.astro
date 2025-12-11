@@ -1,31 +1,46 @@
 ---
-import i18n from "i18next";
+interface HeroTranslations {
+  kicker: string;
+  description: string;
+  titleThe: string;
+  titleSafety: string;
+  titleGame: string;
+  eventDates: string;
+  cta: string;
+  learnMore: string;
+}
+
+interface Props {
+  translations: HeroTranslations;
+}
+
+const { translations: t } = Astro.props;
 ---
 
 <section id="home" class="hero-section hero-gradient hero-theme-cosmic">
   <div class="hero-content">
     <div class="hero-main">
       <div class="hero-main-top">
-        <p class="hero-kicker">{i18n.t("home:kicker")}</p>
+        <p class="hero-kicker">{t.kicker}</p>
         <p class="hero-description">
-          {i18n.t("home:description")}
+          {t.description}
         </p>
       </div>
       <div class="hero-title hero-title-block">
-        <span class="hero-title-line hero-title-line--top">{i18n.t("home:titleThe")}</span>
+        <span class="hero-title-line hero-title-line--top">{t.titleThe}</span>
         <span class="hero-title-line hero-title-line--bottom">
-          <span class="hero-title-safety hero-title__highlight">{i18n.t("home:titleSafety")}</span>
-          <span class="hero-title-game">{i18n.t("home:titleGame")}</span>
+          <span class="hero-title-safety hero-title__highlight">{t.titleSafety}</span>
+          <span class="hero-title-game">{t.titleGame}</span>
         </span>
       </div>
       <div class="hero-main-bottom">
-        <span class="hero-dates">{i18n.t("home:eventDates")}</span>
-        <p class="hero-cta-text">{i18n.t("home:cta")}</p>
+        <span class="hero-dates">{t.eventDates}</span>
+        <p class="hero-cta-text">{t.cta}</p>
       </div>
     </div>
   </div>
   <a href="#challenge" class="hero-indicator focus-ring">
-    {i18n.t("home:learnMore")}
+    {t.learnMore}
     <span aria-hidden="true">↓</span>
   </a>
 </section>

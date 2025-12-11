@@ -6,20 +6,22 @@ import { useTeamSubmissions } from "@/hooks/useTeamSubmissions.tsx";
 import { isToday } from "@/lib/formatters.ts";
 import { browserClient } from "@/lib/supabase";
 import type { Team } from "@/lib/supabase.types";
+import { getTranslations, dashboardTranslations, type Locale, DEFAULT_LOCALE } from "@/lib/translations";
 import { DailySubmissionSection } from "./view/daily/DailySubmissionSection.tsx";
 import TeamOverviewCard from "./view/TeamOverviewCard.tsx";
 import { SubmissionHistorySection } from "./view/table/SubmissionHistorySection.tsx";
 
 type TeamDashboardViewProps = {
   team: Team;
+  locale?: Locale;
 };
 
-export default function TeamDashboardView({ team }: TeamDashboardViewProps) {
+export default function TeamDashboardView({ team, locale = DEFAULT_LOCALE }: TeamDashboardViewProps) {
   const supabase = browserClient();
   const { members } = useTeamMembers(supabase, team.id);
   const { submissions } = useTeamSubmissions(supabase, team.id);
   const { position: leaderboardPosition } = useLeaderboardPosition(supabase, team.id);
-  // TEMPORARY: Not using translations
+  const t = getTranslations(dashboardTranslations, locale);
 
   // State for time-based values to prevent hydration mismatch
   const [challengeDaysRemaining, setChallengeDaysRemaining] = useState<number>(0);
@@ -69,29 +71,21 @@ export default function TeamDashboardView({ team }: TeamDashboardViewProps) {
     promptsBeatingChatGPT,
   };
 
-  // TEMPORARY: Hardcoded Italian translations
-  const IT_DASHBOARD = {
-    title: "Dashboard",
-    teamOverview: "Panoramica Team",
-    dailySubmission: "Area Submission Giornaliera",
-    submissionHistory: "Storico Submission",
-  };
-
   return (
-    <main className="flex min-h-0 w-full flex-1 flex-col gap-8 px-4 py-6 sm:px-2 sm:py-10" aria-label={IT_DASHBOARD.title}>
+    <main className="flex min-h-0 w-full flex-1 flex-col gap-8 px-4 py-6 sm:px-2 sm:py-10" aria-label={t.title}>
       <div className="mx-auto w-full lg:container">
-        <section className="grid gap-4 lg:grid-cols-3" aria-label={IT_DASHBOARD.teamOverview}>
+        <section className="grid gap-4 lg:grid-cols-3" aria-label={t.teamOverview}>
           <div className="lg:col-span-3">
-            <TeamOverviewCard teamName={teamName} members={members} teamJoinCode={teamJoinCode} progress={progress} />
+            <TeamOverviewCard teamName={teamName} members={members} teamJoinCode={teamJoinCode} progress={progress} locale={locale} />
           </div>
         </section>
 
-        <section aria-label={IT_DASHBOARD.dailySubmission} className="space-y-4">
-          <DailySubmissionSection teamId={team.id} disabled={dailySubmissionsDone} />
+        <section aria-label={t.dailySubmission} className="space-y-4">
+          <DailySubmissionSection teamId={team.id} disabled={dailySubmissionsDone} locale={locale} />
         </section>
 
-        <section aria-label={IT_DASHBOARD.submissionHistory} className="space-y-4">
-          <SubmissionHistorySection teamId={team.id} submissions={submissions} />
+        <section aria-label={t.submissionHistory} className="space-y-4">
+          <SubmissionHistorySection teamId={team.id} submissions={submissions} locale={locale} />
         </section>
       </div>
     </main>

@@ -1,11 +1,5 @@
 import type { LucideIcon } from "lucide-react";
-
-// TEMPORARY: Hardcoded Italian translations
-const IT_DASHBOARD = {
-  status: {
-    goTo: "Vai →",
-  },
-};
+import { getTranslations, dashboardTranslations, type Locale, DEFAULT_LOCALE } from "@/lib/translations";
 
 type ColorVariant = "blue" | "green" | "amber" | "neutral" | "emerald" | "rose";
 
@@ -15,6 +9,7 @@ type StatusActionRowProps = {
   subtitle: string;
   href: string;
   variant?: ColorVariant;
+  locale?: Locale;
 };
 
 const colorStyles: Record<ColorVariant, { bg: string; border: string; hoverBg: string; hoverBorder: string; icon: string; link: string; linkHover: string }> = {
@@ -74,8 +69,8 @@ const colorStyles: Record<ColorVariant, { bg: string; border: string; hoverBg: s
   }
 };
 
-export default function StatusActionRow({ Icon, label, subtitle, href, variant = "neutral" }: StatusActionRowProps) {
-  // TEMPORARY: Using hardcoded Italian
+export default function StatusActionRow({ Icon, label, subtitle, href, variant = "neutral", locale = DEFAULT_LOCALE }: StatusActionRowProps) {
+  const t = getTranslations(dashboardTranslations, locale);
   const colors = colorStyles[variant];
 
   return (
@@ -94,7 +89,7 @@ export default function StatusActionRow({ Icon, label, subtitle, href, variant =
         className="font-medium text-blue-600 text-sm transition-colors hover:text-blue-700"
         aria-label={`Go to ${label}`}
       >
-        {IT_DASHBOARD.status.goTo}
+        {t.goTo}
       </a>
     </div>
   );

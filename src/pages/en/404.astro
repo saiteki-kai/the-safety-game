@@ -2,10 +2,11 @@
 import "@styles/globals.css";
 import PageLayout from "@layouts/PageLayout.astro";
 
+const locale = "en";
 const currentYear = new Date().getFullYear();
 ---
 
-<PageLayout title={`Page not found | The Safety Game`}>
+<PageLayout title={`Page not found | The Safety Game`} lang={locale}>
   <div slot="navigation">
     <header class="flex items-center justify-between px-6 py-6 sm:px-10">
       <a

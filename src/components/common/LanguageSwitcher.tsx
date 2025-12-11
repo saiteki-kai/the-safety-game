@@ -1,9 +1,6 @@
 import { navigate } from "astro:transitions/client";
 import type { ImageMetadata } from "astro";
-import i18next from "i18next";
 import { ChevronDown } from "lucide-react";
-import { useEffect, useState } from "react";
-import { useTranslation } from "@providers/I18nContext";
 import gbFlag from "@/assets/gb.svg";
 import itFlag from "@/assets/it.svg";
 import { Button } from "@/components/ui/button";
@@ -13,10 +10,10 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { localizeUrl } from "@/lib/i18n";
+import { type Locale, DEFAULT_LOCALE } from "@/lib/translations";
 import { cn } from "@/lib/utils";
 
-const LANGUAGES: Array<{ code: string; label: string; flagSrc: ImageMetadata }> = [
+const LANGUAGES: Array<{ code: Locale; label: string; flagSrc: ImageMetadata }> = [
   { code: "it", label: "Italiano", flagSrc: itFlag },
   { code: "en", label: "English", flagSrc: gbFlag },
 ];
@@ -26,40 +23,29 @@ const triggerClasses =
 
 export interface LanguageSwitcherProps {
   className?: string;
+  locale?: Locale;
 }
 
-export default function LanguageSwitcher({ className }: LanguageSwitcherProps) {
-  const { t } = useTranslation("common");
-  const [currentLocale, setCurrentLocale] = useState<string>(() => {
-    // Initialize with current language from i18next on first render
-    return i18next.language || LANGUAGES[0].code;
-  });
+export default function LanguageSwitcher({ className, locale = DEFAULT_LOCALE }: LanguageSwitcherProps) {
+  const currentLocale = locale;
 
-  const handleLanguageChange = async (locale: string) => {
+  const handleLanguageChange = (locale: Locale) => {
     if (locale === currentLocale) return;
 
     try {
-      await i18next.changeLanguage(locale);
-      setCurrentLocale(locale);
-
       const pathname = window.location.pathname;
+      // Remove current locale prefix
       const withoutLocale = pathname.replace(/^\/(en|it)(\/|$)/, "/");
       const basePath = withoutLocale === "" || withoutLocale === "/" ? "/home" : withoutLocale;
-      //navigate(localizeUrl(basePath));
+      // Navigate to new locale
+      const newPath = `/${locale}${basePath.startsWith("/") ? basePath : `/${basePath}`}`;
+      navigate(newPath);
     } catch (err) {
       console.error("Failed to change language:", err);
     }
   };
-
-  const supportedLngs = (i18next.options?.supportedLngs as string[] | undefined) || [];
-  const supported = LANGUAGES.filter((lang) => supportedLngs.includes(lang.code) && lang.code !== "cimode");
   
-  if (supported.length === 0) {
-    return null;
-  }
-
-  const current = supported.find((l) => l.code === currentLocale);
-  if (!current) return null;
+  const current = LANGUAGES.find((l) => l.code === currentLocale) ?? LANGUAGES[0];
 
   return (
     <DropdownMenu modal={false}>
@@ -71,7 +57,7 @@ export default function LanguageSwitcher({ className }: LanguageSwitcherProps) {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" sideOffset={8} className="min-w-32 rounded-xl p-1.5">
-        {supported.map((lang) => {
+        {LANGUAGES.map((lang) => {
           const selected = lang.code === currentLocale;
           return (
             <DropdownMenuItem
@@ -95,50 +81,28 @@ export default function LanguageSwitcher({ className }: LanguageSwitcherProps) {
   );
 }
 
-export function LanguageSwitcherMobile({ className }: LanguageSwitcherProps) {
-  const [currentLocale, setCurrentLocale] = useState<string>(() => {
-    // Initialize with current language from i18next on first render
-    return i18next.language || LANGUAGES[0].code;
-  });
+export function LanguageSwitcherMobile({ className, locale = DEFAULT_LOCALE }: LanguageSwitcherProps) {
+  const currentLocale = locale;
 
-  useEffect(() => {
-    // Sync with i18next language changes if needed
-    const handleLanguageChanged = () => {
-      setCurrentLocale(i18next.language || LANGUAGES[0].code);
-    };
-
-    i18next.on("languageChanged", handleLanguageChanged);
-    return () => {
-      i18next.off("languageChanged", handleLanguageChanged);
-    };
-  }, []);
-
-  const handleLanguageChange = async (locale: string) => {
+  const handleLanguageChange = (locale: Locale) => {
     if (locale === currentLocale) return;
 
     try {
-      await i18next.changeLanguage(locale);
-      setCurrentLocale(locale);
-
       const pathname = window.location.pathname;
+      // Remove current locale prefix
       const withoutLocale = pathname.replace(/^\/(en|it)(\/|$)/, "/");
       const basePath = withoutLocale === "" || withoutLocale === "/" ? "/home" : withoutLocale;
-      navigate(localizeUrl(basePath));
+      // Navigate to new locale
+      const newPath = `/${locale}${basePath.startsWith("/") ? basePath : `/${basePath}`}`;
+      navigate(newPath);
     } catch (err) {
       console.error("Failed to change language:", err);
     }
   };
 
-  const supportedLngs = (i18next.options?.supportedLngs as string[] | undefined) || [];
-  const supported = LANGUAGES.filter((lang) => supportedLngs.includes(lang.code) && lang.code !== "cimode");
-
-  if (supported.length === 0) {
-    return null;
-  }
-
   return (
     <div className={cn("flex flex-col gap-1.5", className)}>
-      {supported.map((lang) => {
+      {LANGUAGES.map((lang) => {
         const selected = lang.code === currentLocale;
         return (
           <button

@@ -5,11 +5,11 @@ import PageLayout from "@layouts/PageLayout.astro";
 import DashboardNav from "@/components/common/DashboardNav";
 import FooterWithProps from "@/components/common/FooterWithProps.astro";
 import { FinalSubmissionSection } from "@/components/dashboard/final/FinalSubmissionSection";
-import { I18nContextProvider } from "@/components/providers/I18nContext";
 import { getTeamSubmissions } from "@/db/submissions";
 import { getTeamByUserId } from "@/db/teams";
 import { serverClient } from "@/lib/supabase";
 
+const locale = "it";
 const supabase = serverClient(Astro);
 const profile = Astro.locals.user;
 if (!profile) {
@@ -26,8 +26,8 @@ const submissions = await getTeamSubmissions(supabase, team.id);
 const finalSubmissionDone = submissions?.some((s) => !s.playground) ?? false;
 
 const navMenu = [
-  { title: "Home", url: "/home" },
-  { title: "Dashboard", url: "/dashboard" },
+  { title: "Home", url: "/it/home" },
+  { title: "Dashboard", url: "/it/dashboard" },
 ];
 
 const footerTranslations = {
@@ -38,20 +38,18 @@ const footerTranslations = {
 };
 ---
 
-<PageLayout title="Invio Finale | The Safety Game">
-  <I18nContextProvider client:load locale="it">
-    <DashboardNav client:load profile={profile} menu={navMenu} />
-    <main class="flex min-h-0 w-full flex-1 flex-col my-12 gap-8 px-4 py-6 sm:px-8 sm:py-10" aria-label="Invio Finale">
-      <div class="mx-auto w-full lg:container">
-        <FinalSubmissionSection client:load teamId={team.id} disabled={finalSubmissionDone} />
-      </div>
-    </main>
-  </I18nContextProvider>
+<PageLayout title="Invio Finale | The Safety Game" lang={locale}>
+  <DashboardNav client:load profile={profile} menu={navMenu} locale={locale} />
+  <main class="flex min-h-0 w-full flex-1 flex-col my-12 gap-8 px-4 py-6 sm:px-8 sm:py-10" aria-label="Invio Finale">
+    <div class="mx-auto w-full lg:container">
+      <FinalSubmissionSection client:load teamId={team.id} disabled={finalSubmissionDone} locale={locale} />
+    </div>
+  </main>
   <FooterWithProps 
     slot="footer" 
     translations={footerTranslations}
-    privacyUrl="/privacy"
-    homeUrl="/home"
-    dashboardUrl="/dashboard"
+    privacyUrl="/it/privacy"
+    homeUrl="/it/home"
+    dashboardUrl="/it/dashboard"
   />
 </PageLayout>

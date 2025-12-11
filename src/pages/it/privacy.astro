@@ -6,7 +6,8 @@ import PageLayout from "@layouts/PageLayout.astro";
 import { Separator } from "@/components/ui/separator";
 import { LAST_EDIT_DATE_PRIVACY } from "@/content/consts";
 import { FOOTER_CONTACT_LINKS } from "@/content/site-config";
-import { I18nContextProvider } from "@/components/providers/I18nContext";
+
+const locale = "it";
 
 const lastModified = LAST_EDIT_DATE_PRIVACY.toLocaleDateString("it-IT", {
   year: "numeric",
@@ -23,10 +24,8 @@ const footerTranslations = {
 };
 ---
 
-<PageLayout title={`Informativa sulla Privacy | The Safety Game`}>
-  <!--<I18nContextProvider client:load locale="it">-->
-    <SimpleNavigation slot="navigation" client:load profile={profile} />
-  <!--</I18nContextProvider>-->
+<PageLayout title={`Informativa sulla Privacy | The Safety Game`} lang={locale}>
+  <SimpleNavigation slot="navigation" client:load profile={profile} locale={locale} />
 
   <div
     class="relative isolate flex-1 min-h-0 flex flex-col pt-20 pb-12 px-8 sm:pt-24 sm:px-12"
@@ -278,8 +277,8 @@ const footerTranslations = {
   <FooterWithProps 
     slot="footer" 
     translations={footerTranslations}
-    privacyUrl="/privacy"
-    homeUrl="/home"
-    dashboardUrl="/dashboard"
+    privacyUrl="/it/privacy"
+    homeUrl="/it/home"
+    dashboardUrl="/it/dashboard"
   />
 </PageLayout>

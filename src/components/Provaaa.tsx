@@ -1,19 +1,11 @@
-import { useEffect, useState } from "react";
-import { useTranslation } from "@providers/I18nContext";
+import { getTranslations, sectionsTranslations, type Locale, DEFAULT_LOCALE } from "@/lib/translations";
 
+interface RenderLocaleProps {
+  locale?: Locale;
+}
 
-export function RenderLocale() {
-    const { t, locale } = useTranslation("challenge");
-    const [isMounted, setIsMounted] = useState(false);
-    
-    useEffect(() => {
-        setIsMounted(true);
-    }, []);
-    
-    if (!isMounted) {
-        return <div>Loading...</div>;
-    }
+export function RenderLocale({ locale = DEFAULT_LOCALE }: RenderLocaleProps) {
+    const t = getTranslations(sectionsTranslations, locale);
 
-    return <div>{locale} - "{t("title")}"</div>;
-
+    return <div>{locale} - "{t.challenge}"</div>;
 }

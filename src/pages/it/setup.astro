@@ -4,33 +4,31 @@ import "@styles/dashboard.css";
 import PageLayout from "@layouts/PageLayout.astro";
 import DashboardNav from "@/components/common/DashboardNav";
 import TeamSetupPanel from "@/components/setup/TeamSetupPanel";
-import { I18nContextProvider } from "@/components/providers/I18nContext";
 import { getTeamByUserId } from "@/db/teams";
 import { serverClient } from "@/lib/supabase";
 
+const locale = "it";
 const supabase = serverClient(Astro);
 const profile = Astro.locals.user;
 if (!profile) {
-  return Astro.redirect("/login");
+  return Astro.redirect("/it/login");
 }
 const team = await getTeamByUserId(supabase, profile.id);
 
 if (team) {
-  return Astro.redirect("/dashboard");
+  return Astro.redirect("/it/dashboard");
 }
 ---
 
-<PageLayout title="Configurazione Team | The Safety Game">
+<PageLayout title="Configurazione Team | The Safety Game" lang={locale}>
   <div
     class="flex h-screen flex-col bg-linear-to-br from-[#f3f6ff] via-white to-[#f9f3ff]"
   >
-    <I18nContextProvider client:load locale="it">
-      <DashboardNav client:load profile={profile} />
-      <main
-        class="flex h-screen flex-1 flex-col px-4 py-3 sm:px-7 sm:py-6"
-      >
-        <TeamSetupPanel client:load />
-      </main>
-    </I18nContextProvider>
+    <DashboardNav client:load profile={profile} locale={locale} />
+    <main
+      class="flex h-screen flex-1 flex-col px-4 py-3 sm:px-7 sm:py-6"
+    >
+      <TeamSetupPanel client:load locale={locale} />
+    </main>
   </div>
 </PageLayout>

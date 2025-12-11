@@ -5,27 +5,13 @@ import { Button } from "@/components/ui/button";
 import { NavigationMenu, NavigationMenuList } from "@/components/ui/navigation-menu";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
+import { getTranslations, navTranslations, sectionsTranslations, type Locale, DEFAULT_LOCALE } from "@/lib/translations";
 import LanguageSwitcher, { LanguageSwitcherMobile } from "./LanguageSwitcher";
 import type { MenuItem } from "./NavigationParts";
 import { renderMenuItem, renderMobileMenuItem } from "./NavigationParts";
 import NavLogo from "./NavLogo";
 
-// TEMPORARY: Hardcoded Italian translations
-const IT_NAV = {
-  skipToContent: "Salta al contenuto principale",
-};
-
-const IT_SECTIONS: Record<string, string> = {
-  challenge: "La Sfida",
-  instructions: "Istruzioni",
-  participate: "Partecipa",
-  dates: "Date Importanti",
-  leaderboard: "Leaderboard",
-  team: "Il Team",
-  faq: "FAQ",
-};
-
-// Section IDs that map to translation keys in sections.json
+// Section IDs that map to translation keys
 const sectionIds = ["challenge", "instructions", "participate", "dates", "leaderboard", "team", "faq"] as const;
 
 export interface NavbarProps {
@@ -41,6 +27,7 @@ export interface NavbarProps {
   activeSection?: string | null;
   navOpacity?: number;
   isIndexPage?: boolean;
+  locale?: Locale;
 }
 
 export default function Navigation({
@@ -51,14 +38,17 @@ export default function Navigation({
   activeSection = null,
   navOpacity = 0,
   isIndexPage = false,
+  locale = DEFAULT_LOCALE,
 }: NavbarProps) {
-  // TEMPORARY: Using hardcoded Italian
+  const navT = getTranslations(navTranslations, locale);
+  const sectionsT = getTranslations(sectionsTranslations, locale);
+  
   const [open, setOpen] = useState(false);
   const isOpaque = navOpacity >= 0.5;
 
   // Build default menu with translated labels
   const defaultMenu: MenuItem[] = sectionIds.map((id) => ({
-    title: IT_SECTIONS[id] || id,
+    title: sectionsT[id as keyof typeof sectionsT] || id,
     url: `#${id}`,
   }));
   const menuItems = menu ?? defaultMenu;
@@ -66,7 +56,7 @@ export default function Navigation({
   return (
     <>
       <a href="#main-content" className="sr-only focus:not-sr-only focus:inline-block">
-        {IT_NAV.skipToContent}
+        {navT.skipToContent}
       </a>
       <section
         className={cn(
@@ -140,8 +130,8 @@ export default function Navigation({
                   {/* subtle separator matching site border color and mobile padding */}
                   <Separator className="mx-0 my-2 bg-white/20" aria-hidden="true" />
                   <div className="flex flex-col gap-3 pt-2">
-                    {/* TEMPORARY: Language switcher hidden */}
-                    {/* <LanguageSwitcherMobile /> */}
+                    {/* Mobile: language switcher enabled */}
+                      <LanguageSwitcherMobile locale={locale} />
                     {(actionsMobile ?? actions) && (
                       <>
                         <Separator className="mx-0 my-1 bg-white/20" aria-hidden="true" />
@@ -155,10 +145,10 @@ export default function Navigation({
           )}
         </div>
 
-        {/* TEMPORARY: Language switcher hidden */}
-        {/* <div className="pointer-events-auto absolute inset-y-0 right-2 hidden items-center md:flex lg:right-4">
-          <LanguageSwitcher />
-        </div> */}
+        {/* Desktop: language switcher enabled */}
+        <div className="pointer-events-auto absolute inset-y-0 right-2 hidden items-center md:flex lg:right-4">
+          <LanguageSwitcher locale={locale} />
+        </div>
       </section>
     </>
   );

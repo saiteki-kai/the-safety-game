@@ -1,17 +1,25 @@
 ---
 import MemberCard from "@components/common/MemberCard.astro";
 import SectionLayout from "@layouts/SectionLayout.astro";
-import i18n from "i18next";
 import TEAM_MEMBERS, { type Member } from "@/content/team";
+import type { TeamMemberTranslation } from "@/lib/translations";
 
-const translationMembers = i18n.t("team:members", {
-  returnObjects: true,
-}) as Record<string, Member>;
+interface TeamSectionTranslations {
+  title: string;
+  description: string;
+  members: Record<string, TeamMemberTranslation>;
+}
+
+interface Props {
+  translations: TeamSectionTranslations;
+}
+
+const { translations: t } = Astro.props;
 
 type LocalizedMember = Member & { role?: string; bio?: string };
 
 const members: LocalizedMember[] = TEAM_MEMBERS.map((member) => {
-  const translation = translationMembers[member.name] ?? {};
+  const translation = t.members[member.name] ?? {};
 
   return {
     ...member,
@@ -22,8 +30,8 @@ const members: LocalizedMember[] = TEAM_MEMBERS.map((member) => {
 
 <SectionLayout
   id="team"
-  title={i18n.t("team:title")}
-  description={i18n.t("team:description")}
+  title={t.title}
+  description={t.description}
   sectionClass="section-gradient"
 >
   <div class="team-grid">

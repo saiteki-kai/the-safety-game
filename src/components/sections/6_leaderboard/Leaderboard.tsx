@@ -7,39 +7,11 @@ import { getLeaderboard } from "@/db/submissions";
 import type { IconName } from "@/lib/icons";
 import { browserClient } from "@/lib/supabase";
 import type { Leaderboard } from "@/lib/supabase.types";
-
-// TEMPORARY: Force Italian locale
-const FORCED_LOCALE = "it";
-
-// TEMPORARY: Hardcoded Italian translations
-const IT_LEADERBOARD = {
-  rank: "Posizione",
-  teamName: "Team",
-  score: "Punteggio",
-  lastSubmission: "Ultima Consegna",
-  loadError: "Impossibile caricare la classifica. Riprova più tardi.",
-};
-
-const IT_COMMON = {
-  error: "Si è verificato un errore",
-};
+import { getTranslations, leaderboardTranslations, type Locale, DEFAULT_LOCALE } from "@/lib/translations";
 
 const formatPercent = (v: number) => {
   if (typeof v !== "number" || !Number.isFinite(v)) return "0.00";
   return (v * 100).toFixed(2);
-};
-
-const formatDateShortNoYear = (value: string) => {
-  try {
-    return new Intl.DateTimeFormat(FORCED_LOCALE, {
-      day: "2-digit",
-      month: "short",
-      hour: "2-digit",
-      minute: "2-digit",
-    }).format(new Date(value));
-  } catch (_e) {
-    return value;
-  }
 };
 
 // highlight configuration for top ranks
@@ -49,8 +21,21 @@ const highlightConfig: Record<number, { row: string; icon?: { name: string; clas
   3: { row: "highlight-3", icon: { name: "award", class: "text-amber-600" } },
 };
 
-export default function LeaderboardTable({ emptyMessage }: { emptyMessage: string }) {
-  // TEMPORARY: Using hardcoded Italian
+export default function LeaderboardTable({ emptyMessage, locale = DEFAULT_LOCALE }: { emptyMessage: string; locale?: Locale }) {
+  const t = getTranslations(leaderboardTranslations, locale);
+
+  const formatDateShortNoYear = (value: string) => {
+    try {
+      return new Intl.DateTimeFormat(locale, {
+        day: "2-digit",
+        month: "short",
+        hour: "2-digit",
+        minute: "2-digit",
+      }).format(new Date(value));
+    } catch (_e) {
+      return value;
+    }
+  };
   
   const supabaseClient = useMemo(() => browserClient(), []);
   
@@ -108,10 +93,10 @@ export default function LeaderboardTable({ emptyMessage }: { emptyMessage: strin
           </colgroup>
           <thead>
             <tr>
-              <th className="text-center">{IT_LEADERBOARD.rank}</th>
-              <th className="text-center">{IT_LEADERBOARD.score}</th>
-              <th className="text-left">{IT_LEADERBOARD.teamName}</th>
-              <th className="text-right">{IT_LEADERBOARD.lastSubmission}</th>
+              <th className="text-center">{t.rank}</th>
+              <th className="text-center">{t.score}</th>
+              <th className="text-left">{t.teamName}</th>
+              <th className="text-right">{t.lastSubmission}</th>
             </tr>
           </thead>
           <tbody>
@@ -140,7 +125,7 @@ export default function LeaderboardTable({ emptyMessage }: { emptyMessage: strin
         <div className="flex h-full items-center justify-center py-6">
           <div className="leaderboard-empty flex-col justify-center text-center">
             <Icon name="triangle-alert" size={28} className="mx-auto text-red-500" />
-            <p className="mt-3 text-red-600 text-sm">{IT_LEADERBOARD.loadError}</p>
+            <p className="mt-3 text-red-600 text-sm">{t.loadError}</p>
           </div>
         </div>
       ) : isEmpty ? (
@@ -161,16 +146,16 @@ export default function LeaderboardTable({ emptyMessage }: { emptyMessage: strin
           <thead>
             <tr>
               <th scope="col" className="text-center">
-                {IT_LEADERBOARD.rank}
+                {t.rank}
               </th>
               <th scope="col" className="text-center">
-                {IT_LEADERBOARD.score}
+                {t.score}
               </th>
               <th scope="col" className="text-left">
-                {IT_LEADERBOARD.teamName}
+                {t.teamName}
               </th>
               <th scope="col" className="text-right">
-                {IT_LEADERBOARD.lastSubmission}
+                {t.lastSubmission}
               </th>
             </tr>
           </thead>

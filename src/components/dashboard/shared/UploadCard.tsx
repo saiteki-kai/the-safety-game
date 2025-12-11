@@ -3,29 +3,13 @@ import { Button } from "@components/ui/button";
 import { ScrollArea } from "@components/ui/scroll-area";
 import { Spinner } from "@components/ui/spinner";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@components/ui/tooltip";
+import { getTranslations, uploadTranslations, type Locale, DEFAULT_LOCALE } from "@/lib/translations";
 import { AlertTriangle, FileSpreadsheet, Info as InfoIcon, Trash2 } from "lucide-react";
 import type React from "react";
 import type { ChangeEvent, DragEvent } from "react";
 import { useRef, useState } from "react";
 
 import { getUploadErrors, hasDuplicates, isTextFile, MAX_FILE_BYTES, parseFile } from "./upload-utils";
-
-// TEMPORARY: Hardcoded Italian translations
-const IT_UPLOAD = {
-  errorLabel: "Errore:",
-  dragHint: "o trascina qui il file",
-  zeroPromptsMessage: "Attenzione: nessun prompt nel file. Carica almeno un prompt",
-  exactCountMessage: (max: number, count: number) => `Servono esattamente ${max} prompt. Trovati: ${count}`,
-  promptCount: "prompt",
-  duplicatesBlockMessage: "Duplicati trovati. Rimuovili prima di inviare.",
-  duplicatesWarnMessage: "Duplicati trovati. Saranno scartati durante l'invio.",
-  belowMaxMessage: (remaining: number) => `Puoi caricare altri ${remaining} prompt`,
-  overMaxMessage: (count: number, max: number) => `Attenzione: il file contiene ${count} prompt. E' possibile caricare al massimo ${max} prompt.`,
-  fileTooLarge: "File troppo grande. Max 20 MB",
-  readError: "Errore durante la lettura del file.",
-  serverError: "Errore dal server durante l'upload.",
-  invalidType: "Formato file non supportato. Usa file di testo (.txt).",
-};
 
 // ============================================================================
 // Types
@@ -65,6 +49,7 @@ export interface UploadCardProps {
   completed?: boolean;
   isError?: boolean;
   onRetry?: () => void;
+  locale?: Locale;
 }
 
 // ============================================================================
@@ -168,6 +153,7 @@ interface UploadDropzoneProps {
   disabled: boolean;
   isDragActive: boolean;
   error: string | null;
+  errorLabel: string;
   onDragOver: (event: DragEvent<HTMLFieldSetElement>) => void;
   onDragLeave: () => void;
   onDrop: (event: DragEvent<HTMLFieldSetElement>) => void;
@@ -180,6 +166,7 @@ function UploadDropzone({
   disabled,
   isDragActive,
   error,
+  errorLabel,
   onDragOver,
   onDragLeave,
   onDrop,
@@ -194,7 +181,7 @@ function UploadDropzone({
         isDragActive ? "border-amber-300 ring-2 ring-amber-200/60" : "border-neutral-200"
       } ${disabled ? "cursor-not-allowed" : ""}`}
     >
-      {error && <ErrorBanner message={error} />}
+      {error && <ErrorBanner message={error} errorLabel={errorLabel} />}
 
       <div id="upload-instructions" className="text-neutral-500 text-sm transition-all duration-300 ease-in-out">
         <div className="text-center">
@@ -242,18 +229,17 @@ function PromptsPreview({ prompts, warning, warningIsError = false }: PromptsPre
 
 interface ErrorBannerProps {
   message: string;
+  errorLabel: string;
 }
 
-function ErrorBanner({ message }: ErrorBannerProps) {
-  // TEMPORARY: Using hardcoded Italian
-
+function ErrorBanner({ message, errorLabel }: ErrorBannerProps) {
   return (
     <output
       aria-live="polite"
       className="-translate-x-1/2 absolute bottom-3 left-1/2 z-10 inline-flex items-center gap-2 rounded-full bg-red-600 px-3 py-1 text-sm text-white shadow"
     >
       <AlertTriangle className="h-4 w-4 shrink-0 text-white" />
-      <span className="sr-only">{IT_UPLOAD.errorLabel} </span>
+      <span className="sr-only">{errorLabel} </span>
       <span>{message}</span>
     </output>
   );
@@ -463,8 +449,9 @@ export function UploadCard({
   completed = false,
   isError = false,
   onRetry,
+  locale = DEFAULT_LOCALE,
 }: UploadCardProps): React.ReactElement {
-  // TEMPORARY: Using hardcoded Italian
+  const t = getTranslations(uploadTranslations, locale);
   const { maxPrompts, requireExactCount, labels, inputId, blockOnDuplicates = false } = config;
   const UPLOAD_ERRORS = getUploadErrors();
 
@@ -524,9 +511,9 @@ export function UploadCard({
       if (mapped.length > 0 && hasDuplicates(mapped)) {
         setHasDuplicatesInFile(true);
         if (blockOnDuplicates) {
-          setWarning(IT_UPLOAD.duplicatesBlockMessage);
+          setWarning(t.duplicatesBlockMessage);
         } else {
-          setWarning(IT_UPLOAD.duplicatesWarnMessage);
+          setWarning(t.duplicatesWarnMessage);
         }
       }
     } catch (err) {
@@ -641,10 +628,11 @@ export function UploadCard({
         <UploadDropzone
           inputId={inputId}
           labels={labels}
-          dragHint={IT_UPLOAD.dragHint}
+          dragHint={t.dragHint}
           disabled={disabled}
           isDragActive={isDragActive}
           error={error}
+          errorLabel={t.errorLabel}
           onDragOver={handleDragOver}
           onDragLeave={handleDragLeave}
           onDrop={handleDrop}
@@ -671,9 +659,9 @@ export function UploadCard({
             labels={labels}
             hasSelection={hasSelection}
             onClear={handleClear}
-            zeroMessage={IT_UPLOAD.zeroPromptsMessage}
-            exactCountMessage={IT_UPLOAD.exactCountMessage(maxPrompts, promptCount)}
-            promptLabel={IT_UPLOAD.promptCount}
+            zeroMessage={t.zeroPromptsMessage}
+            exactCountMessage={t.exactCountMessage(maxPrompts, promptCount)}
+            promptLabel="prompt"
             clearFileLabel={"Clear file"}
           />
         )}

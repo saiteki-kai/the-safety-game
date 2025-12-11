@@ -1,13 +1,9 @@
 import * as SheetPrimitive from "@radix-ui/react-dialog";
+import { getTranslations, commonTranslations, type Locale, DEFAULT_LOCALE } from "@/lib/translations";
 import { XIcon } from "lucide-react";
 import type * as React from "react";
 
 import { cn } from "@/lib/utils";
-
-// TEMPORARY: Hardcoded Italian translations
-const IT_COMMON = {
-  close: "Chiudi",
-};
 
 function Sheet({ ...props }: React.ComponentProps<typeof SheetPrimitive.Root>) {
   return <SheetPrimitive.Root data-slot="sheet" {...props} />;
@@ -42,11 +38,13 @@ function SheetContent({
   className,
   children,
   side = "right",
+  locale = DEFAULT_LOCALE,
   ...props
 }: React.ComponentProps<typeof SheetPrimitive.Content> & {
   side?: "top" | "right" | "bottom" | "left";
+  locale?: Locale;
 }) {
-  // TEMPORARY: Using hardcoded Italian
+  const t = getTranslations(commonTranslations, locale);
   return (
     <SheetPortal>
       <SheetOverlay />
@@ -69,7 +67,7 @@ function SheetContent({
         {children}
         <SheetPrimitive.Close className="absolute top-4 right-4 rounded-xs opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-secondary">
           <XIcon className="size-4" />
-          <span className="sr-only">{IT_COMMON.close}</span>
+          <span className="sr-only">{t.close}</span>
         </SheetPrimitive.Close>
       </SheetPrimitive.Content>
     </SheetPortal>

@@ -1,23 +1,28 @@
 ---
 import SectionLayout from "@layouts/SectionLayout.astro";
-import i18n from "i18next";
 import FaqAccordion from "./FaqAccordion";
+import type { FaqItem } from "@/lib/translations";
 
-interface FaqItem {
-  question: string;
-  answer: string;
+interface FaqTranslations {
+  title: string;
+  description: string;
+  items: FaqItem[];
 }
 
-const items = i18n.t("faq:items", { returnObjects: true }) as FaqItem[];
+interface Props {
+  translations: FaqTranslations;
+}
+
+const { translations: t } = Astro.props;
 ---
 
 <SectionLayout
   id="faq"
-  title={i18n.t("faq:title")}
-  description={i18n.t("faq:description")}
+  title={t.title}
+  description={t.description}
   sectionClass="bg-white"
 >
   <div class="max-w-3xl mx-auto">
-    <FaqAccordion client:idle items={items} />
+    <FaqAccordion client:idle items={t.items} />
   </div>
 </SectionLayout>

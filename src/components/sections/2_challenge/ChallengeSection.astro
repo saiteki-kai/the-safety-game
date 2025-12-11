@@ -1,13 +1,40 @@
 ---
 import Card from "@components/common/Card.astro";
 import SectionLayout from "@layouts/SectionLayout.astro";
-import i18n from "i18next";
+
+interface ChallengeIntroductionParagraph {
+  content: string;
+}
+
+interface ChallengeTranslations {
+  title: string;
+  description: string;
+  tagline: string;
+  what: string;
+  objectiveLabel: string;
+  challengeLabel: string;
+  challengeText: string;
+  participationLabel: string;
+  participation: string;
+  prizesLabel: string;
+  prizesDescription: string;
+  llmLabel: string;
+  introduction: ChallengeIntroductionParagraph[];
+  webinarLabel: string;
+  webinarText: string;
+}
+
+interface Props {
+  translations: ChallengeTranslations;
+}
+
+const { translations: t } = Astro.props;
 ---
 
 <SectionLayout
   id="challenge"
-  title={i18n.t("challenge:title")}
-  description={i18n.t("challenge:description")}
+  title={t.title}
+  description={t.description}
   sectionClass="bg-white"
 >
   <div class="space-y-8">
@@ -15,20 +42,19 @@ import i18n from "i18next";
       <p
         class="gradient-text text-center text-3xl sm:text-4xl font-semibold mb-0"
       >
-        {i18n.t("challenge:tagline")}
+        {t.tagline}
       </p>
     </div>
 
     <Card
       class="p-6"
-      label={i18n.t("challenge:objectiveLabel")}
+      label={t.objectiveLabel}
       icon="lightbulb"
       iconClass="text-rose-600 shrink-0"
     >
       <div class="space-y-2">
         {
-          i18n
-            .t("challenge:what")
+          t.what
             .split(/(?<=[.!?])\s+/)
             .map((sentence: string) => {
               return <p class="text-neutral-700 leading-relaxed">{sentence}</p>;
@@ -40,52 +66,48 @@ import i18n from "i18next";
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
       <Card
         class="p-6"
-        label={i18n.t("challenge:challengeLabel")}
+        label={t.challengeLabel}
         icon="star"
         iconClass="text-yellow-400 shrink-0"
       >
         <p class="text-neutral-700 leading-relaxed mb-4">
-          {i18n.t("challenge:challengeText")}
+          {t.challengeText}
         </p>
       </Card>
 
       <Card
         class="p-6"
-        label={i18n.t("challenge:participationLabel")}
+        label={t.participationLabel}
         icon="users"
         iconClass="text-green-600 shrink-0"
       >
         <p class="text-neutral-700 leading-relaxed">
-          {i18n.t("challenge:participation")}
+          {t.participation}
         </p>
       </Card>
 
       <Card
         class="p-6"
-        label={i18n.t("challenge:prizesLabel")}
+        label={t.prizesLabel}
         icon="trophy"
         iconClass="text-amber-600 shrink-0"
       >
         <p
           class="text-neutral-700 leading-relaxed"
-          set:html={i18n.t("challenge:prizesDescription")}
+          set:html={t.prizesDescription}
         />
       </Card>
     </div>
 
     <Card
       class="p-6"
-      label={i18n.t("challenge:llmLabel")}
+      label={t.llmLabel}
       icon="ai"
       iconClass="text-blue-600 shrink-0"
     >
       <div class="space-y-4">
         {
-          (
-            i18n.t("challenge:introduction", { returnObjects: true }) as {
-              content: string;
-            }[]
-          ).map((paragraph) => (
+          t.introduction.map((paragraph) => (
             <p class="text-neutral-700 leading-relaxed">{paragraph.content}</p>
           ))
         }
@@ -94,12 +116,12 @@ import i18n from "i18next";
 
     <Card
       class="p-6"
-      label="Webinar introduttivo"
+      label={t.webinarLabel}
       icon="clock"
       iconClass="text-indigo-600 shrink-0"
     >
       <p class="text-neutral-700 leading-relaxed">
-        Partecipa al nostro webinar introduttivo per scoprire come funziona la challenge e ricevere consigli dai nostri esperti. Consulta il webinar introduttivo si terrà il DATA E ORA.
+        {t.webinarText}
       </p>
     </Card>
   </div>

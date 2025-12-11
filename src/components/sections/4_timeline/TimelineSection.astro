@@ -1,11 +1,26 @@
 ---
 import SectionLayout from "@layouts/SectionLayout.astro";
-import i18n from "i18next";
 import { TIMELINE_EVENTS, type TimelineEntry, type TimelineStatus } from "@/content/timeline";
 import TimelineItem from "./TimelineItem.astro";
+import type { Locale } from "@/lib/translations";
 
-// TEMPORARY: Force Italian locale
-const FORCED_LOCALE = "it";
+interface TimelineEventContent {
+  title: string;
+  description: string;
+}
+
+interface TimelineTranslations {
+  title: string;
+  emptyMessage: string;
+  events: Record<string, TimelineEventContent>;
+}
+
+interface Props {
+  translations: TimelineTranslations;
+  locale: Locale;
+}
+
+const { translations: t, locale } = Astro.props;
 
 const now = new Date();
 const computeStatus = (eventDate: Date): TimelineStatus => {
@@ -15,7 +30,7 @@ const computeStatus = (eventDate: Date): TimelineStatus => {
 // Format date using Intl API
 const formatDate = (date: Date): string => {
   try {
-    return new Intl.DateTimeFormat(FORCED_LOCALE, {
+    return new Intl.DateTimeFormat(locale, {
       year: "numeric",
       month: "long",
       day: "numeric",
@@ -25,10 +40,8 @@ const formatDate = (date: Date): string => {
   }
 };
 
-const eventContent = i18n.t("dates:events", { returnObjects: true });
-
 const timeline: TimelineEntry[] = TIMELINE_EVENTS.map((event) => {
-  const content = eventContent[event.key] || { title: "", description: "" };
+  const content = t.events[event.key] || { title: "", description: "" };
 
   return {
     date: formatDate(event.date),
@@ -71,7 +84,7 @@ const getEntryConfig = (status: TimelineStatus) => ({
 
 <SectionLayout
   id="dates"
-  title={i18n.t("dates:title")}
+  title={t.title}
   sectionClass="section-gradient"
 >
   <div class="relative mx-auto max-w-3xl">
@@ -79,7 +92,7 @@ const getEntryConfig = (status: TimelineStatus) => ({
       {
         timeline.length === 0 ? (
           <li class="text-sm text-neutral-500">
-            {i18n.t("dates:emptyMessage")}
+            {t.emptyMessage}
           </li>
         ) : (
           timeline.map((entry, index) => {

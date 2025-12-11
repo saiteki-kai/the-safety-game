@@ -5,19 +5,19 @@ import PageLayout from "@layouts/PageLayout.astro";
 import DashboardNav from "@/components/common/DashboardNav";
 import FooterWithProps from "@/components/common/FooterWithProps.astro";
 import TeamDashboardView from "@/components/dashboard/TeamDashboardView";
-import { I18nContextProvider } from "@/components/providers/I18nContext";
 import { getTeamByUserId } from "@/db/teams";
 import { serverClient } from "@/lib/supabase";
 
+const locale = "it";
 const supabase = serverClient(Astro);
 const profile = Astro.locals.user;
 if (!profile) {
-  return Astro.redirect("/login");
+  return Astro.redirect("/it/login");
 }
 const team = await getTeamByUserId(supabase, profile.id);
 
 if (!team) {
-  return Astro.redirect("/setup");
+  return Astro.redirect("/it/setup");
 }
 
 const footerTranslations = {
@@ -28,11 +28,9 @@ const footerTranslations = {
 };
 ---
 
-<PageLayout title="Dashboard | The Safety Game">
-  <I18nContextProvider client:load locale="it">
-    <DashboardNav client:load profile={profile} />
-    <TeamDashboardView client:load team={team} />
-  </I18nContextProvider>
+<PageLayout title="Dashboard | The Safety Game" lang={locale}>
+  <DashboardNav client:load profile={profile} locale={locale} />
+  <TeamDashboardView client:load team={team} locale={locale} />
   <FooterWithProps 
     slot="footer" 
     translations={footerTranslations}

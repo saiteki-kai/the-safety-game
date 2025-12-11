@@ -1,21 +1,17 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@components/ui/avatar";
 import type { Profile } from "@/lib/supabase.types";
-
-// TEMPORARY: Hardcoded Italian translations
-const IT_DASHBOARD = {
-  team: {
-    availableSlot: "Slot disponibile",
-  },
-};
+import { getTranslations, dashboardTranslations, type Locale, DEFAULT_LOCALE } from "@/lib/translations";
 
 type MemberItemProps = {
   member: Profile | null;
+  locale?: Locale;
 };
 
-export default function MemberItem({ member }: MemberItemProps) {
-  // TEMPORARY: Using hardcoded Italian
+export default function MemberItem({ member, locale = DEFAULT_LOCALE }: MemberItemProps) {
+  const t = getTranslations(dashboardTranslations, locale);
+
   const isPlaceholder = member === null;
-  const displayName = isPlaceholder ? IT_DASHBOARD.team.availableSlot : member?.full_name?.trim?.() || "?";
+  const displayName = isPlaceholder ? t.availableSlot : member?.full_name?.trim?.() || "?";
   const initials = isPlaceholder ? " " : (displayName.charAt(0) ?? "").toUpperCase();
 
   return (

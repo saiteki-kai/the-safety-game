@@ -2,14 +2,15 @@
 import "@styles/globals.css";
 import PageLayout from "@layouts/PageLayout.astro";
 
+const locale = "it";
 const currentYear = new Date().getFullYear();
 ---
 
-<PageLayout title={`Pagina non trovata | The Safety Game`} >
+<PageLayout title={`Pagina non trovata | The Safety Game`} lang={locale} >
   <div slot="navigation">
     <header class="flex items-center justify-between px-6 py-6 sm:px-10">
       <a
-        href="/home"
+        href="/it/home"
         class="text-sm font-semibold tracking-tight text-neutral-900 transition hover:text-primary"
       >
         The Safety Game
@@ -45,7 +46,7 @@ const currentYear = new Date().getFullYear();
         <div
           class="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4"
         >
-          <a href="/home" class="hero-button">Torna alla home</a>
+          <a href="/it/home" class="hero-button">Torna alla home</a>
         </div>
       </div>
     </main>

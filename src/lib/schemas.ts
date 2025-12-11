@@ -1,15 +1,15 @@
 import { z } from "astro:schema";
-import i18n from "i18next";
+import { getTranslations, formsTranslations, type Locale } from "./translations";
 
 /**
  * Validation error keys - these are used as message placeholders in Zod schemas
  * and mapped to localized messages at runtime using localizeValidationErrors()
  */
 export const ValidationErrorKey = {
-  TEAM_NAME_MIN: "validation.teamNameMin",
-  TEAM_NAME_MAX: "validation.teamNameMax",
-  JOIN_CODE_ERROR: "validation.joinCodeError",
-  PROMPT_EMPTY: "validation.promptEmpty",
+  TEAM_NAME_MIN: "teamNameMin",
+  TEAM_NAME_MAX: "teamNameMax",
+  JOIN_CODE_ERROR: "joinCodeError",
+  PROMPT_EMPTY: "promptEmpty",
 } as const;
 
 export const teamNameSchema = z.object({
@@ -44,19 +44,21 @@ export const finalPromptsSchema = z.object({
 /**
  * Localizes validation error messages at runtime.
  * Call this function to convert error keys to localized messages.
- * @param errors - Record of field names to error keys (e.g., { teamName: "validation.teamNameMin" })
+ * @param errors - Record of field names to error keys (e.g., { teamName: "teamNameMin" })
+ * @param locale - The locale to use for translations (defaults to "it")
  * @returns Record of field names to localized error messages
  */
-export function localizeValidationErrors(errors: Record<string, string[]>): Record<string, string> {
+export function localizeValidationErrors(errors: Record<string, string[]>, locale: Locale = "it"): Record<string, string> {
+  const t = getTranslations(formsTranslations, locale);
   const localized: Record<string, string> = {};
   for (const [field, messages] of Object.entries(errors)) {
     // Take the first error message and localize it
-    const key = messages[0];
-    if (key?.startsWith("validation.")) {
-      localized[field] = i18n.t(key, { ns: "forms" });
+    const key = messages[0] as keyof typeof t;
+    if (key && key in t) {
+      localized[field] = t[key];
     } else {
       // Fallback: use the message as-is if it's not a known key
-      localized[field] = key ?? i18n.t("validation.required", { ns: "forms" });
+      localized[field] = key ?? t.required;
     }
   }
   return localized;
@@ -64,12 +66,15 @@ export function localizeValidationErrors(errors: Record<string, string[]>): Reco
 
 /**
  * Localizes a single validation error message.
- * @param errorKey - The error key (e.g., "validation.teamNameMin")
+ * @param errorKey - The error key (e.g., "teamNameMin")
+ * @param locale - The locale to use for translations (defaults to "it")
  * @returns The localized error message
  */
-export function localizeValidationError(errorKey: string): string {
-  if (errorKey.startsWith("validation.")) {
-    return i18n.t(errorKey, { ns: "forms" });
+export function localizeValidationError(errorKey: string, locale: Locale = "it"): string {
+  const t = getTranslations(formsTranslations, locale);
+  const key = errorKey as keyof typeof t;
+  if (key in t) {
+    return t[key];
   }
   return errorKey;
 }

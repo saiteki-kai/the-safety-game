@@ -1,15 +1,12 @@
 ---
 import { RenderLocale } from "@/components/Provaaa";
-import { I18nContextProvider } from "@/components/providers/I18nContext";
 ---
 
 <div class="p-8">
     <h1>Prova Page</h1>
     <p class="text-gray-600 pb-4">This is a test page for the locale store.</p>
 
-    <I18nContextProvider client:load locale="en">
-        <RenderLocale client:load transition:persist />
-    </I18nContextProvider>
+    <RenderLocale client:load transition:persist locale="en" />
 
     <div class="mt-4 space-x-4 text-blue-600">
         <a href="/en/prova" class="hover:underline">Go to English Prova Page</a>

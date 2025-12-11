@@ -2,30 +2,7 @@ import react from "@astrojs/react";
 import vercel from "@astrojs/vercel";
 import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "astro/config";
-import reactI18next from "astro-react-i18next";
 import node from '@astrojs/node';
-
-// Define namespaces for i18next
-const namespaces = [
-  "common",
-  "nav",
-  "sections",
-  "auth",
-  "footer",
-  "dashboard",
-  "forms",
-  "errors",
-  "meta",
-  "home",
-  "challenge",
-  "leaderboard",
-  "team",
-  "participation",
-  "dates",
-  "instructions",
-  "faq",
-  "setup",
-];
 
 export default defineConfig({
   site: "https://thesafetygame.vercel.app/",
@@ -48,15 +25,16 @@ export default defineConfig({
     plugins: [tailwindcss()],
   },
 
-  integrations: [
-    react(),
-    reactI18next({
-      defaultLocale: "it",
-      locales: ["it", "en"],
-      namespaces,
+  // Native Astro i18n configuration
+  i18n: {
+    defaultLocale: "it",
+    locales: ["it", "en"],
+    routing: {
       prefixDefaultLocale: true,
-    }),
-  ],
+    },
+  },
+
+  integrations: [react()],
 
   experimental: {
     svgo: true,

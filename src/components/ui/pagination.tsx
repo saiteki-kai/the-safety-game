@@ -1,27 +1,18 @@
 import type { Table } from "@tanstack/react-table";
+import { getTranslations, paginationTranslations, type Locale, DEFAULT_LOCALE } from "@/lib/translations";
 import { ChevronFirst, ChevronLast, ChevronLeft, ChevronRight } from "lucide-react";
 import { useId } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
-// TEMPORARY: Hardcoded Italian translations
-const IT_PAGINATION = {
-  pageSize: "Dimensione pagina",
-  range: (from: number, to: number, total: number) => `${from} - ${to} di ${total}`,
-  pageOf: (page: number, total: number) => `Pagina ${page} di ${total}`,
-  first: "Primo",
-  previous: "Precedente",
-  next: "Successivo",
-  last: "Ultimo",
-};
-
 interface DataTablePaginationProps<TData> {
   table: Table<TData>;
+  locale?: Locale;
 }
 
-export function DataTablePagination<TData>({ table }: DataTablePaginationProps<TData>) {
-  // TEMPORARY: Using hardcoded Italian
+export function DataTablePagination<TData>({ table, locale = DEFAULT_LOCALE }: DataTablePaginationProps<TData>) {
+  const t = getTranslations(paginationTranslations, locale);
   const pageIndex = table.getState().pagination.pageIndex;
   const pageSize = table.getState().pagination.pageSize;
   const pageCount = table.getPageCount();
@@ -36,7 +27,7 @@ export function DataTablePagination<TData>({ table }: DataTablePaginationProps<T
       <div className="flex items-center space-x-4">
         <div className="flex items-center space-x-2">
           <label htmlFor={pageSizeSelectId} className="font-light text-neutral-800 text-sm">
-            {IT_PAGINATION.pageSize}
+            {t.pageSize}
           </label>
           <Select value={String(pageSize)} onValueChange={(val) => table.setPageSize(Number(val))}>
             <SelectTrigger
@@ -56,7 +47,7 @@ export function DataTablePagination<TData>({ table }: DataTablePaginationProps<T
         </div>
 
         <div className="font-light text-neutral-800 text-sm">
-          {IT_PAGINATION.range(from, to, rowCount)}
+          {t.range(from, to, rowCount)}
         </div>
       </div>
 
@@ -69,8 +60,8 @@ export function DataTablePagination<TData>({ table }: DataTablePaginationProps<T
             className="hidden rounded-full bg-transparent text-neutral-800 hover:bg-neutral-100 lg:flex"
             onClick={() => table.setPageIndex(0)}
             disabled={!table.getCanPreviousPage()}
-            aria-label={IT_PAGINATION.first}
-            title={IT_PAGINATION.first}
+            aria-label={t.first}
+            title={t.first}
           >
             <ChevronFirst />
           </Button>
@@ -80,15 +71,15 @@ export function DataTablePagination<TData>({ table }: DataTablePaginationProps<T
             className="rounded-full bg-transparent text-neutral-800 hover:bg-neutral-100"
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
-            aria-label={IT_PAGINATION.previous}
-            title={IT_PAGINATION.previous}
+            aria-label={t.previous}
+            title={t.previous}
           >
             <ChevronLeft />
           </Button>
         </div>
 
         <div className="hidden items-center px-3 font-light text-neutral-800 text-sm sm:flex">
-          {IT_PAGINATION.pageOf(pageIndex + 1, pageCount)}
+          {t.pageOf(pageIndex + 1, pageCount)}
         </div>
 
         <div className="flex items-center gap-1">
@@ -98,8 +89,8 @@ export function DataTablePagination<TData>({ table }: DataTablePaginationProps<T
             className="rounded-full bg-transparent text-neutral-800 hover:bg-neutral-100"
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
-            aria-label={IT_PAGINATION.next}
-            title={IT_PAGINATION.next}
+            aria-label={t.next}
+            title={t.next}
           >
             <ChevronRight />
           </Button>
@@ -109,8 +100,8 @@ export function DataTablePagination<TData>({ table }: DataTablePaginationProps<T
             className="hidden rounded-full bg-transparent text-neutral-800 hover:bg-neutral-100 lg:flex"
             onClick={() => table.setPageIndex(pageCount - 1)}
             disabled={!table.getCanNextPage()}
-            aria-label={IT_PAGINATION.last}
-            title={IT_PAGINATION.last}
+            aria-label={t.last}
+            title={t.last}
           >
             <ChevronLast />
           </Button>

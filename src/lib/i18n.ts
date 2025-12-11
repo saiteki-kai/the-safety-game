@@ -1,23 +1,34 @@
 import { getRelativeLocaleUrl } from "astro:i18n";
-
-// TEMPORARY: Force Italian locale
-const FORCED_LOCALE = "it";
+import type { Locale } from "./translations";
+import { DEFAULT_LOCALE } from "./translations";
 
 /**
- * Return a path prefixed with the forced locale (`/it`).
+ * Return a path prefixed with the specified locale (defaults to Italian).
  * - Accepts paths with or without leading slash.
- * - Avoids double-prefixing if `/it` is already present.
+ * - Avoids double-prefixing if locale is already present.
  */
-export function localizeUrl(path: string): string {
-  if (!path) return `/${FORCED_LOCALE}`;
+export function localizeUrl(path: string, locale: Locale = DEFAULT_LOCALE): string {
+  if (!path) return `/${locale}`;
   // Normalize
   let p = path.startsWith("/") ? path : `/${path}`;
-  // If already prefixed with the forced locale, return as-is
-  if (p === `/${FORCED_LOCALE}` || p.startsWith(`/${FORCED_LOCALE}/`)) return p;
-  // Use astro helper where available for consistency, but fall back to simple join
+  // If already prefixed with any locale, return as-is
+  if (p === `/${locale}` || p.startsWith(`/${locale}/`)) return p;
+  // Use astro helper where available for consistency
   try {
-    return getRelativeLocaleUrl(FORCED_LOCALE, p);
+    return getRelativeLocaleUrl(locale, p);
   } catch (_e) {
-    return `/${FORCED_LOCALE}${p}`;
+    return `/${locale}${p}`;
   }
+}
+
+/**
+ * Extract locale from a URL path.
+ */
+export function getLocaleFromPath(path: string): Locale {
+  const segments = path.split("/").filter(Boolean);
+  const firstSegment = segments[0];
+  if (firstSegment === "it" || firstSegment === "en") {
+    return firstSegment as Locale;
+  }
+  return DEFAULT_LOCALE;
 }

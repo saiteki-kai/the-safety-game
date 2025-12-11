@@ -3,6 +3,7 @@ import Google from "@assets/icons/google.svg";
 import PageLayout from "@layouts/PageLayout.astro";
 import { serverClient } from "@/lib/supabase";
 
+const locale = "en";
 const supabase = serverClient(Astro);
 const { data } = await supabase.auth.getClaims();
 
@@ -14,7 +15,7 @@ if (data?.claims) {
 <PageLayout
   title="Sign In | The Safety Game"
   description="Sign in to The Safety Game"
-  
+  lang={locale}
 >
   <div
     class="hero-section hero-gradient hero-theme-cosmic relative min-h-screen"

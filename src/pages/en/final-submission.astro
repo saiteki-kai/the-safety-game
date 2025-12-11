@@ -5,7 +5,6 @@ import PageLayout from "@layouts/PageLayout.astro";
 import DashboardNav from "@/components/common/DashboardNav";
 import FooterWithProps from "@/components/common/FooterWithProps.astro";
 import { FinalSubmissionSection } from "@/components/dashboard/final/FinalSubmissionSection";
-import { I18nContextProvider } from "@/components/providers/I18nContext";
 import { getTeamSubmissions } from "@/db/submissions";
 import { getTeamByUserId } from "@/db/teams";
 import { serverClient } from "@/lib/supabase";
@@ -38,15 +37,13 @@ const footerTranslations = {
 };
 ---
 
-<PageLayout title="Final Submission | The Safety Game">
-  <I18nContextProvider client:load locale="en">
-    <DashboardNav client:load profile={profile} menu={navMenu} />
-    <main class="flex min-h-0 w-full flex-1 flex-col my-12 gap-8 px-4 py-6 sm:px-8 sm:py-10" aria-label="Final Submission">
-      <div class="mx-auto w-full lg:container">
-        <FinalSubmissionSection client:load teamId={team.id} disabled={finalSubmissionDone} />
-      </div>
-    </main>
-  </I18nContextProvider>
+<PageLayout title="Final Submission | The Safety Game" lang="en">
+  <DashboardNav client:load profile={profile} menu={navMenu} locale="en" />
+  <main class="flex min-h-0 w-full flex-1 flex-col my-12 gap-8 px-4 py-6 sm:px-8 sm:py-10" aria-label="Final Submission">
+    <div class="mx-auto w-full lg:container">
+      <FinalSubmissionSection client:load teamId={team.id} disabled={finalSubmissionDone} locale="en" />
+    </div>
+  </main>
   <FooterWithProps 
     slot="footer" 
     translations={footerTranslations}

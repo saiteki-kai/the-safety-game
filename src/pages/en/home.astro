@@ -13,9 +13,30 @@ import {
   TimelineSection,
 } from "@components/sections";
 import PageLayout from "@layouts/PageLayout.astro";
-import { I18nContextProvider } from "@/components/providers/I18nContext";
+import {
+  getTranslations,
+  heroTranslations,
+  challengeTranslations,
+  participationTranslations,
+  timelineTranslations,
+  instructionsTranslations,
+  faqTranslations,
+  teamSectionTranslations,
+  leaderboardTranslations,
+} from "@/lib/translations";
 
+const locale = "en";
 const profile = Astro.locals.user;
+
+// Get all translations for EN locale
+const heroT = getTranslations(heroTranslations, locale);
+const challengeT = getTranslations(challengeTranslations, locale);
+const participationT = getTranslations(participationTranslations, locale);
+const timelineT = getTranslations(timelineTranslations, locale);
+const instructionsT = getTranslations(instructionsTranslations, locale);
+const faqT = getTranslations(faqTranslations, locale);
+const teamT = getTranslations(teamSectionTranslations, locale);
+const leaderboardT = getTranslations(leaderboardTranslations, locale);
 
 const footerTranslations = {
   tagline: "An ethical prompt engineering competition organized by the AI Safety research laboratory.",
@@ -25,20 +46,18 @@ const footerTranslations = {
 };
 ---
 
-<PageLayout title="The Safety Game" description="The Safety Game - Hackathon organized by MIND, University of Milan Bicocca">
-  <I18nContextProvider client:load locale="en">
-    <LandingNavigation slot="navigation" client:load profile={profile} />
-  </I18nContextProvider>
-  <HeroSection />
+<PageLayout title="The Safety Game" description="The Safety Game - Hackathon organized by MIND, University of Milan Bicocca" lang={locale}>
+  <LandingNavigation slot="navigation" client:load profile={profile} locale={locale} />
+  <HeroSection translations={heroT} />
   <!-- Invisible spacer so nav de-highlights when scrolling above the first real section -->
   <div id="top-spacer" aria-hidden="true" class="h-px -mt-px"></div>
-  <ChallengeSection />
-  <InstructionsSection />
-  <ParticipationSection />
-  <TimelineSection />
-  <LeaderboardSection />
-  <TeamSection />
-  <FaqSection />
+  <ChallengeSection translations={challengeT} />
+  <InstructionsSection translations={instructionsT} />
+  <ParticipationSection translations={participationT} privacyUrl="/en/privacy" />
+  <TimelineSection translations={timelineT} locale={locale} />
+  <LeaderboardSection translations={leaderboardT} locale={locale} />
+  <TeamSection translations={teamT} />
+  <FaqSection translations={faqT} />
   <LogosSection slot="prefooter" />
   <FooterWithProps 
     slot="footer" 

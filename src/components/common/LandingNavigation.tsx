@@ -3,14 +3,16 @@ import type { ReactElement } from "react";
 import useHomeActiveSection from "@/hooks/useActiveSection";
 import { localizeUrl } from "@/lib/i18n";
 import type { Profile } from "@/lib/supabase.types";
+import { type Locale, DEFAULT_LOCALE } from "@/lib/translations";
 import AccountMenu, { AccountMenuMobile } from "./AccountMenu";
 import Navigation from "./Navigation";
 
 export interface LandingNavProps {
   profile?: Profile | null;
+  locale?: Locale;
 }
 
-export default function LandingNavigation({ profile }: LandingNavProps): ReactElement {
+export default function LandingNavigation({ profile, locale = DEFAULT_LOCALE }: LandingNavProps): ReactElement {
   const { activeSection, navOpacity } = useHomeActiveSection();
 
   const logo = { url: localizeUrl("/home"), alt: "Logo", title: "The Safety Game" };
@@ -29,6 +31,7 @@ export default function LandingNavigation({ profile }: LandingNavProps): ReactEl
       activeSection={activeSection}
       navOpacity={navOpacity}
       isIndexPage={true}
+      locale={locale}
     />
   );
 }

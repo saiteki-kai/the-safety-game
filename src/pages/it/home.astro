@@ -13,9 +13,30 @@ import {
   TimelineSection,
 } from "@components/sections";
 import PageLayout from "@layouts/PageLayout.astro";
-import { I18nContextProvider } from "@/components/providers/I18nContext";
+import {
+  getTranslations,
+  heroTranslations,
+  challengeTranslations,
+  participationTranslations,
+  timelineTranslations,
+  instructionsTranslations,
+  faqTranslations,
+  teamSectionTranslations,
+  leaderboardTranslations,
+} from "@/lib/translations";
 
+const locale = "it";
 const profile = Astro.locals.user;
+
+// Get all translations for IT locale
+const heroT = getTranslations(heroTranslations, locale);
+const challengeT = getTranslations(challengeTranslations, locale);
+const participationT = getTranslations(participationTranslations, locale);
+const timelineT = getTranslations(timelineTranslations, locale);
+const instructionsT = getTranslations(instructionsTranslations, locale);
+const faqT = getTranslations(faqTranslations, locale);
+const teamT = getTranslations(teamSectionTranslations, locale);
+const leaderboardT = getTranslations(leaderboardTranslations, locale);
 
 const footerTranslations = {
   tagline: "Una competizione di prompt engineering etico organizzata dal laboratorio di ricerca in AI Safety.",
@@ -25,26 +46,24 @@ const footerTranslations = {
 };
 ---
 
-<PageLayout title="The Safety Game" description="The Safety Game - Hackathon organizzato da MIND, Università di Milano Bicocca">
-  <!--<I18nContextProvider client:load locale="it">-->
-    <LandingNavigation slot="navigation" client:load profile={profile} />
-  <!-- </I18nContextProvider>-->
-  <HeroSection />
+<PageLayout title="The Safety Game" description="The Safety Game - Hackathon organizzato da MIND, Università di Milano Bicocca" lang={locale}>
+  <LandingNavigation slot="navigation" client:load profile={profile} locale={locale} />
+  <HeroSection translations={heroT} />
   <!-- Invisible spacer so nav de-highlights when scrolling above the first real section -->
   <div id="top-spacer" aria-hidden="true" class="h-px -mt-px"></div>
-  <ChallengeSection />
-  <InstructionsSection />
-  <ParticipationSection />
-  <TimelineSection />
-  <LeaderboardSection />
-  <TeamSection />
-  <FaqSection />
+  <ChallengeSection translations={challengeT} />
+  <InstructionsSection translations={instructionsT} />
+  <ParticipationSection translations={participationT} privacyUrl="/it/privacy" />
+  <TimelineSection translations={timelineT} locale={locale} />
+  <LeaderboardSection translations={leaderboardT} locale={locale} />
+  <TeamSection translations={teamT} />
+  <FaqSection translations={faqT} />
   <LogosSection slot="prefooter" />
   <FooterWithProps 
     slot="footer" 
     translations={footerTranslations}
-    privacyUrl="/privacy"
-    homeUrl="/home"
-    dashboardUrl="/dashboard"
+    privacyUrl="/it/privacy"
+    homeUrl="/it/home"
+    dashboardUrl="/it/dashboard"
   />
 </PageLayout>
