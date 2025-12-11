@@ -8,6 +8,7 @@ interface DailySubmissionSectionProps {
   teamId: string;
   disabled?: boolean;
   finalSubmissionDone?: boolean;
+  hasPendingDailySubmission?: boolean;
   locale?: Locale;
 }
 
@@ -15,6 +16,7 @@ export function DailySubmissionSection({
   teamId,
   disabled = false,
   finalSubmissionDone = false,
+  hasPendingDailySubmission = false,
   locale = DEFAULT_LOCALE,
 }: DailySubmissionSectionProps) {
   const t = getTranslations(playgroundTranslations, locale);
@@ -37,9 +39,19 @@ export function DailySubmissionSection({
 
   const handleSubmit = async (prompts: string[]): Promise<{ prompt: string; response?: string }[] | null> => {
     if (!prompts || prompts.length === 0 || isLoading || isPlaygroundDisabled) return null;
+    if (hasPendingDailySubmission) {
+      const e = new Error("PENDING_DAILY_SUBMISSION");
+      e.name = "PENDING_DAILY_SUBMISSION";
+      throw e;
+    }
     setIsLoading(true);
     try {
       const result = await actions.submissions.uploadDailyPrompts({ teamId, prompts });
+      if (!result.data.success && (result.data as any)?.code === "PENDING_DAILY_SUBMISSION") {
+        const e = new Error("PENDING_DAILY_SUBMISSION");
+        e.name = "PENDING_DAILY_SUBMISSION";
+        throw e;
+      }
       const returned = result?.data?.data ?? null;
 
       if (result.data.success && Array.isArray(returned) && returned.length > 0) {
@@ -49,7 +61,10 @@ export function DailySubmissionSection({
       }
 
       return returned && Array.isArray(returned) ? returned : null;
-    } catch (_e) {
+    } catch (e) {
+      if (e instanceof Error && e.name === "PENDING_DAILY_SUBMISSION") {
+        return null;
+      }
       setIsError(true);
       return null;
     } finally {

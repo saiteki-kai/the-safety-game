@@ -375,6 +375,8 @@ export const uploadTranslations = {
     zeroPromptsMessage: "Attenzione: nessun prompt nel file. Carica almeno un prompt",
     duplicatesBlockMessage: "Duplicati trovati. Rimuovili prima di inviare.",
     duplicatesWarnMessage: "Duplicati trovati. Saranno scartati durante l'invio.",
+    pendingDailySubmissionWarning:
+      "Un altro membro del team ha già effettuato l'invio. Se non è vero, riprova.",
     errorLabel: "Errore:",
     // Errors
     fileTooLarge: "File troppo grande. Max 20 MB",
@@ -415,6 +417,8 @@ export const uploadTranslations = {
     zeroPromptsMessage: "Warning: no prompts in the file. Upload at least one prompt",
     duplicatesBlockMessage: "Duplicates found. Remove them before submitting.",
     duplicatesWarnMessage: "Duplicates found. They will be discarded during submission.",
+    pendingDailySubmissionWarning:
+      "Another team member has already made the submission. If this is not true, try again.",
     errorLabel: "Error:",
     // Errors
     fileTooLarge: "File too large. Max 20 MB",

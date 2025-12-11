@@ -57,7 +57,8 @@ export default function TeamDashboardView({ team, locale = DEFAULT_LOCALE }: Tea
   // Count how many submissions beat ChatGPT baseline 
   const promptsBeatingChatGPT = scores.filter((score) => score > GPT_AVG_SCORE).length;
 
-  // TODO: block submissions if dailySubmissionsSent.length > 0 for other members
+  const dailySubmissionsSent = submissions?.filter((s) => isToday(s.date) && !!s.playground && !s.score) ?? [];
+  const hasPendingDailySubmission = dailySubmissionsSent.length > 0;
 
   const progress = {
     promptsSubmitted,
@@ -79,7 +80,13 @@ export default function TeamDashboardView({ team, locale = DEFAULT_LOCALE }: Tea
         </section>
 
         <section aria-label={t.dailySubmission} className="space-y-4">
-          <DailySubmissionSection teamId={team.id} disabled={dailySubmissionsDone} finalSubmissionDone={finalSubmissionDone} locale={locale} />
+          <DailySubmissionSection
+            teamId={team.id}
+            disabled={dailySubmissionsDone}
+            finalSubmissionDone={finalSubmissionDone}
+            hasPendingDailySubmission={hasPendingDailySubmission}
+            locale={locale}
+          />
         </section>
 
         <section aria-label={t.submissionHistory} className="space-y-4">

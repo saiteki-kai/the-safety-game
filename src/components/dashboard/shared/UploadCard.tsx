@@ -556,6 +556,7 @@ export function UploadCard({
   const handleSubmitClick = async () => {
     if (prompts.length === 0 || isLoading || disabled || isBadgeProblem) return;
     setError(null);
+    setWarning(null);
     setInternalError(false);
     // Prepare submission list. For daily uploads (blockOnDuplicates=false) we remove duplicates before sending.
     const toSendOriginal = prompts.slice();
@@ -584,6 +585,12 @@ export function UploadCard({
         setInternalError(true);
       }
     } catch (err) {
+      if (err instanceof Error && err.name === "PENDING_DAILY_SUBMISSION") {
+        setError(null);
+        setInternalError(false);
+        setWarning(t.pendingDailySubmissionWarning);
+        return;
+      }
       setError(err instanceof Error ? err.message : UPLOAD_ERRORS.SERVER_ERROR);
       setInternalError(true);
     }
