@@ -27,7 +27,7 @@ interface Status {
   time?: Date;
 }
 
-export const sendPromptsToHF = async (prompts: Prompt[], teamId: string): Promise<HFResponse> => {
+export const sendPromptsToHF = async (prompts: Prompt[], teamId: string): Promise<HFResponse[]> => {
   try {
     const client = await Client.connect("MindLabUnimib/TheSafetyGame", {
       events: ["data", "status"],
@@ -37,8 +37,9 @@ export const sendPromptsToHF = async (prompts: Prompt[], teamId: string): Promis
 
     for await (const msg of result) {
       if (msg.type === "data") {
-        const data = msg.data[0] as HFResponse;
+        const data = msg.data[0] as HFResponse[];
         console.log("Data received:", data);
+        return data;
       }
 
       if (msg.type === "status") {

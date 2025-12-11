@@ -46,7 +46,7 @@ export default function TeamDashboardView({ team, locale = DEFAULT_LOCALE }: Tea
 
   const promptsSubmitted = Array.isArray(submissions) ? submissions.length : 0;
 
-  const round2 = (n: number) => Math.round(n * 100) / 100;
+  const round2 = (n: number) => Math.round(n * 100);
 
   const scores = submissions ? submissions.map((s) => Number(s.score)) : [];
 
@@ -63,7 +63,7 @@ export default function TeamDashboardView({ team, locale = DEFAULT_LOCALE }: Tea
     promptsSubmitted,
     averageScore,
     highestScore,
-    scoreTotal: 10,
+    scoreTotal: null,
     challengeDaysRemaining,
     finalSubmissionDone,
     leaderboardPosition,

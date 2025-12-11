@@ -30,7 +30,7 @@ export const submissions = {
         }
 
         // Update the database with the responses and scores
-        const updatedSubmissions = await updatePromptResponses(database, data[0]);
+        const updatedSubmissions = await updatePromptResponses(database, data);
 
         if (!updatedSubmissions) {
           return { success: false };

@@ -9,6 +9,7 @@ import { KeyRound, OctagonAlert, Puzzle } from "lucide-react";
 import { useActionState, useEffect } from "react";
 import { toast } from "sonner";
 import { localizeValidationError } from "@/lib/schemas";
+import { localizeUrl } from "@/lib/i18n";
 
 interface JoinTeamFormProps {
   locale?: Locale;
@@ -52,7 +53,7 @@ export default function JoinTeamForm({ locale = DEFAULT_LOCALE }: JoinTeamFormPr
     }
 
     if (state?.data?.team) {
-      navigate("/dashboard");
+      navigate(localizeUrl("/dashboard"));
     }
   }, [state, t.joinError]);
 

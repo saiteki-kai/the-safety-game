@@ -7,6 +7,7 @@ import ProgressMetricRow from "./progress/ProgressMetricRow";
 import StatusActionRow from "./progress/StatusActionRow";
 import JoinCodeButton from "./team/JoinCodeButton";
 import MemberItem from "./team/MemberItem";
+import { localizeUrl } from "@/lib/i18n";
 
 type ProgressState = {
   challengeDaysRemaining: number;
@@ -17,7 +18,6 @@ type ProgressState = {
   promptsSubmitted: number;
   averageScore: number;
   highestScore: number;
-  // optional totals for score display (e.g. 10)
   scoreTotal?: number;
   // optional ChatGPT baseline to compare against
   chatgptBaseline?: number;
@@ -103,7 +103,7 @@ export default function TeamOverviewCard({ teamName, teamJoinCode, members, prog
                   Icon={Flag}
                   label={t.finalSubmission}
                   subtitle={finalSubmissionDone ? t.alreadySubmitted : t.waitingSubmission}
-                  href="/final-submission"
+                  href={localizeUrl("/final-submission")}
                   variant="rose"
                 />
               </div>

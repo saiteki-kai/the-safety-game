@@ -15,7 +15,8 @@ const {
   class?: string;
   innerClass?: string;
   label?: string | null;
-  icon?: IconName | null;
+  // icon may be a string key mapped in Icon, OR a React node/component (lucide icon)
+  icon?: IconName | any | null;
   iconClass?: string | null;
   labelClass?: string | null;
   borderClass?: string | null;
@@ -32,7 +33,8 @@ const {
       label && (
         <div class="mb-4">
           <IconLabel
-            name={icon}
+            name={typeof icon === 'string' ? icon : undefined}
+            icon={typeof icon === 'string' ? undefined : icon}
             size={20}
             iconClass={iconClass ?? "shrink-0"}
             as="h3"

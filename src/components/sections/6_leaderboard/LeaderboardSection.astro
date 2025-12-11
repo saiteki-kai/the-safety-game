@@ -1,5 +1,6 @@
 ---
 import IconLabel from "@components/common/IconLabel";
+import { Trophy } from "lucide-react";
 import SectionLayout from "@layouts/SectionLayout.astro";
 import LeaderboardTable from "./Leaderboard";
 import type { Locale } from "@/lib/translations";
@@ -29,7 +30,7 @@ const { translations: t, locale } = Astro.props;
     <div class="playground-header">
       <div class="flex items-center gap-2">
         <IconLabel
-          name="trophy"
+          icon={Trophy}
           size={18}
           iconClass=""
           as="span"

@@ -1,6 +1,7 @@
 ---
 import Card from "@components/common/Card.astro";
 import IconLabel from "@components/common/IconLabel";
+import { Lightbulb } from "lucide-react";
 import ExampleGroup from "@components/sections/5_instructions/ExampleGroup.astro";
 import SectionLayout from "@layouts/SectionLayout.astro";
 import type { 
@@ -179,7 +180,7 @@ const exampleStyleMap: Record<
 
   <div class="mx-auto space-y-6">
     <IconLabel
-      name="lightbulb"
+      icon={Lightbulb}
       size={28}
       iconClass="text-yellow-600"
       as="h3"

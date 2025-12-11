@@ -9,6 +9,7 @@ import { OctagonAlert, Rocket, Users } from "lucide-react";
 import { useActionState, useEffect } from "react";
 import { toast } from "sonner";
 import { localizeValidationError } from "@/lib/schemas";
+import { localizeUrl } from "@/lib/i18n";
 
 interface CreateTeamFormProps {
   locale?: Locale;
@@ -53,7 +54,7 @@ export default function CreateTeamForm({ locale = DEFAULT_LOCALE }: CreateTeamFo
     }
 
     if (state?.data?.team) {
-      navigate("/dashboard");
+      navigate(localizeUrl("/dashboard"));
     }
   }, [state, t.createError]);
 
