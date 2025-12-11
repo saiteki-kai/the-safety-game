@@ -51,7 +51,7 @@ export default function TeamOverviewCard({ teamName, teamJoinCode, members, prog
   } = progress;
 
   return (
-    <div className="space-y-8 px-4 py-8 sm:px-8">
+    <div className="space-y-8 py-8">
       {/* Hero Section */}
       <div className="space-y-3 pt-6 text-center">
         <h1 className="font-extrabold text-3xl text-neutral-900 sm:text-4xl">{teamName}</h1>

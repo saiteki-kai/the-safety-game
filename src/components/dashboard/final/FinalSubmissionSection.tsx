@@ -34,7 +34,7 @@ export function FinalSubmissionSection({ teamId, disabled = false, locale = DEFA
   };
 
   return (
-    <div className="scroll-mt-16 space-y-8 px-4 py-8 sm:px-8" id="final-submission">
+    <div className="scroll-mt-16 space-y-8 py-8" id="final-submission">
       {/* Hero Section */}
       <div className="space-y-4 text-center">
         <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-pink-100">

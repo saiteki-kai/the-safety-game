@@ -40,7 +40,7 @@ const footerTranslations = {
 
 <PageLayout title="Invio Finale | The Safety Game" lang={locale}>
   <DashboardNav client:load profile={profile} menu={navMenu} locale={locale} />
-  <main class="flex min-h-0 w-full flex-1 flex-col my-12 gap-8 px-4 py-6 sm:px-8 sm:py-10" aria-label="Invio Finale">
+  <main class="flex min-h-0 w-full flex-1 flex-col my-12 gap-8 py-6 sm:py-10" aria-label="Invio Finale">
     <div class="mx-auto w-full lg:container">
       <FinalSubmissionSection client:load teamId={team.id} disabled={finalSubmissionDone} locale={locale} />
     </div>

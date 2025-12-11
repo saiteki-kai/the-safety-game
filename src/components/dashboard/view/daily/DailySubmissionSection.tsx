@@ -39,7 +39,7 @@ export function DailySubmissionSection({ teamId, disabled = false, locale = DEFA
   };
 
   return (
-    <div className="scroll-mt-16 space-y-8 px-4 py-8 sm:px-8" id="playground">
+    <div className="scroll-mt-16 space-y-8 py-8" id="playground">
       {/* Hero Section */}
       <div className="space-y-4 text-center">
         <h2 className="font-bold text-2xl text-neutral-900">{t.title}</h2>
