@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { STOP_SUBMISSIONS_DATE } from "@/content/consts.ts";
+import { GPT_AVG_SCORE, STOP_SUBMISSIONS_DATE } from "@/content/consts.ts";
 import { useLeaderboardPosition } from "@/hooks/useLeaderboardPosition.tsx";
 import { useTeamMembers } from "@/hooks/useTeamMembers.tsx";
 import { useTeamSubmissions } from "@/hooks/useTeamSubmissions.tsx";
@@ -54,8 +54,8 @@ export default function TeamDashboardView({ team, locale = DEFAULT_LOCALE }: Tea
   const highestScore = scores.length > 0 ? round2(Math.max(...scores)) : 0;
   const finalSubmissionDone = submissions?.some((s) => !s.playground) ?? false;
 
-  // Count how many submissions beat ChatGPT baseline (0.5)
-  const promptsBeatingChatGPT = scores.filter((score) => score > 0.5).length;
+  // Count how many submissions beat ChatGPT baseline 
+  const promptsBeatingChatGPT = scores.filter((score) => score > GPT_AVG_SCORE).length;
 
   // TODO: block submissions if dailySubmissionsSent.length > 0 for other members
 
@@ -79,7 +79,7 @@ export default function TeamDashboardView({ team, locale = DEFAULT_LOCALE }: Tea
         </section>
 
         <section aria-label={t.dailySubmission} className="space-y-4">
-          <DailySubmissionSection teamId={team.id} disabled={dailySubmissionsDone} locale={locale} />
+          <DailySubmissionSection teamId={team.id} disabled={dailySubmissionsDone} finalSubmissionDone={finalSubmissionDone} locale={locale} />
         </section>
 
         <section aria-label={t.submissionHistory} className="space-y-4">

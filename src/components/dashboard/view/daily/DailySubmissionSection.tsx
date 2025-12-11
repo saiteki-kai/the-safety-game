@@ -2,22 +2,41 @@ import { actions } from "astro:actions";
 import { getTranslations, playgroundTranslations, type Locale, DEFAULT_LOCALE } from "@/lib/translations";
 import { AlertTriangle } from "lucide-react";
 import { useState } from "react";
-import { dailyUploadConfig, UploadCard } from "../../shared";
+import { dailyUploadConfig, getUploadCardLabels, UploadCard } from "../../shared";
 
 interface DailySubmissionSectionProps {
   teamId: string;
   disabled?: boolean;
+  finalSubmissionDone?: boolean;
   locale?: Locale;
 }
 
-export function DailySubmissionSection({ teamId, disabled = false, locale = DEFAULT_LOCALE }: DailySubmissionSectionProps) {
+export function DailySubmissionSection({
+  teamId,
+  disabled = false,
+  finalSubmissionDone = false,
+  locale = DEFAULT_LOCALE,
+}: DailySubmissionSectionProps) {
   const t = getTranslations(playgroundTranslations, locale);
   const [isLoading, setIsLoading] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isError, setIsError] = useState(false);
 
+  const isPlaygroundDisabled = disabled || finalSubmissionDone;
+  const uploadLabels = getUploadCardLabels("daily", locale);
+  const uploadConfig = {
+    ...dailyUploadConfig,
+    labels: finalSubmissionDone
+      ? {
+          ...uploadLabels,
+          completedTitle: t.playgroundDisabledTitle,
+          completedSubtitle: t.playgroundDisabledSubtitle,
+        }
+      : uploadLabels,
+  };
+
   const handleSubmit = async (prompts: string[]): Promise<{ prompt: string; response?: string }[] | null> => {
-    if (!prompts || prompts.length === 0 || isLoading) return null;
+    if (!prompts || prompts.length === 0 || isLoading || isPlaygroundDisabled) return null;
     setIsLoading(true);
     try {
       const result = await actions.submissions.uploadDailyPrompts({ teamId, prompts });
@@ -50,7 +69,7 @@ export function DailySubmissionSection({ teamId, disabled = false, locale = DEFA
       <div className="flex flex-col items-stretch gap-8 lg:flex-row">
         <div className="h-full space-y-6 lg:flex-1">
           <div className="rounded-lg border border-blue-100 bg-blue-50 p-6">
-            <h3 className="mb-4 font-semibold text-lg text-blue-800">{t.howItWorks}</h3>
+            <h3 className="mb-4 font-semibold text-blue-800 text-lg">{t.howItWorks}</h3>
             <div className="space-y-3 text-blue-700 text-sm">
               <p>{t.howItWorksDesc1}</p>
               <p>{t.howItWorksDesc2}</p>
@@ -59,8 +78,8 @@ export function DailySubmissionSection({ teamId, disabled = false, locale = DEFA
           </div>
 
           <div className="rounded-lg border border-indigo-100 bg-indigo-50 p-6">
-            <h3 className="mb-4 font-semibold text-lg text-indigo-800">{t.tips}</h3>
-            <ul className="space-y-3 text-sm text-indigo-700">
+            <h3 className="mb-4 font-semibold text-indigo-800 text-lg">{t.tips}</h3>
+            <ul className="space-y-3 text-indigo-700 text-sm">
               <li className="flex items-start gap-2 align-middle">
                 <AlertTriangle size={16} className="text-violet-600" />
                 <span>{t.tipReadInstructions}</span>
@@ -82,11 +101,11 @@ export function DailySubmissionSection({ teamId, disabled = false, locale = DEFA
         </div>
         <div className="w-full lg:flex-1">
           <UploadCard
-            config={dailyUploadConfig}
+            config={uploadConfig}
             isLoading={isLoading}
             onSubmit={handleSubmit}
-            disabled={disabled}
-            completed={isSubmitted || disabled}
+            disabled={isPlaygroundDisabled}
+            completed={isSubmitted || isPlaygroundDisabled}
             isError={isError}
           />
         </div>

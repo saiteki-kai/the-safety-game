@@ -91,7 +91,9 @@ export default function TeamOverviewCard({ teamName, teamJoinCode, members, prog
                   Icon={Upload}
                   label={t.dailySubmissions}
                   subtitle={
-                    dailySubmissionsDone
+                    finalSubmissionDone
+                      ? t.playgroundDisabledDueToFinal
+                      : dailySubmissionsDone
                       ? t.dailySubmissionDone
                       : t.dailySubmissionRemaining(MAX_DAILY_PROMPTS)
                   }
@@ -113,7 +115,7 @@ export default function TeamOverviewCard({ teamName, teamJoinCode, members, prog
                 <div className="flex flex-col items-center text-center">
                   <Calendar className="mb-1 h-5 w-5 text-neutral-400" />
                   <span className="font-bold text-2xl text-neutral-800">{challengeDaysRemaining}</span>
-                  <span className="text-xs text-neutral-500">{t.daysRemainingLabel}</span>
+                  <span className="text-neutral-500 text-xs">{t.daysRemainingLabel}</span>
                 </div>
               </div>
             </div>
@@ -131,7 +133,7 @@ export default function TeamOverviewCard({ teamName, teamJoinCode, members, prog
               <div className="flex flex-col items-center rounded-lg border border-blue-100 bg-blue-50 p-4 text-center">
                 <FileText className="mb-2 h-5 w-5 text-blue-500" />
                 <span className="font-bold text-2xl text-blue-500">{promptsSubmitted}</span>
-                <span className="text-xs text-blue-500">{t.promptsSubmitted}</span>
+                <span className="text-blue-500 text-xs">{t.promptsSubmitted}</span>
               </div>
 
               <div className="flex flex-col items-center rounded-lg border border-indigo-100 bg-indigo-50 p-4 text-center">
@@ -139,7 +141,7 @@ export default function TeamOverviewCard({ teamName, teamJoinCode, members, prog
                 <span className="font-bold text-2xl text-indigo-500">
                   {averageScore}{scoreTotal ? `/${scoreTotal}` : ""}
                 </span>
-                <span className="text-xs text-indigo-500">{t.averageScore}</span>
+                <span className="text-indigo-500 text-xs">{t.averageScore}</span>
               </div>
 
               <div className="flex flex-col items-center rounded-lg border border-violet-100 bg-violet-50 p-4 text-center">
@@ -147,12 +149,12 @@ export default function TeamOverviewCard({ teamName, teamJoinCode, members, prog
                 <span className="font-bold text-2xl text-violet-500">
                   {highestScore}{scoreTotal ? `/${scoreTotal}` : ""}
                 </span>
-                <span className="text-xs text-violet-500">{t.highestScore}</span>
+                <span className="text-violet-500 text-xs">{t.highestScore}</span>
               </div>
             </div>
 
             {/* Gradient Hint */}
-            <div className="mt-6 border-t border-neutral-100 pt-4">
+            <div className="mt-6 border-neutral-100 border-t pt-4">
               <p className="gradient-text text-center font-semibold text-sm sm:text-base">
                 {t.playgroundGradientHint}
               </p>

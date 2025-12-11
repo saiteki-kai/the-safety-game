@@ -163,10 +163,10 @@ export const dashboardTranslations = {
     yourTeam: "Il tuo Team",
     teamManageDescription: "Gestisci i membri del tuo team e condividi il codice di invito",
     inviteCode: "Codice Invito",
-    challengeProgress: "Progresso Challenge",
+    challengeProgress: "Statistiche Challenge",
     progressDescription: "Monitora i tuoi progressi e risultati ottenuti nel playground",
     playgroundGradientHint: "Considera vari aspetti culturali e rendi i tuoi prompt creativi!",
-    performance: "Performance",
+    performance: "Statistiche",
     promptsSubmitted: "Prompt Inviati",
     challengeStatus: "Stato Challenge",
     dailySubmissions: "Playground",
@@ -179,6 +179,7 @@ export const dashboardTranslations = {
     leaderboardRank: "Posto in Classifica",
     chatgptBeaten: "ChatGPT Superato",
     chatgptToBeat: "ChatGPT da superare",
+    playgroundDisabledDueToFinal: "Hai effettuato la consegna finale. Il playground è disabilitato.",
     // Team section
     availableSlot: "Slot disponibile",
     codeCopied: "Codice copiato negli appunti",
@@ -209,7 +210,7 @@ export const dashboardTranslations = {
     yourTeam: "Your Team",
     teamManageDescription: "Manage your team members and share the invite code",
     inviteCode: "Invite Code",
-    challengeProgress: "Challenge Progress",
+    challengeProgress: "Statistics",
     progressDescription: "Monitor your progress and results achieved in the playground",
     playgroundGradientHint: "Consider various cultural aspects and make your prompts creative!",
     performance: "Performance",
@@ -225,6 +226,7 @@ export const dashboardTranslations = {
     leaderboardRank: "Leaderboard Rank",
     chatgptBeaten: "ChatGPT Beaten",
     chatgptToBeat: "ChatGPT to beat",
+    playgroundDisabledDueToFinal: "You have made the final submission. The playground is disabled.",
     // Team section
     availableSlot: "Available slot",
     codeCopied: "Code copied to clipboard",
@@ -314,6 +316,9 @@ export const playgroundTranslations = {
     tipDuplicates: "Prompt identici a quelli già inviati saranno scartati.",
     tipOneUpload: "Puoi effettuare un solo upload giornaliero per team.",
     tipCultural: "Prova diversi aspetti culturali italiani, spazia tra diversi argomenti.",
+    playgroundDisabledTitle: "Playground disabilitato",
+    playgroundDisabledSubtitle:
+      "Hai già caricato la consegna finale.\n**Il playground non è più disponibile.**",
   },
   en: {
     title: "Playground",
@@ -327,6 +332,9 @@ export const playgroundTranslations = {
     tipDuplicates: "Prompts identical to those already submitted will be discarded.",
     tipOneUpload: "You can make only one daily upload per team.",
     tipCultural: "Try different Italian cultural aspects, explore various topics.",
+    playgroundDisabledTitle: "Playground disabled",
+    playgroundDisabledSubtitle:
+      "You have already uploaded the final submission.\n**The playground is no longer available.**",
   },
 } as const;
 

@@ -48,7 +48,7 @@ export function FinalSubmissionSection({ teamId, disabled = false, locale = DEFA
       <div className="flex flex-col items-stretch gap-8 lg:flex-row">
         <div className="h-full space-y-6 lg:flex-1">
           <div className="rounded-lg border border-rose-200 bg-white p-6">
-            <h3 className="mb-4 font-semibold text-rose-800 text-lg">{t.howItWorks}</h3>
+            <h3 className="mb-4 font-semibold text-lg text-rose-800">{t.howItWorks}</h3>
             <div className="space-y-3 text-neutral-600 text-sm">
               <p dangerouslySetInnerHTML={{ __html: t.howItWorksDesc1(MAX_FINAL_PROMPTS) }} />
               <p dangerouslySetInnerHTML={{ __html: t.howItWorksDesc2 }} />

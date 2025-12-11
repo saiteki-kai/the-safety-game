@@ -10,7 +10,7 @@ import { DEFAULT_LOCALE } from "./translations";
 export function localizeUrl(path: string, locale: Locale = DEFAULT_LOCALE): string {
   if (!path) return `/${locale}`;
   // Normalize
-  let p = path.startsWith("/") ? path : `/${path}`;
+  const p = path.startsWith("/") ? path : `/${path}`;
   // If already prefixed with any locale, return as-is
   if (p === `/${locale}` || p.startsWith(`/${locale}/`)) return p;
   // Use astro helper where available for consistency

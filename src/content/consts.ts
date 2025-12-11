@@ -4,3 +4,5 @@ export const MAX_FINAL_PROMPTS = 50;
 
 export const LAST_EDIT_DATE_PRIVACY = new Date("2025-12-02");
 export const STOP_SUBMISSIONS_DATE = new Date("2026-01-12");
+
+export const GPT_AVG_SCORE = 0.57; // Average score of ChatGPT submissions
