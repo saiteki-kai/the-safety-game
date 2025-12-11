@@ -80,7 +80,7 @@ export function DailySubmissionSection({ teamId, disabled = false, locale = DEFA
             </ul>
           </div>
         </div>
-        <div className="h-[500px] lg:h-auto lg:flex-1">
+        <div className="w-full lg:flex-1">
           <UploadCard
             config={dailyUploadConfig}
             isLoading={isLoading}

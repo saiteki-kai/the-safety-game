@@ -73,11 +73,9 @@ export default function TeamDashboardView({ team, locale = DEFAULT_LOCALE }: Tea
 
   return (
     <main className="flex min-h-0 w-full flex-1 flex-col gap-8 px-4 py-6 sm:px-2 sm:py-10" aria-label={t.title}>
-      <div className="mx-auto w-full lg:container">
-        <section className="grid gap-4 lg:grid-cols-3" aria-label={t.teamOverview}>
-          <div className="lg:col-span-3">
-            <TeamOverviewCard teamName={teamName} members={members} teamJoinCode={teamJoinCode} progress={progress} locale={locale} />
-          </div>
+      <div className="mx-auto w-full max-w-screen-2xl space-y-10">
+        <section aria-label={t.teamOverview} className="space-y-4">
+          <TeamOverviewCard teamName={teamName} members={members} teamJoinCode={teamJoinCode} progress={progress} locale={locale} />
         </section>
 
         <section aria-label={t.dailySubmission} className="space-y-4">

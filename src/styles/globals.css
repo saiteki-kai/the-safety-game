@@ -262,7 +262,7 @@
   /* --- Section utilities (shared across many sections) --- */
   .section-layout {
     @apply py-20 lg:py-28;
-    scroll-margin-top: calc(var(--nav-offset, 72px) + 0.5rem);
+    scroll-margin-top: 0;
   }
 
   .section-container {
