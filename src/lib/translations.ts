@@ -586,7 +586,7 @@ export const challengeTranslations = {
       { content: "L'obiettivo della challenge è aiutare a rendere i Large Language Model più sicuri identificando potenziali vulnerabilità specifiche per il pubblico italiano, e scoprire casi in cui il modello risponde in modo non etico." },
     ] as ChallengeIntroductionParagraph[],
     webinarLabel: "Webinar introduttivo",
-    webinarText: "Partecipa al nostro webinar introduttivo per scoprire come funziona la challenge e ricevere consigli dai nostri esperti. Consulta il webinar introduttivo si terrà il DATA E ORA.",
+    webinarText: "Partecipa al nostro webinar introduttivo per scoprire come funziona la challenge e ricevere consigli dai nostri esperti. Il webinar si terrà il 17 dicembre alle 16.30 in presenza presso [TDB] e online su Google Meet al seguente link.",
   },
   en: {
     title: "The Challenge",
@@ -628,7 +628,7 @@ export const participationTranslations = {
     submissionDescription: "Quando il team avrà definito l'insieme dei 50 prompt che desidera inviare in via definitiva, potrà effettuare la sua submission.",
     submissionWarning: "Se i prompt sono troppo simili verranno scartati automaticamente, quindi assicurati di variare i tuoi approcci e di esplorare diversi scenari.",
     evaluationLabel: "Valutazione",
-    evaluationDescription: "I prompt saranno valutati in base alla capacità di elicitare risposte non etiche. Il processo di valutazione è automatico e basato sulle risposte generate dai modelli di linguaggio: una volta effettuata una submission, il sistema processa i prompt fornendoli a vari modelli di linguaggio e ne analizza le risposte prodotte. Non avrai accesso alle risposte generate dai modelli, solamente al punteggio di unsafety finale assegnato ad ogni singolo prompt. <br> Ad ogni prompt verrà infatti assegnato un <i>Unsafety Score</i> tra 0 e 1, dove 0 rappresenta un prompt completamente safe, mentre 1 completamente unsafe.",
+    evaluationDescription: "I prompt saranno valutati in base alla capacità di elicitare risposte non etiche. Il processo di valutazione è automatico e basato sulle risposte generate dai modelli di linguaggio: una volta effettuata una submission, il sistema processa i prompt fornendoli a vari modelli di linguaggio e ne analizza le risposte prodotte. Non avrai accesso alle risposte generate dai modelli, solamente al punteggio di unsafety finale assegnato ad ogni singolo prompt. <br> Ad ogni prompt verrà infatti assegnato un <i>Unsafety Score</i> tra 0 e 100, dove 0 rappresenta un prompt completamente etico, mentre 100 completamente non etico.",
   },
   en: {
     title: "How to Participate",

@@ -14,9 +14,9 @@ export default function NavLogo({ logo, isOpaque = true }: NavLogoProps & { isOp
   const finalLogo = logo ?? { url: localizeUrl("/home"), title: "The Safety Game", alt: "Logo" };
   const textClass = isOpaque ? "text-violet-200" : "text-white drop-shadow-sm";
   return (
-    <a href={finalLogo.url} aria-label={finalLogo.ariaLabel ?? finalLogo.title} className="flex items-center gap-2">
-      {finalLogo.src && <img src={finalLogo.src} className="h-8 max-h-8 dark:invert" alt={finalLogo.alt} />}
-      <span className={`font-semibold text-lg tracking-tighter ${textClass}`}>{finalLogo.title}</span>
+    <a href={finalLogo.url} aria-label={finalLogo.ariaLabel ?? finalLogo.title} className="flex items-center gap-1.5 sm:gap-2">
+      {finalLogo.src && <img src={finalLogo.src} className="h-6 max-h-6 sm:h-8 sm:max-h-8 dark:invert" alt={finalLogo.alt} />}
+      <span className={`font-semibold text-base sm:text-lg tracking-tighter ${textClass}`}>{finalLogo.title}</span>
     </a>
   );
 }

@@ -48,12 +48,12 @@ export const renderMenuItem = (item: MenuItem, activeSection?: string, isOpaque 
     return (
       <NavigationMenuItem key={item.title}>
         <NavigationMenuTrigger
-          className={`group inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 font-medium text-sm transition-colors ${textClass} hover:bg-violet-800/30 hover:text-violet-200 focus:bg-violet-800/30 focus:text-violet-200`}
+          className={`group inline-flex h-9 lg:h-10 w-max items-center justify-center rounded-md px-3 lg:px-4 py-2 font-medium text-xs lg:text-sm transition-colors ${textClass} hover:bg-violet-800/30 hover:text-violet-200 focus:bg-violet-800/30 focus:text-violet-200`}
         >
           {item.title}
         </NavigationMenuTrigger>
         <NavigationMenuContent className="bg-black text-violet-200">
-          <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
+          <ul className="grid w-[320px] gap-3 p-4 sm:w-[400px] md:w-[500px] md:grid-cols-2 lg:w-[600px]">
             {item.items.map((subItem) => (
               <li key={subItem.title}>
                 <NavigationMenuLink asChild>
@@ -72,11 +72,11 @@ export const renderMenuItem = (item: MenuItem, activeSection?: string, isOpaque 
       <NavigationMenuLink
         href={item.url}
         className={
-          "group inline-flex h-10 w-max items-center justify-center rounded-full px-4 font-medium text-sm transition-colors focus:outline-none disabled:pointer-events-none disabled:opacity-50" +
+          "group inline-flex h-9 lg:h-10 w-max items-center justify-center rounded-full px-3 lg:px-4 font-medium text-xs lg:text-sm transition-colors focus:outline-none disabled:pointer-events-none disabled:opacity-50" +
           // Default: lighter white, hover: subtle violet overlay; selected: pill with semi-opaque violet background and violet text
           `${textClass} hover:bg-violet-800/30 hover:text-violet-200 focus:bg-violet-800/30 focus:text-violet-200` +
           (activeSection && item.url.startsWith("#") && activeSection === item.url.replace("#", "")
-            ? "rounded-full bg-violet-800 px-4 font-semibold text-white"
+            ? "rounded-full bg-violet-800 px-3 lg:px-4 font-semibold text-white"
             : "")
         }
         aria-current={

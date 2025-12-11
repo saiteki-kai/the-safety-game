@@ -17,30 +17,147 @@ interface Props {
 const { translations: t } = Astro.props;
 ---
 
-<section id="home" class="hero-section hero-gradient hero-theme-cosmic">
-  <div class="hero-content">
-    <div class="hero-main">
-      <div class="hero-main-top">
-        <p class="hero-kicker">{t.kicker}</p>
-        <p class="hero-description">
+<style>
+  @reference "@styles/globals.css";
+
+  .hero-section {
+    --nav-height: 64px;
+    --hero-padding: clamp(1.5rem, 4vw, 3rem);
+    --indicator-offset: clamp(3rem, 8vh, 5rem);
+    height: 100vh;
+    padding-top: calc(var(--hero-padding) + var(--nav-height));
+    overflow: visible;
+  }
+
+  .hero-content {
+    min-height: calc(100% - var(--indicator-offset) - var(--hero-padding));
+  }
+
+  .hero-indicator {
+    color: var(--cosmic-8, #9bb9ff);
+    background: rgba(0, 0, 0, 0.08);
+    box-shadow: 0 2px 16px 0 rgba(0, 0, 0, 0.08);
+    padding: 0.35rem 0.7rem;
+    margin-bottom: calc(var(--indicator-offset) / 6);
+    z-index: 10;
+  }
+
+  .hero-indicator:hover {
+    color: var(--cosmic-9, #f4f7ff);
+    background: rgba(0, 0, 0, 0.16);
+  }
+
+  .hero-description {
+    @apply px-2 sm:px-0;
+  }
+
+  .hero-title-block {
+    @apply p-3 sm:p-6 md:p-12;
+  }
+
+  @media (max-width: 480px) {
+    .hero-title-line {
+      gap: clamp(0.5rem, 3vw, 1rem);
+    }
+  }
+
+  .hero-theme-cosmic .hero-kicker {
+    color: var(--cosmic-1);
+    letter-spacing: 0.35em;
+    text-shadow: 0 16px 30px rgba(6, 14, 35, 0.6);
+  }
+
+  .hero-theme-cosmic .hero-title {
+    color: var(--cosmic-2);
+    text-shadow: 0 25px 60px rgba(4, 20, 51, 0.55);
+    letter-spacing: 0.04em;
+  }
+
+  .hero-theme-cosmic .hero-title__highlight {
+    text-shadow: 0 18px 45px rgba(78, 166, 255, 0.45);
+  }
+
+  .hero-theme-cosmic .hero-description,
+  .hero-theme-cosmic .hero-cta-text {
+    color: var(--cosmic-3);
+    text-shadow: 0 20px 35px rgba(5, 12, 32, 0.55);
+  }
+
+  .hero-theme-cosmic .hero-dates,
+  .hero-theme-cosmic .hero-actions {
+    text-shadow: 0 18px 32px rgba(4, 9, 24, 0.55);
+  }
+
+  .hero-theme-cosmic .hero-dates {
+    color: var(--cosmic-4);
+  }
+</style>
+
+<section
+  id="home"
+  class="hero-section hero-gradient hero-theme-cosmic relative flex flex-col items-center justify-start bg-black"
+>
+  <div
+    class="hero-content w-full max-w-5xl mx-auto flex flex-col items-center px-4 sm:px-6 text-center gap-6 sm:gap-8 md:gap-[clamp(2.5rem,7vh,4.5rem)] grow"
+  >
+    <div
+      class="hero-main flex-1 flex flex-col items-center justify-around md:justify-center w-full max-w-4xl gap-6 sm:gap-8 md:gap-12"
+    >
+      <div
+        class="hero-main-top w-full flex flex-col items-center gap-3 sm:gap-4 justify-center max-w-[46rem] shrink-0"
+      >
+        <p
+          class="hero-kicker text-xs sm:text-sm font-semibold uppercase tracking-[0.2em] sm:tracking-[0.3em] text-neutral-500"
+        >
+          {t.kicker}
+        </p>
+        <p class="hero-description text-balance text-neutral-600 max-w-[42rem]">
           {t.description}
         </p>
       </div>
-      <div class="hero-title hero-title-block">
-        <span class="hero-title-line hero-title-line--top">{t.titleThe}</span>
-        <span class="hero-title-line hero-title-line--bottom">
-          <span class="hero-title-safety hero-title__highlight">{t.titleSafety}</span>
-          <span class="hero-title-game">{t.titleGame}</span>
+      <div
+        class="hero-title hero-title-block flex flex-col items-center gap-[clamp(0.4rem,1.4vw,0.9rem)] text-center"
+      >
+        <span
+          class="hero-title-line hero-title-line--top inline-flex w-full items-center justify-center flex-wrap gap-[clamp(0.5rem,2.6vw,1.5rem)] leading-none text-[clamp(3.8rem,9vw,6.2rem)] md:text-[clamp(4.8rem,11vw,9.2rem)]"
+          >{t.titleThe}</span
+        >
+        <span
+          class="hero-title-line hero-title-line--bottom inline-flex items-center justify-center flex-wrap gap-[clamp(0.5rem,2.6vw,1.5rem)] leading-none text-[clamp(3.2rem,11.5vw,5rem)] md:text-[clamp(5.1rem,11.8vw,10rem)]"
+        >
+          <span
+            class="hero-title-safety hero-title__highlight text-[clamp(4rem,12.5vw,5.4rem)] md:text-[clamp(5.8rem,12.6vw,12.4rem)]"
+            >{t.titleSafety}</span
+          >
+          <span
+            class="hero-title-game text-[clamp(3.1rem,10.5vw,4.2rem)] md:text-[clamp(4.6rem,10.4vw,8.2rem)]"
+            >{t.titleGame}</span
+          >
         </span>
       </div>
-      <div class="hero-main-bottom">
-        <span class="hero-dates">{t.eventDates}</span>
-        <p class="hero-cta-text">{t.cta}</p>
+
+      <div
+        class="flex flex-col items-center gap-3 sm:gap-4 justify-center max-w-[38rem] text-center"
+      >
+        <span
+          class="hero-dates text-[clamp(0.95rem,1.5vw,1.25rem)] sm:text-[clamp(1.05rem,1.7vw,1.35rem)] md:text-[clamp(1.15rem,2vw,1.5rem)] lg:text-[clamp(1.25rem,2.1vw,1.6rem)] font-semibold text-neutral-600 tracking-tight"
+          >{t.eventDates}</span
+        >
+        <p
+          class="hero-cta-text text-[clamp(0.85rem,1.4vw,1.1rem)] sm:text-[clamp(0.95rem,1.6vw,1.25rem)] md:text-[clamp(1.05rem,1.95vw,1.4rem)] lg:text-[clamp(1.1rem,2.1vw,1.6rem)] text-neutral-700 max-w-xl mx-auto leading-relaxed px-2"
+        >
+          {t.cta}
+        </p>
       </div>
     </div>
   </div>
-  <a href="#challenge" class="hero-indicator focus-ring">
+  <a
+    href="#challenge"
+    class="hero-indicator focus-ring mt-auto self-center inline-flex items-center justify-center gap-[0.5em] text-[clamp(0.65rem,2vw,0.95rem)] sm:text-sm md:text-base font-semibold uppercase tracking-[0.28em] rounded-full py-1 sm:py-1.5 px-3 sm:px-4 mb-2 md:mb-0 cursor-pointer transition-all duration-200 z-2"
+  >
     {t.learnMore}
-    <span aria-hidden="true">↓</span>
+    <span aria-hidden="true" class="inline-block ml-[0.5em] text-[1.2em]"
+      >↓</span
+    >
   </a>
 </section>

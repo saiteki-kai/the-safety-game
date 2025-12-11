@@ -1,5 +1,6 @@
 ---
 import Card from "@components/common/Card.astro";
+import { Play } from "lucide-react";
 import SectionLayout from "@layouts/SectionLayout.astro";
 
 interface ChallengeIntroductionParagraph {
@@ -117,7 +118,7 @@ const { translations: t } = Astro.props;
     <Card
       class="p-6"
       label={t.webinarLabel}
-      icon="clock"
+      icon={Play}
       iconClass="text-indigo-600 shrink-0"
     >
       <p class="text-neutral-700 leading-relaxed">

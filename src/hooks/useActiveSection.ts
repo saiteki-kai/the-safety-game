@@ -15,17 +15,16 @@ export function useHomeActiveSection(links?: NavigationLink[]) {
     const getProgress = () => {
       if (typeof window === "undefined") return 1;
       const pathname = window.location?.pathname ?? "/";
-      // Check if this is a home/index path for any locale (/home, /en/home, /it/home, etc.)
-      const isHomePath = pathname.endsWith("/home");
+      // Use explicit selector scoped to the home section to find the kicker reliably
       const heroSection = document.getElementById("home");
-      const heroKicker = document.querySelector(".hero-kicker") as HTMLElement | null;
+      const heroKicker = document.querySelector("#home .hero-kicker") as HTMLElement | null;
       const nav = document.querySelector('nav[role="navigation"]') as HTMLElement | null;
       const navHeight = nav ? nav.getBoundingClientRect().height : 0;
 
-      // Only compute dynamic opacity on the site home where we have a hero
-      if (!isHomePath || !heroSection || !heroKicker) {
-        if (DEBUG)
-          console.debug("useActiveSection: not home or no hero", { pathname, isHomePath, heroFound: !!heroKicker });
+      // Only compute dynamic opacity when the home hero exists on the page.
+      // Avoid relying on pathname matching so localized index routes ("/", "/en", etc.) still work.
+      if (!heroSection || !heroKicker) {
+        if (DEBUG) console.debug("useActiveSection: no hero on page", { pathname, heroFound: !!heroKicker });
         return 1;
       }
 

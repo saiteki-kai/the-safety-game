@@ -46,13 +46,13 @@ export function SubmissionHistorySection({ submissions, locale = DEFAULT_LOCALE 
     {
       accessorKey: "score",
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title={t.columnScore} className="text-center" />
+        <DataTableColumnHeader column={column} title={t.columnScore} className="justify-center" />
       ),
       cell: ({ row }) => {
         const rawScore = row.getValue("score");
         const score = Math.round(Number(rawScore) * 100);
         return (
-          <div className="text-center">
+          <div className="flex items-center justify-center">
             <span className="font-medium text-neutral-900 text-sm">{score}</span>
           </div>
         );

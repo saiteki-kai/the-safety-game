@@ -72,27 +72,27 @@ export default function Navigation({
         )}
         data-nav-opacity={navOpacity}
       >
-        <div className="mx-auto w-full max-w-screen-2xl px-4 lg:px-8">
+        <div className="mx-auto w-full max-w-screen-2xl px-3 sm:px-4 lg:px-8">
           {typeof navOpacity === "number" && <div style={{ display: "none" }} data-nav-hidden="" />}
           {/* isOpaque is true when navOpacity >= 0.5 */}
           {/* Desktop Menu */}
-          <nav className="hidden h-16 items-center justify-between md:flex">
-            <div className="flex items-center gap-6">
+          <nav className="hidden h-14 items-center justify-between lg:h-16 lg:flex">
+            <div className="flex items-center gap-4 lg:gap-6">
               {/* Logo */}
               <NavLogo logo={logo} isOpaque={isOpaque} />
               <div className="flex items-center">
                 <NavigationMenu>
-                  <NavigationMenuList>
+                  <NavigationMenuList className="gap-0.5 lg:gap-1">
                     {menuItems.map((item) => renderMenuItem(item, activeSection ?? undefined, isOpaque))}
                   </NavigationMenuList>
                 </NavigationMenu>
               </div>
             </div>
-            <div className="flex items-center gap-4">{actions ?? null}</div>
+            <div className="flex items-center gap-3 lg:gap-4">{actions ?? null}</div>
           </nav>
 
           {/* Mobile Menu */}
-          <div className="flex h-16 items-center justify-between md:hidden">
+          <div className="flex h-14 items-center justify-between sm:h-16 lg:hidden">
             {/* Logo */}
             <NavLogo logo={logo} isOpaque={isOpaque} />
             <Button
@@ -113,8 +113,8 @@ export default function Navigation({
 
           {/* Mobile Menu Content */}
           {open && (
-            <div className="min-h-screen w-full overflow-y-auto overflow-x-hidden bg-black/95 backdrop-blur-md md:hidden">
-              <div className="px-4 md:container md:mx-auto">
+            <div className="min-h-screen w-full overflow-y-auto overflow-x-hidden bg-black/95 backdrop-blur-md lg:hidden">
+              <div className="px-3 sm:px-4 md:container md:mx-auto">
                 <div className="flex flex-col">
                   <Accordion type="single" collapsible className="mb-3 w-full">
                     {menuItems.map((item) =>
@@ -146,7 +146,7 @@ export default function Navigation({
         </div>
 
         {/* Desktop: language switcher enabled */}
-        <div className="pointer-events-auto absolute inset-y-0 right-2 hidden items-center md:flex lg:right-4">
+        <div className="pointer-events-auto absolute inset-y-0 right-2 hidden items-center lg:flex lg:right-4">
           <LanguageSwitcher locale={locale} />
         </div>
       </section>

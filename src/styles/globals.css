@@ -186,9 +186,28 @@
 }
 
 /* ---------- Hero / Title styles (grouped & documented) ---------- */
+/* Keep hero-title for font styling */
 .hero-title {
-  color: var(--secondary);
+  font-family: "Awesome Lathusca", "Playfair Display", serif;
   line-height: 1.2;
+}
+
+.hero-title-line {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(0.5rem, 2.6vw, 1.5rem);
+  flex-wrap: wrap;
+}
+
+.hero-title-line--top,
+.hero-title-game {
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.hero-title-safety {
+  font-family: "Symphony Pro", "Playfair Display", serif;
 }
 
 /* The main background for the hero is rendered via pseudo-elements */
@@ -227,52 +246,15 @@
 @media (max-width: 900px) {
   .hero-gradient::before {
     background-size: contain;
+    background-position: center top;
   }
 }
 
-/* Title block layout */
-.hero-title-block {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: clamp(0.4rem, 1.4vw, 0.9rem);
-  text-align: center;
-  padding: 48px;
-}
-
-.hero-title-line {
-  display: inline-flex;
-  align-items: center;
-  gap: clamp(0.75rem, 2.6vw, 1.5rem);
-  line-height: 1;
-}
-
-.hero-title-line--top,
-.hero-title-game {
-  font-family: "Awesome Lathusca", "Playfair Display", serif;
-  font-weight: 400;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-/* Larger, responsive headline sizing */
-.hero-title-line--top {
-  font-size: clamp(4.1rem, 10.4vw, 8.6rem);
-}
-
-.hero-title-line--bottom {
-  font-size: clamp(4.5rem, 11.25vw, 9.5rem);
-}
-
-.hero-title-safety {
-  font-family: "Symphony Pro", "Playfair Display", serif;
-  font-weight: 400;
-  font-size: clamp(5.4rem, 11.7vw, 11.7rem);
-  text-transform: capitalize;
-}
-
-.hero-title-game {
-  font-size: clamp(4.3rem, 9vw, 7.9rem);
+@media (max-width: 480px) {
+  .hero-gradient::before {
+    background-size: contain;
+    background-position: center;
+  }
 }
 
 /* ---------- Components ---------- */
@@ -393,9 +375,8 @@
   /* ---------- Hero ---------- */
 
   .hero-section {
-    @apply relative flex items-center justify-center h-screen;
+    @apply relative flex flex-col items-center justify-start;
     box-sizing: border-box;
-    padding-bottom: clamp(2rem, 8vh, 5rem);
     background-color: black;
     z-index: 0;
   }
@@ -405,21 +386,9 @@
     box-sizing: content-box;
   }
 
-  .hero-content {
-    @apply mx-auto flex w-full max-w-5xl flex-col items-center justify-center px-4 text-center sm:px-6;
-    height: calc(100vh - var(--nav-offset));
-    margin-top: 72px;
-    position: relative;
-    z-index: 1;
-    gap: clamp(2.5rem, 7vh, 4.5rem);
-    padding-block: 0;
-    box-sizing: border-box;
-  }
-
   .hero-main {
-    @apply flex w-full max-w-4xl flex-col items-center justify-center h-auto;
+    @apply flex w-full max-w-4xl flex-col items-center justify-center h-auto flex-1 mt-0;
     box-sizing: border-box;
-    margin-top: 48px;
   }
 
   .hero-main-top,
@@ -456,19 +425,9 @@
   }
 
   @media (max-width: 600px) {
-    .hero-section {
-      padding-top: 4rem;
-      padding-bottom: 2rem;
-      min-height: 80vh;
-    }
-
-    .hero-content {
-      gap: 2.5rem;
-      padding-block: 2rem;
-    }
-
     .hero-title-block {
-      gap: 0.5rem;
+      gap: 0.25rem;
+      padding: clamp(0.5rem, 3vw, 1.5rem);
     }
 
     .hero-title-line--top,
@@ -478,15 +437,74 @@
       word-break: break-word;
       white-space: normal;
     }
+
+    .hero-title-line--top {
+      font-size: clamp(2.8rem, 9vw, 5rem);
+    }
+
+    .hero-title-line--bottom {
+      font-size: clamp(3.1rem, 10vw, 5.5rem);
+    }
+
+    .hero-title-safety {
+      font-size: clamp(3.4rem, 11vw, 5.2rem);
+    }
+
+    .hero-title-game {
+      font-size: clamp(2.8rem, 9vw, 5rem);
+    }
+  }
+
+  @media (max-width: 400px) {
+    .hero-section {
+      padding-top: 3rem;
+    }
+
+    .hero-title-line--top {
+      font-size: clamp(2.5rem, 9vw, 4.2rem);
+    }
+
+    .hero-title-line--bottom {
+      font-size: clamp(2.9rem, 10vw, 4.8rem);
+    }
+
+    .hero-title-safety {
+      font-size: clamp(3.3rem, 11vw, 5.6rem);
+    }
+
+    .hero-title-game {
+      font-size: clamp(2.4rem, 9vw, 4rem);
+    }
   }
 
   .hero-kicker {
-    @apply text-sm font-semibold uppercase tracking-[0.3em] text-neutral-500;
+    @apply text-xs sm:text-sm font-semibold uppercase tracking-[0.2em] sm:tracking-[0.3em] text-neutral-500;
   }
 
   .hero-description {
-    @apply text-balance text-lg text-neutral-600 sm:text-xl;
+    @apply text-balance text-neutral-600;
+    font-size: clamp(0.85rem, 1.9vw, 1.2rem);
+    line-height: 1.55;
     max-width: 42rem;
+    padding-inline: 0.5rem;
+  }
+
+  @media (max-width: 480px) {
+    .hero-description {
+      font-size: 0.82rem;
+      line-height: 1.5;
+      margin-top: 0.5rem;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .hero-dates {
+      margin-top: 0.85rem;
+    }
+
+    .hero-cta-text {
+      margin-top: 1rem;
+    }
   }
 
   .hero-actions {
@@ -498,20 +516,28 @@
   }
 
   .hero-dates {
-    @apply text-lg font-semibold text-neutral-600 tracking-tight mt-1;
+    @apply text-xs sm:text-sm md:text-base lg:text-lg font-semibold text-neutral-600 tracking-tight mt-2 sm:mt-1;
   }
 
   .hero-cta-text {
-    @apply text-xl text-neutral-700 sm:text-lg max-w-xl mx-auto leading-relaxed mt-2;
+    @apply text-xs sm:text-sm md:text-base lg:text-lg text-neutral-700 max-w-xl mx-auto leading-relaxed mt-2 px-2;
+  }
+
+  @media (max-width: 400px) {
+    .hero-dates {
+      font-size: 0.7rem;
+      margin-top: 0.5rem;
+    }
+
+    .hero-cta-text {
+      font-size: 0.75rem;
+      margin-top: 0.75rem;
+    }
   }
 
   .hero-indicator {
     @apply inline-flex items-center justify-center;
     gap: 0.5em;
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
     font-size: 1rem;
     font-weight: 600;
     text-transform: uppercase;
@@ -519,13 +545,14 @@
     color: var(--cosmic-8, #9bb9ff);
     background: rgba(0, 0, 0, 0.08);
     border-radius: 9999px;
-    padding: 0.5rem 0;
+    padding: 0.5rem 1.25rem;
     box-shadow: 0 2px 16px 0 rgba(0, 0, 0, 0.08);
     cursor: pointer;
     transition:
       background 0.2s,
       color 0.2s;
     z-index: 2;
+    margin-top: auto;
   }
 
   .hero-indicator:hover {
@@ -542,6 +569,15 @@
   @media (max-width: 640px) {
     .hero-indicator {
       font-size: 11px;
+      letter-spacing: 0.2em;
+      padding: 0.4rem 0;
+    }
+  }
+
+  @media (max-width: 400px) {
+    .hero-indicator {
+      font-size: 10px;
+      letter-spacing: 0.15em;
     }
   }
 
@@ -566,8 +602,6 @@
   .hero-theme-cosmic .hero-cta-text {
     color: var(--cosmic-3);
     text-shadow: 0 20px 35px rgba(5, 12, 32, 0.55);
-    font-size: 1.15rem;
-    line-height: 1.6;
   }
 
   .hero-theme-cosmic .hero-dates,
@@ -645,9 +679,6 @@
       font-size: clamp(2.9rem, 6.75vw, 5.4rem);
     }
 
-    .hero-content {
-      padding-block: clamp(3.5rem, 10vh, 5rem);
-    }
   }
 
   @media (max-width: 768px) {
@@ -700,9 +731,6 @@
       font-size: clamp(2.7rem, 12.6vw, 4.5rem);
     }
 
-    .hero-content {
-      padding-block: clamp(3rem, 9vh, 4.5rem);
-    }
   }
 
   /* ---------- Accordion / Instructions ---------- */

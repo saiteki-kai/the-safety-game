@@ -106,6 +106,12 @@ export const icons: Record<string, IconDefinition> = {
       { type: "path", props: { d: "M12 3v12" } },
     ],
   },
+  play: {
+    viewBox: "0 0 24 24",
+    nodes: [
+      { type: "path", props: { d: "M5 3v18l15-9L5 3z" } },
+    ],
+  },
   star: {
     viewBox: "0 0 24 24",
     nodes: [

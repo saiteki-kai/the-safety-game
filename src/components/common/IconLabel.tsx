@@ -41,8 +41,8 @@ export const IconLabel: React.FC<IconLabelProps> = ({
           strokeWidth: iconElement.props?.strokeWidth ?? strokeWidth,
         });
       }
-      // If icon is a component type (e.g., Info as InfoIcon), create an element
-      if (typeof icon === "function") {
+
+      if (typeof icon === "function" || typeof icon === "object") {
         const IconComp = icon as React.ElementType;
         return <IconComp size={size} className={[iconClass, "shrink-0"].filter(Boolean).join(" ")} strokeWidth={strokeWidth} />;
       }
