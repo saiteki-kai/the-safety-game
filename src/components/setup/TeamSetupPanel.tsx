@@ -31,7 +31,7 @@ export default function TeamSetupPanel({ locale = DEFAULT_LOCALE }: TeamSetupPan
   const copy = tabCopy[tab];
 
   return (
-    <div className="dashboard-empty-state h-screen">
+    <div className="dashboard-empty-state h-dvh">
       <div className="dashboard-empty-heading">
         <h1 className="dashboard-empty-title">{t.title}</h1>
         <p className="dashboard-empty-description">{t.description}</p>

@@ -55,11 +55,9 @@ const { translations: t } = Astro.props;
     >
       <div class="space-y-2">
         {
-          t.what
-            .split(/(?<=[.!?])\s+/)
-            .map((sentence: string) => {
-              return <p class="text-neutral-700 leading-relaxed">{sentence}</p>;
-            })
+          t.what.split(/(?<=[.!?])\s+/).map((sentence: string) => {
+            return <p class="text-neutral-700 leading-relaxed">{sentence}</p>;
+          })
         }
       </div>
     </Card>
@@ -121,9 +119,7 @@ const { translations: t } = Astro.props;
       icon={Play}
       iconClass="text-indigo-600 shrink-0"
     >
-      <p class="text-neutral-700 leading-relaxed">
-        {t.webinarText}
-      </p>
+      <p class="text-neutral-700 leading-relaxed" set:html={t.webinarText} />
     </Card>
   </div>
 </SectionLayout>

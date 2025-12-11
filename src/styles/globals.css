@@ -1147,11 +1147,11 @@
 
   /* ---------- Register page ---------- */
   .register-page {
-    @apply min-h-screen bg-neutral-100 text-neutral-900;
+    @apply min-h-dvh bg-neutral-100 text-neutral-900;
   }
 
   .register-wrapper {
-    @apply flex min-h-screen w-full items-center justify-center px-4 py-16;
+    @apply flex min-h-dvh w-full items-center justify-center px-4 py-16;
   }
 
   .register-container {

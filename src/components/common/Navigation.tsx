@@ -113,7 +113,7 @@ export default function Navigation({
 
           {/* Mobile Menu Content */}
           {open && (
-            <div className="min-h-screen w-full overflow-y-auto overflow-x-hidden bg-black/95 backdrop-blur-md lg:hidden">
+            <div className="min-h-dvh w-full overflow-y-auto overflow-x-hidden bg-black/95 backdrop-blur-md lg:hidden">
               <div className="px-3 sm:px-4 md:container md:mx-auto">
                 <div className="flex flex-col">
                   <Accordion type="single" collapsible className="mb-3 w-full">

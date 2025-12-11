@@ -31,12 +31,12 @@ const locale = lang ?? DEFAULT_LOCALE;
     <title>{title}</title>
     <ClientRouter />
   </head>
-  <body class="h-screen overflow-hidden bg-white">
+  <body class="h-dvh overflow-hidden bg-white">
     <slot name="navigation" />
     <Toaster client:load />
     <WebsiteAnalytics />
     <SpeedInsights />
-      <ScrollArea className="h-screen w-screen" client:load>
+      <ScrollArea className="h-dvh w-screen" client:load>
         <main id="main-content" class="flex min-h-0 w-screen flex-col">
         <slot />
       </main>

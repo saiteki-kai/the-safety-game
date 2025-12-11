@@ -22,11 +22,11 @@ if (team) {
 
 <PageLayout title="Configurazione Team | The Safety Game" lang={locale}>
   <div
-    class="flex h-screen flex-col bg-linear-to-br from-[#f3f6ff] via-white to-[#f9f3ff]"
+    class="flex h-dvh flex-col bg-linear-to-br from-[#f3f6ff] via-white to-[#f9f3ff]"
   >
     <DashboardNav client:load profile={profile} locale={locale} />
     <main
-      class="flex h-screen flex-1 flex-col px-4 py-3 sm:px-7 sm:py-6"
+      class="flex h-dvh flex-1 flex-col px-4 py-3 sm:px-7 sm:py-6"
     >
       <TeamSetupPanel client:load locale={locale} />
     </main>

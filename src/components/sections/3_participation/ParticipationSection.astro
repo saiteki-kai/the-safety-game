@@ -60,14 +60,19 @@ const { translations: t, privacyUrl } = Astro.props;
         iconClass="text-neutral-600 shrink-0"
       >
         <p class="text-neutral-700 mb-2">
-          {t.privacyDescription} <a href={privacyUrl} class="text-blue-600 hover:underline">Leggi il regolamento</a>
+          {t.privacyDescription}
+        </p>
+        <p>
+          <a href={privacyUrl} class="text-blue-600 hover:underline"
+            >Leggi il regolamento</a
+          >
         </p>
       </Card>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
       <Card
-        class="p-5"
+        class="p-5 h-full md:col-span-1"
         label={t.playgroundLabel}
         icon={Rocket}
         iconClass="text-purple-600 shrink-0"
@@ -78,22 +83,23 @@ const { translations: t, privacyUrl } = Astro.props;
       </Card>
 
       <Card
-        class="p-5"
+        class="p-5 md:col-span-2"
         label={t.submissionLabel}
         icon="upload"
         iconClass="text-blue-600 shrink-0"
       >
-        <p
-          class="text-neutral-700 mb-3"
-          set:html={t.submissionDescription}
-        />
+        <p class="text-neutral-700 mb-3" set:html={t.submissionDescription} />
 
         <div
           class="code-snippet bg-yellow-50 border-yellow-200 text-yellow-800 px-4 py-3 rounded mt-3"
         >
           <div class="flex items-start gap-3">
             <span class="shrink-0">
-              <Icon name="triangle-alert" size={20} className="text-yellow-700" />
+              <Icon
+                name="triangle-alert"
+                size={20}
+                className="text-yellow-700"
+              />
             </span>
             <span class="text-sm">
               {t.submissionWarning}

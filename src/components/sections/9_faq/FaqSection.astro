@@ -7,6 +7,7 @@ interface FaqTranslations {
   title: string;
   description: string;
   items: FaqItem[];
+  contactText?: string;
 }
 
 interface Props {
@@ -24,5 +25,6 @@ const { translations: t } = Astro.props;
 >
   <div class="max-w-3xl mx-auto">
     <FaqAccordion client:idle items={t.items} />
+    <div class="mt-6 text-center text-sm" set:html={t.contactText}></div>
   </div>
 </SectionLayout>
