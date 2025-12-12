@@ -56,7 +56,7 @@ export const joinTeamHandler = async (
   // Find team by join code
   const team = await findTeamByJoinCode(db, joinCode);
 
-  if (!team || team.members === 0) {
+  if (!team && team.members === 0) {
     throw new TeamNotFoundError();
   }
 
