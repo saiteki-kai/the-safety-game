@@ -12,6 +12,7 @@ interface ParticipationTranslations {
   registrationDetails: string;
   privacyLabel: string;
   privacyDescription: string;
+  privacyUrlText: string;
   playgroundLabel: string;
   playgroundDescription: string;
   submissionLabel: string;
@@ -64,7 +65,7 @@ const { translations: t, privacyUrl } = Astro.props;
         </p>
         <p>
           <a href={privacyUrl} class="text-blue-600 hover:underline"
-            >Leggi il regolamento</a
+            >{t.privacyUrlText}</a
           >
         </p>
       </Card>

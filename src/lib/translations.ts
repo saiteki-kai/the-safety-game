@@ -51,7 +51,7 @@ export const sectionsTranslations = {
     participate: "Participate",
     dates: "Important Dates",
     leaderboard: "Leaderboard",
-    team: "The Team",
+    team: "Our Team",
     faq: "FAQ",
   },
 } as const;
@@ -598,7 +598,7 @@ export const challengeTranslations = {
       { content: "L'obiettivo della challenge è aiutare a rendere i Large Language Model più sicuri identificando potenziali vulnerabilità specifiche per il pubblico italiano, e scoprire casi in cui il modello risponde in modo non etico." },
     ] as ChallengeIntroductionParagraph[],
     webinarLabel: "Webinar introduttivo",
-    webinarText: "Partecipa al nostro webinar introduttivo per scoprire come funziona la challenge e ricevere consigli dai nostri esperti. Il webinar si terrà il 17 dicembre alle 16.30 in presenza presso [TDB] e online su Google Meet al seguente <a class=\"text-indigo-600 underline\" href=\"https://meet.google.com/mii-adec-gwn\">link</a>.",
+    webinarText: "Partecipa al nostro webinar introduttivo per scoprire come funziona la challenge e ricevere consigli dai nostri esperti. Il webinar si terrà il 17 dicembre alle 16.30 in presenza presso l'edificio U24 dell'Università di Milano-Bicocca e online su Google Meet al seguente <a class=\"text-indigo-600 underline\" href=\"https://meet.google.com/mii-adec-gwn\">link</a>.",
   },
   en: {
     title: "The Challenge",
@@ -618,7 +618,7 @@ export const challengeTranslations = {
       { content: "The goal of the challenge is to help make Large Language Models safer by identifying potential vulnerabilities specific to the Italian audience, and discovering cases where the model responds in an unethical way." },
     ] as ChallengeIntroductionParagraph[],
     webinarLabel: "Introductory Webinar",
-    webinarText: "Join our introductory webinar to discover how the challenge works and receive advice from our experts. The webinar will be held on December 17 at 4:30 PM in person at [TBD] and online on Google Meet at the following <a class=\"text-indigo-600 underline\" href=\"https://meet.google.com/mii-adec-gwn\">link</a>.",
+    webinarText: "Join our introductory webinar to discover how the challenge works and receive advice from our experts. The webinar will be held on December 17 at 4:30 PM in person at the U24 building of the University of Milano-Bicocca and online on Google Meet at the following <a class=\"text-indigo-600 underline\" href=\"https://meet.google.com/mii-adec-gwn\">link</a>.",
   },
 } as const;
 
@@ -634,6 +634,7 @@ export const participationTranslations = {
     registrationDetails: "Dopo aver effettuato l'accesso, puoi creare o unirti a un team.",
     privacyLabel: "Privacy",
     privacyDescription: "La partecipazione alla challenge implica l'integrale accettazione del regolamento e delle linee guida operative della stessa.",
+    privacyUrlText: "Leggi il regolamento",
     playgroundLabel: "Playground",
     playgroundDescription: "Dopo aver effettuato l'accesso, ogni team potrà caricare i propri prompt nel Playground per una valutazione preliminare e di confronto con ChatGPT.",
     submissionLabel: "Final Submission",
@@ -650,6 +651,7 @@ export const participationTranslations = {
     registrationDetails: "After logging in, you can create or join a team.",
     privacyLabel: "Privacy",
     privacyDescription: "Participation in the challenge implies full acceptance of the rules and operational guidelines.",
+    privacyUrlText: "Read the privacy policy",
     playgroundLabel: "Playground",
     playgroundDescription: "After logging in, each team can upload their prompts in the Playground for preliminary evaluation and comparison with ChatGPT.",
     submissionLabel: "Final Submission",
@@ -881,7 +883,7 @@ export const teamSectionTranslations = {
     } as Record<string, TeamMemberTranslation>,
   },
   en: {
-    title: "The Team",
+    title: "Our Team",
     description: "The Safety Game is organized by the <b>Models in Decision Making and Data Analysis</b> (MIND) research lab of the Department of Informatics, Systems, and Communication at the University of Milano-Bicocca.",
     members: {
       "Elisabetta Fersini": { role: "Associate Professor", bio: "Her research focuses primarily on machine learning and natural language processing, with specific interests in hate speech detection, information extraction and topic modelling." },
