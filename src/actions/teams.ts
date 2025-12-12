@@ -23,16 +23,16 @@ export const teams = {
         return { team: await createTeamHandler(database, input.teamName, userId), errorCode: null };
       } catch (error) {
         if (error instanceof TeamNameExistsError) {
-          return { team: null, errorCode: "errors:teams.teamNameExists" };
+          return { team: null, errorCode: "teamNameExists" };
         }
         if (error instanceof TeamCreationError) {
-          return { team: null, errorCode: "errors:teams.teamCreation" };
+          return { team: null, errorCode: "teamCreation" };
         }
 
         console.error("Error in createTeam action:", error);
         throw new ActionError({
           code: "INTERNAL_SERVER_ERROR",
-          message: "errors:teams.teamCreationUnknown",
+          message: "teamCreationUnknown",
         });
       }
     },
@@ -51,16 +51,16 @@ export const teams = {
         };
       } catch (error) {
         if (error instanceof TeamNotFoundError) {
-          return { team: null, errorCode: "errors:teams.teamNotFound" };
+          return { team: null, errorCode: "teamNotFound" };
         }
         if (error instanceof TeamFullError) {
-          return { team: null, errorCode: "errors:teams.teamFull" };
+          return { team: null, errorCode: "teamFull" };
         }
 
         console.error("Error in joinTeam action:", error);
         throw new ActionError({
           code: "INTERNAL_SERVER_ERROR",
-          message: "errors:teams.teamJoinUnknown",
+          message: "teamJoinUnknown",
         });
       }
     },
@@ -77,7 +77,7 @@ export const teams = {
         console.error("Error in getMembers action:", error);
         throw new ActionError({
           code: "INTERNAL_SERVER_ERROR",
-          message: "errors:teams.teamMemberFetch",
+          message: "teamMemberFetch",
         });
       }
     },
