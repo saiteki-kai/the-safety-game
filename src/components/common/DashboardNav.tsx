@@ -12,11 +12,11 @@ type DashboardNavProps = {
 };
 
 export default function DashboardNav({ profile, menu, locale = DEFAULT_LOCALE }: DashboardNavProps) {
-  const defaultMenu: MenuItem[] = [{ title: "Home", url: localizeUrl("/home") }];
-  const logo = { url: localizeUrl("/home"), alt: "Logo", title: "The Safety Game" };
+  const defaultMenu: MenuItem[] = [{ title: "Home", url: localizeUrl("/home", locale) }];
+  const logo = { url: localizeUrl("/home", locale), alt: "Logo", title: "The Safety Game" };
 
-  const actions = <AccountMenu profile={profile} />;
-  const actionsMobile = <AccountMenuMobile profile={profile} />;
+  const actions = <AccountMenu profile={profile} locale={locale} />;
+  const actionsMobile = <AccountMenuMobile profile={profile} locale={locale} />;
 
   return (
     <Navigation

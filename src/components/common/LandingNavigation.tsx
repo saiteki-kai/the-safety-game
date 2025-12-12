@@ -15,13 +15,13 @@ export interface LandingNavProps {
 export default function LandingNavigation({ profile, locale = DEFAULT_LOCALE }: LandingNavProps): ReactElement {
   const { activeSection, navOpacity } = useHomeActiveSection();
 
-  const logo = { url: localizeUrl("/home"), alt: "Logo", title: "The Safety Game" };
+  const logo = { url: localizeUrl("/home", locale), alt: "Logo", title: "The Safety Game" };
   const items = [
-    { label: "Dashboard", href: localizeUrl("/dashboard"), icon: <LayoutDashboard className="h-4 w-4" /> },
+    { label: "Dashboard", href: localizeUrl("/dashboard", locale), icon: <LayoutDashboard className="h-4 w-4" /> },
   ];
 
-  const actions = <AccountMenu profile={profile} items={items} />;
-  const actionsMobile = <AccountMenuMobile profile={profile} items={items} />;
+  const actions = <AccountMenu profile={profile} items={items} locale={locale} />;
+  const actionsMobile = <AccountMenuMobile profile={profile} items={items} locale={locale} />;
 
   return (
     <Navigation

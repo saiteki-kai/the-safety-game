@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { localizeUrl } from "@/lib/i18n";
 import type { Profile } from "@/lib/supabase.types";
+import { type Locale, DEFAULT_LOCALE } from "@/lib/translations";
 
 const LOGOUT_TOAST_ID = "logout-error";
 const SIGN_OUT_ERROR_MESSAGE = "Si è verificato un errore. Riprova.";
@@ -80,31 +81,33 @@ export function MenuListItem({
   );
 }
 
-const signOut: MouseEventHandler<HTMLButtonElement | HTMLAnchorElement> = async (e) => {
-  e.preventDefault();
+const signOut =
+  (locale: Locale): MouseEventHandler<HTMLButtonElement | HTMLAnchorElement> =>
+  async (e) => {
+    e.preventDefault();
 
-  try {
-    const result = await fetch("/api/auth/signout");
+    try {
+      const result = await fetch("/api/auth/signout");
 
-    if (!result.ok) {
+      if (!result.ok) {
+        showSignOutErrorToast();
+        console.error("Error signing out:", result.statusText);
+        return;
+      }
+
+      navigate(localizeUrl("/home", locale));
+    } catch (err) {
+      // Catch any network errors and display a toast
       showSignOutErrorToast();
-      console.error("Error signing out:", result.statusText);
-      return;
+      console.error("Error during sign-out request:", err);
     }
-
-    navigate(localizeUrl("/home"));
-  } catch (err) {
-    // Catch any network errors and display a toast
-    showSignOutErrorToast();
-    console.error("Error during sign-out request:", err);
-  }
-};
+  };
 
 // Factory that returns a MenuListItem configured for logout. It accepts a
 // className so callers (desktop/mobile) can pass their own styling.
-const logoutItem = (className = "w-full"): ReactElement => (
+const logoutItem = (locale: Locale, className = "w-full"): ReactElement => (
   <MenuListItem
-    onClick={signOut}
+    onClick={signOut(locale)}
     label="Logout"
     icon={<LogOut className="h-4 w-4" />}
     className={className}
@@ -148,14 +151,15 @@ function UserLabel({ profile }: { profile?: Profile }): ReactElement {
 export interface AccountMenuProps {
   profile?: Profile;
   items?: MenuListItemProps[];
+  locale?: Locale;
 }
 
-export default function AccountMenu({ profile, items }: AccountMenuProps): ReactElement | null {
+export default function AccountMenu({ profile, items, locale = DEFAULT_LOCALE }: AccountMenuProps): ReactElement | null {
   if (!profile) {
     return (
       <div className="flex gap-2">
         <Button asChild variant="outline" className={loginButtonClasses}>
-          <a href={localizeUrl("/login")} className="flex cursor-pointer items-center gap-2">
+          <a href={localizeUrl("/login", locale)} className="flex cursor-pointer items-center gap-2">
             <LogIn className="h-4 w-4" aria-hidden="true" />
             <span>Accedi</span>
           </a>
@@ -189,7 +193,7 @@ export default function AccountMenu({ profile, items }: AccountMenuProps): React
             </DropdownMenuItem>
           ))}
           <DropdownMenuItem asChild className="w-full cursor-pointer px-3 py-2">
-            {logoutItem("w-full")}
+            {logoutItem(locale, "w-full")}
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
@@ -197,10 +201,10 @@ export default function AccountMenu({ profile, items }: AccountMenuProps): React
   );
 }
 
-export function AccountMenuMobile({ profile, items }: AccountMenuProps): ReactElement | null {
+export function AccountMenuMobile({ profile, items, locale = DEFAULT_LOCALE }: AccountMenuProps): ReactElement | null {
   if (!profile)
     return (
-      <a href={localizeUrl("/login")} className="flex w-full cursor-pointer items-center justify-between py-1.5">
+      <a href={localizeUrl("/login", locale)} className="flex w-full cursor-pointer items-center justify-between py-1.5">
         <span>Accedi</span>
         <LogIn className="h-4 w-4" />
       </a>
@@ -216,7 +220,7 @@ export function AccountMenuMobile({ profile, items }: AccountMenuProps): ReactEl
         <MenuListItem key={item.label} {...item} className={[item.className, "py-1.5"].filter(Boolean).join(" ")} />
       ))}
 
-      {logoutItem("w-full py-1.5 text-left")}
+      {logoutItem(locale, "w-full py-1.5 text-left")}
     </div>
   );
 }

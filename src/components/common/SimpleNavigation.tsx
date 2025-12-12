@@ -13,14 +13,14 @@ export interface SimpleNavProps {
 }
 
 export default function SimpleNavigation({ profile, locale = DEFAULT_LOCALE }: SimpleNavProps): ReactElement {
-  const logo = { url: localizeUrl("/home"), alt: "Logo", title: "The Safety Game" };
-  const menu: MenuItem[] = [{ title: "Home", url: localizeUrl("/home") }];
+  const logo = { url: localizeUrl("/home", locale), alt: "Logo", title: "The Safety Game" };
+  const menu: MenuItem[] = [{ title: "Home", url: localizeUrl("/home", locale) }];
   const items = [
-    { label: "Dashboard", href: localizeUrl("/dashboard"), icon: <LayoutDashboard className="h-4 w-4" /> },
+    { label: "Dashboard", href: localizeUrl("/dashboard", locale), icon: <LayoutDashboard className="h-4 w-4" /> },
   ];
 
-  const actions = <AccountMenu profile={profile} items={items} />;
-  const actionsMobile = <AccountMenu profile={profile} items={items} />;
+  const actions = <AccountMenu profile={profile} items={items} locale={locale} />;
+  const actionsMobile = <AccountMenu profile={profile} items={items} locale={locale} />;
 
   return (
     <Navigation
