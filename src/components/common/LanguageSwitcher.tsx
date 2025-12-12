@@ -1,8 +1,7 @@
 import { navigate } from "astro:transitions/client";
-import type { ImageMetadata } from "astro";
 import { ChevronDown } from "lucide-react";
-import gbFlag from "@/assets/gb.svg";
-import itFlag from "@/assets/it.svg";
+import gbFlag from "@assets/flags/gb.svg?url";
+import itFlag from "@assets/flags/it.svg?url";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -13,9 +12,9 @@ import {
 import { type Locale, DEFAULT_LOCALE } from "@/lib/translations";
 import { cn } from "@/lib/utils";
 
-const LANGUAGES: Array<{ code: Locale; label: string; flagSrc: ImageMetadata }> = [
-  { code: "it", label: "Italiano", flagSrc: itFlag },
-  { code: "en", label: "English", flagSrc: gbFlag },
+const LANGUAGES: Array<{ code: Locale; label: string; icon: string }> = [
+  { code: "it", label: "Italiano", icon: itFlag  },
+  { code: "en", label: "English", icon: gbFlag },
 ];
 
 const triggerClasses =
@@ -51,7 +50,7 @@ export default function LanguageSwitcher({ className, locale = DEFAULT_LOCALE }:
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className={cn(triggerClasses, className)} aria-label={"Select language"}>
-          <img src={current.flagSrc.src} alt={current.label} className="size-5 rounded-sm" />
+          <img src={current.icon} alt={current.label} className="size-5 rounded-sm" />
           <span>{current.label}</span>
           <ChevronDown className="size-3 transition duration-300 data-[state=open]:rotate-180" />
         </Button>
@@ -70,7 +69,7 @@ export default function LanguageSwitcher({ className, locale = DEFAULT_LOCALE }:
               )}
             >
               <div className="flex items-center gap-2">
-                <img src={lang.flagSrc.src} alt={lang.label} className="size-5 rounded-sm" />
+                <img src={lang.icon} alt={lang.label} className="size-5 rounded-sm" />
                 <span>{lang.label}</span>
               </div>
             </DropdownMenuItem>
@@ -115,7 +114,7 @@ export function LanguageSwitcherMobile({ className, locale = DEFAULT_LOCALE }: L
               selected ? "bg-white/90 font-semibold text-black" : "text-gray-300 hover:bg-white/10",
             )}
           >
-            <img src={lang.flagSrc.src} alt={lang.label} className="size-5 rounded-sm" />
+            <img src={lang.icon} alt={lang.label} className="size-5 rounded-sm" />
             <span>{lang.label}</span>
           </button>
         );
