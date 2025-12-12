@@ -32,7 +32,7 @@ const colorStyles: Record<ColorVariant, { bg: string; border: string; hoverBg: s
     linkHover: "hover:text-green-700"
   },
   amber: {
-    bg: "bg-amber-50",
+    bg: "bg-amber-50/20",
     border: "border-amber-200",
     hoverBg: "hover:bg-amber-100",
     hoverBorder: "hover:border-amber-300",

@@ -105,7 +105,7 @@ interface ErrorStateProps {
 
 function ErrorState({ title, subtitle, retryLabel, onRetry }: ErrorStateProps) {
   return (
-    <div className="flex h-full min-h-0 flex-1 items-center justify-center rounded-lg border border-red-200 bg-red-50 p-4 sm:p-6">
+    <div className="flex h-full min-h-0 flex-1 items-center justify-center rounded-lg border border-red-200 bg-red-50/20 p-4 sm:p-6">
       <div className="fade-in-0 zoom-in-95 animate-in text-center duration-500">
         <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-lg bg-red-100 p-2">
           <AlertTriangle size={18} className="text-red-600 drop-shadow-sm" />
@@ -252,7 +252,7 @@ interface WarningBannerProps {
 function WarningBanner({ message, isError }: WarningBannerProps & { isError?: boolean }) {
   if (isError) {
     return (
-      <div className="flex items-center gap-2 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-red-700 text-sm">
+      <div className="flex items-center gap-2 rounded-lg border border-red-200 bg-red-50/20 px-3 py-2 text-red-700 text-sm">
         <AlertTriangle className="h-4 w-4 shrink-0 text-red-600" />
         <span>{message}</span>
       </div>
@@ -260,7 +260,7 @@ function WarningBanner({ message, isError }: WarningBannerProps & { isError?: bo
   }
 
   return (
-    <div className="flex items-center gap-2 rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-amber-800 text-sm">
+    <div className="flex items-center gap-2 rounded-lg border border-amber-200 bg-amber-50/20 px-3 py-2 text-amber-800 text-sm">
       <AlertTriangle className="h-4 w-4 shrink-0 text-amber-600" />
       <span>{message}</span>
     </div>

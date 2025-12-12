@@ -92,7 +92,7 @@ export function DailySubmissionSection({
             </div>
           </div>
 
-          <div className="rounded-lg border border-indigo-100 bg-indigo-50 p-6">
+          <div className="rounded-lg border border-indigo-100 bg-indigo-50/20 p-6">
             <h3 className="mb-4 font-semibold text-indigo-900 text-lg">{t.tips}</h3>
             <ul className="space-y-3 text-indigo-800 text-sm">
               <li className="flex items-start gap-2 align-middle">

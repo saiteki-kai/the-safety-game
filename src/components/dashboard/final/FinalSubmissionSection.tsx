@@ -56,7 +56,7 @@ export function FinalSubmissionSection({ teamId, disabled = false, locale = DEFA
             </div>
           </div>
 
-          <div className="rounded-lg border border-amber-200 bg-amber-50 p-6">
+          <div className="rounded-lg border border-amber-200 bg-amber-50/20 p-6">
             <h3 className="mb-4 font-semibold text-amber-900 text-lg">{t.checklist}</h3>
             <ul className="space-y-3 text-amber-800 text-sm">
               <li className="flex items-start gap-2 align-middle">
@@ -78,7 +78,7 @@ export function FinalSubmissionSection({ teamId, disabled = false, locale = DEFA
             </ul>
           </div>
 
-          <div className="rounded-lg border border-red-200 bg-red-50 p-6">
+          <div className="rounded-lg border border-red-200 bg-red-50/20 p-6">
             <h3 className="mb-4 font-semibold text-lg text-red-900">{t.warning}</h3>
             <ul className="space-y-3 text-red-800 text-sm">
               <li className="flex items-start gap-2 align-middle">
