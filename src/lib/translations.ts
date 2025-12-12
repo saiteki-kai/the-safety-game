@@ -440,7 +440,7 @@ export const setupTranslations = {
     createTitle: "Crea il tuo team",
     createDescription: "Inizia un nuovo team e invita i tuoi compagni di squadra.",
     joinTitle: "Unisciti a un team",
-    joinDescription: "Inserisci il codice condiviso dai tuoi compagni di squadra per unirti al loro gruppo.",
+    joinDescription: "Inserisci il codice condiviso dai tuoi compagni per unirti al loro gruppo.",
     teamNameLabel: "Nome Team",
     teamNameHint: "Scegli un nome riconoscibile per trovare più facilmente i tuoi compagni di squadra.",
     teamNamePlaceholder: "Safety Guardians",
