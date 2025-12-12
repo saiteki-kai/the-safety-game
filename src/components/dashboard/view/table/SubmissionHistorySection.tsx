@@ -50,7 +50,7 @@ export function SubmissionHistorySection({ submissions, locale = DEFAULT_LOCALE 
       ),
       cell: ({ row }) => {
         const rawScore = row.getValue("score");
-        const score = Math.round(Number(rawScore) * 100);
+        const score = rawScore ? Math.round(Number(rawScore) * 100) : "-";
         return (
           <div className="flex items-center justify-center">
             <span className="font-medium text-neutral-900 text-sm">{score}</span>
