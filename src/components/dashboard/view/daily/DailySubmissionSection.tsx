@@ -83,9 +83,9 @@ export function DailySubmissionSection({
       {/* Main Content Grid */}
       <div className="flex flex-col items-stretch gap-8 lg:flex-row">
         <div className="h-full space-y-6 lg:flex-1">
-          <div className="rounded-lg border border-blue-100 bg-blue-50 p-6">
+          <div className="rounded-lg border border-blue-100 bg-white p-6">
             <h3 className="mb-4 font-semibold text-blue-800 text-lg">{t.howItWorks}</h3>
-            <div className="space-y-3 text-blue-700 text-sm">
+            <div className="space-y-3 text-neutral-600 text-sm">
               <p>{t.howItWorksDesc1}</p>
               <p>{t.howItWorksDesc2}</p>
               <p dangerouslySetInnerHTML={{ __html: t.howItWorksDesc3 }} />
@@ -93,10 +93,10 @@ export function DailySubmissionSection({
           </div>
 
           <div className="rounded-lg border border-indigo-100 bg-indigo-50 p-6">
-            <h3 className="mb-4 font-semibold text-indigo-800 text-lg">{t.tips}</h3>
-            <ul className="space-y-3 text-indigo-700 text-sm">
+            <h3 className="mb-4 font-semibold text-indigo-900 text-lg">{t.tips}</h3>
+            <ul className="space-y-3 text-indigo-800 text-sm">
               <li className="flex items-start gap-2 align-middle">
-                <AlertTriangle size={16} className="text-violet-600" />
+                <AlertTriangle size={16} className="text-indigo-700" />
                 <span>{t.tipReadInstructions}</span>
               </li>
               <li className="flex items-start gap-2 align-middle">

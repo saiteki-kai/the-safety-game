@@ -31,9 +31,10 @@ type TeamOverviewCardProps = {
   members: Profile[] | null;
   progress: ProgressState;
   locale?: Locale;
+  noShadow?: boolean;
 };
 
-export default function TeamOverviewCard({ teamName, teamJoinCode, members, progress, locale = DEFAULT_LOCALE }: TeamOverviewCardProps) {
+export default function TeamOverviewCard({ teamName, teamJoinCode, members, progress, locale = DEFAULT_LOCALE, noShadow = false }: TeamOverviewCardProps) {
   const t = getTranslations(dashboardTranslations, locale);
 
   const memberSlots = useMemo(() => createMemberSlots(members), [members]);
@@ -61,7 +62,7 @@ export default function TeamOverviewCard({ teamName, teamJoinCode, members, prog
       {/* Main Content */}
       <div className="grid grid-cols-1 items-stretch gap-8 md:grid md:grid-cols-4 md:gap-8">
         <div className="flex min-h-0 min-w-0 flex-col space-y-6 md:col-span-1">
-          <div className="flex h-full flex-col rounded-xl border border-neutral-200 bg-white p-6 shadow-sm">
+          <div className={`flex h-full flex-col rounded-xl border border-neutral-200 bg-white p-6 ${noShadow ? "shadow-none" : "shadow-sm"}`}>
             <div className="mb-4 flex flex-col justify-between">
               <h3 className="font-semibold text-lg text-neutral-800">{t.yourTeam}</h3>
               <p className="text-neutral-500 text-sm">{t.teamManageDescription}</p>
@@ -81,7 +82,7 @@ export default function TeamOverviewCard({ teamName, teamJoinCode, members, prog
 
         <div className="flex min-h-0 min-w-0 flex-col space-y-6 md:col-span-3">
           {/* Challenge Status Card */}
-          <div className="rounded-xl border border-neutral-200 bg-white p-6 shadow-sm">
+          <div className={`rounded-xl border border-neutral-200 bg-white p-6 ${noShadow ? "shadow-none" : "shadow-sm"}`}>
             <h3 className="mb-4 font-semibold text-lg text-neutral-800">{t.challengeStatus}</h3>
 
             <div className="flex flex-col gap-4 sm:flex-row sm:items-stretch">
@@ -122,7 +123,7 @@ export default function TeamOverviewCard({ teamName, teamJoinCode, members, prog
           </div>
 
           {/* Progress Card */}
-          <div className="rounded-xl border border-neutral-200 bg-white p-6 shadow-sm">
+          <div className={`rounded-xl border border-neutral-200 bg-white p-6 ${noShadow ? "shadow-none" : "shadow-sm"}`}>
             <div className="mb-5">
               <h3 className="font-semibold text-lg text-neutral-800">{t.challengeProgress}</h3>
               <p className="text-neutral-500 text-sm">{t.progressDescription}</p>
@@ -131,25 +132,25 @@ export default function TeamOverviewCard({ teamName, teamJoinCode, members, prog
             {/* KPI Grid */}
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
               <div className="flex flex-col items-center rounded-lg border border-blue-100 bg-blue-50 p-4 text-center">
-                <FileText className="mb-2 h-5 w-5 text-blue-500" />
-                <span className="font-bold text-2xl text-blue-500">{promptsSubmitted}</span>
-                <span className="text-blue-500 text-xs">{t.promptsSubmitted}</span>
+                <FileText className="mb-2 h-5 w-5 text-blue-800" />
+                <span className="font-bold text-2xl text-blue-800">{promptsSubmitted}</span>
+                <span className="text-blue-800 text-xs">{t.promptsSubmitted}</span>
               </div>
 
               <div className="flex flex-col items-center rounded-lg border border-indigo-100 bg-indigo-50 p-4 text-center">
-                <Target className="mb-2 h-5 w-5 text-indigo-500" />
-                <span className="font-bold text-2xl text-indigo-500">
+                <Target className="mb-2 h-5 w-5 text-indigo-800" />
+                <span className="font-bold text-2xl text-indigo-800">
                   {averageScore}{scoreTotal ? `/${scoreTotal}` : ""}
                 </span>
-                <span className="text-indigo-500 text-xs">{t.averageScore}</span>
+                <span className="text-indigo-800 text-xs">{t.averageScore}</span>
               </div>
 
               <div className="flex flex-col items-center rounded-lg border border-violet-100 bg-violet-50 p-4 text-center">
-                <Trophy className="mb-2 h-5 w-5 text-violet-500" />
-                <span className="font-bold text-2xl text-violet-500">
+                <Trophy className="mb-2 h-5 w-5 text-violet-800" />
+                <span className="font-bold text-2xl text-violet-800">
                   {highestScore}{scoreTotal ? `/${scoreTotal}` : ""}
                 </span>
-                <span className="text-violet-500 text-xs">{t.highestScore}</span>
+                <span className="text-violet-800 text-xs">{t.highestScore}</span>
               </div>
             </div>
 

@@ -294,7 +294,7 @@ function PromptCountBadge({
   const getBadgeClasses = () => {
     if (isZero || isTooLarge) return "bg-red-50 text-red-700";
     if (isCountMismatch || isBelowMax) return "bg-yellow-50 text-yellow-700";
-    return "bg-indigo-50 text-indigo-700";
+    return "bg-indigo-50 text-indigo-900";
   };
 
   const getTooltipContent = () => {

@@ -57,10 +57,10 @@ export function FinalSubmissionSection({ teamId, disabled = false, locale = DEFA
           </div>
 
           <div className="rounded-lg border border-amber-200 bg-amber-50 p-6">
-            <h3 className="mb-4 font-semibold text-amber-800 text-lg">{t.checklist}</h3>
-            <ul className="space-y-3 text-amber-700 text-sm">
+            <h3 className="mb-4 font-semibold text-amber-900 text-lg">{t.checklist}</h3>
+            <ul className="space-y-3 text-amber-800 text-sm">
               <li className="flex items-start gap-2 align-middle">
-                <CheckCircle size={16} className="text-amber-600" />
+                <CheckCircle size={16} className="text-amber-800" />
                 <span dangerouslySetInnerHTML={{ __html: t.checklistPromptCount(MAX_FINAL_PROMPTS) }} />
               </li>
               <li className="flex items-start gap-2 align-middle">
@@ -79,10 +79,10 @@ export function FinalSubmissionSection({ teamId, disabled = false, locale = DEFA
           </div>
 
           <div className="rounded-lg border border-red-200 bg-red-50 p-6">
-            <h3 className="mb-4 font-semibold text-lg text-red-800">{t.warning}</h3>
-            <ul className="space-y-3 text-red-700 text-sm">
+            <h3 className="mb-4 font-semibold text-lg text-red-900">{t.warning}</h3>
+            <ul className="space-y-3 text-red-800 text-sm">
               <li className="flex items-start gap-2 align-middle">
-                <AlertTriangle size={16} className="text-red-600" />
+                <AlertTriangle size={16} className="text-red-700" />
                 <span dangerouslySetInnerHTML={{ __html: t.warningOnce }} />
               </li>
               <li className="flex items-start gap-2 align-middle">
