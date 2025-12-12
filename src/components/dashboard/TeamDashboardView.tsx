@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { GPT_AVG_SCORE, STOP_SUBMISSIONS_DATE } from "@/content/consts.ts";
+import TIMELINE_EVENTS from "@/content/timeline";
 import { useLeaderboardPosition } from "@/hooks/useLeaderboardPosition.tsx";
 import { useTeamMembers } from "@/hooks/useTeamMembers.tsx";
 import { useTeamSubmissions } from "@/hooks/useTeamSubmissions.tsx";
@@ -16,6 +17,10 @@ type TeamDashboardViewProps = {
   locale?: Locale;
 };
 
+function startOfLocalDayMs(date: Date): number {
+  return new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime();
+}
+
 export default function TeamDashboardView({ team, locale = DEFAULT_LOCALE }: TeamDashboardViewProps) {
   const supabase = browserClient();
   const { members } = useTeamMembers(supabase, team.id);
@@ -23,54 +28,80 @@ export default function TeamDashboardView({ team, locale = DEFAULT_LOCALE }: Tea
   const { position: leaderboardPosition } = useLeaderboardPosition(supabase, team.id);
   const t = getTranslations(dashboardTranslations, locale);
 
-  // State for time-based values to prevent hydration mismatch
+  // Determine challenge start date from timeline events
+  const challengeStartEvent = TIMELINE_EVENTS.find((e) => e.key === "challengeStarts");
+  const CHALLENGE_START_DATE = challengeStartEvent?.date ?? new Date();
+  // Before the challenge start day, show only team + countdown.
+  const isBeforeStartDay = startOfLocalDayMs(new Date()) < startOfLocalDayMs(CHALLENGE_START_DATE);
   const [challengeDaysRemaining, setChallengeDaysRemaining] = useState<number>(0);
   const [dailySubmissionsDone, setDailySubmissionsDone] = useState<boolean>(false);
 
-  // Update time-dependent values on client-side only
+  const round2 = (n: number) => Math.round(n * 100);
+
+  const submissionStats = useMemo(() => {
+    const list = Array.isArray(submissions) ? submissions : [];
+    const promptsSubmitted = list.length;
+    const rawScores = list.map((s) => Number(s.score)).filter((score) => !Number.isNaN(score));
+    const averageScore = rawScores.length > 0 ? round2(rawScores.reduce((sum, score) => sum + score, 0) / rawScores.length) : 0;
+    const highestScore = rawScores.length > 0 ? round2(Math.max(...rawScores)) : 0;
+    const finalSubmissionDone = list.some((s) => !s.playground);
+    const dailySubmissions = list.filter((s) => isToday(s.date) && !!s.playground);
+    const promptsBeatingChatGPT = rawScores.filter((score) => score > GPT_AVG_SCORE).length;
+
+    return {
+      promptsSubmitted,
+      averageScore,
+      highestScore,
+      finalSubmissionDone,
+      dailySubmissions,
+      promptsBeatingChatGPT,
+    };
+  }, [submissions]);
+
   useEffect(() => {
     const remaining =
       Date.now() < STOP_SUBMISSIONS_DATE.getTime()
         ? Math.ceil((STOP_SUBMISSIONS_DATE.getTime() - Date.now()) / (1000 * 60 * 60 * 24))
         : 0;
     setChallengeDaysRemaining(remaining);
+  }, []);
 
-    // Recalculate daily submissions done based on current time
-    const dailySubmissionsSent = submissions?.filter((s) => isToday(s.date) && !!s.playground) ?? [];
-    const isDone = dailySubmissionsSent.some((s) => !!s.score) ?? false;
+  useEffect(() => {
+    const isDone = submissionStats.dailySubmissions.some((s) => !!s.score);
     setDailySubmissionsDone(isDone);
-  }, [submissions]);
+  }, [submissionStats.dailySubmissions]);
 
   const teamName = team?.name ?? "Team";
   const teamJoinCode = team?.join_code?.toUpperCase() ?? "------";
 
-  const promptsSubmitted = Array.isArray(submissions) ? submissions.length : 0;
+  const hasPendingDailySubmission = useMemo(
+    () => submissionStats.dailySubmissions.some((s) => !s.score),
+    [submissionStats.dailySubmissions]
+  );
 
-  const round2 = (n: number) => Math.round(n * 100);
-
-  const scores = submissions ? submissions.map((s) => Number(s.score)) : [];
-
-  const averageScore = scores.length > 0 ? round2(scores.reduce((sum, score) => sum + score, 0) / scores.length) : 0;
-  const highestScore = scores.length > 0 ? round2(Math.max(...scores)) : 0;
-  const finalSubmissionDone = submissions?.some((s) => !s.playground) ?? false;
-
-  // Count how many submissions beat ChatGPT baseline 
-  const promptsBeatingChatGPT = scores.filter((score) => score > GPT_AVG_SCORE).length;
-
-  const dailySubmissionsSent = submissions?.filter((s) => isToday(s.date) && !!s.playground && !s.score) ?? [];
-  const hasPendingDailySubmission = dailySubmissionsSent.length > 0;
-
-  const progress = {
-    promptsSubmitted,
-    averageScore,
-    highestScore,
-    scoreTotal: null,
-    challengeDaysRemaining,
-    finalSubmissionDone,
-    leaderboardPosition,
-    dailySubmissionsDone,
-    promptsBeatingChatGPT,
-  };
+  const progress = useMemo(
+    () => ({
+      promptsSubmitted: submissionStats.promptsSubmitted,
+      averageScore: submissionStats.averageScore,
+      highestScore: submissionStats.highestScore,
+      scoreTotal: null,
+      challengeDaysRemaining,
+      finalSubmissionDone: submissionStats.finalSubmissionDone,
+      leaderboardPosition,
+      dailySubmissionsDone,
+      promptsBeatingChatGPT: submissionStats.promptsBeatingChatGPT,
+    }),
+    [
+      submissionStats.promptsSubmitted,
+      submissionStats.averageScore,
+      submissionStats.highestScore,
+      submissionStats.finalSubmissionDone,
+      submissionStats.promptsBeatingChatGPT,
+      challengeDaysRemaining,
+      leaderboardPosition,
+      dailySubmissionsDone,
+    ]
+  );
 
   return (
     <main className="flex min-h-0 w-full flex-1 flex-col gap-8 px-4 py-6 sm:px-2 sm:py-10" aria-label={t.title}>
@@ -83,22 +114,36 @@ export default function TeamDashboardView({ team, locale = DEFAULT_LOCALE }: Tea
             progress={progress}
             locale={locale}
             noShadow
+            countdown={
+              isBeforeStartDay
+                ? {
+                    startDate: CHALLENGE_START_DATE,
+                    title: t.countdownTitle,
+                    description: t.countdownDescription,
+                    launchNote: t.countdownLaunchNote,
+                  }
+                : undefined
+            }
           />
         </section>
 
-        <section aria-label={t.dailySubmission} className="space-y-4">
-          <DailySubmissionSection
-            teamId={team.id}
-            disabled={dailySubmissionsDone}
-            finalSubmissionDone={finalSubmissionDone}
-            hasPendingDailySubmission={hasPendingDailySubmission}
-            locale={locale}
-          />
-        </section>
+        {!isBeforeStartDay && (
+          <section aria-label={t.dailySubmission} className="space-y-4">
+            <DailySubmissionSection
+              teamId={team.id}
+              disabled={dailySubmissionsDone}
+              finalSubmissionDone={submissionStats.finalSubmissionDone}
+              hasPendingDailySubmission={hasPendingDailySubmission}
+              locale={locale}
+            />
+          </section>
+        )}
 
-        <section aria-label={t.submissionHistory} className="space-y-4">
-          <SubmissionHistorySection teamId={team.id} submissions={submissions} locale={locale} />
-        </section>
+        {!isBeforeStartDay && (
+          <section aria-label={t.submissionHistory} className="space-y-4">
+            <SubmissionHistorySection teamId={team.id} submissions={submissions} locale={locale} />
+          </section>
+        )}
       </div>
     </main>
   );

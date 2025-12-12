@@ -186,6 +186,10 @@ export const dashboardTranslations = {
     codeCopyFailed: "Impossibile copiare il codice negli appunti",
     // Status
     goTo: "Vai →",
+    // Countdown
+    countdownTitle: "La sfida inizia presto",
+    countdownDescription: "La dashboard si sblocca una volta che il conto alla rovescia arriva a zero.",
+    countdownLaunchNote: "Ci vediamo al lancio",
   },
   en: {
     title: "Dashboard",
@@ -233,6 +237,10 @@ export const dashboardTranslations = {
     codeCopyFailed: "Failed to copy code to clipboard",
     // Status
     goTo: "Go →",
+    // Countdown
+    countdownTitle: "Challenge starts soon",
+    countdownDescription: "The dashboard unlocks once the countdown hits zero.",
+    countdownLaunchNote: "See you on launch",
   },
 } as const;
 
