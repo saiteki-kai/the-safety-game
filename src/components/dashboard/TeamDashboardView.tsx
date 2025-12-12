@@ -31,8 +31,9 @@ export default function TeamDashboardView({ team, locale = DEFAULT_LOCALE }: Tea
   // Determine challenge start date from timeline events
   const challengeStartEvent = TIMELINE_EVENTS.find((e) => e.key === "challengeStarts");
   const CHALLENGE_START_DATE = challengeStartEvent?.date ?? new Date();
+
   // Before the challenge start day, show only team + countdown.
-  const isBeforeStartDay = startOfLocalDayMs(new Date()) < startOfLocalDayMs(CHALLENGE_START_DATE);
+  const isBeforeStartDay = new Date() < CHALLENGE_START_DATE;
   const [challengeDaysRemaining, setChallengeDaysRemaining] = useState<number>(0);
   const [dailySubmissionsDone, setDailySubmissionsDone] = useState<boolean>(false);
 
@@ -117,11 +118,11 @@ export default function TeamDashboardView({ team, locale = DEFAULT_LOCALE }: Tea
             countdown={
               isBeforeStartDay
                 ? {
-                    startDate: CHALLENGE_START_DATE,
-                    title: t.countdownTitle,
-                    description: t.countdownDescription,
-                    launchNote: t.countdownLaunchNote,
-                  }
+                  startDate: CHALLENGE_START_DATE,
+                  title: t.countdownTitle,
+                  description: t.countdownDescription,
+                  launchNote: t.countdownLaunchNote,
+                }
                 : undefined
             }
           />

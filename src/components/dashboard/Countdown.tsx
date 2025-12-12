@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { DEFAULT_LOCALE, type Locale } from "@/lib/translations";
 
 type CountdownProps = {
@@ -8,6 +8,7 @@ type CountdownProps = {
   launchNote?: string;
   locale?: Locale;
   className?: string;
+  autoReload?: boolean;
 };
 
 const UNIT_LABELS: Record<Locale, [string, string, string, string]> = {
@@ -24,15 +25,38 @@ export default function Countdown({
   launchNote = "See you on launch",
   locale = DEFAULT_LOCALE,
   className = "",
+  autoReload = true,
 }: CountdownProps) {
   const [mounted, setMounted] = useState(false);
   const [countdown, setCountdown] = useState(initialCountdown);
+  const finishedRef = useRef(false);
 
   useEffect(() => {
     setMounted(true);
 
+    let id: number | undefined;
+
     const update = () => {
       const diff = Math.max(0, startDate.getTime() - Date.now());
+
+      if (diff <= 0) {
+        setCountdown({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+
+        // Prevent multiple reloads
+        if (!finishedRef.current) {
+          finishedRef.current = true;
+          if (typeof window !== "undefined") {
+            if (id) clearInterval(id);
+            if (autoReload) {
+              // small delay to allow UI to show zeros briefly
+              setTimeout(() => window.location.reload(), 700);
+            }
+          }
+        }
+
+        return;
+      }
+
       setCountdown({
         days: Math.floor(diff / (1000 * 60 * 60 * 24)),
         hours: Math.floor((diff / (1000 * 60 * 60)) % 24),
@@ -42,9 +66,9 @@ export default function Countdown({
     };
 
     update();
-    const id = setInterval(update, 1000);
-    return () => clearInterval(id);
-  }, [startDate]);
+    id = window.setInterval(update, 1000);
+    return () => id && clearInterval(id);
+  }, [startDate, autoReload]);
 
   const labels = UNIT_LABELS[locale] ?? UNIT_LABELS.en;
   const units = [
