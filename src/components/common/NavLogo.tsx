@@ -1,4 +1,5 @@
 import { localizeUrl } from "@/lib/i18n";
+import type { Locale } from "@/lib/translations";
 
 export interface NavLogoProps {
   logo?: {
@@ -10,8 +11,8 @@ export interface NavLogoProps {
   };
 }
 
-export default function NavLogo({ logo, isOpaque = true }: NavLogoProps & { isOpaque?: boolean }) {
-  const finalLogo = logo ?? { url: localizeUrl("/home"), title: "The Safety Game", alt: "Logo" };
+export default function NavLogo({ logo, isOpaque = true, locale = "it" }: NavLogoProps & { isOpaque?: boolean; locale?: Locale }) {
+  const finalLogo = logo ?? { url: localizeUrl("/home", locale), title: "The Safety Game", alt: "Logo" };
   const textClass = isOpaque ? "text-violet-200" : "text-white drop-shadow-sm";
   return (
     <a href={finalLogo.url} aria-label={finalLogo.ariaLabel ?? finalLogo.title} className="flex items-center gap-1.5 sm:gap-2">

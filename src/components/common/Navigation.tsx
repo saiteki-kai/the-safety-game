@@ -79,7 +79,7 @@ export default function Navigation({
           <nav className="hidden h-14 items-center justify-between lg:h-16 lg:flex">
             <div className="flex items-center gap-4 lg:gap-6">
               {/* Logo */}
-              <NavLogo logo={logo} isOpaque={isOpaque} />
+              <NavLogo logo={logo} isOpaque={isOpaque} locale={locale} />
               <div className="flex items-center">
                 <NavigationMenu>
                   <NavigationMenuList className="gap-0.5 lg:gap-1">
@@ -94,7 +94,7 @@ export default function Navigation({
           {/* Mobile Menu */}
           <div className="flex h-14 items-center justify-between sm:h-16 lg:hidden">
             {/* Logo */}
-            <NavLogo logo={logo} isOpaque={isOpaque} />
+            <NavLogo logo={logo} isOpaque={isOpaque} locale={locale} />
             <Button
               variant="outline"
               size="icon"
