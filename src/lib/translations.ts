@@ -599,7 +599,7 @@ export const challengeTranslations = {
     participationLabel: "Partecipazione",
     participation: "Non è necessaria nessuna conoscenza dell'intelligenza artificiale. L'unico requisito è la conoscenza della lingua e della cultura italiana.",
     prizesLabel: "Premi",
-    prizesDescription: "Il team che sarà in grado di scrivere i migliori prompt verrà premiato durante il  Consiglio di Dipartimento  di Informatica di Milano-Bicocca, con una breve cerimonia. A coloro che affronteranno la sfida, verrà rilasciato un <b>certificato un partecipazione</b>.",
+    prizesDescription: "A <b>TUTTI</b> coloro che affronteranno la sfida, verrà rilasciato un <b>certificato di partecipazione</b>.<br/><br/>Il <b>team che sarà in grado di scrivere i migliori prompt verrà premiato</b> durante il Consiglio di Dipartimento di Informatica di Milano-Bicocca, con una breve cerimonia.",
     llmLabel: "Cos'è un Large Language Model?",
     introduction: [
       { content: "I Large Language Model sono modelli di intelligenza artificiale in grado di comprendere e generare testo in linguaggio naturale simile a quello umano. Il loro utilizzo è in costante crescita, soprattutto come chatbot e assistenti conversazionali come ChatGPT, Gemini e Claude. Tuttavia, questi modelli possono talvolta produrre risposte pericolose, eticamente inappropriate." },
@@ -619,7 +619,7 @@ export const challengeTranslations = {
     participationLabel: "Participation",
     participation: "No knowledge of artificial intelligence is required. The only requirement is knowledge of the Italian language and culture.",
     prizesLabel: "Prizes",
-    prizesDescription: "The team that produces the best prompts will be awarded during the Department Council of Computer Science at Milan-Bicocca, with a brief ceremony. Those who take on the challenge will receive a <b>certificate of participation</b>.",
+    prizesDescription: "To <b>ALL</b> who take on the challenge, a <b>certificate of participation</b> will be issued.<br/><br/>The <b>team that is able to write the best prompts will be awarded</b> during the Department Council of Computer Science at Milan-Bicocca, with a short ceremony.",
     llmLabel: "What is a Large Language Model?",
     introduction: [
       { content: "Large Language Models are AI models capable of understanding and generating human-like natural language text. Their use is constantly growing, especially as chatbots and conversational assistants like ChatGPT, Gemini, and Claude. However, these models can sometimes produce dangerous or ethically inappropriate responses." },
