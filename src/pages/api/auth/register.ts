@@ -1,5 +1,6 @@
 import type { APIContext, APIRoute } from "astro";
-import { localizeUrl } from "@/lib/i18n";
+import { localizeUrl, getLocaleFromPath } from "@/lib/i18n";
+import type { Locale } from "@/lib/translations";
 
 export const POST: APIRoute = async (context: APIContext) => {
   const formData = await context.request.formData();
@@ -18,6 +19,7 @@ export const POST: APIRoute = async (context: APIContext) => {
   if (error) {
     return new Response(error.message, { status: 500 });
   }
-
-  return context.redirect(localizeUrl("/login"));
+  const localeFromForm = formData.get("locale")?.toString() as Locale | undefined;
+  const locale = (localeFromForm ?? getLocaleFromPath(context.url.pathname)) as Locale;
+  return context.redirect(localizeUrl("/login", locale));
 };

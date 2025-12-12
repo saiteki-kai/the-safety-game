@@ -54,7 +54,7 @@ export default function CreateTeamForm({ locale = DEFAULT_LOCALE }: CreateTeamFo
     }
 
     if (state?.data?.team) {
-      navigate(localizeUrl("/dashboard"));
+      navigate(localizeUrl("/dashboard", locale));
     }
   }, [state, t.createError]);
 

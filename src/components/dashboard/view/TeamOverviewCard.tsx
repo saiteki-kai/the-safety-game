@@ -106,7 +106,7 @@ export default function TeamOverviewCard({ teamName, teamJoinCode, members, prog
                   Icon={Flag}
                   label={t.finalSubmission}
                   subtitle={finalSubmissionDone ? t.alreadySubmitted : t.waitingSubmission}
-                  href={localizeUrl("/final-submission")}
+                  href={localizeUrl("/final-submission", locale)}
                   variant="rose"
                 />
               </div>

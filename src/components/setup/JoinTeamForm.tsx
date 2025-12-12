@@ -53,7 +53,7 @@ export default function JoinTeamForm({ locale = DEFAULT_LOCALE }: JoinTeamFormPr
     }
 
     if (state?.data?.team) {
-      navigate(localizeUrl("/dashboard"));
+      navigate(localizeUrl("/dashboard", locale));
     }
   }, [state, t.joinError]);
 

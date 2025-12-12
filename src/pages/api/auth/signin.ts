@@ -1,18 +1,21 @@
 import type { Provider } from "@supabase/supabase-js";
 import type { APIContext, APIRoute } from "astro";
-import { localizeUrl } from "@/lib/i18n";
+import { localizeUrl, getLocaleFromPath } from "@/lib/i18n";
+import type { Locale } from "@/lib/translations";
 
 export const POST: APIRoute = async (context: APIContext) => {
   const formData = await context.request.formData();
   const email = formData.get("email")?.toString();
   const password = formData.get("password")?.toString();
   const provider = formData.get("provider")?.toString();
+  const localeFromForm = formData.get("locale")?.toString() as Locale | undefined;
+  const locale = (localeFromForm as Locale) ?? getLocaleFromPath(context.url.pathname);
 
   if (provider) {
     const { data, error } = await context.locals.db.auth.signInWithOAuth({
       provider: provider as Provider,
       options: {
-        redirectTo: `${new URL(context.request.url).origin}/api/auth/callback`,
+        redirectTo: `${new URL(context.request.url).origin}/api/auth/callback?locale=${locale}`,
         queryParams: {
           prompt: "select_account",
         },
@@ -46,5 +49,5 @@ export const POST: APIRoute = async (context: APIContext) => {
     return new Response(error?.message, { status: 500 });
   }
 
-  return context.redirect(localizeUrl("/dashboard"));
+  return context.redirect(localizeUrl("/dashboard", locale));
 };

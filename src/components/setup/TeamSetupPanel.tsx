@@ -63,7 +63,7 @@ export default function TeamSetupPanel({ locale = DEFAULT_LOCALE }: TeamSetupPan
           <CardDescription className="dashboard-card-description">{copy.description}</CardDescription>
         </CardHeader>
         <CardContent className="dashboard-card-content">
-          {tab === "create" ? <CreateTeamForm /> : <JoinTeamForm />}
+          {tab === "create" ? <CreateTeamForm locale={locale} /> : <JoinTeamForm locale={locale} />}
         </CardContent>
       </Card>
     </div>
