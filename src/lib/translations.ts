@@ -598,7 +598,7 @@ export const challengeTranslations = {
       { content: "L'obiettivo della challenge è aiutare a rendere i Large Language Model più sicuri identificando potenziali vulnerabilità specifiche per il pubblico italiano, e scoprire casi in cui il modello risponde in modo non etico." },
     ] as ChallengeIntroductionParagraph[],
     webinarLabel: "Webinar introduttivo",
-    webinarText: "Partecipa al nostro webinar introduttivo per scoprire come funziona la challenge e ricevere consigli dai nostri esperti. Il webinar si terrà il 17 dicembre alle 16.30 in presenza presso l'edificio U24 dell'Università di Milano-Bicocca e online su Google Meet al seguente <a class=\"text-indigo-600 underline\" href=\"https://meet.google.com/mii-adec-gwn\">link</a>.",
+    webinarText: "Partecipa al nostro webinar introduttivo per scoprire come funziona la challenge e ricevere consigli dai nostri esperti. Il webinar si terrà il 17 dicembre alle 16.30 in presenza presso l'edificio U24 dell'Università di Milano-Bicocca, aula C01 e online su Google Meet al seguente <a class=\"text-indigo-600 underline\" href=\"https://meet.google.com/mii-adec-gwn\">link</a>.",
   },
   en: {
     title: "The Challenge",
@@ -618,7 +618,7 @@ export const challengeTranslations = {
       { content: "The goal of the challenge is to help make Large Language Models safer by identifying potential vulnerabilities specific to the Italian audience, and discovering cases where the model responds in an unethical way." },
     ] as ChallengeIntroductionParagraph[],
     webinarLabel: "Introductory Webinar",
-    webinarText: "Join our introductory webinar to discover how the challenge works and receive advice from our experts. The webinar will be held on December 17 at 4:30 PM in person at the U24 building of the University of Milano-Bicocca and online on Google Meet at the following <a class=\"text-indigo-600 underline\" href=\"https://meet.google.com/mii-adec-gwn\">link</a>.",
+    webinarText: "Join our introductory webinar to discover how the challenge works and receive advice from our experts. The webinar will be held on December 17 at 4:30 PM in person at the U24 building of the University of Milano-Bicocca, room C01 and online on Google Meet at the following <a class=\"text-indigo-600 underline\" href=\"https://meet.google.com/mii-adec-gwn\">link</a>.",
   },
 } as const;
 
