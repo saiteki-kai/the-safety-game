@@ -165,7 +165,8 @@ export const dashboardTranslations = {
     inviteCode: "Codice Invito",
     challengeProgress: "Statistiche Challenge",
     progressDescription: "Monitora i tuoi progressi e risultati ottenuti nel playground",
-    playgroundGradientHint: "Considera vari aspetti culturali e rendi i tuoi prompt creativi!",
+    playgroundGradientHint: "La tua submission non è stata sufficiente per battere ChatGPT. Considera vari aspetti culturali e rendi i tuoi prompt creativi!",
+    playgroundCongratsAboveGPT: (count: number) => `Complimenti! Il punteggio della tua submission è superiore a ChatGPT. Continua così!`,
     performance: "Statistiche",
     promptsSubmitted: "Prompt Inviati",
     challengeStatus: "Stato Challenge",
@@ -216,7 +217,8 @@ export const dashboardTranslations = {
     inviteCode: "Invite Code",
     challengeProgress: "Statistics",
     progressDescription: "Monitor your progress and results achieved in the playground",
-    playgroundGradientHint: "Consider various cultural aspects and make your prompts creative!",
+    playgroundGradientHint: "Your submission was not good enough to beat ChatGPT.<br/>Consider various cultural aspects and make your prompts creative!",
+    playgroundCongratsAboveGPT: (count: number) => `Congrats! Your submission score is above ChatGPT. Continue like this!`,
     performance: "Performance",
     promptsSubmitted: "Prompts Submitted",
     challengeStatus: "Challenge Status",
@@ -327,6 +329,8 @@ export const playgroundTranslations = {
     playgroundDisabledTitle: "Playground disabilitato",
     playgroundDisabledSubtitle:
       "Hai già caricato la consegna finale.\n**Il playground non è più disponibile.**",
+    playgroundGradientHint: "La tua submission non è stata sufficiente per battere ChatGPT\nConsidera vari aspetti culturali e rendi i tuoi prompt creativi!",
+    playgroundCongratsAboveGPT: (count: number) => `Complimenti! Il punteggio della tua submission è superiore a ChatGPT\nContinua così!`,
   },
   en: {
     title: "Playground",
@@ -343,6 +347,8 @@ export const playgroundTranslations = {
     playgroundDisabledTitle: "Playground disabled",
     playgroundDisabledSubtitle:
       "You have already uploaded the final submission.\n**The playground is no longer available.**",
+    playgroundGradientHint: "Your submission was not good enough to beat ChatGPT\nConsider various cultural aspects and make your prompts creative!",
+    playgroundCongratsAboveGPT: (count: number) => `Your submission score is above ChatGPT\nContinue like this!`,
   },
 } as const;
 

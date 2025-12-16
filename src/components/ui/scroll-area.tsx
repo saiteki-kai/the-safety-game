@@ -12,8 +12,9 @@ function ScrollArea({ className, children, ...props }: React.ComponentProps<type
       >
         {children}
       </ScrollAreaPrimitive.Viewport>
-      <ScrollBar className="dark-scrollbar" />
-      <ScrollAreaPrimitive.Corner />
+      {/* On touch devices, the native overlay scrollbar is usually enough; showing the Radix bar too can look like a double scrollbar. */}
+      <ScrollBar className="dark-scrollbar hidden md:flex" />
+      <ScrollAreaPrimitive.Corner className="hidden md:block" />
     </ScrollAreaPrimitive.Root>
   );
 }

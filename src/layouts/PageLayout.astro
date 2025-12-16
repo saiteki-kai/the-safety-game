@@ -16,8 +16,11 @@ interface Props {
   lang?: Locale;
 }
 
-const { title, description = "The Safety Game - Hackathon organized by MIND, University of Milan Bicocca", lang } =
-  Astro.props as Props;
+const {
+  title,
+  description = "The Safety Game - Hackathon organized by MIND, University of Milan Bicocca",
+  lang,
+} = Astro.props as Props;
 
 const locale = lang ?? DEFAULT_LOCALE;
 ---
@@ -36,8 +39,8 @@ const locale = lang ?? DEFAULT_LOCALE;
     <Toaster client:load />
     <WebsiteAnalytics />
     <SpeedInsights />
-      <ScrollArea className="h-dvh w-screen" client:load>
-        <main id="main-content" class="flex min-h-0 w-screen flex-col">
+    <ScrollArea className="h-dvh w-screen" client:load>
+      <main id="main-content" class="flex min-h-0 w-screen flex-col">
         <slot />
       </main>
       <ScrollToTopButton client:idle />

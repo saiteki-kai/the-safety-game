@@ -51,7 +51,7 @@ export default function LanguageSwitcher({ className, locale = DEFAULT_LOCALE }:
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className={cn(triggerClasses, className)} aria-label={"Select language"}>
           <img src={current.icon} alt={current.label} className="size-5 rounded-sm" />
-          <span>{current.label}</span>
+          <span className="hidden xl:inline">{current.label}</span>
           <ChevronDown className="size-3 transition duration-300 data-[state=open]:rotate-180" />
         </Button>
       </DropdownMenuTrigger>

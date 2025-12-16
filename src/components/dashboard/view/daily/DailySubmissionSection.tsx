@@ -9,6 +9,7 @@ interface DailySubmissionSectionProps {
   disabled?: boolean;
   finalSubmissionDone?: boolean;
   hasPendingDailySubmission?: boolean;
+  promptsBeatingChatGPT?: number;
   locale?: Locale;
 }
 
@@ -17,6 +18,7 @@ export function DailySubmissionSection({
   disabled = false,
   finalSubmissionDone = false,
   hasPendingDailySubmission = false,
+  promptsBeatingChatGPT = 0,
   locale = DEFAULT_LOCALE,
 }: DailySubmissionSectionProps) {
   const t = getTranslations(playgroundTranslations, locale);
@@ -36,6 +38,18 @@ export function DailySubmissionSection({
         }
       : uploadLabels,
   };
+
+  const hintRaw = (promptsBeatingChatGPT && promptsBeatingChatGPT < 0)
+    ? t.playgroundCongratsAboveGPT(promptsBeatingChatGPT)
+    : t.playgroundGradientHint;
+
+  const hintParts = String(hintRaw).split("\n");
+  const hintNodes = hintParts.map((part, idx) => (
+    <span key={idx}>
+      {part}
+      {idx < hintParts.length - 1 ? <br /> : null}
+    </span>
+  ));
 
   const handleSubmit = async (prompts: string[]): Promise<{ prompt: string; response?: string }[] | null> => {
     if (!prompts || prompts.length === 0 || isLoading || isPlaygroundDisabled) return null;
@@ -78,6 +92,11 @@ export function DailySubmissionSection({
       <div className="space-y-4 text-center">
         <h2 className="font-bold text-2xl text-neutral-900">{t.title}</h2>
         <p className="mx-auto max-w-2xl text-lg text-neutral-600">{t.description}</p>
+        {disabled && (
+          <p className="gradient-text mx-auto max-w-4xl text-center font-extrabold text-xl sm:text-2xl mt-4 leading-tight">
+            {hintNodes}
+          </p>
+        )}
       </div>
 
       {/* Main Content Grid */}

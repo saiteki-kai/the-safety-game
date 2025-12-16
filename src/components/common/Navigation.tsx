@@ -88,7 +88,10 @@ export default function Navigation({
                 </NavigationMenu>
               </div>
             </div>
-            <div className="flex items-center gap-3 lg:gap-4">{actions ?? null}</div>
+            <div className="flex items-center gap-2 lg:gap-3">
+              <LanguageSwitcher locale={locale} className="shrink-0" />
+              {actions ?? null}
+            </div>
           </nav>
 
           {/* Mobile Menu */}
@@ -145,10 +148,6 @@ export default function Navigation({
           )}
         </div>
 
-        {/* Desktop: language switcher enabled */}
-        <div className="pointer-events-auto absolute inset-y-0 right-2 hidden items-center lg:flex lg:right-4">
-          <LanguageSwitcher locale={locale} />
-        </div>
       </section>
     </>
   );

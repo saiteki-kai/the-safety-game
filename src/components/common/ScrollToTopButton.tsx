@@ -1,15 +1,16 @@
 import { ArrowUp } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 
 export function ScrollToTopButton() {
-  // const { t } = useTranslation("common");
   const [isVisible, setIsVisible] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
+  const scrollContainer = useRef<HTMLElement | Window | null>(null);
 
   const scrollToTop = () => {
-    window.scrollTo({
+    const target = scrollContainer.current ?? window;
+    target.scrollTo({
       top: 0,
       behavior: "smooth",
     });
@@ -18,16 +19,20 @@ export function ScrollToTopButton() {
   useEffect(() => {
     setIsMounted(true);
 
+    const viewport = document.querySelector<HTMLElement>('[data-slot="scroll-area-viewport"]');
+    const target: HTMLElement | Window = viewport ?? window;
+    scrollContainer.current = target;
+
     const toggleVisibility = () => {
-      if (window.scrollY > window.innerHeight) {
-        setIsVisible(true);
-      } else {
-        setIsVisible(false);
-      }
+      const scrollTop = target instanceof Window ? target.scrollY : target.scrollTop;
+      const threshold = target instanceof Window ? window.innerHeight : target.clientHeight;
+      setIsVisible(scrollTop > threshold);
     };
 
-    window.addEventListener("scroll", toggleVisibility);
-    return () => window.removeEventListener("scroll", toggleVisibility);
+    toggleVisibility();
+
+    target.addEventListener("scroll", toggleVisibility, { passive: true });
+    return () => target.removeEventListener("scroll", toggleVisibility);
   }, []);
 
   // Only render after mount to prevent hydration mismatch

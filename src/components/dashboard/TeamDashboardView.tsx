@@ -126,6 +126,7 @@ export default function TeamDashboardView({ team, locale = DEFAULT_LOCALE }: Tea
               disabled={dailySubmissionsDone}
               finalSubmissionDone={submissionStats.finalSubmissionDone}
               hasPendingDailySubmission={hasPendingDailySubmission}
+              promptsBeatingChatGPT={submissionStats.promptsBeatingChatGPT}
               locale={locale}
             />
           </section>

@@ -54,7 +54,12 @@ export default function TeamOverviewCard({ teamName, teamJoinCode, members, prog
       averageScore,
       highestScore,
       scoreTotal,
+      promptsBeatingChatGPT,
     } = progress;
+
+    const gradientHintText = (promptsBeatingChatGPT ?? 0) > 0
+      ? t.playgroundCongratsAboveGPT(promptsBeatingChatGPT ?? 0)
+      : t.playgroundGradientHint;
 
     return (
       <>
@@ -135,7 +140,7 @@ export default function TeamOverviewCard({ teamName, teamJoinCode, members, prog
 
           {/* Gradient Hint */}
           <div className="mt-6 border-neutral-100 border-t pt-4">
-            <p className="gradient-text text-center font-semibold text-sm sm:text-base">{t.playgroundGradientHint}</p>
+            <p className="gradient-text text-center font-semibold text-sm sm:text-base">{gradientHintText}</p>
           </div>
         </div>
       </>
