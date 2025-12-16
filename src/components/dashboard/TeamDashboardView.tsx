@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { GPT_AVG_SCORE, STOP_SUBMISSIONS_DATE } from "@/content/consts.ts";
-import TIMELINE_EVENTS from "@/content/timeline";
+import { GPT_AVG_SCORE, START_SUBMISSIONS_DATE, STOP_SUBMISSIONS_DATE } from "@/content/consts.ts";
 import { useLeaderboardPosition } from "@/hooks/useLeaderboardPosition.tsx";
 import { useTeamMembers } from "@/hooks/useTeamMembers.tsx";
 import { useTeamSubmissions } from "@/hooks/useTeamSubmissions.tsx";
@@ -17,10 +16,6 @@ type TeamDashboardViewProps = {
   locale?: Locale;
 };
 
-function startOfLocalDayMs(date: Date): number {
-  return new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime();
-}
-
 export default function TeamDashboardView({ team, locale = DEFAULT_LOCALE }: TeamDashboardViewProps) {
   const supabase = browserClient();
   const { members } = useTeamMembers(supabase, team.id);
@@ -28,12 +23,8 @@ export default function TeamDashboardView({ team, locale = DEFAULT_LOCALE }: Tea
   const { position: leaderboardPosition } = useLeaderboardPosition(supabase, team.id);
   const t = getTranslations(dashboardTranslations, locale);
 
-  // Determine challenge start date from timeline events
-  const challengeStartEvent = TIMELINE_EVENTS.find((e) => e.key === "challengeStarts");
-  const CHALLENGE_START_DATE = challengeStartEvent?.date ?? new Date();
-
   // Before the challenge start day, show only team + countdown.
-  const isBeforeStartDay = new Date() < CHALLENGE_START_DATE;
+  const isBeforeStartDay = new Date() < START_SUBMISSIONS_DATE;
   const [challengeDaysRemaining, setChallengeDaysRemaining] = useState<number>(0);
   const [dailySubmissionsDone, setDailySubmissionsDone] = useState<boolean>(false);
 
@@ -118,7 +109,7 @@ export default function TeamDashboardView({ team, locale = DEFAULT_LOCALE }: Tea
             countdown={
               isBeforeStartDay
                 ? {
-                  startDate: CHALLENGE_START_DATE,
+                  startDate: START_SUBMISSIONS_DATE,
                   title: t.countdownTitle,
                   description: t.countdownDescription,
                   launchNote: t.countdownLaunchNote,

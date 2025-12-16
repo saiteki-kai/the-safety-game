@@ -1,4 +1,4 @@
-import { STOP_SUBMISSIONS_DATE } from "./consts";
+import { START_SUBMISSIONS_DATE, STOP_SUBMISSIONS_DATE } from "./consts";
 
 export interface TimelineEvent {
   date: Date;
@@ -19,15 +19,15 @@ export interface TimelineEntry {
 export const TIMELINE_EVENTS: TimelineEvent[] = [
   {
     key: "registrationOpens",
-    date: new Date("2025-12-17"),
+    date: new Date("2025-12-17T00:00:00.000+01:00"),
   },
   {
     key: "introductoryWebinar",
-    date: new Date("2025-12-17"),
+    date: START_SUBMISSIONS_DATE,
   },
   {
     key: "challengeStarts",
-    date: new Date("2025-12-17"),
+    date: START_SUBMISSIONS_DATE,
   },
   {
     key: "challengeEnds",
