@@ -46,11 +46,18 @@ export default function Navigation({
   const [open, setOpen] = useState(false);
   const isOpaque = navOpacity >= 0.5;
 
-  // Build default menu with translated labels
-  const defaultMenu: MenuItem[] = sectionIds.map((id) => ({
-    title: sectionsT[id as keyof typeof sectionsT] || id,
-    url: `#${id}`,
-  }));
+  // Build default menu with translated labels.
+  // When we're not on the index page, anchor links should point to the
+  // localized home path (e.g. `/it/#challenge`) so they work from other pages.
+  const defaultMenu: MenuItem[] = sectionIds.map((id) => {
+    const label = sectionsT[id as keyof typeof sectionsT] || id;
+    const anchor = `#${id}`;
+    const homeAnchor = locale && locale !== DEFAULT_LOCALE ? `/${locale}/${anchor}` : `/${anchor}`;
+    return {
+      title: label,
+      url: isIndexPage ? anchor : homeAnchor,
+    };
+  });
   const menuItems = menu ?? defaultMenu;
 
   return (
