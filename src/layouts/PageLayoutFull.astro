@@ -13,13 +13,17 @@ interface Props {
     title: string;
     description?: string;
     lang?: Locale;
+    fullScreen?: boolean;
 }
 
 const {
     title,
     description = "The Safety Game - Hackathon organized by MIND, University of Milan Bicocca",
     lang,
+    fullScreen = false,
 } = Astro.props as Props;
+
+const bodyClass = fullScreen ? "min-h-screen h-screen bg-black flex flex-col" : "min-h-screen h-screen bg-white flex flex-col";
 
 const locale = lang ?? DEFAULT_LOCALE;
 ---
@@ -33,14 +37,14 @@ const locale = lang ?? DEFAULT_LOCALE;
         <title>{title}</title>
         <ClientRouter />
     </head>
-    <body class="min-h-screen h-screen bg-white flex flex-col">
+    <body class={bodyClass}>
         <slot name="navigation" />
         <Toaster client:load />
         <WebsiteAnalytics />
         <SpeedInsights />
         <main
             id="main-content"
-            class="flex flex-col flex-1 min-h-0 w-full overflow-auto"
+            class={fullScreen ? "flex flex-col flex-1 min-h-screen w-full overflow-hidden" : "flex flex-col flex-1 min-h-0 w-full overflow-auto"}
         >
             <slot />
         </main>

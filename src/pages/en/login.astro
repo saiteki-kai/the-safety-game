@@ -1,6 +1,6 @@
 ---
 import Google from "@assets/icons/google.svg";
-import PageLayout from "@layouts/PageLayout.astro";
+import PageLayoutFull from "@layouts/PageLayoutFull.astro";
 import { serverClient } from "@/lib/supabase";
 
 const locale = "en";
@@ -12,26 +12,23 @@ if (data?.claims) {
 }
 ---
 
-<PageLayout
+<PageLayoutFull
   title="Sign In | The Safety Game"
   description="Sign in to The Safety Game"
   lang={locale}
+  fullScreen={true}
 >
-  <div
-    class="hero-section hero-gradient hero-theme-cosmic relative min-h-dvh"
-  >
+  <div class="hero-gradient hero-theme-cosmic relative flex-1 flex items-center justify-center min-h-screen">
     <!-- Centered login card -->
-    <div class="relative z-10 flex items-center justify-center min-h-dvh">
-      <div class="w-full max-w-[500px] p-6 mt-24">
-        <div
-          class="w-full bg-white/95 backdrop-blur-md rounded-2xl py-6 px-6 shadow-xl ring-1 ring-neutral-200"
-        >
-          <div class="text-center mb-6">
+      <div class="relative z-10 flex items-center justify-center w-full">
+      <div class="w-full max-w-[480px] mx-4 px-4 py-8 md:px-6 md:py-10 mt-6 md:mt-10">
+        <div class="w-full bg-white/95 backdrop-blur-md rounded-2xl py-6 px-6 md:py-8 md:px-8 shadow-xl ring-1 ring-neutral-200">
+          <div class="text-center mb-4">
             <h1 class="text-xl md:text-2xl font-bold text-neutral-900 mb-2">
               Sign in to participate
             </h1>
             <p class="text-sm text-neutral-600">
-              Use your university account (@campus.unimib.it)
+              Use your university account (@campus.unimib.it or @unimib.it)
             </p>
           </div>
 
@@ -54,7 +51,7 @@ if (data?.claims) {
           </form>
         </div>
 
-        <div class="bottom-8 pt-4 left-0 right-0 z-10">
+        <div class="mt-6 pt-2 w-full z-10">
           <p class="text-center">
             <a
               href="/en/home"
@@ -68,7 +65,7 @@ if (data?.claims) {
     <!-- subtle page-specific overlay (above background pseudo-elements, below content) -->
     <div class="login-overlay" aria-hidden="true"></div>
   </div>
-</PageLayout>
+</PageLayoutFull>
 
 <style>
   /* Darken the global hero slightly for the login page only */
