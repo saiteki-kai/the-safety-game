@@ -47,12 +47,14 @@ export default function Navigation({
   const isOpaque = navOpacity >= 0.5;
 
   // Build default menu with translated labels.
-  // When we're not on the index page, anchor links should point to the
-  // localized home path (e.g. `/it/#challenge`) so they work from other pages.
+  // Site routes are prefixed with the locale and the root is now `/home`.
+  // For non-index pages, use `/<locale>/home#section` so links navigate
+  // to the localized homepage and then to the section anchor.
   const defaultMenu: MenuItem[] = sectionIds.map((id) => {
     const label = sectionsT[id as keyof typeof sectionsT] || id;
     const anchor = `#${id}`;
-    const homeAnchor = locale && locale !== DEFAULT_LOCALE ? `/${locale}/${anchor}` : `/${anchor}`;
+    const loc = locale ?? DEFAULT_LOCALE;
+    const homeAnchor = `/${loc}/home${anchor}`;
     return {
       title: label,
       url: isIndexPage ? anchor : homeAnchor,
