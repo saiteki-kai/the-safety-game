@@ -19,7 +19,7 @@ export interface TimelineEntry {
 export const TIMELINE_EVENTS: TimelineEvent[] = [
   {
     key: "registrationOpens",
-    date: new Date("2025-12-17T00:00:00.000+01:00"),
+    date: new Date("2025-12-17T12:00:00.000+01:00"),
   },
   {
     key: "introductoryWebinar",
