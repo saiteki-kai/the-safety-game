@@ -1084,6 +1084,27 @@
     @apply bg-white px-6 py-6 space-y-2 border-b border-neutral-200;
   }
 
+  /* Ensure the Sonner Toaster is fixed to the viewport bottom-center
+     so toasts are not positioned inside layout containers (avoids
+     appearing under the navbar or inside scrollable areas). */
+  .toaster {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    pointer-events: none;
+    z-index: 60; /* above the navbar (z-50) */
+    padding: 0 1rem 1.25rem;
+  }
+
+  /* Allow pointer events on individual toast elements */
+  .toaster > * {
+    pointer-events: auto;
+  }
+
   .mobile-nav-link {
     @apply block w-full text-left text-sm text-neutral-700 font-medium py-3 transition-colors duration-150 hover:text-neutral-950;
   }
