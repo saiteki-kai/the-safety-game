@@ -37,6 +37,10 @@ export const TIMELINE_EVENTS: TimelineEvent[] = [
     key: "winnerAnnouncement",
     date: new Date("2026-01-16"),
   },
+  {
+    key: "closingCeremony",
+    date: new Date("2026-01-21T00:00:00.000+01:00"),
+  }
 ];
 
 export default TIMELINE_EVENTS;

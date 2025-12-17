@@ -9,7 +9,8 @@ interface DailySubmissionSectionProps {
   disabled?: boolean;
   finalSubmissionDone?: boolean;
   hasPendingDailySubmission?: boolean;
-  promptsBeatingChatGPT?: number;
+  dailyAverageScore?: number;
+  showCongrats?: boolean;
   locale?: Locale;
 }
 
@@ -18,7 +19,8 @@ export function DailySubmissionSection({
   disabled = false,
   finalSubmissionDone = false,
   hasPendingDailySubmission = false,
-  promptsBeatingChatGPT = 0,
+  dailyAverageScore = 0,
+  showCongrats = false,
   locale = DEFAULT_LOCALE,
 }: DailySubmissionSectionProps) {
   const t = getTranslations(playgroundTranslations, locale);
@@ -39,8 +41,8 @@ export function DailySubmissionSection({
       : uploadLabels,
   };
 
-  const hintRaw = (promptsBeatingChatGPT && promptsBeatingChatGPT < 0)
-    ? t.playgroundCongratsAboveGPT(promptsBeatingChatGPT)
+  const hintRaw = showCongrats
+    ? t.playgroundCongratsAboveGPT(Math.round(dailyAverageScore ?? 0))
     : t.playgroundGradientHint;
 
   const hintParts = String(hintRaw).split("\n");
@@ -144,6 +146,7 @@ export function DailySubmissionSection({
           />
         </div>
       </div>
+      <p className="mx-auto mt-4 text-center text-sm italic text-neutral-500">{t.playgroundFooterNote}</p>
     </div>
   );
 }

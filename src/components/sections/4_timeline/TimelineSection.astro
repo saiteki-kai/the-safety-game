@@ -36,7 +36,7 @@ const formatDate = (date: Date): string => {
       day: "numeric",
     }).format(date);
   } catch {
-    return date.toISOString().split("T")[0];
+    return date.toISOString();
   }
 };
 

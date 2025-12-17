@@ -170,6 +170,7 @@ export const dashboardTranslations = {
     performance: "Statistiche",
     promptsSubmitted: "Prompt Inviati",
     challengeStatus: "Stato Challenge",
+    challengeStatusDescription: "Visualizza e gestisci lo stato delle consegne giornaliere e finali del tuo team",
     dailySubmissions: "Playground",
     dailySubmissionDone: "Hai effettuato la consegna giornaliera.",
     dailySubmissionRemaining: (count: number) => `Puoi ancora inviare ${count} prompt oggi`,
@@ -186,7 +187,7 @@ export const dashboardTranslations = {
     codeCopied: "Codice copiato negli appunti",
     codeCopyFailed: "Impossibile copiare il codice negli appunti",
     // Status
-    goTo: "Vai →",
+    goTo: "",
     // Countdown
     countdownTitle: "La sfida inizia presto",
     countdownDescription: "La dashboard si sblocca una volta che il conto alla rovescia arriva a zero.",
@@ -222,6 +223,7 @@ export const dashboardTranslations = {
     performance: "Performance",
     promptsSubmitted: "Prompts Submitted",
     challengeStatus: "Challenge Status",
+    challengeStatusDescription: "View and manage your team's daily and final submission status",
     dailySubmissions: "Playground",
     dailySubmissionDone: "You have already made today's submission.",
     dailySubmissionRemaining: (count: number) => `You can still submit ${count} prompts today`,
@@ -238,7 +240,7 @@ export const dashboardTranslations = {
     codeCopied: "Code copied to clipboard",
     codeCopyFailed: "Failed to copy code to clipboard",
     // Status
-    goTo: "Go →",
+    goTo: "",
     // Countdown
     countdownTitle: "Challenge starts soon",
     countdownDescription: "The dashboard unlocks once the countdown hits zero.",
@@ -331,6 +333,7 @@ export const playgroundTranslations = {
       "Hai già caricato la consegna finale.\n**Il playground non è più disponibile.**",
     playgroundGradientHint: "La tua submission non è stata sufficiente per battere ChatGPT\nConsidera vari aspetti culturali e rendi i tuoi prompt creativi!",
     playgroundCongratsAboveGPT: (count: number) => `Complimenti! Il punteggio della tua submission è superiore a ChatGPT\nContinua così!`,
+    playgroundFooterNote: "I tempi di calcolo degli score dipendono da HuggingFace, un servizio esterno su cui facciamo affidamento.",
   },
   en: {
     title: "Playground",
@@ -349,6 +352,7 @@ export const playgroundTranslations = {
       "You have already uploaded the final submission.\n**The playground is no longer available.**",
     playgroundGradientHint: "Your submission was not good enough to beat ChatGPT\nConsider various cultural aspects and make your prompts creative!",
     playgroundCongratsAboveGPT: (count: number) => `Your submission score is above ChatGPT\nContinue like this!`,
+    playgroundFooterNote: "Score calculation times depend on HuggingFace, an external service we rely on.",
   },
 } as const;
 
@@ -693,7 +697,8 @@ export const timelineTranslations = {
       introductoryWebinar: { title: "Webinar Introduttivo", description: "Sessione online di introduzione alle regole e alla piattaforma." },
       challengeStarts: { title: "Inizio Challenge", description: "Parte ufficialmente la competizione! Il playground si attiva." },
       challengeEnds: { title: "Fine Challenge", description: "Ultimo giorno per sottomettere i prompt. Chiusura alle 23:59." },
-      winnerAnnouncement: { title: "Premiazione Vincitori", description: "Evento finale con presentazione della classifica e premiazione." },
+      winnerAnnouncement: { title: "Annuncio Vincitori", description: "Pubblicazione della classifica finale e annuncio vincitori." },
+      closingCeremony: { title: "Cerimonia di Chiusura", description: "Evento finale con celebrazione e chiusura ufficiale della challenge." },
     } as Record<string, TimelineEventContent>,
   },
   en: {
@@ -704,7 +709,8 @@ export const timelineTranslations = {
       introductoryWebinar: { title: "Introductory Webinar", description: "Online session introducing the rules and platform." },
       challengeStarts: { title: "Challenge Starts", description: "The competition officially begins! The playground is activated." },
       challengeEnds: { title: "Challenge Ends", description: "Last day to submit prompts. Closes at 11:59 PM." },
-      winnerAnnouncement: { title: "Winner Announcement", description: "Final event with leaderboard presentation and awards." },
+      winnerAnnouncement: { title: "Winner Announcement", description: "Publication of the final leaderboard and announcement of winners." },
+      closingCeremony: { title: "Closing Ceremony", description: "Final event with celebration and official closing of the challenge." },
     } as Record<string, TimelineEventContent>,
   },
 } as const;

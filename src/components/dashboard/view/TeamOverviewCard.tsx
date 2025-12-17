@@ -54,20 +54,28 @@ export default function TeamOverviewCard({ teamName, teamJoinCode, members, prog
       averageScore,
       highestScore,
       scoreTotal,
-      promptsBeatingChatGPT,
     } = progress;
 
-    const gradientHintText = (promptsBeatingChatGPT ?? 0) > 0
-      ? t.playgroundCongratsAboveGPT(promptsBeatingChatGPT ?? 0)
-      : t.playgroundGradientHint;
 
     return (
       <>
         {/* Challenge Status Card */}
-        <div className={`rounded-xl border border-neutral-200 bg-white p-6 ${noShadow ? "shadow-none" : "shadow-sm"}`}>
-          <h3 className="mb-4 font-semibold text-lg text-neutral-800">{t.challengeStatus}</h3>
+        <div className={`rounded-xl border border-neutral-200 bg-white p-6 ${noShadow ? "shadow-none" : "shadow-sm"} flex-none`}>
+          <div className="mb-5">
+            <h3 className="font-semibold text-lg text-neutral-800">{t.challengeStatus}</h3>
+            <p className="text-neutral-500 text-sm">{t.challengeStatusDescription}</p>
+          </div>
 
           <div className="flex flex-col gap-4 sm:flex-row sm:items-stretch">
+            {/* Days Remaining (left on wide screens) */}
+                <div className="flex items-center justify-center rounded-xl border border-neutral-300 bg-neutral-50 px-8 py-6 sm:min-w-[180px]">
+                  <div className="flex flex-col items-center text-center h-full justify-between py-2">
+                    <Calendar className="h-5 w-5 text-neutral-400" />
+                    <span className="font-bold text-2xl text-neutral-800">{challengeDaysRemaining}</span>
+                    <span className="text-neutral-500 text-xs">{t.daysRemainingLabel}</span>
+                  </div>
+                </div>
+
             {/* Action Rows */}
             <div className="flex flex-1 flex-col gap-3">
               <StatusActionRow
@@ -92,20 +100,11 @@ export default function TeamOverviewCard({ teamName, teamJoinCode, members, prog
                 variant="rose"
               />
             </div>
-
-            {/* Days Remaining */}
-            <div className="flex items-center justify-center rounded-xl border border-neutral-100 bg-neutral-50 px-6 py-4 sm:min-w-[140px]">
-              <div className="flex flex-col items-center text-center">
-                <Calendar className="mb-1 h-5 w-5 text-neutral-400" />
-                <span className="font-bold text-2xl text-neutral-800">{challengeDaysRemaining}</span>
-                <span className="text-neutral-500 text-xs">{t.daysRemainingLabel}</span>
-              </div>
-            </div>
           </div>
         </div>
 
         {/* Progress Card */}
-        <div className={`rounded-xl border border-neutral-200 bg-white p-6 ${noShadow ? "shadow-none" : "shadow-sm"}`}>
+        <div className={`rounded-xl border border-neutral-200 bg-white p-6 ${noShadow ? "shadow-none" : "shadow-sm"} flex-1 h-full overflow-y-auto`}>
           <div className="mb-5">
             <h3 className="font-semibold text-lg text-neutral-800">{t.challengeProgress}</h3>
             <p className="text-neutral-500 text-sm">{t.progressDescription}</p>
@@ -138,17 +137,14 @@ export default function TeamOverviewCard({ teamName, teamJoinCode, members, prog
             </div>
           </div>
 
-          {/* Gradient Hint */}
-          <div className="mt-6 border-neutral-100 border-t pt-4">
-            <p className="gradient-text text-center font-semibold text-sm sm:text-base">{gradientHintText}</p>
-          </div>
+          {/* (removed) Gradient hint moved to Playground section */}
         </div>
       </>
     );
   };
 
   return (
-    <div className="space-y-8 py-8">
+    <div className="space-y-8 py-8 md:px-4">
       {/* Hero Section */}
       <div className="space-y-3 pt-6 text-center">
         <h1 className="font-extrabold text-3xl text-neutral-900 sm:text-4xl">{teamName}</h1>
@@ -156,8 +152,8 @@ export default function TeamOverviewCard({ teamName, teamJoinCode, members, prog
       </div>
 
       {/* Main Content */}
-      <div className="grid grid-cols-1 items-stretch gap-8 md:grid md:grid-cols-4 md:gap-8">
-        <div className="flex min-h-0 min-w-0 flex-col space-y-6 md:col-span-1">
+      <div className="grid grid-cols-1 items-stretch gap-8 md:grid md:grid-cols-5 md:gap-8">
+        <div className="flex min-h-0 min-w-0 flex-col space-y-6 md:col-span-2 md:h-full">
           <div className={`flex h-full flex-col rounded-xl border border-neutral-200 bg-white p-6 ${noShadow ? "shadow-none" : "shadow-sm"}`}>
             <div className="mb-4 flex flex-col justify-between">
               <h3 className="font-semibold text-lg text-neutral-800">{t.yourTeam}</h3>
@@ -177,7 +173,7 @@ export default function TeamOverviewCard({ teamName, teamJoinCode, members, prog
         </div>
         
         {/* Right Side - Progress and Status */}
-        <div className="flex min-h-0 min-w-0 flex-col space-y-6 md:col-span-3 md:h-full">
+        <div className="flex min-h-0 min-w-0 flex-col md:col-span-3 md:h-full">
           {countdown ? (
             <Countdown
               startDate={countdown.startDate}
@@ -188,7 +184,8 @@ export default function TeamOverviewCard({ teamName, teamJoinCode, members, prog
               className={noShadow ? "shadow-none" : ""}
             />
           ) : (
-            progressRightSide()
+            // Ensure the two cards inside the right column fill the available height
+            <div className="h-full flex flex-col space-y-6">{progressRightSide()}</div>
           )}
         </div>
       </div>

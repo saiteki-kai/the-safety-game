@@ -38,6 +38,8 @@ export default function TeamDashboardView({ team, locale = DEFAULT_LOCALE }: Tea
     const highestScore = rawScores.length > 0 ? round2(Math.max(...rawScores)) : 0;
     const finalSubmissionDone = list.some((s) => !s.playground);
     const dailySubmissions = list.filter((s) => isToday(s.date) && !!s.playground);
+    const dailyRawScores = dailySubmissions.map((s) => Number(s.score)).filter((score) => !Number.isNaN(score));
+    const dailyAverage = dailyRawScores.length > 0 ? round2(dailyRawScores.reduce((sum, score) => sum + score, 0) / dailyRawScores.length) : 0;
     const promptsBeatingChatGPT = rawScores.filter((score) => score > GPT_AVG_SCORE).length;
 
     return {
@@ -46,6 +48,7 @@ export default function TeamDashboardView({ team, locale = DEFAULT_LOCALE }: Tea
       highestScore,
       finalSubmissionDone,
       dailySubmissions,
+      dailyAverage,
       promptsBeatingChatGPT,
     };
   }, [submissions]);
@@ -82,6 +85,7 @@ export default function TeamDashboardView({ team, locale = DEFAULT_LOCALE }: Tea
       leaderboardPosition,
       dailySubmissionsDone,
       promptsBeatingChatGPT: submissionStats.promptsBeatingChatGPT,
+      dailyAverage: submissionStats.dailyAverage,
     }),
     [
       submissionStats.promptsSubmitted,
@@ -89,6 +93,7 @@ export default function TeamDashboardView({ team, locale = DEFAULT_LOCALE }: Tea
       submissionStats.highestScore,
       submissionStats.finalSubmissionDone,
       submissionStats.promptsBeatingChatGPT,
+      submissionStats.dailyAverage,
       challengeDaysRemaining,
       leaderboardPosition,
       dailySubmissionsDone,
@@ -126,7 +131,8 @@ export default function TeamDashboardView({ team, locale = DEFAULT_LOCALE }: Tea
               disabled={dailySubmissionsDone}
               finalSubmissionDone={submissionStats.finalSubmissionDone}
               hasPendingDailySubmission={hasPendingDailySubmission}
-              promptsBeatingChatGPT={submissionStats.promptsBeatingChatGPT}
+              dailyAverageScore={submissionStats.dailyAverage}
+              showCongrats={submissionStats.dailyAverage > GPT_AVG_SCORE}
               locale={locale}
             />
           </section>

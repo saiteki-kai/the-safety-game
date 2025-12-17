@@ -1,4 +1,5 @@
 import type { LucideIcon } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import { getTranslations, dashboardTranslations, type Locale, DEFAULT_LOCALE } from "@/lib/translations";
 
 type ColorVariant = "blue" | "green" | "amber" | "neutral" | "emerald" | "rose";
@@ -74,23 +75,22 @@ export default function StatusActionRow({ Icon, label, subtitle, href, variant =
   const colors = colorStyles[variant];
 
   return (
-    <div
-      className={`flex items-center justify-between rounded-lg border px-4 py-3 transition-colors ${colors.bg} ${colors.border} ${colors.hoverBg} ${colors.hoverBorder}`}
+    <a
+      href={href}
+      className={`flex items-center justify-between gap-4 rounded-lg border px-4 py-3 transition-colors ${colors.bg} ${colors.border} ${colors.hoverBg} ${colors.hoverBorder} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-300 focus-visible:ring-offset-2`}
+      aria-label={`Go to ${label}`}
     >
-      <div className="flex items-center gap-3">
-        <Icon className={`h-5 w-5 ${colors.icon}`} />
+      <div className="flex min-w-0 items-center gap-3">
+        <Icon className={`h-5 w-5 shrink-0 ${colors.icon}`} />
         <div className="min-w-0 flex-1">
-          <div className="font-medium text-neutral-800 text-sm">{label}</div>
-          <div className="text-neutral-600 text-xs">{subtitle}</div>
+          <div className="font-semibold text-neutral-900 text-sm leading-tight mb-1">{label}</div>
+          <div className="text-neutral-700 text-sm">{subtitle}</div>
         </div>
       </div>
-      <a
-        href={href}
-        className="font-medium text-blue-600 text-sm transition-colors hover:text-blue-700"
-        aria-label={`Go to ${label}`}
-      >
-        {t.goTo}
-      </a>
-    </div>
+      <span className={`shrink-0 inline-flex items-center rounded-md px-3 py-1.5 font-semibold text-sm transition-colors ${colors.link} ${colors.linkHover}`}>
+        <span>{t.goTo}</span>
+        <ChevronRight className={`ml-2 h-4 w-4 ${colors.link} self-center`} />
+      </span>
+    </a>
   );
 }
