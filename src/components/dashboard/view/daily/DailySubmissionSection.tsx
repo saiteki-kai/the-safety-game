@@ -1,5 +1,5 @@
 import { actions } from "astro:actions";
-import { getTranslations, playgroundTranslations, type Locale, DEFAULT_LOCALE } from "@/lib/translations";
+import { getTranslations, playgroundTranslations, uploadTranslations, type Locale, DEFAULT_LOCALE } from "@/lib/translations";
 import { AlertTriangle } from "lucide-react";
 import { useState } from "react";
 import { dailyUploadConfig, getUploadCardLabels, UploadCard } from "../../shared";
@@ -24,6 +24,7 @@ export function DailySubmissionSection({
   locale = DEFAULT_LOCALE,
 }: DailySubmissionSectionProps) {
   const t = getTranslations(playgroundTranslations, locale);
+  const tu = getTranslations(uploadTranslations, locale);
   const [isLoading, setIsLoading] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isError, setIsError] = useState(false);
@@ -68,6 +69,19 @@ export function DailySubmissionSection({
         e.name = "PENDING_DAILY_SUBMISSION";
         throw e;
       }
+
+      if ((result.data as any)?.code === "HF_RETRY_IN") {
+        const retryTime = (result.data as any)?.retryTime as string | undefined;
+        // If we have a retry time, show the localized "try again in ..." message,
+        // otherwise fall back to the generic "retry later" subtitle.
+        const message = retryTime && /^\d{1,2}:\d{2}:\d{2}$/.test(retryTime)
+          ? tu.hfRetryIn(retryTime)
+          : tu.dailyErrorSubtitle;
+        const e = new Error(message);
+        e.name = "HF_RETRY_IN";
+        throw e;
+      }
+
       const returned = result?.data?.data ?? null;
 
       if (result.data.success && Array.isArray(returned) && returned.length > 0) {
@@ -80,6 +94,10 @@ export function DailySubmissionSection({
     } catch (e) {
       if (e instanceof Error && e.name === "PENDING_DAILY_SUBMISSION") {
         return null;
+      }
+      // Propagate HF retry errors to the caller (UploadCard) so it can show localized message
+      if (e instanceof Error && e.name === "HF_RETRY_IN") {
+        throw e;
       }
       setIsError(true);
       return null;
@@ -143,6 +161,7 @@ export function DailySubmissionSection({
             disabled={isPlaygroundDisabled}
             completed={isSubmitted || isPlaygroundDisabled}
             isError={isError}
+            locale={locale}
           />
         </div>
       </div>

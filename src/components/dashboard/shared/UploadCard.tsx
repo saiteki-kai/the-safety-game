@@ -101,9 +101,11 @@ interface ErrorStateProps {
   subtitle: string;
   retryLabel: string;
   onRetry?: () => void;
+  showTitle?: boolean;
+  showRetry?: boolean;
 }
 
-function ErrorState({ title, subtitle, retryLabel, onRetry }: ErrorStateProps) {
+function ErrorState({ title, subtitle, retryLabel, onRetry, showTitle = true, showRetry = true }: ErrorStateProps) {
   return (
     <div className="flex h-full min-h-0 flex-1 items-center justify-center rounded-lg border border-red-200 bg-red-50/20 p-4 sm:p-6">
       <div className="fade-in-0 zoom-in-95 animate-in text-center duration-500">
@@ -111,7 +113,7 @@ function ErrorState({ title, subtitle, retryLabel, onRetry }: ErrorStateProps) {
           <AlertTriangle size={18} className="text-red-600 drop-shadow-sm" />
         </div>
         <div className="mt-4 space-y-3">
-          <h4 className="font-bold text-red-900 text-xl">{title}</h4>
+          {showTitle && <h4 className="font-bold text-red-900 text-xl">{title}</h4>}
           <p className="text-base text-red-800 leading-relaxed">
             {subtitle.split("\n").map((line, i, arr) => {
               const parts = line.split(/(\*\*.*?\*\*)/g);
@@ -132,14 +134,16 @@ function ErrorState({ title, subtitle, retryLabel, onRetry }: ErrorStateProps) {
               );
             })}
           </p>
-          <Button
-            type="button"
-            variant="outline"
-            className="mt-4 border-red-300 text-red-700 hover:bg-red-100 hover:text-red-800"
-            onClick={() => onRetry?.()}
-          >
-            {retryLabel}
-          </Button>
+          {showRetry && (
+            <Button
+              type="button"
+              variant="outline"
+              className="mt-4 border-red-300 text-red-700 hover:bg-red-100 hover:text-red-800"
+              onClick={() => onRetry?.()}
+            >
+              {retryLabel}
+            </Button>
+          )}
         </div>
       </div>
     </div>
@@ -463,6 +467,8 @@ export function UploadCard({
   const [warning, setWarning] = useState<string | null>(null);
   const [hasDuplicatesInFile, setHasDuplicatesInFile] = useState(false);
   const [internalError, setInternalError] = useState(false);
+  const [errorBoxSubtitle, setErrorBoxSubtitle] = useState<string | null>(null);
+  const [errorIsHfRetry, setErrorIsHfRetry] = useState(false);
 
   const promptCount = prompts.length;
   const isPromptZero = promptCount === 0;
@@ -558,6 +564,8 @@ export function UploadCard({
     setError(null);
     setWarning(null);
     setInternalError(false);
+    setErrorBoxSubtitle(null);
+    setErrorIsHfRetry(false);
     // Prepare submission list. For daily uploads (blockOnDuplicates=false) we remove duplicates before sending.
     const toSendOriginal = prompts.slice();
     let toSend = toSendOriginal;
@@ -581,18 +589,25 @@ export function UploadCard({
         setSelectedFileName(null);
         if (fileInputRef.current) fileInputRef.current.value = "";
       } else {
-        setError(UPLOAD_ERRORS.SERVER_ERROR);
         setInternalError(true);
+        setErrorBoxSubtitle(null);
       }
     } catch (err) {
       if (err instanceof Error && err.name === "PENDING_DAILY_SUBMISSION") {
         setError(null);
         setInternalError(false);
+        setErrorBoxSubtitle(null);
         setWarning(t.pendingDailySubmissionWarning);
         return;
       }
-      setError(err instanceof Error ? err.message : UPLOAD_ERRORS.SERVER_ERROR);
       setInternalError(true);
+      if (err instanceof Error && err.name === "HF_RETRY_IN") {
+        setErrorBoxSubtitle(err.message);
+        setErrorIsHfRetry(true);
+      } else {
+        setErrorBoxSubtitle(null);
+        setErrorIsHfRetry(false);
+      }
     }
   };
 
@@ -616,14 +631,15 @@ export function UploadCard({
 
   const renderContent = () => {
     if (internalError) {
-      return (
-        <ErrorState
-          title={labels.errorTitle}
-          subtitle={labels.errorSubtitle}
-          retryLabel={labels.retryButton}
-          onRetry={handleRetry}
-        />
-      );
+      if (errorIsHfRetry && errorBoxSubtitle) {
+        // Show the generic error title but only the HF retry subtitle; hide retry button
+        return (
+          <ErrorState title={labels.errorTitle} subtitle={errorBoxSubtitle} retryLabel={labels.retryButton} showTitle={true} showRetry={false} />
+        );
+      }
+
+      const combinedSubtitle = errorBoxSubtitle ? `${labels.errorSubtitle}\n${errorBoxSubtitle}` : labels.errorSubtitle;
+      return <ErrorState title={labels.errorTitle} subtitle={combinedSubtitle} retryLabel={labels.retryButton} onRetry={handleRetry} />;
     }
 
     if (completed) {

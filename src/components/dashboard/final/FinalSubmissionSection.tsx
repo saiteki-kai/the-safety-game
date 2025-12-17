@@ -103,6 +103,7 @@ export function FinalSubmissionSection({ teamId, disabled = false, locale = DEFA
             onSubmit={handleSubmit}
             disabled={disabled && !isLoading}
             completed={isCompleted || disabled}
+            locale={locale}
           />
         </div>
       </div>

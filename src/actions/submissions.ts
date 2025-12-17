@@ -23,9 +23,12 @@ export const submissions = {
           id: submission.id,
           prompt: submission.prompt,
         }));
-        const data = await sendPromptsToHF(prompts, input.teamId);
+        const [data, retryTime] = await sendPromptsToHF(prompts, input.teamId);
 
         if (!data) {
+          if (retryTime) {
+            return { success: false, code: "HF_RETRY_IN", retryTime };
+          }
           return { success: false };
         }
 

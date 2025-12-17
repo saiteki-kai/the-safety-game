@@ -394,8 +394,9 @@ export const uploadTranslations = {
     duplicatesBlockMessage: "Duplicati trovati. Rimuovili prima di inviare.",
     duplicatesWarnMessage: "Duplicati trovati. Saranno scartati durante l'invio.",
     pendingDailySubmissionWarning:
-      "Un altro membro del team ha già effettuato l'invio. Se non è vero, riprova.",
+      "Sembra che un altro membro del team abbia già effettuato l'invio. In caso contrario, riprova.",
     errorLabel: "Errore:",
+    hfRetryIn: (time: string) => `A causa delle limitazioni di HuggingFace, potrai inviare la submission di oggi tra ${time}`,
     // Errors
     fileTooLarge: "File troppo grande. Max 20 MB",
     readError: "Errore durante la lettura del file.",
@@ -436,8 +437,9 @@ export const uploadTranslations = {
     duplicatesBlockMessage: "Duplicates found. Remove them before submitting.",
     duplicatesWarnMessage: "Duplicates found. They will be discarded during submission.",
     pendingDailySubmissionWarning:
-      "Another team member has already made the submission. If this is not true, try again.",
+      "It seems another team member has already made the submission. If not, please try again.",
     errorLabel: "Error:",
+    hfRetryIn: (time: string) => `Due to HuggingFace limitations, you can submit today's submission again in ${time}.`,
     // Errors
     fileTooLarge: "File too large. Max 20 MB",
     readError: "Error reading the file.",
