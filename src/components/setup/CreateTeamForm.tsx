@@ -38,7 +38,7 @@ export default function CreateTeamForm({ locale = DEFAULT_LOCALE }: CreateTeamFo
 
   // Localize validation error if present
   const teamNameError = inputErrors?.teamName?.[0];
-  const localizedTeamNameError = teamNameError ? localizeValidationError(teamNameError) : null;
+  const localizedTeamNameError = teamNameError ? localizeValidationError(teamNameError, locale) : null;
 
   // Single error variable combining validation and action errors
   const error = localizedTeamNameError ?? actionError ?? null;

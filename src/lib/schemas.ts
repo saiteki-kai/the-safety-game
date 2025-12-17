@@ -1,9 +1,9 @@
 import { z } from "astro:schema";
-import { getTranslations, formsTranslations, type Locale } from "./translations";
+import { getTranslations, formsTranslations, type Locale, DEFAULT_LOCALE } from "./translations";
 
 /**
  * Validation error keys - these are used as message placeholders in Zod schemas
- * and mapped to localized messages at runtime using localizeValidationErrors()
+ * and mapped to localized messages at runtime.
  */
 export const ValidationErrorKey = {
   TEAM_NAME_MIN: "teamNameMin",
@@ -41,28 +41,6 @@ export const finalPromptsSchema = z.object({
   prompts: z.array(z.string().min(1, ValidationErrorKey.PROMPT_EMPTY)),
 });
 
-/**
- * Localizes validation error messages at runtime.
- * Call this function to convert error keys to localized messages.
- * @param errors - Record of field names to error keys (e.g., { teamName: "teamNameMin" })
- * @param locale - The locale to use for translations (defaults to "it")
- * @returns Record of field names to localized error messages
- */
-export function localizeValidationErrors(errors: Record<string, string[]>, locale: Locale = "it"): Record<string, string> {
-  const t = getTranslations(formsTranslations, locale);
-  const localized: Record<string, string> = {};
-  for (const [field, messages] of Object.entries(errors)) {
-    // Take the first error message and localize it
-    const key = messages[0] as keyof typeof t;
-    if (key && key in t) {
-      localized[field] = t[key];
-    } else {
-      // Fallback: use the message as-is if it's not a known key
-      localized[field] = key ?? t.required;
-    }
-  }
-  return localized;
-}
 
 /**
  * Localizes a single validation error message.
@@ -70,7 +48,7 @@ export function localizeValidationErrors(errors: Record<string, string[]>, local
  * @param locale - The locale to use for translations (defaults to "it")
  * @returns The localized error message
  */
-export function localizeValidationError(errorKey: string, locale: Locale = "it"): string {
+export function localizeValidationError(errorKey: string, locale: Locale = DEFAULT_LOCALE): string {
   const t = getTranslations(formsTranslations, locale);
   const key = errorKey as keyof typeof t;
   if (key in t) {

@@ -37,7 +37,7 @@ export default function JoinTeamForm({ locale = DEFAULT_LOCALE }: JoinTeamFormPr
 
   // Localize validation error if present
   const joinCodeError = inputErrors?.joinCode?.[0];
-  const localizedJoinCodeError = joinCodeError ? localizeValidationError(joinCodeError) : null;
+  const localizedJoinCodeError = joinCodeError ? localizeValidationError(joinCodeError, locale) : null;
 
   // Single error variable combining validation and action errors
   const error = localizedJoinCodeError ?? actionError ?? null;
