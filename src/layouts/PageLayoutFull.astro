@@ -23,7 +23,7 @@ const {
     fullScreen = false,
 } = Astro.props as Props;
 
-const bodyClass = fullScreen ? "min-h-screen h-screen bg-black flex flex-col" : "min-h-screen h-screen bg-white flex flex-col";
+const bodyClass = fullScreen ? "min-h-dvh h-dvh bg-black flex flex-col" : "min-h-dvh h-dvh bg-white flex flex-col";
 
 const locale = lang ?? DEFAULT_LOCALE;
 ---
@@ -44,7 +44,7 @@ const locale = lang ?? DEFAULT_LOCALE;
         <SpeedInsights />
         <main
             id="main-content"
-            class={fullScreen ? "flex flex-col flex-1 min-h-screen w-full overflow-hidden" : "flex flex-col flex-1 min-h-0 w-full overflow-auto"}
+            class={fullScreen ? "flex flex-col flex-1 min-h-dvh w-full overflow-hidden" : "flex flex-col flex-1 min-h-0 w-full overflow-auto"}
         >
             <slot />
         </main>
