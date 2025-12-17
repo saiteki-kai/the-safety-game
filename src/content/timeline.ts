@@ -39,7 +39,7 @@ export const TIMELINE_EVENTS: TimelineEvent[] = [
   },
   {
     key: "closingCeremony",
-    date: new Date("2026-01-21T00:00:00.000+01:00"),
+    date: new Date("2026-01-21T12:00:00.000+01:00"),
   }
 ];
 
