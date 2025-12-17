@@ -1,0 +1,51 @@
+---
+import "@styles/globals.css";
+
+import { ClientRouter } from "astro:transitions";
+import { ScrollToTopButton } from "@components/common/ScrollToTopButton";
+import { Toaster } from "@components/ui/sonner";
+import WebsiteAnalytics from "@vercel/analytics/astro";
+import SpeedInsights from "@vercel/speed-insights/astro";
+
+import { type Locale, DEFAULT_LOCALE } from "@/lib/translations";
+
+interface Props {
+    title: string;
+    description?: string;
+    lang?: Locale;
+}
+
+const {
+    title,
+    description = "The Safety Game - Hackathon organized by MIND, University of Milan Bicocca",
+    lang,
+} = Astro.props as Props;
+
+const locale = lang ?? DEFAULT_LOCALE;
+---
+
+<html lang={locale || "it"}>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="description" content={description} />
+        <meta name="generator" content={Astro.generator} />
+        <title>{title}</title>
+        <ClientRouter />
+    </head>
+    <body class="min-h-screen h-screen bg-white flex flex-col">
+        <slot name="navigation" />
+        <Toaster client:load />
+        <WebsiteAnalytics />
+        <SpeedInsights />
+        <main
+            id="main-content"
+            class="flex flex-col flex-1 min-h-0 w-full overflow-auto"
+        >
+            <slot />
+        </main>
+        <ScrollToTopButton client:idle />
+        <slot name="prefooter" />
+        <slot name="footer" />
+    </body>
+</html>
