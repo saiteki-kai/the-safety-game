@@ -17,8 +17,8 @@ const { entry, iconName, indicatorClass, iconClass, dateClass, hasNext } = Astro
 const isCompleted = entry.status === "completed";
 ---
 
-<li class="timeline-item">
-  <div class="timeline-meta">
+<li class="timeline-item overflow-visible">
+  <div class="timeline-meta hidden sm:flex sm:flex-col sm:items-end">
     <time class={`timeline-date ${dateClass}`}>
       {entry.date}
     </time>
@@ -29,7 +29,7 @@ const isCompleted = entry.status === "completed";
     }
   </div>
 
-  <div class="timeline-indicator-wrapper">
+  <div class="timeline-indicator-wrapper relative shrink-0 flex flex-col items-center h-full">
     {
       hasNext && (
         <div
@@ -47,10 +47,23 @@ const isCompleted = entry.status === "completed";
     </span>
   </div>
 
-  <div class="space-y-2">
+  <div class="space-y-2 flex-1">
+    {/* Mobile: show date/time above title, keep left meta for larger screens */}
+    <div class="timeline-meta-mobile block sm:hidden text-sm text-gray-500">
+      <time class={`timeline-date ${dateClass} block`}>
+        {entry.date}
+      </time>
+      {
+        entry.time && (
+          <span class={`timeline-time ${dateClass} block`}>{entry.time}</span>
+        )
+      }
+    </div>
+
     <h3 class="timeline-title">
       {entry.title}
     </h3>
+
     <p class="timeline-description">
       {entry.description}
     </p>

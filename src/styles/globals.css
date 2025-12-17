@@ -371,7 +371,14 @@
 
   /* timeline items */
   .timeline-item {
-    @apply relative grid grid-cols-[7rem_auto_1fr] items-center gap-4 pb-10 last:pb-0 sm:gap-6;
+    /* Mobile: tighter two-column layout so indicator sits closer to content */
+    @apply relative grid grid-cols-[4.5rem_1fr] items-center gap-3 pb-10 last:pb-0;
+  }
+
+  @media (min-width: 640px) {
+    .timeline-item {
+      @apply grid-cols-[7rem_auto_1fr] sm:gap-6;
+    }
   }
 
   .timeline-date {
@@ -399,7 +406,7 @@
   }
 
   .timeline-indicator-wrapper {
-    @apply relative flex w-11 shrink-0 items-center justify-center;
+    @apply relative flex w-11 shrink-0 items-center justify-center h-full;
   }
 
   /* ---------- General UI components (used across sections) ---------- */
