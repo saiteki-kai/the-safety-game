@@ -35,7 +35,7 @@ const footerTranslations = {
   <FooterWithProps 
     slot="footer" 
     translations={footerTranslations}
-    privacyUrl="/privacy"
+    privacyUrl={localizeUrl("/privacy", locale)}
     homeUrl={localizeUrl("/home", locale)}
     dashboardUrl={localizeUrl("/dashboard", locale)}
   />
