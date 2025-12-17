@@ -7,9 +7,6 @@ export type Locale = "it" | "en";
 export const DEFAULT_LOCALE: Locale = "it";
 export const LOCALES: Locale[] = ["it", "en"];
 
-// Helper type for translation dictionaries
-type TranslationDict = Record<string, string | ((...args: any[]) => string)>;
-
 // ============================================================================
 // NAV TRANSLATIONS
 // ============================================================================

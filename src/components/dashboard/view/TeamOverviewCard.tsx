@@ -167,7 +167,7 @@ export default function TeamOverviewCard({ teamName, teamJoinCode, members, prog
             {/* Invite Code Box - Smaller */}
             <div className="border-neutral-100 border-t pt-4">
               <h4 className="mb-3 font-medium text-neutral-700 text-sm">{t.inviteCode}</h4>
-              <JoinCodeButton teamJoinCode={teamJoinCode} locale={locale} />
+              <JoinCodeButton teamJoinCode={teamJoinCode} copySuccessText={t.codeCopied} copyFailureText={t.codeCopyFailed} />
             </div>
           </div>
         </div>

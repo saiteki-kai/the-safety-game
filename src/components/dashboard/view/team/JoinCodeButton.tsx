@@ -1,15 +1,14 @@
 import { Check, Copy } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
-import { getTranslations, dashboardTranslations, type Locale, DEFAULT_LOCALE } from "@/lib/translations";
 
 type JoinCodeButtonProps = {
   teamJoinCode: string;
-  locale?: Locale;
+  copySuccessText?: string;
+  copyFailureText?: string;
 };
 
-export default function JoinCodeButton({ teamJoinCode, locale = DEFAULT_LOCALE }: JoinCodeButtonProps) {
-  const t = getTranslations(dashboardTranslations, locale);
+export default function JoinCodeButton({ teamJoinCode, copySuccessText, copyFailureText }: JoinCodeButtonProps) {
 
   const [isJoinCodeCopied, setJoinCodeCopied] = useState(false);
 
@@ -17,7 +16,8 @@ export default function JoinCodeButton({ teamJoinCode, locale = DEFAULT_LOCALE }
     try {
       await navigator.clipboard.writeText(teamJoinCode);
       setJoinCodeCopied(true);
-      toast.success(t.codeCopied, {
+      // Include the locale in the toast id so language switches create/replace a locale-specific toast
+      toast.success(copySuccessText, {
         duration: 2000,
         position: "bottom-center",
         id: "copy-join-code-success",
@@ -25,7 +25,7 @@ export default function JoinCodeButton({ teamJoinCode, locale = DEFAULT_LOCALE }
       setTimeout(() => setJoinCodeCopied(false), 2000);
     } catch (err) {
       console.error("Failed to copy join code to clipboard", err);
-      toast.error(t.codeCopyFailed, {
+      toast.error(copyFailureText, {
         duration: 2000,
         position: "bottom-center",
         id: "copy-join-code-failure",
