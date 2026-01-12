@@ -11,6 +11,7 @@ import Countdown from "@components/dashboard/Countdown";
 
 type ProgressState = {
   challengeDaysRemaining: number;
+  challengeEnded?: boolean;
   finalSubmissionDone: boolean;
   leaderboardPosition: number;
   dailySubmissionsDone: boolean;
@@ -48,6 +49,7 @@ export default function TeamOverviewCard({ teamName, teamJoinCode, members, prog
   const progressRightSide = () => {
     const {
       challengeDaysRemaining,
+      challengeEnded,
       finalSubmissionDone,
       dailySubmissionsDone,
       promptsSubmitted,
@@ -66,41 +68,50 @@ export default function TeamOverviewCard({ teamName, teamJoinCode, members, prog
             <p className="text-neutral-500 text-sm">{t.challengeStatusDescription}</p>
           </div>
 
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-stretch">
-            {/* Days Remaining (left on wide screens) */}
-                <div className="flex items-center justify-center rounded-xl border border-neutral-300 bg-neutral-50 px-8 py-6 sm:min-w-[180px]">
-                  <div className="flex flex-col items-center text-center h-full justify-between py-2">
-                    <Calendar className="h-5 w-5 text-neutral-400" />
-                    <span className="font-bold text-2xl text-neutral-800">{challengeDaysRemaining}</span>
-                    <span className="text-neutral-500 text-xs">{t.daysRemainingLabel}</span>
-                  </div>
-                </div>
-
-            {/* Action Rows */}
-            <div className="flex flex-1 flex-col gap-3">
-              <StatusActionRow
-                Icon={Upload}
-                label={t.dailySubmissions}
-                subtitle={
-                  finalSubmissionDone
-                    ? t.playgroundDisabledDueToFinal
-                    : dailySubmissionsDone
-                    ? t.dailySubmissionDone
-                    : t.dailySubmissionRemaining(MAX_DAILY_PROMPTS)
-                }
-                href="#playground"
-                variant="blue"
-              />
-
-              <StatusActionRow
-                Icon={Flag}
-                label={t.finalSubmission}
-                subtitle={finalSubmissionDone ? t.alreadySubmitted : t.waitingSubmission}
-                href={localizeUrl("/final-submission", locale)}
-                variant="rose"
-              />
+          {challengeEnded ? (
+            <div className="flex items-center justify-center rounded-xl border border-neutral-300 bg-neutral-50 px-8 py-10 text-center">
+              <div className="flex flex-col items-center gap-3">
+                <Calendar className="h-6 w-6 text-neutral-400" />
+                <span className="font-bold text-xl text-neutral-800">{t.challengeEndedBoxMessage}</span>
+              </div>
             </div>
-          </div>
+          ) : (
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-stretch">
+              {/* Days Remaining (left on wide screens) */}
+              <div className="flex items-center justify-center rounded-xl border border-neutral-300 bg-neutral-50 px-8 py-6 sm:min-w-[180px]">
+                <div className="flex flex-col items-center text-center h-full justify-between py-2">
+                  <Calendar className="h-5 w-5 text-neutral-400" />
+                  <span className="font-bold text-2xl text-neutral-800">{challengeDaysRemaining}</span>
+                  <span className="text-neutral-500 text-xs">{t.daysRemainingLabel}</span>
+                </div>
+              </div>
+
+              {/* Action Rows */}
+              <div className="flex flex-1 flex-col gap-3">
+                <StatusActionRow
+                  Icon={Upload}
+                  label={t.dailySubmissions}
+                  subtitle={
+                    finalSubmissionDone
+                      ? t.playgroundDisabledDueToFinal
+                      : dailySubmissionsDone
+                        ? t.dailySubmissionDone
+                        : t.dailySubmissionRemaining(MAX_DAILY_PROMPTS)
+                  }
+                  href="#playground"
+                  variant="blue"
+                />
+
+                <StatusActionRow
+                  Icon={Flag}
+                  label={t.finalSubmission}
+                  subtitle={finalSubmissionDone ? t.alreadySubmitted : t.waitingSubmission}
+                  href={localizeUrl("/final-submission", locale)}
+                  variant="rose"
+                />
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Progress Card */}

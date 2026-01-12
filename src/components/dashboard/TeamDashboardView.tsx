@@ -27,6 +27,7 @@ export default function TeamDashboardView({ team, locale = DEFAULT_LOCALE }: Tea
   const isBeforeStartDay = new Date() < START_SUBMISSIONS_DATE;
   const [challengeDaysRemaining, setChallengeDaysRemaining] = useState<number>(0);
   const [dailySubmissionsDone, setDailySubmissionsDone] = useState<boolean>(false);
+  const [areSubmissionsClosed, setAreSubmissionsClosed] = useState<boolean>(Date.now() >= STOP_SUBMISSIONS_DATE.getTime());
 
   const round2 = (n: number) => Math.round(n * 100);
 
@@ -54,11 +55,21 @@ export default function TeamDashboardView({ team, locale = DEFAULT_LOCALE }: Tea
   }, [submissions]);
 
   useEffect(() => {
-    const remaining =
-      Date.now() < STOP_SUBMISSIONS_DATE.getTime()
-        ? Math.ceil((STOP_SUBMISSIONS_DATE.getTime() - Date.now()) / (1000 * 60 * 60 * 24))
-        : 0;
-    setChallengeDaysRemaining(remaining);
+    let id: number | undefined;
+
+    const update = () => {
+      const now = Date.now();
+      const stop = STOP_SUBMISSIONS_DATE.getTime();
+
+      setAreSubmissionsClosed(now >= stop);
+
+      const remaining = now < stop ? Math.ceil((stop - now) / (1000 * 60 * 60 * 24)) : 0;
+      setChallengeDaysRemaining(remaining);
+    };
+
+    update();
+    id = window.setInterval(update, 1000);
+    return () => id && clearInterval(id);
   }, []);
 
   useEffect(() => {
@@ -81,6 +92,7 @@ export default function TeamDashboardView({ team, locale = DEFAULT_LOCALE }: Tea
       highestScore: submissionStats.highestScore,
       scoreTotal: null,
       challengeDaysRemaining,
+      challengeEnded: areSubmissionsClosed,
       finalSubmissionDone: submissionStats.finalSubmissionDone,
       leaderboardPosition,
       dailySubmissionsDone,
@@ -95,6 +107,7 @@ export default function TeamDashboardView({ team, locale = DEFAULT_LOCALE }: Tea
       submissionStats.promptsBeatingChatGPT,
       submissionStats.dailyAverage,
       challengeDaysRemaining,
+      areSubmissionsClosed,
       leaderboardPosition,
       dailySubmissionsDone,
     ]
@@ -124,7 +137,7 @@ export default function TeamDashboardView({ team, locale = DEFAULT_LOCALE }: Tea
           />
         </section>
 
-        {!isBeforeStartDay && (
+        {!isBeforeStartDay && !areSubmissionsClosed && (
           <section aria-label={t.dailySubmission} className="space-y-4">
             <DailySubmissionSection
               teamId={team.id}
