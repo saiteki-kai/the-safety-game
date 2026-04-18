@@ -13,7 +13,7 @@ type ProgressState = {
   challengeDaysRemaining: number;
   challengeEnded?: boolean;
   finalSubmissionDone: boolean;
-  leaderboardPosition: number;
+  leaderboardPosition: number | null;
   dailySubmissionsDone: boolean;
   // metric values
   promptsSubmitted: number;

@@ -1,5 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
-import { GPT_AVG_SCORE, START_SUBMISSIONS_DATE, STOP_SUBMISSIONS_DATE } from "@/content/consts.ts";
+import {
+  ALLOW_POST_DEADLINE_SUBMISSIONS,
+  GPT_AVG_SCORE,
+  START_SUBMISSIONS_DATE,
+  STOP_SUBMISSIONS_DATE,
+} from "@/content/consts.ts";
 import { useLeaderboardPosition } from "@/hooks/useLeaderboardPosition.tsx";
 import { useTeamMembers } from "@/hooks/useTeamMembers.tsx";
 import { useTeamSubmissions } from "@/hooks/useTeamSubmissions.tsx";
@@ -27,7 +32,9 @@ export default function TeamDashboardView({ team, locale = DEFAULT_LOCALE }: Tea
   const isBeforeStartDay = new Date() < START_SUBMISSIONS_DATE;
   const [challengeDaysRemaining, setChallengeDaysRemaining] = useState<number>(0);
   const [dailySubmissionsDone, setDailySubmissionsDone] = useState<boolean>(false);
-  const [areSubmissionsClosed, setAreSubmissionsClosed] = useState<boolean>(Date.now() >= STOP_SUBMISSIONS_DATE.getTime());
+  const [areSubmissionsClosed, setAreSubmissionsClosed] = useState<boolean>(
+    !ALLOW_POST_DEADLINE_SUBMISSIONS && Date.now() >= STOP_SUBMISSIONS_DATE.getTime()
+  );
 
   const round2 = (n: number) => Math.round(n * 100);
 
@@ -60,8 +67,9 @@ export default function TeamDashboardView({ team, locale = DEFAULT_LOCALE }: Tea
     const update = () => {
       const now = Date.now();
       const stop = STOP_SUBMISSIONS_DATE.getTime();
+      const deadlinePassed = now >= stop;
 
-      setAreSubmissionsClosed(now >= stop);
+      setAreSubmissionsClosed(deadlinePassed && !ALLOW_POST_DEADLINE_SUBMISSIONS);
 
       const remaining = now < stop ? Math.ceil((stop - now) / (1000 * 60 * 60 * 24)) : 0;
       setChallengeDaysRemaining(remaining);
@@ -69,7 +77,11 @@ export default function TeamDashboardView({ team, locale = DEFAULT_LOCALE }: Tea
 
     update();
     id = window.setInterval(update, 1000);
-    return () => id && clearInterval(id);
+    return () => {
+      if (id !== undefined) {
+        clearInterval(id);
+      }
+    };
   }, []);
 
   useEffect(() => {
@@ -90,11 +102,11 @@ export default function TeamDashboardView({ team, locale = DEFAULT_LOCALE }: Tea
       promptsSubmitted: submissionStats.promptsSubmitted,
       averageScore: submissionStats.averageScore,
       highestScore: submissionStats.highestScore,
-      scoreTotal: null,
+      scoreTotal: undefined,
       challengeDaysRemaining,
       challengeEnded: areSubmissionsClosed,
       finalSubmissionDone: submissionStats.finalSubmissionDone,
-      leaderboardPosition,
+      leaderboardPosition: leaderboardPosition ?? 0,
       dailySubmissionsDone,
       promptsBeatingChatGPT: submissionStats.promptsBeatingChatGPT,
       dailyAverage: submissionStats.dailyAverage,
